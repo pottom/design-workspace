@@ -247,7 +247,25 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `HELM-07` | **Values-diff clusterek között** ugyanarra a release-re: ez a konfigdrift-vadászat (`XC-03`) Helmre alkalmazva, és a leggyakoribb valós kérdés |
 | `HELM-08` | Telepítés és upgrade — **szándékosan későbbre**. Chart letöltése, függőségek feloldása, sablonozás: ez lényegében a Helm újraírása, és amíg nincs meg minden más, nem éri meg. A visszaállítás (`HELM-05`) ettől független, mert az egy már tárolt revízió |
 
-### J. OpenShift-specifikus — `OCP`
+### J. Segéd — `ASK`
+
+Nem chatbot. **Az alkalmazásnak megvan az a kontextusa, ami egy chat-ablaknak sehol máshol nincs**:
+a kijelölt objektum, az eseményei, a friss naplója, a tulajdonosi lánca, és hogy mi változott rajta
+az elmúlt órában. Ettől lesz a „miért crashloopol ez?" kérdésnek valódi válasza, nem általános
+tanácsa.
+
+| ID | Képesség |
+|---|---|
+| `ASK-01` | **Paneltípus, nem oldalsáv**: engedelmeskedik a tilingnek, odatehető amellé, amiről beszél, és saját hatóköre van, mint minden más panelnek. Kontextusa a kijelölés és a körülötte lévő adat |
+| `ASK-02` | **A cselekvés-térkép nyelvét beszéli.** A jó válasz gyakran nem bekezdés, hanem panel: „mely podok indultak újra a legtöbbet a héten" → szűrt, rendezett lista. Nyithat panelt hatókörrel, állíthatja az időcsúszkát, futtathat lekérdezést, összerakhat elrendezést — *„mutasd a három legrosszabb pod logját egymás mellett"* |
+| `ASK-03` | **Fordítás a nyelvekre, amiket senki nem tud fejből**: mondatból PromQL, illetve címke- és mezőszelektor. A generált lekérdezés **végig látszik és szerkeszthető**, ugyanúgy, mint a `MET-10` összerakójánál |
+| `ASK-04` | **Magyarázd el ezt**: egy hibaüzenet, egy státusz, egy YAML-mező, egy eseménysorozat. A `RES-10` és a hibanyelv kiegészítője arra az esetre, amikor a kész mondat nem elég |
+| `ASK-05` | **Incidens-elbeszélés** egy időablakra: „mi történt 13:55 és 14:10 között ebben a namespace-ben" — a változásfolyamból, az eseményekből, a restartokból és a metrika-kiugrásokból. A `TIME-05` exportja, olvasható formában |
+| `ASK-06` | **Bizonyíték vagy hallgatás.** Minden állítás mutasson rá arra, amiből jött: eseményre, naplósorra, mezőre — egy kattintással ellenőrizhetően. **Ami nem tud hivatkozni, azt ne mondja ki.** Egy modell, ami incidens közben magabiztosan téved, rosszabb a semminél |
+| `ASK-07` | **Javasol, nem cselekszik.** Amit kitalál, ugyanabban a megerősítő ablakban jelenik meg, ugyanazzal a hatáskör-előnézettel (`ACT-16`), mint amit egy emberi kattintás nyitna. Csak-olvasható clusteren **még javasolni sem tud** írást. Önállóan soha nem hajt végre semmit |
+| `ASK-08` | **Az adat elhagyja a gépet — és ez a legnagyobb kérdés.** Alapból **ki**, clusterenként külön engedélyezve, ugyanazzal a logikával, mint a `CONN-08`. Küldés előtt **látszik, pontosan mi megy el**, átnézhetően. Secret-értékek, tokenek, tanúsítványok automatikusan maszkolva (`RES-09`). **Helyi vagy saját üzemeltetésű modell támogatása kötelező** (Ollama, vLLM, belső átjáró) — sokaknak ez az egyetlen elfogadható forma. A költség és a késleltetés látszik, és a felületet soha nem blokkolja |
+
+### K. OpenShift-specifikus — `OCP`
 
 | ID | Képesség |
 |---|---|
@@ -265,7 +283,7 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `OCP-12` | **Kvóták**: `ResourceQuota`, `LimitRange` és az OpenShift-specifikus `ClusterResourceQuota` — mennyi van, mennyi fogyott, és ki fogyasztotta el. Egy elfogyott kvóta Pendingben álló podként jelentkezik, tehát a `DIAG-01` egyik ága ide mutat |
 | `OCP-13` | **Route-részletek**, amikben egy Route több egy Ingressnél: TLS-lezárás módja (edge / passthrough / reencrypt), és a **súlyozott backendek** — a canary-forgalom aránya, olvashatóan |
 
-### K. Írási műveletek — `ACT`
+### L. Írási műveletek — `ACT`
 
 | ID | Képesség |
 |---|---|
@@ -287,7 +305,7 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `ACT-15` | **Környezeti változók szerkesztése** konténerenként — és **kimondva, hogy ez újraindítást jelent**. Futó pod `env`-je nem módosítható: amit szerkesztesz, az a workload, és abból új ReplicaSet meg új podok lesznek. A felület ezt nem hallgathatja el, mert aki „gyorsan átírja" egy prod deployment env-jét, az egy rolling updatet indított. A nézet **feloldva mutatja, honnan jön minden érték** — közvetlen, ConfigMap, Secret vagy `fieldRef` —, és a hivatkozott forrásra egy lépésben át lehet menni |
 | `ACT-14` | **Health checkek szerkesztése**: liveness, readiness és startup probe — típus (HTTP, TCP, exec), útvonal, port, késleltetés, időtúllépés, küszöbök. A `DIAG-02` ellenpárja: ott derül ki, hogy egy probe öli a podot, itt lehet megjavítani. **A veszélye is jelezve**: egy rossz liveness probe végtelen restart-ciklust csinál, és a szerkesztő mondja meg, ha a beírt érték ezt kockáztatja |
 
-### L. Alkalmazás-keret és UX — `APP`
+### M. Alkalmazás-keret és UX — `APP`
 
 | ID | Képesség |
 |---|---|

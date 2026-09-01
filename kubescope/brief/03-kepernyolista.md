@@ -138,6 +138,7 @@ clusterben).
 | **Hatáskör-előnézet** | mit fog elrontani | egy írás előtt: mely Service-ek maradnak endpoint nélkül, mely PDB-ket sértené, mely útvonalak szűnnének meg. És fordítva: **miért akadt el egy eviction** |
 | **Drain-szimuláció** | hova kerülnek a podok | ha lehúzod ezt a node-ot: hova ütemeződnek, és beférnek-e — requests, taintek, affinitások szerint |
 | **Helm-release** | egy telepítés | values (megadott és számított), renderelt manifeszt, notes, revízió-történet, a hozzá tartozó erőforrások |
+| **Segéd** | kérdés arról, ami a szomszéd panelben van | a kijelölés és a körülötte lévő adat a kontextusa; **hivatkozik arra, amiből a válasza jött**; és nem prózát ad vissza, hanem gyakran panelt, szűrőt, időpozíciót — de **végrehajtani soha nem hajt végre semmit** |
 | **Lekérdezés-összerakó** | egy PromQL, épülés közben | metrika, címkeszűrők, aggregáció, ablak — és **a generált lekérdezés végig látszik**, szerkeszthetően |
 | **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel; **requests és limits a valós használattal egymás mellett**; liveness, readiness és startup probe; környezeti változók, feloldva mutatva, honnan jönnek — **és alkalmazás előtt mindig a YAML-diff** |
 
@@ -153,12 +154,24 @@ viszont saját nézetet kíván, mert saját kérdésre válaszol:
 | **Operátorok** | CSV-k és Subscriptionök állapota, és a **jóváhagyásra váró InstallPlanek** — mert egy jóváhagyatlan InstallPlan csendben megállít egy operátort |
 | **Kvóták** | `ResourceQuota`, `LimitRange`, `ClusterResourceQuota` — mennyi fogyott és ki fogyasztotta. Egy elfogyott kvóta Pendingben álló podként jelentkezik, tehát ide vezet a „miért Pending" egyik ága |
 
-### 2.4 Ami nem panel
+### 2.4 Ami nem panel — és amit külön kérünk megtervezni
 
-**A parancspaletta** (`APP-01`) — mindenhonnan elérhető réteg, nem panel.
-**A megerősítő párbeszéd** (`ACT-07`) — a destruktív műveletek előtt, prod clusteren szigorúbb.
-**Az időcsúszka** (`TIME-02`) — a *teljes felületre* hat, tehát a kereté, nem egy panelé.
-**A súgó** (`APP-08`) — átfedő réteg, ami megmondja, mit tudsz itt és most.
+Ezek egyik körben sem szerepelnek a képernyők között, mert átfedő rétegek. **Emiatt könnyű
+kifelejteni őket, pedig mindegyik naponta többször látszik.** Mind a négyet kérjük megtervezni.
+
+**A parancspaletta** (`APP-01`, `⌘K`). Mindenhonnan elérhető, és **több mint száz képesség fér
+mögé** — ez az egyetlen hely, ahol az egész alkalmazás megtalálható. A nagy kérdés a rendező elv:
+igék szerint (*„töröl", „skáláz", „napló"*), főnevek szerint (*„pod", „cluster", „release"*), vagy
+mindkettő egyszerre? És mit mutat, amikor **még nem gépeltél semmit** — a legutóbbiakat, a
+javasoltakat, vagy semmit?
+
+**A megerősítő párbeszéd** (`ACT-07`, `ACT-16`). Nem egy „biztos vagy benne?" — **megmutatja, mit
+fogsz elrontani**. Prod clusteren szigorúbb: a nevet be kell gépelni.
+
+**Az időcsúszka** (`TIME-02`). A *teljes felületre* hat, tehát a kereté. És ez a termék
+legveszélyesebb eleme: **bekapcsolva minden panelnek kiabálnia kell**, hogy amit mutat, nem a jelen.
+
+**A súgó** (`APP-08`). Megmondja, mit tudsz **itt és most** — nem egy statikus billentyűlista.
 
 ---
 
@@ -229,6 +242,7 @@ paneltípusokat egy használható eszközzé.
 | Ugrás a node-jára | a node részletei | navigáció |
 | Miért Pending? | diagnosztika-panel | olvasás |
 | Név / útvonal / YAML másolása | vágólap | — |
+| **Kérdezz erről** | segéd-panel, ezzel a kontextussal | olvasás |
 
 ### 4.2 Amit meg kell tervezned ehhez
 
