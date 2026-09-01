@@ -304,6 +304,7 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `APP-11` | **Visszalépés**: ahonnan jöttél, oda vissza — a fúrás lépései visszafelé is bejárhatók |
 | `APP-12` | **Saját figyelőszabályok**: nem Alertmanager, hanem helyi szabályok a már futó streamek felett. „Szólj, ha bármelyik pod a `prod-eu`-ban háromszor újraindul tíz percben", „szólj, ha kész a rollout", „szólj, ha egy node NotReady lesz". Cluster-oldali változtatás nem kell hozzá |
 | `APP-13` | **Értesítés, ha az ablak háttérben van** — az `APP-12` szabályai és a befejeződő hosszú műveletek. Egy eszközt, amit egész nap nyitva hagysz, érdemes megszólalni engedni ahelyett, hogy bámulni kelljen |
+| `APP-15` | **Panelenkénti nagyítás.** A sűrűség (`APP-05`) az egész alkalmazásra vonatkozik; a nagyítás **egy panelre**. A napló mehet 90%-on, hogy több sor férjen el, miközben a tábla marad 100-on, mert azt olvasod. Ennek egy kemény következménye van, amit előre kell tudni: **a panelek belseje relatív egységben méretezett** (`em`/`rem`), nem pixelben — ezt utólag nem lehet ráhúzni egy kész felületre |
 | `APP-14` | **Adat-eredet minden panelen**: milyen friss az, amit látsz, és honnan jött. Az „állott" jelzés ennek egy esete; a kérdés általánosabb, mert tíz cluster mellett mindig van legalább egy, ami nem válaszol, és a részleges eredmény nem tűnhet teljesnek |
 
 ---

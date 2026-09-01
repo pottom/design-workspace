@@ -310,5 +310,25 @@ melyik panel mit mutat, és hol lehet **egy lépésben** újra bejelentkezni.
 
 **11. Mit másol a `Cmd-C`** — egy táblacellán, egy kijelölt soron, egy naplósoron. Külön-külön.
 
+**13. Képernyőméretek — mindkét vég.** A cél **kizárólag desktop**, mobil nem. De a desktop maga
+is széles skála: `1280×800` egy 13 colos laptopon, és `3440×1440` vagy 5K egy asztalon. **Egyik
+végén se essen szét.**
+
+A kicsi vég a szűkösség, és arról a degradáció szól. **A nagy vég viszont más probléma, és
+ritkábban gondolják végig:** egy 3440 pixel széles panelen a sor olyan hosszú lesz, hogy a szem
+elveszti a sor elejét, mire a végére ér. A válasz nem az, hogy minden szélesebb legyen, hanem hogy
+**több panel férjen el** — és hogy a tartalomnak legyen kimondott maximális szélessége. Add meg
+ezeket a számokat.
+
+Plusz a pixelsűrűség: HiDPI képernyőn a hajszálvonal és a 11 pixeles szöveg rendben van, egy régi
+1x monitoron **eltűnik, illetve olvashatatlan**. Ezen már elbuktunk egyszer.
+
+**14. Panelenkénti nagyítás.** A sűrűség az egész alkalmazásé; a nagyítás **egy panelé** — a napló
+mehet 90%-on, hogy több sor férjen el, miközben a tábla marad 100-on, mert azt olvasod.
+
+Ennek van egy kemény következménye, és ezért szerepel itt és nem a képességek közt: **a panelek
+belsejét relatív egységben kell méretezni** (`em`/`rem`), nem pixelben. Ezt **utólag nem lehet
+ráhúzni** egy kész felületre — vagy így épül, vagy soha nem lesz nagyítás.
+
 **12. Mi éli túl az újraindítást** — elrendezés, szűrők, görgetési pozíció, időpozíció, kijelölés.
 Mezőnként eldöntve, mert a „minden" és a „semmi" is rossz válasz.
