@@ -122,6 +122,8 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `CONN-06` | Cluster-képesség felderítés: API discovery, CRD-lista, „ez OpenShift?", verzió |
 | `CONN-07` | Proxy / bastion / SOCKS támogatás elzárt clusterekhez |
 | `CONN-08` | Csak-olvasható mód clusterenként kikényszeríthető (véletlen prod-módosítás ellen) |
+| `CONN-09` | **Kubeconfig-szerkesztő**: contextek, clusterek és felhasználók hozzáadása, átnevezése, törlése; másik kubeconfig beolvasztása; az aktuális context átállítása. **Kapcsolatpróba mentés előtt** — egy context, amit még senki nem próbált ki, nem context, hanem remény |
+| `CONN-10` | A kubeconfig írásának szabályai, mert ez a fájl mindennek az alapja — `kubectl`, `helm`, CI-scriptek. **Mentés előtt biztonsági másolat**, időbélyeggel. Ha a `KUBECONFIG` több fájlt fűz össze, a felület **megmondja, melyikbe ír**, és nem mozgat contextet fájlok között anélkül, hogy megkérdezné. A hitelesítő adatok maszkoltak, felfedésük a `RES-09` szabályai szerint megy. És kimondva: a YAML újraírása **elveszíti a kommenteket** — ezt előre közli, nem utólag |
 
 ### B. Erőforrás-böngészés — `RES`
 
@@ -246,6 +248,13 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `OCP-04` | SCC-nézet: melyik SCC-t kapja egy workload és miért |
 | `OCP-05` | ClusterOperator-egészség (az OCP saját komponensei) |
 | `OCP-06` | Route ↔ Ingress egységes megjelenítés, hogy a vegyes flotta egy nézetben legyen |
+| `OCP-07` | **Cluster-frissítés állapota**: `ClusterVersion` — melyik csatornán van, mi elérhető, hol tart egy futó upgrade, és **melyik ClusterOperator akasztotta meg**. Flottaszinten ez a `XC-07` verzió-mátrixának OpenShift-oldala |
+| `OCP-08` | **MachineConfigPool**: melyik pool frissül, hány node kész, melyik ragadt be és miért. Az OpenShift node-frissítései itt akadnak el, és ma ez a legnehezebben kideríthető állapot az egész platformon |
+| `OCP-09` | **InstallPlan-jóváhagyás**: a kézi jóváhagyásra váró operátor-frissítések listája, mit hoznának, és a jóváhagyás egy helyről (`ACT-07` megerősítéssel). Egy jóváhagyatlan InstallPlan csendben megállít egy operátort, és semmi nem szól érte |
+| `OCP-10` | **ImageStream-tagek feloldása**: melyik tag melyik digestre mutat, mikor importált utoljára, és **miért nem sikerült**, ha nem. Az importhiba az egyik leggyakoribb OpenShift-hiba, és a tünete máshol jelentkezik, mint az oka |
+| `OCP-11` | **DeploymentConfig-sajátosságok**: a DC nem Deployment — image change és config change triggerek, `rollout latest`, és a rollout-történet a DC saját logikája szerint |
+| `OCP-12` | **Kvóták**: `ResourceQuota`, `LimitRange` és az OpenShift-specifikus `ClusterResourceQuota` — mennyi van, mennyi fogyott, és ki fogyasztotta el. Egy elfogyott kvóta Pendingben álló podként jelentkezik, tehát a `DIAG-01` egyik ága ide mutat |
+| `OCP-13` | **Route-részletek**, amikben egy Route több egy Ingressnél: TLS-lezárás módja (edge / passthrough / reencrypt), és a **súlyozott backendek** — a canary-forgalom aránya, olvashatóan |
 
 ### K. Írási műveletek — `ACT`
 
@@ -264,6 +273,7 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `ACT-11` | **Node debug shell**: privilegizált pod a node host-névterében, `ACT-05` szabályai szerint |
 | `ACT-12` | **Szerkesztés típus szerinti űrlapon, nem YAML-ban.** ConfigMap és Secret kulcs–érték párokként (a Secret a `RES-09` maszkolási és naplózási szabályaival); Ingress és Route szabályonként — host, útvonal, backend, TLS; Deployment: replikaszám és image. **Az űrlap sosem rejti el, mit fog tenni**: alkalmazás előtt ugyanaz a YAML-diff jelenik meg, mint az `ACT-02`-ben. Az űrlap gyorsít, nem helyettesít — aki YAML-t akar írni, írjon |
 | `ACT-13` | **Requests és limits szerkesztése**, konténerenként — és **a tényleges használat ott van mellette** (`MET-12`, `DIAG-03`). Ez a termék egyik legrövidebb hurokja: látod, hogy 80 MB-ot használ 512 MB limittel, és ugyanabban a nézetben átírod. Ma ehhez három eszköz kell |
+| `ACT-15` | **Környezeti változók szerkesztése** konténerenként — és **kimondva, hogy ez újraindítást jelent**. Futó pod `env`-je nem módosítható: amit szerkesztesz, az a workload, és abból új ReplicaSet meg új podok lesznek. A felület ezt nem hallgathatja el, mert aki „gyorsan átírja" egy prod deployment env-jét, az egy rolling updatet indított. A nézet **feloldva mutatja, honnan jön minden érték** — közvetlen, ConfigMap, Secret vagy `fieldRef` —, és a hivatkozott forrásra egy lépésben át lehet menni |
 | `ACT-14` | **Health checkek szerkesztése**: liveness, readiness és startup probe — típus (HTTP, TCP, exec), útvonal, port, késleltetés, időtúllépés, küszöbök. A `DIAG-02` ellenpárja: ott derül ki, hogy egy probe öli a podot, itt lehet megjavítani. **A veszélye is jelezve**: egy rossz liveness probe végtelen restart-ciklust csinál, és a szerkesztő mondja meg, ha a beírt érték ezt kockáztatja |
 
 ### L. Alkalmazás-keret és UX — `APP`

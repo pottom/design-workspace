@@ -112,6 +112,7 @@ clusterben).
 | **Erőforrás-lista** | bármely típus sorai | oszlopok típusonként, rendezés, gyors szűrés, szelektorok, többes kijelölés, használat-oszlopok |
 | **Események** | idősoros eseményfolyam | súly, ok, üzenet, érintett objektum, ismétlésszám; véges megőrzés, ezért ablak és nem darabszám |
 | **Flotta** | minden cluster egészsége | node-ok, hibás podok, verzió, kapacitás, kapcsolat — clusterenként egy sor |
+| **Kubeconfig** | mit ismerünk egyáltalán | contextek, clusterek, felhasználók — szerkeszthetően, kapcsolatpróbával mentés előtt, és kiírva, melyik fájlba ír |
 | **Globális keresés** | egy kérdés N clusterben | találatok cluster szerint csoportosítva, részleges eredménnyel |
 | **Diagnosztika** | egy kérdés, kifejtve | „miért Pending", „mi nem áll készen", rightsizing, elárvult erőforrások |
 | **RBAC** | ki mit tud | jogosultság visszavezetve a Role/Binding forrásra, mindkét irányban |
@@ -133,9 +134,21 @@ clusterben).
 | **Diff** | ugyanaz két helyről | mezőszintű eltérés két cluster, két időpont vagy két Helm-revízió között |
 | **Helm-release** | egy telepítés | values (megadott és számított), renderelt manifeszt, notes, revízió-történet, a hozzá tartozó erőforrások |
 | **Lekérdezés-összerakó** | egy PromQL, épülés közben | metrika, címkeszűrők, aggregáció, ablak — és **a generált lekérdezés végig látszik**, szerkeszthetően |
-| **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel; **requests és limits a valós használattal egymás mellett**; liveness, readiness és startup probe — **és alkalmazás előtt mindig a YAML-diff** |
+| **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel; **requests és limits a valós használattal egymás mellett**; liveness, readiness és startup probe; környezeti változók, feloldva mutatva, honnan jönnek — **és alkalmazás előtt mindig a YAML-diff** |
 
-### 2.3 Ami nem panel
+### 2.3 OpenShiftre külön
+
+Nem külön alkalmazás és nem külön mód: **ugyanazok a panelfajták, más típusokkal.** A Route egy
+erőforrás-lista, a Build egy tárgy-panel naplóval, a `ClusterVersion` egy részletnézet. Három hely
+viszont saját nézetet kíván, mert saját kérdésre válaszol:
+
+| panel | mit mutat |
+|---|---|
+| **Cluster-frissítés** | melyik csatorna, mi elérhető, hol tart az upgrade, **melyik ClusterOperator akasztotta meg** — és a MachineConfigPoolok: hány node kész, melyik ragadt be |
+| **Operátorok** | CSV-k és Subscriptionök állapota, és a **jóváhagyásra váró InstallPlanek** — mert egy jóváhagyatlan InstallPlan csendben megállít egy operátort |
+| **Kvóták** | `ResourceQuota`, `LimitRange`, `ClusterResourceQuota` — mennyi fogyott és ki fogyasztotta. Egy elfogyott kvóta Pendingben álló podként jelentkezik, tehát ide vezet a „miért Pending" egyik ága |
+
+### 2.4 Ami nem panel
 
 **A parancspaletta** (`APP-01`) — mindenhonnan elérhető réteg, nem panel.
 **A megerősítő párbeszéd** (`ACT-07`) — a destruktív műveletek előtt, prod clusteren szigorúbb.
