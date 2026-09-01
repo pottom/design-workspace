@@ -112,6 +112,7 @@ clusterben).
 | **Erőforrás-lista** | bármely típus sorai | oszlopok típusonként, rendezés, gyors szűrés, szelektorok, többes kijelölés, használat-oszlopok |
 | **Események** | idősoros eseményfolyam | súly, ok, üzenet, érintett objektum, ismétlésszám; véges megőrzés, ezért ablak és nem darabszám |
 | **Flotta** | minden cluster egészsége | node-ok, hibás podok, verzió, kapacitás, kapcsolat — clusterenként egy sor |
+| **Beállítások** | minden, ami az apphoz tartozik | **panel, nem modális ablak** — odatehető amellé, amit épp állítasz. Kereshető, mert sok lesz. A leltár lentebb |
 | **Kubeconfig** | mit ismerünk egyáltalán | contextek, clusterek, felhasználók — szerkeszthetően, kapcsolatpróbával mentés előtt, és kiírva, melyik fájlba ír |
 | **Globális keresés** | egy kérdés N clusterben | találatok cluster szerint csoportosítva, részleges eredménnyel |
 | **Diagnosztika** | egy kérdés, kifejtve | „miért Pending", „mi nem áll készen", rightsizing, elárvult erőforrások |
@@ -153,6 +154,34 @@ viszont saját nézetet kíván, mert saját kérdésre válaszol:
 | **Cluster-frissítés** | melyik csatorna, mi elérhető, hol tart az upgrade, **melyik ClusterOperator akasztotta meg** — és a MachineConfigPoolok: hány node kész, melyik ragadt be |
 | **Operátorok** | CSV-k és Subscriptionök állapota, és a **jóváhagyásra váró InstallPlanek** — mert egy jóváhagyatlan InstallPlan csendben megállít egy operátort |
 | **Kvóták** | `ResourceQuota`, `LimitRange`, `ClusterResourceQuota` — mennyi fogyott és ki fogyasztotta. Egy elfogyott kvóta Pendingben álló podként jelentkezik, tehát ide vezet a „miért Pending" egyik ága |
+
+### 2.3.1 A beállítások leltára
+
+Hogy ne „tervezz egy beállítások képernyőt" legyen a feladat, hanem valami konkrét. Ennyi van, és
+a kérdés az, **hogyan lesz ebből valami, ami nem vezérlőpultra hasonlít**:
+
+| csoport | mi van benne |
+|---|---|
+| **Clusterek** | engedélyezve, csak-olvasás, csoport, „ez prod" jelölés, Prometheus-végpont, proxy, segéd-engedély — clusterenként |
+| **Kubeconfig** | melyik fájl, melyik az aktuális context, szerkesztés |
+| **Megjelenés** | téma, sűrűség, alap-nagyítás |
+| **Formátumok** | `MiB` vagy `MB`, millicore vagy mag, helyi idő vagy UTC, relatív vagy abszolút |
+| **Viselkedés** | mi éli túl az újraindítást, alapértelmezett rendezés, a megerősítések szigora |
+| **Értesítések** | saját figyelőszabályok, és mi szóljon, ha az ablak háttérben van |
+| **Előzmények** | mit tárolunk, meddig, mennyi helyet foglal, ürítés |
+| **Segéd** | végpont (felhő vagy helyi), modell, mi küldhető el, maszkolási szabályok, költség |
+| **Billentyűzet** | a teljes térkép, saját parancsok, saját gyorsbillentyűk |
+| **Mentett dolgok** | nézetek, oszlopok, szűrők, lekérdezések, elrendezések |
+| **Diagnosztika** | az alkalmazás saját hibanaplója, kapcsolat-diagnosztika, verzió |
+| **Veszélyes zóna** | előzmények törlése, elrendezések visszaállítása, csak-olvasás kikapcsolása prod clusteren |
+
+Két kérdés, amire itt válasz kell:
+
+**Hol lakik egy cluster beállítása?** A flotta-panel az *állapotot* mutatja, a beállítás a
+*döntést*. Ugyanaz a dolog két nézetből — **nem két másolat**, aminek szét lehet csúsznia.
+
+**Hogyan találsz meg egy beállítást száz közül?** Keresés a panelen belül, és a paletta (`⌘K`) is
+találja meg őket — vagy valami harmadik.
 
 ### 2.4 Ami nem panel — és amit külön kérünk megtervezni
 
