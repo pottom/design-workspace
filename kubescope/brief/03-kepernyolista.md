@@ -115,11 +115,14 @@ clusterben).
 | **Kubeconfig** | mit ismerünk egyáltalán | contextek, clusterek, felhasználók — szerkeszthetően, kapcsolatpróbával mentés előtt, és kiírva, melyik fájlba ír |
 | **Globális keresés** | egy kérdés N clusterben | találatok cluster szerint csoportosítva, részleges eredménnyel |
 | **Diagnosztika** | egy kérdés, kifejtve | „miért Pending", „mi nem áll készen", rightsizing, elárvult erőforrások |
-| **RBAC** | ki mit tud | jogosultság visszavezetve a Role/Binding forrásra, mindkét irányban |
+| **RBAC** | ki mit tud, és mit tudna | jogosultság visszavezetve a Role/Binding forrásra, mindkét irányban; **szerkesztés mátrixként** — API-csoport × erőforrás × ige, pipákkal —, és **mit engedélyez, mielőtt engedélyezed**, az eszkaláló jogokat kiemelve |
 | **Tanúsítványok** | mi jár le és mikor | lejárati sorrend, flottaszinten |
 | **Helm-release-ek** | mi van telepítve | chart- és app-verzió, revízió, státusz; flottaszinten ugyanaz a release N clusteren, az eltérés kiemelve |
 | **Metrika-böngésző** | milyen metrikák léteznek | metrikák, címkéik és értékeik — ebből épül a lekérdezés |
 | **Erőforrás-monitor** | ki mennyit eszik most | pod / konténer / node / namespace szerint, rendezhetően; a requests és limits a valós használat mellett, sparkline-nal |
+| **Változásfolyam** | mi változott, és mikor | deploy, image-csere, ConfigMap, skálázás, RBAC — időrendben, cluster- és flottaszinten. **Ez lesz a leggyakrabban megnyitott panel**, mert ez az első kérdés, amikor elromlik valami |
+| **Pazarlás** | mennyit foglalunk feleslegesen | namespace, cluster és flotta szinten: foglalt kontra használt |
+| **Figyelőszabályok** | mire szóljon | saját szabályok a futó streamek felett, és a bekövetkezett riasztások listája |
 
 ### 2.2 Tárgy-panelek
 
@@ -131,7 +134,9 @@ clusterben).
 | **Napló** | egy konténer **vagy egy egész workload** folyama | követés, szünet, keresés és kiemelés, előző példány, export. Két dolog, ami nem opcionális: **workload-szintű követés** (a Deployment összes podja egyben, a rolling update alatt is szakadás nélkül), és a **JSON-sorok mezőkre bontása**, választható mezőkkel oszlopként |
 | **Terminál** | egy konténer shellje | `exec`, `attach`, node debug — és az, hogy elveszi a billentyűzetet |
 | **Metrika** | egy objektum görbéi | CPU, memória, hálózat, restart — **eseményekkel a görbén** |
-| **Diff** | ugyanaz két helyről | mezőszintű eltérés két cluster, két időpont vagy két Helm-revízió között |
+| **Diff** | ugyanaz két helyről | mezőszintű eltérés két cluster, két időpont vagy két Helm-revízió között — és **a saját múltjához**: „mi változott azóta, hogy jó volt?" |
+| **Hatáskör-előnézet** | mit fog elrontani | egy írás előtt: mely Service-ek maradnak endpoint nélkül, mely PDB-ket sértené, mely útvonalak szűnnének meg. És fordítva: **miért akadt el egy eviction** |
+| **Drain-szimuláció** | hova kerülnek a podok | ha lehúzod ezt a node-ot: hova ütemeződnek, és beférnek-e — requests, taintek, affinitások szerint |
 | **Helm-release** | egy telepítés | values (megadott és számított), renderelt manifeszt, notes, revízió-történet, a hozzá tartozó erőforrások |
 | **Lekérdezés-összerakó** | egy PromQL, épülés közben | metrika, címkeszűrők, aggregáció, ablak — és **a generált lekérdezés végig látszik**, szerkeszthetően |
 | **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel; **requests és limits a valós használattal egymás mellett**; liveness, readiness és startup probe; környezeti változók, feloldva mutatva, honnan jönnek — **és alkalmazás előtt mindig a YAML-diff** |
@@ -181,3 +186,11 @@ Ezek nem képernyők, hanem **kérdések**, amikre a terv kell hogy válaszoljon
 
 6. **Hogyan fér el nyolc cluster egy sorban?** A flotta-panel a termék névjegye. Ha az nem szép és
    nem olvasható, az egész ígéret üres.
+
+7. **Hogyan néz ki egy „mit fogsz elrontani" figyelmeztetés?** Nem hibaüzenet, mert még nem történt
+   semmi — előrejelzés, amit el is lehet fogadni. Ez a hangnem ma nincs meg a készletben, és ez a
+   különbség egy megerősítő ablak meg egy valódi biztonsági háló között.
+
+8. **Miből látszik, hogy amit nézel, nem teljes?** Tíz clusterből kettő nem válaszol, vagy az adat
+   négy perces. Ez nem hiba és nem is rendben — a kettő között van, és minden panelnek tudnia kell
+   kimondani.

@@ -197,6 +197,9 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `TIME-04` | Eseménynapló megőrzése a k8s 1 órás ablakán túl |
 | `TIME-05` | Incidens-csomag exportálása: kijelölt időablak állapota + eseményei + logjai, megosztható fájlként |
 | `TIME-06` | Tárhely-kezelés: mennyit foglal, mit tartunk meg, ürítés |
+| `TIME-07` | **Változásfolyam**: mi változott, cluster- és flottaszinten, időrendben — deploy, image-csere, ConfigMap-módosítás, skálázás, RBAC-változás. Szűrhető típusra, namespace-re, alanyra. Ha valami elromlik, az első kérdés nem az, hogy *mi az állapot*, hanem hogy **mi változott az elmúlt órában**, és ma erre nincs hely, ahol megnézze az ember. A `TIME-01` már eltárolja hozzá az adatot |
+| `TIME-08` | **A változás és a tünet összekötése**: egy grafikon kiválasztott pontjához a körülötte történt változások — nemcsak az események (`MET-04`), hanem a módosítások is. „14:02-kor megugrott a memória; 14:01-kor módosult egy ConfigMap." Az összekapcsolás az érték, nem a két adat külön |
+| `TIME-09` | **Diff a saját múltjához**: bármely erőforráson „mi változott azóta, hogy jó volt?" — egy időpont kiválasztása, és mezőszintű eltérés onnan a mostig |
 
 ### G. Diagnosztika — `DIAG`
 
@@ -209,6 +212,8 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `DIAG-05` | Restart- és OOMKill-toplista clusterenként és flottaszinten |
 | `DIAG-06` | Elárvult erőforrások: nem használt PVC, ConfigMap, Secret, Service végpont nélkül |
 | `DIAG-07` | Workload-egészség pontszám, a fenti jelekből összegezve |
+| `DIAG-08` | **Drain-szimuláció**: „ha lehúzom ezt a node-ot, hova kerülnek a podok, és beférnek?" Requests, allocatable, taintek, affinitások, topológiai megkötések — a `DIAG-01` logikája előrefelé futtatva. Ma ezt a kérdést tippeléssel válaszolják meg, közvetlenül azelőtt, hogy kiderül, rosszul |
+| `DIAG-09` | **Pazarlás flottaszinten**: mennyit foglal és mennyit használ egy namespace, egy cluster, az egész flotta. A `DIAG-03` workloadonként mond rightsizinget; ez az összegzés — „a staging 400 magot foglal és 40-et használ" —, és ez az a nézet, amit valaki megmutat a főnökének |
 
 ### H. Biztonság és megfelelőség — `SEC`
 
@@ -220,6 +225,10 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `SEC-04` | Kockázatos beállítások kiemelése: privileged, hostNetwork, hostPath, root futtatás |
 | `SEC-05` | Image-forrás áttekintés: mely registry-kből futnak konténerek, tag vs. digest |
 | `SEC-06` | Az alkalmazás saját írási műveleteinek auditnaplója (ki, mit, mikor, melyik clusteren) |
+| `SEC-07` | **Role-szerkesztő mátrixként**: API-csoport, erőforrás és ige — pipákkal, nem YAML-sztringekkel. Ez az a hely, ahol az emberek elrontják az RBAC-ot, mert a `["apps"]` és a `[""]` egy szövegdobozban ugyanúgy néz ki, egy táblázatban viszont nem |
+| `SEC-08` | **Binding-szerkesztő**: alany (ServiceAccount, felhasználó, csoport) és szerep összekötése, namespace-szel vagy cluster-szinten. Az alanyt és a szerepet is **létező dolgok közül** választod — egy elgépelt névre hivatkozó binding érvényes YAML és teljesen hatástalan |
+| `SEC-09` | **Mit engedélyez, mielőtt engedélyezed**: a szerkesztett szabály hatása kiírva emberi nyelven, alkalmazás előtt. **Kiemelve, ami eszkalál**: `*` bármin, cluster-szintű kötés, `escalate`, `bind`, `impersonate`, és a Secret-olvasás namespace-en túl. Ez a termék legveszélyesebb írási művelete, ezért itt a legszigorúbb a megerősítés (`ACT-07`) |
+| `SEC-10` | **Szimuláció alkalmazás nélkül**: „ezzel a változtatással mit tudna ez az alany?" — a `kubectl auth can-i --as` mintájára, de a szerkesztett állapotra, nem a mentettre. Plusz a hatástalan kötések kimutatása: nem létező szerepre mutató binding, sehol nem használt ServiceAccount |
 
 ### I. Helm — `HELM`
 
@@ -273,6 +282,8 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `ACT-11` | **Node debug shell**: privilegizált pod a node host-névterében, `ACT-05` szabályai szerint |
 | `ACT-12` | **Szerkesztés típus szerinti űrlapon, nem YAML-ban.** ConfigMap és Secret kulcs–érték párokként (a Secret a `RES-09` maszkolási és naplózási szabályaival); Ingress és Route szabályonként — host, útvonal, backend, TLS; Deployment: replikaszám és image. **Az űrlap sosem rejti el, mit fog tenni**: alkalmazás előtt ugyanaz a YAML-diff jelenik meg, mint az `ACT-02`-ben. Az űrlap gyorsít, nem helyettesít — aki YAML-t akar írni, írjon |
 | `ACT-13` | **Requests és limits szerkesztése**, konténerenként — és **a tényleges használat ott van mellette** (`MET-12`, `DIAG-03`). Ez a termék egyik legrövidebb hurokja: látod, hogy 80 MB-ot használ 512 MB limittel, és ugyanabban a nézetben átírod. Ma ehhez három eszköz kell |
+| `ACT-16` | **Mit fog elrontani** — hatáskör-előnézet minden írás előtt. Skálázás nullára, namespace törlése, egy apply: mely Service-ek maradnak endpoint nélkül, mely PodDisruptionBudgeteket sértené, mely Ingress-útvonalak szűnnének meg. Az `ACT-07` megerősítést kér; ez megmondja, **mire** mondasz igent. Ugyanez a motor mutatja meg, **miért akadt el egy eviction** egy PDB miatt |
+| `ACT-17` | **Ismételd meg a többin**: az imént elvégzett művelet megismétlése más clustereken, előzetes felsorolással. A `XC-06` a tervezett flotta-műveletről szól; ez arról, ami épp megtörtént, és amit az ember amúgy kézzel írna újra hétszer |
 | `ACT-15` | **Környezeti változók szerkesztése** konténerenként — és **kimondva, hogy ez újraindítást jelent**. Futó pod `env`-je nem módosítható: amit szerkesztesz, az a workload, és abból új ReplicaSet meg új podok lesznek. A felület ezt nem hallgathatja el, mert aki „gyorsan átírja" egy prod deployment env-jét, az egy rolling updatet indított. A nézet **feloldva mutatja, honnan jön minden érték** — közvetlen, ConfigMap, Secret vagy `fieldRef` —, és a hivatkozott forrásra egy lépésben át lehet menni |
 | `ACT-14` | **Health checkek szerkesztése**: liveness, readiness és startup probe — típus (HTTP, TCP, exec), útvonal, port, késleltetés, időtúllépés, küszöbök. A `DIAG-02` ellenpárja: ott derül ki, hogy egy probe öli a podot, itt lehet megjavítani. **A veszélye is jelezve**: egy rossz liveness probe végtelen restart-ciklust csinál, és a szerkesztő mondja meg, ha a beírt érték ezt kockáztatja |
 
@@ -291,6 +302,9 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `APP-09` | **Erőforrás-rövidítések** a palettában (`po`, `deploy`, `svc`), és saját aliasok |
 | `APP-10` | **Saját parancsok**: külső parancs kötése billentyűhöz, a kijelölt erőforrással paraméterezve (a k9s plugin-rendszerének megfelelője) |
 | `APP-11` | **Visszalépés**: ahonnan jöttél, oda vissza — a fúrás lépései visszafelé is bejárhatók |
+| `APP-12` | **Saját figyelőszabályok**: nem Alertmanager, hanem helyi szabályok a már futó streamek felett. „Szólj, ha bármelyik pod a `prod-eu`-ban háromszor újraindul tíz percben", „szólj, ha kész a rollout", „szólj, ha egy node NotReady lesz". Cluster-oldali változtatás nem kell hozzá |
+| `APP-13` | **Értesítés, ha az ablak háttérben van** — az `APP-12` szabályai és a befejeződő hosszú műveletek. Egy eszközt, amit egész nap nyitva hagysz, érdemes megszólalni engedni ahelyett, hogy bámulni kelljen |
+| `APP-14` | **Adat-eredet minden panelen**: milyen friss az, amit látsz, és honnan jött. Az „állott" jelzés ennek egy esete; a kérdés általánosabb, mert tíz cluster mellett mindig van legalább egy, ami nem válaszol, és a részleges eredmény nem tűnhet teljesnek |
 
 ---
 
