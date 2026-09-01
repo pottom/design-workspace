@@ -225,7 +225,7 @@ interakció. Ezeknek működniük kell benne:
 - egy panel, ami elvesztette a kapcsolatot — hogyan mondja meg, hogy amit mutat, már régi;
 - váltás egy sűrűbb és egy levegősebb módra, ha a terved kínál ilyet.
 
-A megrendelő szava: *„lássuk is, hogy fog működni."* Ha valamit nem lehet kattinthatóvá tenni, mutasd
+A cél az, hogy **látni lehessen, hogyan működik**. Ha valamit nem lehet kattinthatóvá tenni, mutasd
 állapot-sorozatként egymás mellett — de a fenti hat lehetőleg legyen élő.
 
 ### 6.3 És amit mellé mondj
