@@ -84,6 +84,12 @@ pillantás alatt megválaszolható.
 változástörténet mezőszintű (`TIME-03`), az események túlélik a Kubernetes egyórás ablakát
 (`TIME-04`), és egy incidens időablaka **exportálható egy fájlba** (`TIME-05`).
 
+**A rövid hurok.** Három olyan pár, ahol ma három külön eszköz kell, és itt egy mozdulat lesz:
+a monitor megmutatja, hogy 80 MB-ot használ 512 MB limittel — és **ugyanott át is írod** (`MET-12`
+→ `ACT-13`); a diagnosztika megmondja, hogy egy liveness probe öli a podot — és **ugyanott
+megjavítod** (`DIAG-02` → `ACT-14`); a drift megmutatja, hol tér el a values — és **ugyanott
+visszaállítod** (`HELM-07` → `HELM-05`).
+
 **Plusz a diagnosztika**, ami ma emberi fejben van: miért Pending ez a pod, node-onként lebontva
 (`DIAG-01`); miért nem áll készen (`DIAG-02`); mennyivel van túlfoglalva (`DIAG-03`); mikor jár le a
 tanúsítvány, flottaszinten (`SEC-03`).
@@ -127,7 +133,7 @@ clusterben).
 | **Diff** | ugyanaz két helyről | mezőszintű eltérés két cluster, két időpont vagy két Helm-revízió között |
 | **Helm-release** | egy telepítés | values (megadott és számított), renderelt manifeszt, notes, revízió-történet, a hozzá tartozó erőforrások |
 | **Lekérdezés-összerakó** | egy PromQL, épülés közben | metrika, címkeszűrők, aggregáció, ablak — és **a generált lekérdezés végig látszik**, szerkeszthetően |
-| **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel — **és alkalmazás előtt mindig a YAML-diff** |
+| **Szerkesztő** | egy objektum, űrlapon | ConfigMap és Secret kulcs–érték párokként, Ingress és Route szabályonként, Deployment replikákkal és image-dzsel; **requests és limits a valós használattal egymás mellett**; liveness, readiness és startup probe — **és alkalmazás előtt mindig a YAML-diff** |
 
 ### 2.3 Ami nem panel
 

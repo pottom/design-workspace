@@ -262,7 +262,9 @@ történet, a values és a diff mind a mi kezünkben van, és flottaszinten is m
 | `ACT-09` | **Attach** futó konténer folyamatához (nem új shell — a `stdin`/`stdout` átvétele) |
 | `ACT-10` | **Rollout-történet és visszaállítás**: revíziók listája, mi változott, visszaállás egy korábbira |
 | `ACT-11` | **Node debug shell**: privilegizált pod a node host-névterében, `ACT-05` szabályai szerint |
-| `ACT-12` | **Szerkesztés típus szerinti űrlapon, nem YAML-ban.** ConfigMap és Secret kulcs–érték párokként (a Secret a `RES-09` maszkolási és naplózási szabályaival); Ingress és Route szabályonként — host, útvonal, backend, TLS; Deployment: replikaszám, image, requests/limits. **Az űrlap sosem rejti el, mit fog tenni**: alkalmazás előtt ugyanaz a YAML-diff jelenik meg, mint az `ACT-02`-ben. Az űrlap gyorsít, nem helyettesít — aki YAML-t akar írni, írjon |
+| `ACT-12` | **Szerkesztés típus szerinti űrlapon, nem YAML-ban.** ConfigMap és Secret kulcs–érték párokként (a Secret a `RES-09` maszkolási és naplózási szabályaival); Ingress és Route szabályonként — host, útvonal, backend, TLS; Deployment: replikaszám és image. **Az űrlap sosem rejti el, mit fog tenni**: alkalmazás előtt ugyanaz a YAML-diff jelenik meg, mint az `ACT-02`-ben. Az űrlap gyorsít, nem helyettesít — aki YAML-t akar írni, írjon |
+| `ACT-13` | **Requests és limits szerkesztése**, konténerenként — és **a tényleges használat ott van mellette** (`MET-12`, `DIAG-03`). Ez a termék egyik legrövidebb hurokja: látod, hogy 80 MB-ot használ 512 MB limittel, és ugyanabban a nézetben átírod. Ma ehhez három eszköz kell |
+| `ACT-14` | **Health checkek szerkesztése**: liveness, readiness és startup probe — típus (HTTP, TCP, exec), útvonal, port, késleltetés, időtúllépés, küszöbök. A `DIAG-02` ellenpárja: ott derül ki, hogy egy probe öli a podot, itt lehet megjavítani. **A veszélye is jelezve**: egy rossz liveness probe végtelen restart-ciklust csinál, és a szerkesztő mondja meg, ha a beírt érték ezt kockáztatja |
 
 ### L. Alkalmazás-keret és UX — `APP`
 
