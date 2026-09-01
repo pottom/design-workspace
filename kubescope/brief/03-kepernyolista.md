@@ -194,3 +194,121 @@ Ezek nem képernyők, hanem **kérdések**, amikre a terv kell hogy válaszoljon
 8. **Miből látszik, hogy amit nézel, nem teljes?** Tíz clusterből kettő nem válaszol, vagy az adat
    négy perces. Ez nem hiba és nem is rendben — a kettő között van, és minden panelnek tudnia kell
    kimondani.
+
+---
+
+## 4. A cselekvés-térkép — mit lehet csinálni min, és mi nyílik tőle
+
+**Ez a dokumentum legfontosabb hiányzó darabja, és külön kérjük.** Egy panel nem képek gyűjteménye,
+hanem hely, ahonnan tovább lehet menni. Minden erőforrás-fajtának megvan a maga készlete, és
+mindegyik cselekvés **valamit megnyit**: egy új panelt, egy szerkesztőt, egy párbeszédet.
+
+### 4.1 Egy kidolgozott példa: a Pod
+
+Ennyi mélységben kérjük az összes fajtára. A „mit nyit" oszlop a lényeg: ez köti össze a
+paneltípusokat egy használható eszközzé.
+
+| cselekvés | mit nyit | fajta |
+|---|---|---|
+| Áttekintés | részletek-panel | olvasás |
+| Napló | napló-panel, konténerválasztóval | olvasás |
+| Előző példány naplója | napló-panel, „előző" jelöléssel | olvasás |
+| Describe | describe-panel | olvasás |
+| YAML | YAML-panel | olvasás |
+| Események | eseménylista, erre az objektumra szűrve | olvasás |
+| Metrika | metrika-panel, eseményekkel a görbén | olvasás |
+| Shell | terminál-panel | **írás** |
+| Attach | terminál-panel, a futó folyamathoz | **írás** |
+| Port-forward | párbeszéd, majd az aktív forwardok listája | **írás** |
+| Env szerkesztése | szerkesztő — **és kimondja, hogy újraindít** | **írás** |
+| Requests / limits | szerkesztő, a valós használattal egymás mellett | **írás** |
+| Probe-ok | szerkesztő, a kockázatos értékek jelezve | **írás** |
+| Fájl másolása oda / onnan | párbeszéd | **írás** |
+| Törlés | megerősítés, hatáskör-előnézettel | **destruktív** |
+| Ugrás a tulajdonosához | a Deployment részletei | navigáció |
+| Ugrás a node-jára | a node részletei | navigáció |
+| Miért Pending? | diagnosztika-panel | olvasás |
+| Név / útvonal / YAML másolása | vágólap | — |
+
+### 4.2 Amit meg kell tervezned ehhez
+
+**Hogyan jelenik meg a készlet?** Jobbklikk, billentyű, a panel fejléce — vagy több út. És **hogyan
+marad tanulható**, amikor egy podnak húsz cselekvése van, egy ConfigMapnak meg öt?
+
+**Mi a csoportosítás?** Nézés / szerkesztés / cselekvés / veszélyes — vagy más felosztás. A
+destruktívnak láthatóan el kell válnia a többitől, mégpedig **mindig ugyanúgy**.
+
+**Mi az elsődleges?** Az `⏎` egyetlen dolgot csinál. Podon az áttekintés? A napló? Fajtánként más?
+
+**Hol nyílik, ami nyílik?** Osztás, fül, a mostani helyére — és ez a felhasználó döntése vagy a
+rendszeré? Egy szabály kell, nem húsz.
+
+**Mi történik többes kijelölésnél?** Nyolc pod megjelölve: a készlet **összeszűkül** arra, aminek
+tömegesen van értelme. Mi marad, és **hogyan mondja meg, hogy nyolc dologra fog hatni**?
+
+**És ugyanaz a cselekvés mindenhonnan ugyanúgy nézzen ki** — a sorról, a részletnézetből és a
+palettából indítva.
+
+### 4.3 A fajták, amikre kérjük
+
+Ugyanilyen táblát mindegyikre — a legtöbb rövidebb lesz a Podénál:
+
+**Workloadok:** Deployment, StatefulSet, DaemonSet, Job, CronJob, ReplicaSet, DeploymentConfig
+**Hálózat:** Service, Ingress, Route, NetworkPolicy
+**Konfiguráció:** ConfigMap, Secret
+**Tárolás:** PVC, PV, StorageClass
+**Cluster:** Node, Namespace / Project, Event
+**Jogosultság:** ServiceAccount, Role, RoleBinding, ClusterRole, ClusterRoleBinding
+**Helm:** release, revízió
+**OpenShift:** Build, BuildConfig, ImageStream, ClusterOperator, MachineConfigPool, InstallPlan
+**És a fogódzó:** egy tetszőleges **CRD** — annak mije van, amit nem ismerünk előre?
+
+---
+
+## 5. A szabályok, amiket most kell kimondani
+
+Ezek nem képernyők és nem is látványos döntések. **Mindegyik olyan, amit különben menet közben
+találna ki valaki — panelenként külön, és soha többé nem egyeznének.** A listán szereplők közül
+többet már elrontottunk egyszer.
+
+**1. Az adatállapotok minden paneltípusra, nem csak a táblára.** Hogy néz ki egy *üres napló*? Egy
+YAML, amire `403` jött? Egy terminál, aminek meghalt a podja alatta? A táblához nyolc állapot kell;
+a többi paneltípusnak is kell a maga készlete, ugyanabból a nyelvből.
+
+**2. A hibák nyelve.** A cluster azt mondja: `x509: certificate signed by unknown authority`. Kell
+egy **szabály**, ami ebből cselekvésre alkalmas mondatot csinál — és egy hely, ahol a **nyers hiba
+mégis megvan**, mert mérnök nézi, és neki az kell.
+
+**3. Számok, mértékegységek, idő.** Memória `MiB` vagy `MB`, `1.5Gi` vagy `1536Mi`? CPU millicore
+vagy mag? Kor `4d` vagy `4d3h`? Időbélyeg helyi vagy UTC, relatív vagy abszolút — és **mikor
+váltunk** a kettő között? Egy szabály, mindenhová.
+
+**4. Csonkítás — és ez fontosabb, mint hangzik.** A podnevek **a közepükön különböznek**:
+`api-7f8d9-abcde` és `api-7f8d9-xyzab`. A végét levágva a kettő **azonosnak látszik**, és akkor
+rossz sorra kattint az ember. Mikor csonkítunk középen, és mikor a végén?
+
+**5. Alapértelmezett rendezés, és hogy a tábla ne mozogjon alattad.** Az ábécésorrend szinte mindig
+rossz alapérték; „legrosszabb elöl" vagy „legújabb elöl" majdnem mindig jó. És külön szabály: **egy
+élő tábla nem rendezheti át magát a kurzor alatt** — különben mást törölsz, mint amit néztél.
+
+**6. Mi történik a kijelöléssel.** Túléli a frissülést, a szűrő változását, a munkaterület-váltást?
+És **mi van, ha a kijelölt objektumot közben törli valaki**?
+
+**7. A destruktív műveletek nyelvtana.** Szabályként, nem esetenként: mi megy megerősítés nélkül, mi
+egy kattintással, és mihez kell **begépelni a nevet**. Plusz: csak-olvasható clusteren a tiltott
+műveletek **eltűnnek vagy szürkék** — és ha szürkék, hol áll az ok.
+
+**8. Az idő globális jelzése.** Bekapcsolt time travelnél **minden panelnek kiabálnia kell**, hogy
+amit mutat, nem a jelen. Ez a termék legveszélyesebb funkciója: múltbeli adat mai látszattal
+rosszabb, mintha nem is lenne. És külön: **a terminál nem tud időutazni** — mit csinál ilyenkor?
+
+**9. A paletta rendező elve.** Több mint száz képesség van. Hogy találja meg valaki a
+drain-szimulációt kézikönyv nélkül? **Igék szerint rendez, főnevek szerint, vagy mindkettő?**
+
+**10. Ha lejár a token menet közben.** OIDC mellett mindennapos. Az alkalmazás nem eshet szét tőle:
+melyik panel mit mutat, és hol lehet **egy lépésben** újra bejelentkezni.
+
+**11. Mit másol a `Cmd-C`** — egy táblacellán, egy kijelölt soron, egy naplósoron. Külön-külön.
+
+**12. Mi éli túl az újraindítást** — elrendezés, szűrők, görgetési pozíció, időpozíció, kijelölés.
+Mezőnként eldöntve, mert a „minden" és a „semmi" is rossz válasz.
