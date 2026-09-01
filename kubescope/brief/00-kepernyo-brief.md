@@ -238,13 +238,14 @@ A cél az, hogy **látni lehessen, hogyan működik**. Ha valamit nem lehet katt
 
 ## 7. Bemenetek
 
-Ebben a projektben csak ez a három fájl van, és mind a három kell:
+Ebben a projektben csak ez a négy fájl van, és mind a négy kell:
 
 | fájl | mi ez |
 |---|---|
 | `00-kepernyo-brief.md` | ez a dokumentum |
 | `01-kepesseg-scope.md` | a teljes képességtérkép — **ez a szerződés** |
 | `02-hol-tartunk.md` | a viselkedési modell: a tiling, a két panelcsalád, a valódi adat, a méretek |
+| `03-kepernyolista.md` | **ugyanaz panelenként rendezve** — melyik paneltípus létezik és mi van benne. A tervezéshez ez a hasznosabb sorrend, és ez mondja meg, mit kell a k9s-től elvenni |
 Ennyi, és szándékosan ennyi. **Nincs korábbi design system és nincs képernyőkép** — nem akarjuk,
 hogy egy rossz megoldás lehorgonyozza a tiédet.
 

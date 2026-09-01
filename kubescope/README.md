@@ -11,6 +11,7 @@ asks for and in what order.
 | [`brief/00-kepernyo-brief.md`](brief/00-kepernyo-brief.md) | the brief: three directions first, then one design |
 | [`brief/01-kepesseg-scope.md`](brief/01-kepesseg-scope.md) | the capability map — the contract about what the product does |
 | [`brief/02-hol-tartunk.md`](brief/02-hol-tartunk.md) | the behaviour model: tiling, the two pane families, the real data, the sizes |
+| [`brief/03-kepernyolista.md`](brief/03-kepernyolista.md) | the same capabilities arranged **by pane** — which kinds exist and what goes in each |
 | `design/` | where the work goes |
 
 There is deliberately **no previous design system and no screenshot of the current interface** in

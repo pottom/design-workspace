@@ -136,6 +136,10 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `RES-07` | Címke- és mezőszelektor szűrés, mentett szűrők |
 | `RES-08` | Oszlopok testreszabása, mentett nézetek |
 | `RES-09` | Secret értékek dekódolása explicit, naplózott felfedéssel (alapból maszkolt) |
+| `RES-10` | **Describe-nézet**: a `kubectl describe` szerkesztett kimenete — események, feltételek, mountok egy olvasható lapon. Nem ugyanaz, mint a YAML: az a tárolt objektum, ez az összefoglaló |
+| `RES-11` | **Többes kijelölés és tömeges művelet**: sorok megjelölése, majd egy művelet mindre, egyetlen megerősítéssel. A k9s egyik legtöbbet használt képessége |
+| `RES-12` | **Gyors szűrés gépelve**: részleges egyezés a látott sorokon, tagadással (`!`), a `RES-07` szelektorai mellett és nem helyettük |
+| `RES-13` | **Másolás vágólapra**: név, teljes útvonal (`ns/típus/név`), YAML, kijelölt cella |
 
 ### C. Cross-cluster / flotta — `XC`
 
@@ -156,11 +160,13 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 |---|---|
 | `LOG-01` | Élő log stream, virtualizált megjelenítés (nagy scrollback mellett is stabil FPS) |
 | `LOG-02` | Több pod / több konténer egyidejű követése, forrásonkénti színkód |
+| `LOG-09` | **Workload-szintű követés (`stern` módjára)**: nem podot választasz, hanem Deploymentet, StatefulSetet, DaemonSetet, Jobot vagy egy címkeszelektort — és **minden hozzá tartozó pod naplója egyben** fut, időbélyeg szerint fésülve. A lényeg a mozgás: egy rolling update alatt az új podok maguktól belépnek a folyamba, a megszűnők kilépnek, és **a stream nem szakad meg**. Ez az a képesség, amiért ma külön eszközt indít az ember |
 | `LOG-03` | Szűrés és kiemelés (szöveg + regex), negatív szűrő |
-| `LOG-04` | Strukturált (JSON) log felismerése, mezőkre bontása, mező szerinti szűrés |
+| `LOG-04` | **Strukturált (JSON) log**: felismerés soronként, mezőkre bontás, és a mezők **oszlopként** való megjelenítése — melyik mező látszik, azt a felhasználó választja. Szűrés mezőértékre (`level=error`, `trace_id=…`), a nyers sor kibontható. **Vegyes folyam is működik**: ha a sorok fele JSON, a másik fele nem, egyik sem tűnhet el, és a nem-JSON sor nem hibaüzenet, hanem egy sor |
 | `LOG-05` | Előző konténer-példány logja (`--previous`) crash után |
 | `LOG-06` | Szövegkijelölés, másolás, fájlba exportálás |
 | `LOG-07` | Szünet / folytatás, időbélyeg-ugrás, „ugrás az esemény időpontjához" (kapocs a `TIME` felé) |
+| `LOG-08` | Mennyit kérünk: utolsó N sor, vagy az elmúlt X perc — a teljes napló letöltése egy induló panelnél sem szükséges, sem gyors |
 
 ### E. Prometheus és metrikák — `MET`
 
@@ -174,6 +180,10 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `MET-06` | Cross-cluster metrika összehasonlítás egy grafikonon |
 | `MET-07` | Aktív Alertmanager riasztások listája, erőforráshoz kötve |
 | `MET-08` | `metrics-server` fallback, ha nincs Prometheus (élő `top`-szerű adat) |
+| `MET-09` | **Metrika-böngésző**: milyen metrikák léteznek ezen a clusteren, milyen címkékkel és milyen értékekkel — a `/api/v1/metadata` és a `label_values` alapján. PromQL-t írni csak akkor lehet, ha tudod, mi van |
+| `MET-10` | **Lekérdezés-összerakó**: metrika, címkeszűrők, aggregáció, `rate` és ablak — kattintással. **A generált PromQL végig látszik és szerkeszthető**: az összerakó nem elrejti a nyelvet, hanem tanítja |
+| `MET-11` | Mentett lekérdezések, névvel; és a legutóbbiak, mert egy incidens alatt ugyanazt a hármat futtatod |
+| `MET-12` | **Erőforrás-monitor**: élő használat táblázatban — podonként, konténerenként, node-onként és namespace-enként, rendezhetően. Minden soron **a requests és a limits a tényleges használat mellett**, plusz egy sparkline, hogy a pillanatnyi szám mellett a mozgás is látszódjon. Ez a `kubectl top` folyamatos, rendezhető és kontextusos változata, és a `DIAG-03` rightsizing belépési pontja |
 
 ### F. Time travel — `TIME`
 
@@ -209,7 +219,24 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `SEC-05` | Image-forrás áttekintés: mely registry-kből futnak konténerek, tag vs. digest |
 | `SEC-06` | Az alkalmazás saját írási műveleteinek auditnaplója (ki, mit, mikor, melyik clusteren) |
 
-### I. OpenShift-specifikus — `OCP`
+### I. Helm — `HELM`
+
+A release-ek a Kubernetes API-ban vannak: `helm.sh/release.v1` típusú Secretek, tömörített JSON-nal.
+**Olvasáshoz nem kell `helm` bináris**, ugyanaz a kliens elég — ami azt jelenti, hogy a lista, a
+történet, a values és a diff mind a mi kezünkben van, és flottaszinten is működik.
+
+| ID | Képesség |
+|---|---|
+| `HELM-01` | Release-ek listája clusterenként és namespace-enként: név, chart, chart- és app-verzió, revízió, státusz, mikor frissült |
+| `HELM-02` | Release részletei: a renderelt manifeszt, a megadott és a számított values, a notes és a hookok |
+| `HELM-03` | Mely élő erőforrások tartoznak egy release-hez — és visszafelé: egy podról melyik release-hez jutok |
+| `HELM-04` | Revízió-történet, és **mezőszintű diff két revízió között** — külön a values, külön a renderelt manifeszt |
+| `HELM-05` | Visszaállítás egy korábbi revízióra, diff-előnézettel és megerősítéssel (`ACT-07` szabályai szerint) |
+| `HELM-06` | **Flotta-nézet: ugyanaz a release N clusteren** — chart-verzió, app-verzió, revízió egymás mellett, az eltérés kiemelve |
+| `HELM-07` | **Values-diff clusterek között** ugyanarra a release-re: ez a konfigdrift-vadászat (`XC-03`) Helmre alkalmazva, és a leggyakoribb valós kérdés |
+| `HELM-08` | Telepítés és upgrade — **szándékosan későbbre**. Chart letöltése, függőségek feloldása, sablonozás: ez lényegében a Helm újraírása, és amíg nincs meg minden más, nem éri meg. A visszaállítás (`HELM-05`) ettől független, mert az egy már tárolt revízió |
+
+### J. OpenShift-specifikus — `OCP`
 
 | ID | Képesség |
 |---|---|
@@ -220,7 +247,7 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `OCP-05` | ClusterOperator-egészség (az OCP saját komponensei) |
 | `OCP-06` | Route ↔ Ingress egységes megjelenítés, hogy a vegyes flotta egy nézetben legyen |
 
-### J. Írási műveletek — `ACT`
+### K. Írási műveletek — `ACT`
 
 | ID | Képesség |
 |---|---|
@@ -232,8 +259,12 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `ACT-06` | Cordon / drain / uncordon node-okon |
 | `ACT-07` | Megerősítő párbeszéd destruktív műveleteknél, prod clustereken szigorúbb (név begépelése) |
 | `ACT-08` | Fájl másolás podba / podból |
+| `ACT-09` | **Attach** futó konténer folyamatához (nem új shell — a `stdin`/`stdout` átvétele) |
+| `ACT-10` | **Rollout-történet és visszaállítás**: revíziók listája, mi változott, visszaállás egy korábbira |
+| `ACT-11` | **Node debug shell**: privilegizált pod a node host-névterében, `ACT-05` szabályai szerint |
+| `ACT-12` | **Szerkesztés típus szerinti űrlapon, nem YAML-ban.** ConfigMap és Secret kulcs–érték párokként (a Secret a `RES-09` maszkolási és naplózási szabályaival); Ingress és Route szabályonként — host, útvonal, backend, TLS; Deployment: replikaszám, image, requests/limits. **Az űrlap sosem rejti el, mit fog tenni**: alkalmazás előtt ugyanaz a YAML-diff jelenik meg, mint az `ACT-02`-ben. Az űrlap gyorsít, nem helyettesít — aki YAML-t akar írni, írjon |
 
-### K. Alkalmazás-keret és UX — `APP`
+### L. Alkalmazás-keret és UX — `APP`
 
 | ID | Képesség |
 |---|---|
@@ -244,6 +275,10 @@ Következmények, amiket minden nézetnek tiszteletben kell tartania:
 | `APP-05` | Világos/sötét téma, sűrűségi beállítás |
 | `APP-06` | Egyetlen bináris, telepítés nélkül futtatható, Linux/macOS/Windows |
 | `APP-07` | Alkalmazáson belüli hibanapló és diagnosztika (mi ment félre a kapcsolatokkal) |
+| `APP-08` | **Súgó-képernyő**: a teljes billentyűtérkép, kontextusfüggően — mit tudok itt és most |
+| `APP-09` | **Erőforrás-rövidítések** a palettában (`po`, `deploy`, `svc`), és saját aliasok |
+| `APP-10` | **Saját parancsok**: külső parancs kötése billentyűhöz, a kijelölt erőforrással paraméterezve (a k9s plugin-rendszerének megfelelője) |
+| `APP-11` | **Visszalépés**: ahonnan jöttél, oda vissza — a fúrás lépései visszafelé is bejárhatók |
 
 ---
 
