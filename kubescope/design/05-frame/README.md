@@ -42,13 +42,13 @@ Plus two the brief left open and one the customer asked for mid-round:
 - The brief cites `kubescope-frame-design.dc.html` and `kubescope-panel-design.dc.html`, neither of
   which is in the repo. Its **verbatim code values** were taken as the authority: cyan `#3fe0d0`,
   error row `rgba(255,77,109,.05)`, selected row 8%, header 28px, control bar 26px, tab strip 22px,
-  pane minimum 320 × 180. The neutral greys come from `design/02-screens/`, since nothing quotes them.
+  pane minimum 320 × 180. The neutral greys come from `design/01-directions/`, since nothing quotes them.
 - Six lines of prose in those two plans are now wrong. `04-Decisions.dc.html` names each one.
 
 ## Everything the brief asked for is here
 
 The region map (§7/1 of the earlier frame brief) landed as page 7 of this round; the last two pane
-screens — bulk action and the end-to-end incident — are `05-panelek/30` and `31`. Nothing from
+screens — bulk action and the end-to-end incident — are `06-panes/30` and `31`. Nothing from
 `brief/04-fogantyuk-kijeloles.md` or the earlier frame brief is outstanding.
 
 The one thing still needing the customer rather than the designer: six lines of prose in

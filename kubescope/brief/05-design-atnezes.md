@@ -203,7 +203,7 @@ már szerepel a komponensfában „három szélesség"-gel — tehát a tervező
 
 ## Rendrakás
 
-1. **A `05-panelek/README.md` elavult.** `10-`-től kezdve olyan számozást ír le, ami nincs a
+1. **A `06-panes/README.md` elavult.** `10-`-től kezdve olyan számozást ír le, ami nincs a
    lemezen: `10-Certificates`, `11-Helm`, `12-Metrics-Browser`, `13-Waste`, `14-Kubeconfig`,
    `15-Watch-Rules`, `16-Details`, `17-Describe`, `18-YAML`, `19-Terminal`, `20-Metrics`, `21-Diff`,
    `22-Impact-Preview`, `23-Drain-Simulation`, `24-Form-Editor` — **egyik sem létezik**. Ami a

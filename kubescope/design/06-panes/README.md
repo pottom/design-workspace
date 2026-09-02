@@ -4,8 +4,8 @@ One file per pane type and per feature screen. Each file is a **complete 1600×1
 chosen direction (A · Instrument), plus the same pane at 320px-narrow and in its awkward states.
 Nothing here is a rule or a component sheet — this is what it looks like assembled.
 
-Built on: `02-screens/A-Instrument-base.dc.html` (the visual system),
-`01-directions/04-cselekves-terkep/05-Controls.dc.html` (the widgets),
+Built on: `01-directions/A-Instrument-base.dc.html` (the visual system),
+`04-controls/01-Controls.dc.html` (the widgets),
 `…/01-Action-Map.dc.html` (what each pane can do).
 
 ## Question panes — scope is settable
@@ -54,7 +54,7 @@ Built on: `02-screens/A-Instrument-base.dc.html` (the visual system),
 | `30-Bulk-Action.dc.html` | eight objects, three clusters, one write | `RES-11`, `XC-06`, `ACT-17`, `ACT-07` |
 | `31-Incident.dc.html` | the four-pane layout, end to end — nine moments, 14:02 → 14:31 | the lot |
 
-All 31 are built. The frame brief’s region map (§7/1) lives in `04-fogantyuk/07-Region-Map.dc.html`.
+All 31 are built. The frame brief’s region map (§7/1) lives in `05-frame/06-Region-Map.dc.html`.
 
 Each file ends with a short note: what the pane’s primary element is, how dense it is, and what it
 gives up.

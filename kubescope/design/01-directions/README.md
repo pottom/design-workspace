@@ -35,7 +35,7 @@ same pod list has headers when it owns the workspace and loses them when it is o
 
 ## Where this round went next
 
-Everything listed here as "still to come" was built in `01-directions/05-panelek/` (31 screens) and
-`04-fogantyuk/` (7 pages): first run is screen 26, time travel 27, cross-cluster 28, the cluster rail
+Everything listed here as "still to come" was built in `06-panes/` (31 screens) and
+`05-frame/` (7 pages): first run is screen 26, time travel 27, cross-cluster 28, the cluster rail
 29, bulk action 30, and the end-to-end incident 31. The handles, the drag arc, selection and the
 component inventory are round 04.
