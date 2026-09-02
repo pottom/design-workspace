@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:38px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 1 / 4 · HANDLES · BRIEF §5.1 §5.3 §5.4 §5.5</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The handles</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Everything you can put a finger on, at real size. One rule runs through all of it: <span style="color:var(--ks-ink)">the feedback that matters arrives before the movement</span> — the cursor, then the handle, then the change. Nothing here is invented; where the plan and the code disagreed the code won, and page 4 names each one.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§5.1</div>
+      <div style="font-size:19px;font-weight:600">The split handle — five states, drawn at 1:1</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">1px at rest · 3px on hover · 2px dragging · 9px hit band throughout</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ handles }}" as="h" hint-placeholder-count="5">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="font-size:13px;font-weight:600;color:{{ h.titleInk }}">{{ h.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ h.cursorInk }}">{{ h.cursor }}</span>
+          </div>
+
+          <div style="height:196px;background:var(--ks-bg);border:1px solid var(--ks-line);display:flex;position:relative;overflow:hidden">
+            <div style="flex:{{ h.leftFlex }};min-width:0;background:var(--ks-panel);display:flex;flex-direction:column">
+              <div style="height:20px;flex:none;display:flex;align-items:center;gap:6px;padding:0 7px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9px">
+                <span style="color:var(--ks-ink-3)">EW</span><span style="color:var(--ks-ink)">pods</span>
+              </div>
+              <sc-for list="{{ h.leftRows }}" as="g" hint-placeholder-count="6">
+                <div style="height:18px;display:flex;align-items:center;gap:6px;padding:0 7px;background:{{ g.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <span style="width:{{ g.w1 }};height:4px;background:{{ g.c1 }};flex:none"></span>
+                  <div style="flex:1"></div>
+                  <span style="width:{{ g.w2 }};height:4px;background:{{ g.c2 }};flex:none"></span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="width:{{ h.hw }};flex:none;background:{{ h.hbg }};position:relative;z-index:2">
+              <sc-if value="{{ h.showBand }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;top:0;bottom:0;left:50%;width:9px;transform:translateX(-4.5px);border-left:1px dashed rgba(63,224,208,.35);border-right:1px dashed rgba(63,224,208,.35)"></div>
+              </sc-if>
+              <sc-if value="{{ h.showGrip }}" hint-placeholder-val="{{ true }}">
+                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:{{ h.gripW }};height:{{ h.gripH }};background:{{ h.gripBg }};z-index:3"></div>
+              </sc-if>
+            </div>
+
+            <div style="flex:{{ h.rightFlex }};min-width:0;background:var(--ks-panel);display:flex;flex-direction:column">
+              <div style="height:20px;flex:none;display:flex;align-items:center;gap:6px;padding:0 7px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9px">
+                <span style="color:var(--ks-ink-3)">UE</span><span style="color:var(--ks-ink)">logs</span>
+              </div>
+              <sc-for list="{{ h.rightRows }}" as="g" hint-placeholder-count="6">
+                <div style="height:18px;display:flex;align-items:center;gap:6px;padding:0 7px;background:{{ g.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <span style="width:{{ g.w1 }};height:4px;background:{{ g.c1 }};flex:none"></span>
+                  <div style="flex:1"></div>
+                  <span style="width:{{ g.w2 }};height:4px;background:{{ g.c2 }};flex:none"></span>
+                </div>
+              </sc-for>
+            </div>
+
+            <sc-if value="{{ h.showChip }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;top:84px;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:3px">
+                <span style="padding:2px 7px;border:1px solid {{ h.chipLine }};background:{{ h.chipBg }};font-family:var(--ks-mono);font-size:9.5px;color:{{ h.chipInk }};white-space:nowrap">{{ h.chip }}</span>
+                <sc-if value="{{ h.hasChip2 }}" hint-placeholder-val="{{ false }}">
+                  <span style="padding:2px 7px;border:1px solid {{ h.chip2Line }};background:{{ h.chip2Bg }};font-family:var(--ks-mono);font-size:9.5px;color:{{ h.chip2Ink }};white-space:nowrap">{{ h.chip2 }}</span>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ h.body }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:var(--ks-ink-3)">{{ h.spec }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px">
+      <sc-for list="{{ handleRules }}" as="r" hint-placeholder-count="5">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ r.tone }};padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ r.tone }}">{{ r.k }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§5.4</div>
+      <div style="font-size:19px;font-weight:600">The pane — three states, and one of them is nothing</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">header 28px · control bar 26px · no layout shift between states</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ paneStates }}" as="p" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="font-size:13px;font-weight:600;color:{{ p.titleInk }}">{{ p.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ p.cap }}</span>
+          </div>
+
+          <div style="height:214px;background:var(--ks-panel);border:1px solid {{ p.border }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:{{ p.headBg }};box-shadow:inset 0 -1px 0 {{ p.headLine }};font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:{{ p.clInk }};font-weight:600">prod-eu-west<span style="color:var(--ks-ink-3)">▾</span></span>
+              <span style="color:var(--ks-line-strong)">│</span>
+              <span style="color:var(--ks-ink)">Pods</span>
+              <span style="color:var(--ks-ink-2)">payments<span style="color:var(--ks-ink-3)">▾</span></span>
+              <div style="flex:1"></div>
+              <span style="color:{{ p.btnInk }}">⊞</span>
+              <span style="color:{{ p.btnInk }}">⋯</span>
+              <span style="color:{{ p.btnInk }}">✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="flex:1;padding:3px 7px;border:1px solid {{ p.fieldLine }};background:var(--ks-bg);color:var(--ks-ink-3)">filter</span>
+              <span style="color:var(--ks-ink-3)">6 of 41</span>
+              <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>2s</span>
+            </div>
+            <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="6">
+              <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);position:relative">
+                <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                <span style="font-size:11px;color:{{ r.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.stInk }};flex:none">{{ r.st }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ p.body }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:var(--ks-ink-3)">{{ p.spec }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§5.3</div>
+      <div style="font-size:19px;font-weight:600">The tab strip — 22px, and it earns every one of them</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">absent at one tab · min tab 40px · then it scrolls</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ tabCases }}" as="t" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="font-size:12.5px;font-weight:600;color:{{ t.titleInk }}">{{ t.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ t.cap }}</span>
+          </div>
+          <div style="width:{{ t.w }};background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+            <sc-if value="{{ t.hasStrip }}" hint-placeholder-val="{{ true }}">
+              <div style="height:22px;display:flex;align-items:stretch;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line)">
+                <sc-for list="{{ t.tabs }}" as="x" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 7px;min-width:0;width:{{ x.w }};background:{{ x.bg }};box-shadow:{{ x.shadow }};font-family:var(--ks-mono);font-size:10px;color:{{ x.ink }};border-right:1px solid {{ x.sep }}">
+                    <span style="font-size:8px;color:{{ x.gtone }};flex:none">{{ x.glyph }}</span>
+                    <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ x.label }}</span>
+                    <sc-if value="{{ x.hasClose }}" hint-placeholder-val="{{ false }}">
+                      <span style="color:{{ x.closeInk }};flex:none">✕</span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <div style="flex:1;min-width:0"></div>
+                <sc-if value="{{ t.hasScroll }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:4px;padding:0 6px;border-left:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">‹ ›</div>
+                </sc-if>
+              </div>
+            </sc-if>
+            <div style="height:{{ t.ghostH }};display:flex;flex-direction:column;padding:5px 0">
+              <sc-for list="{{ t.ghost }}" as="g" hint-placeholder-count="3">
+                <div style="height:16px;display:flex;align-items:center;gap:6px;padding:0 8px">
+                  <span style="width:{{ g.w1 }};height:4px;background:{{ g.c1 }};flex:none"></span>
+                  <div style="flex:1"></div>
+                  <span style="width:{{ g.w2 }};height:4px;background:{{ g.c2 }};flex:none"></span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ t.body }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§5.5</div>
+      <div style="font-size:19px;font-weight:600">Cursors — the only feedback that arrives before the movement</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">seven cursors, no custom bitmaps, and one deliberate absence</div>
+    </div>
+
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+      <div style="height:24px;display:grid;grid-template-columns:150px 300px 1fr 220px;align-items:center;gap:14px;padding:0 16px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div>CURSOR</div><div>WHERE</div><div>WHY IT IS THAT ONE</div><div>NOT THIS</div>
+      </div>
+      <sc-for list="{{ cursors }}" as="c" hint-placeholder-count="8">
+        <div style="min-height:32px;display:grid;grid-template-columns:150px 300px 1fr 220px;align-items:center;gap:14px;padding:6px 16px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+          <div style="font-family:var(--ks-mono);font-size:11px;color:{{ c.nameInk }};font-weight:600">{{ c.name }}</div>
+          <div style="font-size:11.5px;line-height:1.45;color:{{ c.whereInk }};text-wrap:pretty">{{ c.where }}</div>
+          <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ c.why }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.45;color:{{ c.notInk }};text-wrap:pretty">{{ c.not }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const g = (w1, w2, c1, c2, bg) => ({ w1, w2, c1, c2, bg: bg || 'transparent' });
+    const ghostRows = (n, seed) => {
+      const out = [];
+      const pal = [
+        ['#5a2530', '#3a1c22', 'rgba(255,77,109,.05)'],
+        ['#4a4520', '#332f18', 'rgba(240,180,41,.05)'],
+        ['#2c3542', '#212932', 'transparent'],
+        ['#2c3542', '#212932', 'transparent'],
+        ['#242b35', '#1c222b', 'transparent'],
+        ['#242b35', '#1c222b', 'transparent'],
+        ['#1e242d', '#191f26', 'transparent']
+      ];
+      for (let i = 0; i < n; i++) {
+        const p = pal[(i + seed) % pal.length];
+        out.push(g((62 - (i % 4) * 8) + 'px', (22 + (i % 3) * 5) + 'px', p[0], p[1], p[2]));
+      }
+      return out;
+    };
+
+    const handles = [
+      {
+        title: 'Rest', titleInk: INK, cursor: 'default', cursorInk: INK3,
+        leftFlex: 1, rightFlex: 1, hw: '1px', hbg: LINE, showBand: false, showChip: false, hasChip2: false,
+        showGrip: true, gripW: '3px', gripH: '20px', gripBg: LINE_H,
+        leftRows: ghostRows(9, 0), rightRows: ghostRows(9, 3),
+        body: 'The 1px border every pane already has, plus one small grip at its midpoint: 3 × 20px in the border’s own lighter tone. It is the whole affordance — it says resizable without saying it in cyan, and at six panes the five grips read as punctuation rather than as five lines competing with the data.',
+        spec: 'line 1px var(--ks-line) · grip 3 × 20px var(--ks-line-strong) · centred on the shared edge'
+      },
+      {
+        title: 'In the hit band', titleInk: INK, cursor: 'col-resize', cursorInk: CY,
+        leftFlex: 1, rightFlex: 1, hw: '1px', hbg: LINE, showBand: true, showChip: false, hasChip2: false,
+        showGrip: true, gripW: '3px', gripH: '20px', gripBg: LINE_H,
+        leftRows: ghostRows(9, 0), rightRows: ghostRows(9, 3),
+        body: 'The band is 9px wide — far wider than the grip — so you never have to hit the grip to use it. Entering the band changes only the cursor, no repaint: the pointer confirms what the grip claimed, before anything moves.',
+        spec: 'hit 9px · ±4px from the line · the grip is a sign, not the target'
+      },
+      {
+        title: 'Hover', hasStrip: true, ghostH: '56px', titleInk: CY, cursor: 'col-resize', cursorInk: CY,
+        leftFlex: 1, rightFlex: 1, hw: '3px', hbg: 'rgba(63,224,208,.40)', showBand: false, showChip: false, hasChip2: false,
+        showGrip: true, gripW: '3px', gripH: '30px', gripBg: 'rgba(63,224,208,.85)',
+        leftRows: ghostRows(9, 0), rightRows: ghostRows(9, 3),
+        body: 'After 120ms the line thickens to 3px at 40% cyan and the grip grows to 30px and goes nearly solid — the same object, more of it. Thickening rather than brightening the 1px line, because a brighter hairline reads as a status change on the panes either side.',
+        spec: 'line 3px rgba(63,224,208,.40) · grip 3 × 30px at 85% · 120ms in, 0ms out'
+      },
+      {
+        title: 'Dragging', titleInk: CY, cursor: 'col-resize', cursorInk: CY,
+        leftFlex: 1.34, rightFlex: 0.66, hw: '2px', hbg: CY, showBand: false, showChip: true, hasChip2: false,
+        showGrip: false, gripW: '3px', gripH: '30px', gripBg: CY,
+        chip: '412 ⇿ 203', chipInk: '#0a0c10', chipBg: CY, chipLine: CY,
+        leftRows: ghostRows(9, 0), rightRows: ghostRows(9, 3),
+        body: 'Solid 2px cyan the whole height, and the grip is gone — the entire edge is the handle now, so a mark saying “grab here” would be describing something you are already holding. The panes follow live, and both widths are stated, because “am I still above 320?” is the only question you have mid-drag.',
+        spec: '2px solid · grip hidden · panes track the pointer · chip gone on release'
+      },
+      {
+        title: 'At the minimum', titleInk: WARN, cursor: 'col-resize', cursorInk: WARN,
+        leftFlex: 1.72, rightFlex: 0.28, hw: '2px', hbg: WARN, showBand: false, showChip: true, hasChip2: true,
+        showGrip: false, gripW: '3px', gripH: '30px', gripBg: WARN,
+        chip: '320 min', chipInk: '#0a0c10', chipBg: WARN, chipLine: WARN,
+        chip2: 'pointer is 41px past', chip2Ink: '#f3d08a', chip2Bg: 'rgba(240,180,41,.14)', chip2Line: '#5a4520',
+        leftRows: ghostRows(9, 0), rightRows: ghostRows(9, 3),
+        body: 'The handle stops at 320px and says so: it turns amber and names the number. Unexplained resistance feels like a bug in the app rather than a rule of the layout — and the second chip admits the pointer has run ahead, so releasing here is not a surprise.',
+        spec: 'clamp at 320px · handle and chip go amber · no rubber band, no snap-back'
+      }
+    ];
+
+    const paneStates = [
+      {
+        title: 'Rest', titleInk: INK, cap: 'not focused', border: LINE,
+        headBg: 'transparent', headLine: LINE_S, clInk: INK2, btnInk: INK3, fieldLine: LINE,
+        body: 'One 1px border, a plain header. Five of the six panes on an incident screen look like this, so this is the state the design is actually optimised for.',
+        spec: 'border 1px var(--ks-line) · header transparent',
+        rows: [
+          { name: 'ledger-worker-…-2wq7t', st: 'CrashLoop', ink: '#ffc4cf', stInk: BAD, mark: BAD, bg: 'rgba(255,77,109,.05)' },
+          { name: 'ledger-worker-…-p1r7m', st: 'Pending', ink: '#f3d08a', stInk: WARN, mark: WARN, bg: 'rgba(240,180,41,.05)' },
+          { name: 'checkout-api-…-k8n1p', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'checkout-api-…-x2m4q', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'payout-batcher-…-f5flv', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'nightly-export-28471', st: 'Succeeded', ink: INK3, stInk: INK3, mark: IDLE, bg: 'transparent' },
+          { name: 'envoy-gateway-…-9dd21', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' }
+        ]
+      },
+      {
+        title: 'Hover', hasStrip: true, ghostH: '56px', titleInk: INK2, cap: 'the pane does nothing', border: LINE,
+        headBg: 'transparent', headLine: LINE_S, clInk: INK2, btnInk: INK2, fieldLine: LINE,
+        body: 'A decision, not an omission: the pane itself has no hover state. With six panes open the pointer is always over one of them, so a pane-level response would make the screen breathe all day. Hover belongs to the row under the pointer and to the header’s own controls — both visible here.',
+        spec: 'pane: no change · row: 3% white · header buttons lift to ink-2',
+        rows: [
+          { name: 'ledger-worker-…-2wq7t', st: 'CrashLoop', ink: '#ffc4cf', stInk: BAD, mark: BAD, bg: 'rgba(255,77,109,.05)' },
+          { name: 'ledger-worker-…-p1r7m', st: 'Pending', ink: '#f3d08a', stInk: WARN, mark: WARN, bg: 'rgba(240,180,41,.05)' },
+          { name: 'checkout-api-…-k8n1p', st: 'Running', ink: '#fff', stInk: INK2, mark: OK, bg: 'rgba(255,255,255,.03)' },
+          { name: 'checkout-api-…-x2m4q', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'payout-batcher-…-f5flv', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'nightly-export-28471', st: 'Succeeded', ink: INK3, stInk: INK3, mark: IDLE, bg: 'transparent' },
+          { name: 'envoy-gateway-…-9dd21', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' }
+        ]
+      },
+      {
+        title: 'Focused', titleInk: CY, cap: 'this pane has the keys', border: LINE,
+        headBg: 'rgba(63,224,208,.06)', headLine: CY, clInk: CY, btnInk: INK2, fieldLine: LINE_H,
+        body: 'The header tint from the code, plus one thing the code did not have: the header’s bottom hairline turns cyan. Two channels, no geometry change — a 2px ring would move every pane boundary by a pixel each time focus moved, and the outward ring stays reserved for keyboard focus inside a control.',
+        spec: 'header rgba(63,224,208,.06) · header hairline 1px cyan · border unchanged',
+        rows: [
+          { name: 'ledger-worker-…-2wq7t', st: 'CrashLoop', ink: '#ffc4cf', stInk: BAD, mark: BAD, bg: 'rgba(255,77,109,.05)' },
+          { name: 'ledger-worker-…-p1r7m', st: 'Pending', ink: '#f3d08a', stInk: WARN, mark: WARN, bg: 'rgba(240,180,41,.05)' },
+          { name: 'checkout-api-…-k8n1p', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'checkout-api-…-x2m4q', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'payout-batcher-…-f5flv', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' },
+          { name: 'nightly-export-28471', st: 'Succeeded', ink: INK3, stInk: INK3, mark: IDLE, bg: 'transparent' },
+          { name: 'envoy-gateway-…-9dd21', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent' }
+        ]
+      }
+    ];
+
+    const tb = (label, glyph, gtone, state, w, hasClose) => {
+      const active = state === 'active';
+      const hover = state === 'hover';
+      const drag = state === 'drag';
+      return {
+        label, glyph, gtone: active ? gtone : drag ? CY : INK3, w,
+        bg: active ? '#161a21' : hover ? 'rgba(255,255,255,.035)' : drag ? 'rgba(63,224,208,.12)' : 'transparent',
+        shadow: active ? 'inset 0 -2px 0 ' + CY : drag ? 'inset 0 -2px 0 ' + CY : 'none',
+        ink: active ? INK : drag ? CY : hover ? INK2 : INK3,
+        sep: active || drag ? 'transparent' : LINE_S,
+        hasClose, closeInk: hover ? INK2 : INK3
+      };
+    };
+    const tghost = [
+      { w1: '58px', w2: '26px', c1: '#2c3542', c2: '#212932' },
+      { w1: '46px', w2: '20px', c1: '#242b35', c2: '#1c222b' },
+      { w1: '52px', w2: '24px', c1: '#1e242d', c2: '#191f26' }
+    ];
+    const tghost4 = tghost.concat([{ w1: '40px', w2: '18px', c1: '#1a1f26', c2: '#161b21' }]);
+
+    const tabCases = [
+      {
+        title: 'One tab', titleInk: INK, cap: 'no strip at all', w: '340px', hasScroll: false, hasStrip: false, ghostH: '78px', ghost: tghost4,
+        tabs: [],
+        body: 'The strip is absent, not empty. Twenty-two pixels is one data row, and a strip that says “this pane contains the one thing it contains” is the clearest kind of waste. It appears the moment a second view lands here and disappears again when it closes.'
+      },
+      {
+        title: 'Three tabs · rest and active', hasStrip: true, ghostH: '56px', titleInk: INK, cap: '22px', w: '340px', hasScroll: false, ghost: tghost,
+        tabs: [tb('pods', '▤', CY, 'active', '86px', false), tb('coredns-…7fjvd', '≡', INK3, 'rest', '124px', false), tb('yaml', '⌗', INK3, 'rest', '70px', false)],
+        body: 'Type glyph plus the shortest unambiguous label. Object panes are named by their object, truncated in the middle — the head and the tail identify a pod, the replica-set hash in the middle does not. The active tab carries the 2px cyan underline the plan specified.'
+      },
+      {
+        title: 'Hover', hasStrip: true, ghostH: '56px', titleInk: INK2, cap: 'close appears', w: '340px', hasScroll: false, ghost: tghost,
+        tabs: [tb('pods', '▤', CY, 'active', '86px', false), tb('coredns-…7fjvd', '≡', INK3, 'hover', '124px', true), tb('yaml', '⌗', INK3, 'rest', '70px', false)],
+        body: 'The close button exists only on hover, and only on tabs at least 64px wide. A permanent ✕ costs 14px of every tab forever; below 64px the tab would be the button. Narrow tabs close by middle-click and from the pane menu, which is stated in the menu.'
+      },
+      {
+        title: 'Dragging a tab', hasStrip: true, ghostH: '56px', titleInk: CY, cap: 'same gesture as a pane', w: '340px', hasScroll: false, ghost: tghost,
+        tabs: [tb('pods', '▤', CY, 'rest', '86px', false), tb('coredns-…7fjvd', '≡', INK3, 'drag', '124px', false), tb('yaml', '⌗', INK3, 'rest', '70px', false)],
+        body: 'A tab is grabbed anywhere on itself — it has no controls to compete with — and from 4px it becomes the same drag as a pane header, with the same five targets. Dropped back on its own strip it reorders; dropped on a pane it leaves this strip entirely.'
+      },
+      {
+        title: 'Seven tabs on 320px', hasStrip: true, ghostH: '56px', titleInk: WARN, cap: 'compress, then scroll', w: '320px', hasScroll: true, ghost: tghost,
+        tabs: [tb('▤ po', '', CY, 'active', '46px', false), tb('lo', '≡', INK3, 'rest', '40px', false), tb('ya', '⌗', INK3, 'rest', '40px', false), tb('sh', '❯', INK3, 'rest', '40px', false), tb('ev', '◈', INK3, 'rest', '40px', false), tb('me', '◠', INK3, 'rest', '40px', false), tb('no', '▣', INK3, 'rest', '40px', false)],
+        body: 'Tabs compress to a 40px floor — glyph plus two characters — and after that the strip scrolls, with the active tab always kept in view. No “+3” chip: hidden tabs behind a counter are unreachable by mouse without inventing another menu, and the pane menu already lists them.'
+      },
+      {
+        title: 'The label is not the title', hasStrip: true, ghostH: '56px', titleInk: INK2, cap: 'rule, not a state', w: '340px', hasScroll: false, ghost: tghost,
+        tabs: [tb('logs · worker', '≡', INK3, 'active', '134px', false), tb('logs · sidecar', '≡', INK3, 'rest', '134px', false)],
+        body: 'When two tabs would read the same, the label extends by the field that differs — here the container, not the pod. The tab shows the smallest string that tells them apart, which is why it cannot simply be the pane header’s title.'
+      }
+    ];
+
+    const cursors = [
+      { name: 'default', where: 'rows, headers, buttons, menu items, everything by default', why: 'A desktop table is not a document. The pointer stays still so that the four cursors that do mean something are unmistakable when they appear.', not: 'pointer', notInk: '#8a5f62', nameInk: INK, whereInk: INK2, bg: 'transparent' },
+      { name: 'grab', where: 'the pane header’s handle zone · a tab · a row being dragged into a group', why: 'The one affordance that has no other announcement. A pane header looks like a header; only the cursor says it is also a grip.', not: 'move', notInk: INK3, nameInk: CY, whereInk: INK, bg: 'rgba(63,224,208,.05)' },
+      { name: 'grabbing', where: 'from the 4px threshold until release', why: 'Marks the moment the gesture committed. It is also the only cursor state that persists over surfaces that would otherwise change it.', not: '—', notInk: INK3, nameInk: CY, whereInk: INK, bg: 'rgba(63,224,208,.05)' },
+      { name: 'col-resize', where: 'within 4px of a vertical split handle', why: 'The OS cursor everyone already knows. A custom frame cursor would need drawing at 1× and 2× and would teach nothing new.', not: 'ew-resize', notInk: INK3, nameInk: INK, whereInk: INK2, bg: 'transparent' },
+      { name: 'row-resize', where: 'within 4px of a horizontal split handle', why: 'Same rule, the other axis. The band is symmetric: 9px total, ±4px from the drawn line.', not: 'ns-resize', notInk: INK3, nameInk: INK, whereInk: INK2, bg: 'transparent' },
+      { name: 'text', where: 'the log body · the YAML body · the terminal · any input', why: 'It is also the resolution of the selection conflict: where the cursor is a caret, dragging selects characters. Line and block selection happen from the gutter, which keeps default.', not: 'default', notInk: INK3, nameInk: INK, whereInk: INK, bg: 'transparent' },
+      { name: 'not-allowed', where: 'over an invalid drop target during a drag', why: 'The refusal has to be visible before release, not explained after it. It arrives with a chip naming the reason.', not: 'no-drop', notInk: INK3, nameInk: BAD, whereInk: '#ffc4cf', bg: 'rgba(255,77,109,.05)' },
+      { name: 'progress', where: 'nowhere', why: 'No gesture in this frame takes long enough to need it. A resize, a drop and a selection are all synchronous; anything that waits is a pane state, drawn in the pane.', not: 'wait', notInk: INK3, nameInk: INK3, whereInk: INK3, bg: 'rgba(255,255,255,.01)' }
+    ];
+
+    return {
+      facts: [
+        { k: 'HANDLE STATES', v: '5', tone: INK },
+        { k: 'CURSORS', v: '7', tone: INK },
+        { k: 'PANE HOVER', v: 'nothing', tone: OK },
+        { k: 'INVENTED VALUES', v: '0', tone: CY }
+      ],
+      handles,
+      handleRules: [
+        { tone: CY, k: 'DOUBLE-CLICK RESTORES 50 / 50 — WITH A RECEIPT', t: 'The two panes animate to equal over 140ms, the design system’s pane duration, and a chip reads 50 / 50 for 800ms before fading. An instant jump with no explanation is indistinguishable from an accident, and the one thing a person does after an accident is undo — which would cost them the split they actually wanted.' },
+        { tone: OK, k: 'THE GRIP GROWS, IT DOES NOT LIGHT UP', t: 'Rest, hover and drag are one object at three sizes: 20px grey, 30px cyan, then the whole edge. Nothing appears out of nowhere and nothing changes colour without changing shape, so the handle can never be confused with a status signal on the panes either side — which is what a hairline that merely brightens would do.' },
+        { tone: OK, k: 'THE PANES FOLLOW LIVE', t: 'Chosen over the cheaper ghost-handle. The frame recomputes the tree on every frame of a drag anyway, and content inside a pane is virtualised, so the cost is bounded. The reason is not performance though: a handle that moves while the panes stand still turns a direct manipulation into a form you submit.' },
+        { tone: BAD, k: 'THE DIVIDER IS NEVER A COLOUR CHANNEL', t: 'A pane’s border and the grip on it are neutral — 1px var(--ks-line) and a 3 × 20px grip in var(--ks-line-strong) — and that is a hard rule, not a preference. Every hue in this product already means something on the data: status on the row’s 2px mark, cluster identity on the header and in the fleet rows. A coloured pane edge puts a fourth meaning in the one place the eye uses to tell panes apart, and next to a table of coloured row marks the two read as one tangle. The pane says which cluster it belongs to in words, in its header, in that cluster’s hue.' },
+        { tone: WARN, k: 'RESISTANCE IS ALWAYS NAMED', t: 'Every place this frame refuses a gesture — 320px minimum, depth limit four, an invalid drop — says the number or the rule at the pointer, in mono, in amber. Silent resistance is the single most common way a tiling interface gets described as broken, and it costs one chip to avoid.' }
+      ],
+      paneStates, tabCases, cursors,
+      closing: [
+        { tone: CY, k: 'A GRIP THE SIZE OF A PUNCTUATION MARK', t: 'Resizability cannot be left to the cursor alone — you would have to guess where to put the pointer to find out. So the handle at rest is the 1px border plus a 3 × 20px grip at its midpoint, in the border’s own lighter tone rather than in cyan. Small enough that five of them read as punctuation between panes, definite enough that nobody has to discover the edge by accident. The 9px hit band means you never have to hit the grip itself.' },
+        { tone: OK, k: 'NO PANE-LEVEL HOVER, STATED OUT LOUD', t: 'The brief was right that silence is not a decision, so: the pane has no hover state, deliberately. With six panes the pointer is over one of them at all times, and a pane that responds would make the whole screen move whenever the hand does. Hover lives one level down, on the row, where it answers a real question — which line am I about to click.' },
+        { tone: INK2, k: 'FOCUS IS TINT PLUS HAIRLINE, NEVER GEOMETRY', t: 'The code’s header tint wins over the plan’s 2px ring and 4px left edge, with one addition: the header’s bottom hairline turns cyan, because 6% alone is not findable across 1600px. Nothing changes size when focus moves, so the layout never twitches — and the outward 2px ring keeps its original meaning, keyboard focus inside a control.' },
+        { tone: WARN, k: 'EVERY NUMBER HERE IS DRAWN AT 1:1', t: '28px header, 26px control bar, 22px tab strip, 22px rows, 1 / 3 / 2px handle, 9px band, 40px tab floor, 320px minimum. The specimens are not diagrams at a convenient scale — they are the sizes, so a value that does not work is visible on this page rather than in the build.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 22 / 30 · QUESTION PANE · APP-12 · APP-13</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Watch rules</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Your own conditions over the streams the app already has open. Not a monitoring system — <span style="color:var(--ks-ink)">a monitoring system tells the team, this tells you</span>, and only while the app is running. Amber, never red: red belongs to Alertmanager, which the whole team trusts.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="watch rules · yours and theirs" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>evaluated locally over watches already open · nothing leaves this machine</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 448px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-warn);font-weight:600"><span style="font-size:7px">◈</span>your rules</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Watch rules</span>
+          <span style="color:var(--ks-ink-3)">scope</span><span style="color:var(--ks-ink-2)">all clusters<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">{{ firingLine }}</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>evaluated every 5s</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">A rule that fires all day is not information. <span style="font-family:var(--ks-mono);color:#f3d08a">restarts &gt; 3 in 10m</span> has matched continuously since 08:41, so it is marked noisy and the pane offers to narrow it — a permanently amber chip is the same as no chip at all.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:22px 1fr 100px 96px 92px 128px 88px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div></div><div>RULE</div><div>OVER</div><div>SCOPE</div><div style="color:var(--ks-ink-2)">STATE ↓</div><div>MATCHING NOW</div><div style="text-align:right">FOR</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ rules }}" as="r" hint-placeholder-count="18">
+            <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <span>{{ r.name }}</span><div style="flex:1"></div><span>{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+              <div style="height:34px;display:grid;grid-template-columns:22px 1fr 100px 96px 92px 128px 88px;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;justify-content:center;font-size:8px;color:{{ r.tone }}">{{ r.glyph }}</div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.expr }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.overInk }}">{{ r.over }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.scope }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.tone }};font-weight:600">{{ r.state }}</div>
+                <div style="font-size:11px;color:{{ r.matchInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.match }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.forInk }};text-align:right">{{ r.for }}</div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="4">
+            <span style="color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ bucketSum }}</span>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">selected</span>
+          <span style="color:var(--ks-ink);font-weight:600">restarts &gt; 3 in 10m</span>
+          <span style="color:#f3d08a">firing 6h04m · 4 pods on 2 clusters · noisy</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-warn);font-weight:600">◈ new rule</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Builder</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ok)">would match 4 now</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+          <sc-for list="{{ builder }}" as="b" hint-placeholder-count="6">
+            <div style="padding:10px 12px;box-shadow:inset 0 -1px 0 var(--ks-line-soft);display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ b.tone }};width:68px;flex:none;padding-top:5px">{{ b.k }}</span>
+                <div style="flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0">
+                  <sc-for list="{{ b.chips }}" as="c" hint-placeholder-count="3">
+                    <span style="display:flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid {{ c.line }};background:{{ c.bg }};font-family:var(--ks-mono);font-size:11px;color:{{ c.ink }};max-width:100%;min-width:0">
+                      <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</span><span style="color:var(--ks-ink-3);flex:none">{{ c.x }}</span>
+                    </span>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-if value="{{ b.hasHelp }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);padding-left:77px;text-wrap:pretty">{{ b.help }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ok)">WOULD MATCH RIGHT NOW</span>
+              <span style="font-size:11px;color:var(--ks-ink-3)">before you save it</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ok)">4 objects</span>
+            </div>
+            <sc-for list="{{ preview }}" as="p" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:104px 1fr 58px;align-items:center;gap:10px;font-family:var(--ks-mono);font-size:10.5px">
+                <span style="color:{{ p.clInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.cluster }}</span>
+                <span style="color:{{ p.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.obj }}</span>
+                <span style="color:{{ p.valInk }};text-align:right">{{ p.val }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">A rule that already matches four things fires the moment you save it. If that is not what you wanted, this is where you find out — not after the toast.</div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHEN IT FIRES</div>
+            <sc-for list="{{ notify }}" as="n" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:26px;height:14px;background:{{ n.trackBg }};border:1px solid {{ n.trackLine }};display:flex;align-items:center;justify-content:{{ n.justify }};padding:0 1px;flex:none">
+                  <div style="width:10px;height:10px;background:{{ n.knob }}"></div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:11.5px;color:{{ n.ink }}">{{ n.t }}</span>
+                  <span style="font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.note }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT A RULE CANNOT DO</div>
+            <sc-for list="{{ limits }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:7px;color:{{ l.tone }};flex:none;padding-top:5px">{{ l.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ l.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">STORED IN</span>
+            <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-2)">~/.config/kubescope/rules.toml</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Discard</span>
+          <span style="padding:6px 11px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:11.5px;color:var(--ks-warn);font-weight:600">Save the rule</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">The noisy rule, where a firing rule appears, and what it is not</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:290px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="8">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    // name, expr, over, scope, match, for, kind
+    const raw = [
+      ['restarts > 3 in 10m', 'pod.restartCount delta > 3 over 10m', 'events', 'all clusters', '4 pods · 2 clusters', '6h04m', 'noisy'],
+      ['a node goes NotReady', 'node.condition Ready != True', 'watch', 'all clusters', 'ip-10-0-4-8', '18m', 'firing'],
+      ['certificate under 14 days', 'cert.notAfter − now < 14d', 'poll 1h', 'all clusters', 'edge-02 ingress-tls', '2d', 'firing'],
+      ['OOMKill in payments', 'event.reason = OOMKilling', 'events', 'ns payments', '—', 'last 22m ago', 'quiet'],
+      ['a Job fails', 'job.status.failed > 0', 'watch', 'all clusters', '—', 'last 6h ago', 'quiet'],
+      ['ERROR rate over 40/s', 'log level=error rate > 40/s', 'logs', 'checkout-api', '—', 'last 31m ago', 'quiet'],
+      ['a pod Pending over 5m', 'pod.phase = Pending for 5m', 'watch', 'prod clusters', '—', 'last 41m ago', 'quiet'],
+      ['ConfigMap in payments changes', 'configmap.resourceVersion changed', 'watch', 'ns payments', '—', 'last 13:52', 'quiet'],
+      ['apiserver p95 over 500ms', 'probe.rtt p95 > 500ms', 'poll 30s', 'all clusters', '—', 'ap-south 610ms', 'quiet'],
+      ['a Helm release changes', 'release.revision changed', 'poll 5m', 'all clusters', '—', 'last 13:56', 'quiet'],
+      ['anything in dev-sandbox', 'any event', 'events', 'dev-sandbox', '—', 'paused by you', 'paused'],
+      ['DIVIDER', '', '', '', 'from Alertmanager · read-only, not yours to edit', '', 'divider'],
+      ['HighMemoryUsage', 'container_memory / limit > 0.9', 'alertmanager', 'prod-eu-west', 'checkout-api', '4h11m', 'alert'],
+      ['KubePodCrashLooping', 'rate(kube_pod_container_status_restarts)', 'alertmanager', 'prod-us-east', 'kafka-2', '1h04m', 'alert'],
+      ['KubeNodeNotReady', 'kube_node_status_condition', 'alertmanager', 'prod-ap-south', 'ip-10-0-4-8', '18m', 'alert'],
+      ['TargetDown', 'up == 0', 'alertmanager', 'prod-ap-south', '2 targets', '41m', 'alert'],
+      ['CertManagerCertExpirySoon', 'certmanager_certificate_expiration', 'alertmanager', 'edge-02', 'ingress-tls', '2d', 'alert'],
+      ['KubeAPIDown', 'up{job="apiserver"} == 0', 'alertmanager', 'edge-01', 'the whole cluster', '4m12s', 'alert'],
+      ['KubeQuotaAlmostFull', 'kube_resourcequota / hard > 0.9', 'alertmanager', 'edge-02', 'ns ci · 30 of 30', '2h18m', 'alert'],
+      ['KubeJobFailed', 'kube_job_failed > 0', 'alertmanager', 'prod-eu-west', 'nightly-export', '6h02m', 'alert'],
+      ['KubeDeploymentReplicasMismatch', 'spec.replicas != status.ready', 'alertmanager', 'prod-eu-west', 'checkout-api', '4h11m', 'alert'],
+      ['DIVIDER2', '', '', '', 'firing, but somebody silenced them — you would never have known', '', 'divider'],
+      ['KubeletTooManyPods', 'kubelet_running_pods / capacity > 0.95', 'alertmanager', 'prod-eu-west', 'ip-10-0-3-19', '3d', 'silenced'],
+      ['CPUThrottlingHigh', 'rate(container_cpu_cfs_throttled)', 'alertmanager', 'prod-us-east', '14 containers', '9d', 'silenced'],
+      ['KubeMemoryOvercommit', 'sum(requests) > allocatable', 'alertmanager', 'prod-ap-south', 'the cluster', '21d', 'silenced'],
+      ['EtcdHighFsyncDurations', 'etcd_disk_wal_fsync p99 > 0.5s', 'alertmanager', 'prod-ap-south', '3 members', '41d', 'silenced']
+    ];
+    const K = {
+      noisy: ['\u25c6', WARN, 'firing'], firing: ['\u25c6', WARN, 'firing'],
+      quiet: ['\u25cb', IDLE, 'quiet'], paused: ['\u25a0', IDLE, 'paused'],
+      alert: ['\u25b2', BAD, 'firing'],
+      silenced: ['\u25cb', IDLE, 'silenced']
+    };
+    const mine = {};
+    const rules = raw.map(r => {
+      if (r[6] === 'divider') return { isDivider: true, isRow: false, name: r[0] === 'DIVIDER2' ? 'SILENCED BY SOMEBODY' : 'THEIR ALERTS', note: r[4] };
+      const m = K[r[6]];
+      const bucket = r[6] === 'noisy' ? 'firing' : r[6];
+      if (r[6] !== 'alert' && r[6] !== 'silenced') mine[bucket] = (mine[bucket] || 0) + 1;
+      const loud = r[6] === 'firing' || r[6] === 'noisy';
+      const sil = r[6] === 'silenced';
+      return {
+        isDivider: false, isRow: true,
+        name: r[0], expr: r[1], over: r[2], scope: r[3], state: m[2], match: r[4], for: r[5],
+        glyph: m[0], tone: sil ? '#8a5f62' : r[6] === 'alert' ? BAD : m[1],
+        nameInk: sil ? '#8a5f62' : r[6] === 'alert' ? '#ffd7d7' : loud ? INK : r[6] === 'paused' ? INK3 : '#c8d1dd',
+        weight: r[6] === 'noisy' ? '600' : '400',
+        overInk: sil ? '#6b4045' : r[2] === 'alertmanager' ? '#ffb3b3' : r[2] === 'logs' ? '#8ac6ff' : INK3,
+        matchInk: sil ? '#8a5f62' : r[6] === 'alert' ? '#ffd7d7' : loud ? '#f3d08a' : INK3,
+        forInk: sil ? '#8a5f62' : r[6] === 'noisy' ? '#ffb3b3' : loud ? '#f3d08a' : INK3,
+        bg: sil ? 'rgba(255,95,95,.04)' : r[6] === 'alert' ? 'rgba(255,95,95,.08)' : r[6] === 'noisy' ? 'rgba(240,180,41,.11)' : loud ? 'rgba(240,180,41,.06)' : r[6] === 'paused' ? 'rgba(255,255,255,.015)' : 'transparent'
+      };
+    });
+    const alerts = raw.filter(r => r[6] === 'alert').length;
+    const silenced = raw.filter(r => r[6] === 'silenced').length;
+    const bOrder = [['firing', WARN, 'firing'], ['quiet', INK2, 'quiet'], ['paused', INK3, 'paused by you']];
+    const buckets = bOrder.filter(b => mine[b[0]]).map(b => ({ t: mine[b[0]] + ' ' + b[2], ink: b[1] }));
+    const yours = bOrder.reduce((n, b) => n + (mine[b[0]] || 0), 0);
+    const bucketSum = bOrder.filter(b => mine[b[0]]).map(b => mine[b[0]]).join(' + ') + ' = ' + yours +
+      ' rules of yours · below the dividers, ' + alerts + ' alerts firing and ' + silenced + ' silenced by somebody else';
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    return {
+      facts: [
+        { k: 'YOUR RULES', v: '' + yours, tone: INK },
+        { k: 'FIRING', v: '' + (mine.firing || 0), tone: WARN },
+        { k: 'NOISY', v: '1', tone: BAD },
+        { k: 'LEAVES THIS MACHINE', v: 'nothing', tone: OK }
+      ],
+      firingLine: (mine.firing || 0) + ' firing · ' + alerts + ' alerts · ' + silenced + ' silenced',
+      verdictLine: (mine.firing || 0) + ' of your ' + yours + ' rules are firing, and one has been firing for six hours.',
+      tabs: [
+        { n: '1', name: 'fleet', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map(x => ({ name: x[0], code: x[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: x[4], tone: x[3] })),
+      kpis: [
+        { label: 'FIRING', v: '' + (mine.firing || 0), tone: WARN, sub: 'of ' + yours },
+        { label: 'QUIET', v: '' + (mine.quiet || 0), tone: INK, sub: 'watching' },
+        { label: 'NOISY', v: '1', tone: BAD, sub: 'firing all day' },
+        { label: 'THEIR ALERTS', v: alerts + ' + ' + silenced, tone: BAD, sub: 'firing · silenced' }
+      ],
+      rules, buckets, bucketSum,
+      actions: [
+        { key: '\u21b5', label: 'what it matches', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'E', label: 'edit the rule', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'N', label: 'narrow it…', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'P', label: 'pause it', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      builder: [
+        {
+          k: 'WHEN', tone: WARN, hasHelp: true,
+          help: 'Only conditions we can see in a stream we already keep open — nothing here opens a new watch.',
+          chips: [
+            { t: 'a pod restarts', x: '\u25be', ink: INK, line: '#5a4520', bg: 'rgba(240,180,41,.10)' },
+            { t: 'more than', x: '', ink: INK2, line: LINE, bg: 'transparent' },
+            { t: '3', x: '', ink: INK, line: '#2c3542', bg: 'var(--ks-field)' },
+            { t: 'times in', x: '', ink: INK2, line: LINE, bg: 'transparent' },
+            { t: '10m', x: '\u25be', ink: INK, line: '#2c3542', bg: 'var(--ks-field)' }
+          ]
+        },
+        {
+          k: 'WHERE', tone: INFO, hasHelp: true,
+          help: 'Cluster, group or namespace. A rule with no scope is a rule that fires about somebody else’s cluster.',
+          chips: [
+            { t: 'clusters: prod', x: '\u00d7', ink: INK, line: '#2c3542', bg: 'transparent' },
+            { t: 'ns: payments', x: '\u00d7', ink: INK, line: '#2c3542', bg: 'transparent' },
+            { t: '+ scope', x: '', ink: INK3, line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'EXCEPT', tone: INK2, hasHelp: true,
+          help: 'The line between useful and noisy. Build queues and dev sandboxes restart all day by design.',
+          chips: [
+            { t: 'not ns: ci', x: '\u00d7', ink: INK, line: '#2c3542', bg: 'transparent' },
+            { t: 'not label: canary', x: '\u00d7', ink: INK, line: '#2c3542', bg: 'transparent' },
+            { t: '+ exception', x: '', ink: INK3, line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'FOR', tone: INK2, hasHelp: true,
+          help: 'How long the condition must hold before it counts. Zero means it fires on a blip.',
+          chips: [
+            { t: '2m', x: '\u25be', ink: INK, line: '#2c3542', bg: 'var(--ks-field)' },
+            { t: 'and stays firing while true', x: '', ink: INK2, line: 'transparent', bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'THEN', tone: OK, hasHelp: false, help: '',
+          chips: [
+            { t: 'a chip in the app bar', x: '', ink: INK, line: '#22503c', bg: 'rgba(62,207,142,.08)' },
+            { t: 'and a line in the change stream', x: '', ink: INK2, line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'NAME', tone: INK2, hasHelp: true,
+          help: 'What the chip will say. Write it as the thing that is wrong, not as the metric.',
+          chips: [{ t: 'restarts > 3 in 10m outside ci', x: '', ink: INK, line: '#2c3542', bg: 'var(--ks-field)' }]
+        }
+      ],
+      preview: [
+        { cluster: 'prod-eu-west', obj: 'checkout-api-…-k8n1p', val: '47\u00d7', clInk: INFO, ink: INK, valInk: '#ffb3b3' },
+        { cluster: 'prod-eu-west', obj: 'checkout-api-…-x2m4q', val: '12\u00d7', clInk: INFO, ink: INK, valInk: '#f3d08a' },
+        { cluster: 'prod-eu-west', obj: 'loki-ingester-…-x71vd', val: '8\u00d7', clInk: INFO, ink: '#c8d1dd', valInk: '#f3d08a' },
+        { cluster: 'prod-us-east', obj: 'kafka-2', val: '12\u00d7', clInk: PURPLE, ink: INK, valInk: '#f3d08a' }
+      ],
+      notify: [
+        { t: 'a chip in the app bar', note: 'amber, with the rule name and the count', trackBg: 'rgba(62,207,142,.16)', trackLine: '#22503c', knob: OK, justify: 'flex-end', ink: INK },
+        { t: 'a line in the change stream', note: 'so it is there when you come back to it', trackBg: 'rgba(62,207,142,.16)', trackLine: '#22503c', knob: OK, justify: 'flex-end', ink: INK },
+        { t: 'a badge on the tray icon', note: 'visible with the window behind others', trackBg: 'rgba(62,207,142,.16)', trackLine: '#22503c', knob: OK, justify: 'flex-end', ink: INK },
+        { t: 'a system notification', note: 'off by default — this is the one that interrupts', trackBg: '#141922', trackLine: LINE, knob: '#3f4855', justify: 'flex-start', ink: INK2 }
+      ],
+      limits: [
+        { glyph: '\u25b2', tone: BAD, t: 'It cannot act. No restart, no scale, no webhook, no script — a rule tells you, and you decide.' },
+        { glyph: '\u25b2', tone: BAD, t: 'It cannot page anyone. Nothing is sent off this machine, and closing the app stops evaluation entirely.' },
+        { glyph: '\u25c6', tone: WARN, t: 'It cannot see what we do not watch: a cluster that is paused or unreachable produces no matches, and the rule says “not evaluated” rather than “quiet”.' },
+        { glyph: '\u25cb', tone: IDLE, t: 'It is not history. A rule that fires while the app is closed simply did not fire — the change stream is where the past lives.' }
+      ],
+      variants: [
+        {
+          title: 'The noisy rule', cap: 'APP-12', edge: BAD, scope: 'restarts > 3 in 10m', scopeTone: WARN, state: '◆ firing 6h04m', stateTone: BAD,
+          leadBg: 'rgba(255,95,95,.09)', leadInk: '#ffd7d7',
+          lead: 'This rule has been firing since 08:41. It is telling you nothing.',
+          cols: '96px 1fr',
+          rows: [
+            vr([c('fired', { ink: INK3 }), c('once, and never stopped', { ink: '#ffd7d7', font: SANS, size: '11px' })], 'rgba(255,95,95,.09)'),
+            vr([c('matching', { ink: INK3 }), c('4 objects, 2 of them all day', { font: SANS, size: '11px' })]),
+            vr([c('of those', { ink: INK3 }), c('2 are in ci — a build queue restarts by design', { ink: '#f3d08a', font: SANS, size: '11px' })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('', {})]),
+            vr([c('we suggest', { ink: INK3 }), c('add “not ns: ci” — would drop to 2', { ink: '#a8e6c8', font: SANS, size: '11px' })], 'rgba(62,207,142,.06)'),
+            vr([c('', {}), c('raise to 10 in 10m — would drop to 1', { ink: '#a8e6c8', font: SANS, size: '11px' })], 'rgba(62,207,142,.06)'),
+            vr([c('', {}), c('or pause it and use the change stream instead', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('each suggestion shows its new count first', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Noise is a state the pane detects, not a complaint you have to make. A rule firing for more than an hour is marked and offered a narrower version.',
+          note: 'The feature that keeps this pane honest. Without it, everyone ends up with eleven amber chips and ignores all of them.'
+        },
+        {
+          title: 'Where a firing rule shows up', cap: 'APP-13', edge: WARN, scope: 'the app bar and the tray', scopeTone: WARN, state: '◆ 3 firing', stateTone: WARN,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Three places, in order of how much they interrupt you.',
+          cols: '110px 1fr',
+          rows: [
+            vr([c('app bar', { ink: INK }), c('◆ 3 rules · amber chip, always there', { ink: '#f3d08a' })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('click it to open this pane', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('change stream', { ink: INK }), c('a line per firing, with the object', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('so a rule that fired at 09:12 is still findable', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('tray icon', { ink: INK }), c('amber badge while the window is behind others', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('red badge is reserved for a cluster going down', { ink: '#f0b5b0', font: SANS, size: '10.5px' })]),
+            vr([c('system toast', { ink: INK3 }), c('off by default — opt in per rule', { ink: INK3, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('nothing here ever steals focus', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'Your rules are amber everywhere; Alertmanager’s are red. One glance tells you whether the team knows about it too.',
+          note: 'The colour split is the whole social contract of this feature: red means the on-call rotation has it, amber means only you do.'
+        },
+        {
+          title: 'What this is not', cap: 'APP-12', edge: IDLE, scope: 'the boundary', scopeTone: IDLE, state: '○ by design', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'A local rule engine is a small idea. Pretending otherwise would be dangerous.',
+          cols: '1fr',
+          rows: [
+            vr([c('It does not replace Alertmanager, and it says so', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('by rendering their alerts beside yours, in red.', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('It does not act — no restarts, no scripts, no', { font: SANS, size: '11.5px' })]),
+            vr([c('webhooks. Every rule ends in “tell me”.', { font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('It stops when the app stops. Rules are for the', { font: SANS, size: '11.5px' })]),
+            vr([c('eight hours you are watching, not the sixteen', { font: SANS, size: '11.5px' })]),
+            vr([c('you are not.', { font: SANS, size: '11.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'Written into the pane rather than into a doc nobody reads: the builder’s last section lists these four limits every time you make a rule.',
+          note: 'The risk with a feature like this is somebody relying on it for production alerting. The design answers that by being loudly modest.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'AMBER IS YOURS, RED IS THEIRS, GREY IS SILENCED', t: 'Two dividers split the list: your eleven local rules, then Alertmanager’s nine firing in red, then four that are firing and silenced — greyed, with how long the silence has run. A three-week-old silence on KubeMemoryOvercommit is exactly the thing nobody would ever go looking for, and it belongs on the same screen as the alert it hides.' },
+        { tone: WARN, k: 'AMBER IS YOURS, RED IS THEIRS', t: 'Above the first divider your eleven local rules, below it Alertmanager’s, read-only and red. The colour is the social fact — red means the on-call rotation already knows, amber means only the person at this keyboard does. Mixing the two colours would quietly promote a personal rule to a team alert, which is the one mistake this pane must not enable.' },
+        { tone: BAD, k: 'NOISE IS A DETECTED STATE', t: 'A rule firing for more than an hour is marked noisy, and the pane volunteers narrower versions with their new match counts — “not ns: ci” would take four matches down to two. Without this every user converges on eleven permanently amber chips and stops reading them, which is worse than having no rules at all.' },
+        { tone: IDLE, k: 'WHAT WE GIVE UP', t: 'No actions, no escalation, no persistence past the app’s lifetime, and no new watches: a rule can only read a stream that is already open, so “anything in the fleet” is not offerable. The builder’s last section states these four limits every time, because the failure mode of a convincing rule engine is somebody deleting a real alert and relying on this instead.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

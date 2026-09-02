@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 23 / 30 · OBJECT PANE · RES-10</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Describe</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The output everyone pastes into a ticket, and the only pane whose job is to be <span style="color:var(--ks-ink)">copyable as text</span>. It is not a prettier YAML: it is what <span style="font-family:var(--ks-mono);font-size:13px">kubectl describe</span> renders, in the same order, with the two things the terminal cannot do — the failing part marked, and every reference clickable.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="describe · one pod" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>⌘C copies exactly what kubectl would print — no colours, no markers</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 292px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Describe</span>
+          <span style="color:var(--ks-ink-3)">pod payments/checkout-api-7f9c8d4b6-k8n1p</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">96 lines</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live · re-rendered on change</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:9px;padding:0 10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+          <sc-for list="{{ chips }}" as="c" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:5px;padding:2px 7px;border:1px solid {{ c.line }};background:{{ c.bg }};color:{{ c.ink }}">{{ c.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-ink-2)"><span style="padding:1px 5px;border:1px solid var(--ks-line);color:var(--ks-ink)">⌥↓</span>next problem · 1 of 3</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;font-family:var(--ks-mono);font-size:12px" data-scroll="dense">
+          <sc-for list="{{ lines }}" as="l" hint-placeholder-count="70">
+            <sc-if value="{{ l.isHead }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-size:9.5px;letter-spacing:.1em;color:var(--ks-ink-3)">
+                <span>{{ l.key }}</span><div style="flex:1"></div><span style="color:{{ l.noteInk }}">{{ l.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ l.isFull }}" hint-placeholder-val="{{ false }}">
+              <div style="min-height:19px;display:flex;align-items:flex-start;background:{{ l.bg }};box-shadow:{{ l.ring }}">
+                <span style="width:12px;flex:none;text-align:center;color:{{ l.markInk }};font-size:10px">{{ l.mark }}</span>
+                <span style="flex:1;min-width:0;color:{{ l.keyInk }};padding-right:12px;white-space:pre-wrap;word-break:break-word;line-height:1.58">{{ l.key }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ l.isLine }}" hint-placeholder-val="{{ true }}">
+              <div style="min-height:19px;display:flex;align-items:flex-start;background:{{ l.bg }};box-shadow:{{ l.ring }}">
+                <span style="width:12px;flex:none;text-align:center;color:{{ l.markInk }};font-size:10px">{{ l.mark }}</span>
+                <span style="width:206px;flex:none;color:{{ l.keyInk }};padding-right:10px;white-space:pre;overflow:hidden;text-overflow:ellipsis">{{ l.key }}</span>
+                <span style="flex:1;min-width:0;color:{{ l.valInk }};padding-right:12px;white-space:pre-wrap;word-break:break-word;line-height:1.58">{{ l.val }}<span style="color:{{ l.linkInk }}">{{ l.link }}</span><span style="color:var(--ks-ink-3)">{{ l.tail }}</span></span>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">96 lines</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:#f3d08a">3 marked: last state, one condition, two events</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-ink)">Sections</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">3 marked</span>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="12">
+            <div style="min-height:30px;display:flex;align-items:center;gap:9px;padding:5px 11px;background:{{ n.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);border-left:2px solid {{ n.bar }}">
+              <span style="font-size:8px;color:{{ n.tone }};flex:none">{{ n.glyph }}</span>
+              <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ n.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.name }}</span>
+                <span style="font-size:10px;color:{{ n.noteInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.note }}</span>
+              </div>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ n.lines }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:11px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;gap:7px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHY THIS PANE EXISTS</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Nobody reads describe top to bottom. They scroll to Events, then to Last State, then paste the lot into a ticket. This pane makes those three motions one keystroke each and leaves the text identical.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">A node, a Service with no endpoints, and what copy actually copies</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:296px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="flex:1 0 auto;font-family:var(--ks-mono);font-size:10.5px">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="14">
+                <div style="min-height:20px;display:flex;align-items:flex-start;background:{{ r.bg }};box-shadow:{{ r.ring }}">
+                  <span style="width:11px;flex:none;text-align:center;color:{{ r.markInk }};font-size:9px">{{ r.mark }}</span>
+                  <span style="width:{{ v.keyW }};flex:none;color:{{ r.keyInk }};padding-right:8px;white-space:pre;overflow:hidden;text-overflow:ellipsis">{{ r.k }}</span>
+                  <span style="flex:1;min-width:0;color:{{ r.valInk }};padding-right:10px;white-space:pre-wrap;word-break:break-word;line-height:1.55">{{ r.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const KEY = '#8ac6ff', VAL = '#c8d1dd', LINK = '#4aa8ff';
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const head = (key, note, noteInk) => ({ isHead: true, isLine: false, isFull: false, key, val: '', link: '', tail: '', mark: '', markInk: INK3, keyInk: INK3, valInk: INK3, linkInk: LINK, bg: 'transparent', ring: 'none', note: note || '', noteInk: noteInk || INK3 });
+    // k, v, kind, link, tail
+    // a line with no value is rendered full width — a mount path must never be ellipsised in the key column
+    const L = (k, v, kind, link, tail) => {
+      const bad = kind === 'bad', warn = kind === 'warn', dim = kind === 'dim';
+      const full = v === undefined || v === null;
+      return {
+        isHead: false, isLine: !full, isFull: full,
+        key: k, val: full ? '' : v, link: link || '', tail: tail || '',
+        note: '', noteInk: INK3,
+        mark: bad ? '\u25b2' : warn ? '\u25c6' : '', markInk: bad ? BAD : WARN,
+        keyInk: bad || warn ? INK : dim ? INK3 : KEY,
+        valInk: bad ? '#ffd7d7' : warn ? '#f3d08a' : dim ? INK3 : VAL,
+        linkInk: LINK,
+        bg: bad ? 'rgba(255,95,95,.11)' : warn ? 'rgba(240,180,41,.07)' : 'transparent',
+        ring: bad ? 'inset 2px 0 0 #ff5f5f' : warn ? 'inset 2px 0 0 #f0b429' : 'none'
+      };
+    };
+
+    const lines = [
+      head('METADATA', 'nine lines, one of them the reason it is here'),
+      L('Name:', 'checkout-api-7f9c8d4b6-k8n1p'),
+      L('Namespace:', '', 'ref', 'payments'),
+      L('Priority:', '0'),
+      L('Service Account:', '', 'ref', 'checkout'),
+      L('Node:', '', 'ref', 'ip-10-0-3-19/10.0.3.19'),
+      L('Start Time:', 'Mon, 01 Sep 2026 10:11:04 +0200'),
+      L('Labels:', 'app=checkout'),
+      L('', '                  pod-template-hash=7f9c8d4b6'),
+      L('Annotations:', 'kubectl.kubernetes.io/restartedAt: 2026-09-01T10:11:04Z'),
+      L('Status:', 'Running'),
+      L('IP:', '10.244.3.41'),
+      L('Controlled By:', '', 'ref', 'ReplicaSet/checkout-api-7f9c8d4b6'),
+
+      head('CONTAINERS', 'the failing one is marked', '#f3d08a'),
+      L('api:', ''),
+      L('  Container ID:', 'containerd://9f21c4b8a1d7e4c2f8b3a6d9e1c7f4b2'),
+      L('  Image:', 'registry.internal/checkout-api:2026.8.3'),
+      L('  Image ID:', 'sha256:4bd91c8f2a7e5d3c9b1f6a4e8c2d7b5f'),
+      L('  Port:', '8080/TCP'),
+      L('  State:', 'Waiting'),
+      L('    Reason:', 'CrashLoopBackOff'),
+      L('  Last State:', 'Terminated', 'bad'),
+      L('    Reason:', 'OOMKilled', 'bad'),
+      L('    Exit Code:', '137', 'bad'),
+      L('    Started:', 'Mon, 01 Sep 2026 14:12:07 +0200', 'bad'),
+      L('    Finished:', 'Mon, 01 Sep 2026 14:12:34 +0200', 'bad'),
+      L('  Ready:', 'False'),
+      L('  Restart Count:', '47', 'bad'),
+      L('  Limits:', ''),
+      L('    memory:', '512Mi', 'warn'),
+      L('    cpu:', '1'),
+      L('  Requests:', ''),
+      L('    memory:', '256Mi', 'warn'),
+      L('    cpu:', '200m'),
+      L('  Liveness:', 'http-get http://:8080/healthz delay=30s period=10s #success=1 #failure=3'),
+      L('  Readiness:', 'http-get http://:8080/healthz delay=5s period=5s #success=1 #failure=3'),
+      L('  Environment Variables from:'),
+      L('    checkout-config', '  ConfigMap  Optional: false', 'ref'),
+      L('    db-credentials', '  Secret     Optional: false', 'ref'),
+      L('  Mounts:'),
+      L('    /etc/tls from tls (ro)'),
+      L('    /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-x9k2m (ro)'),
+
+      head('CONDITIONS', 'one is False, and that is the whole story', '#f3d08a'),
+      L('Type', '                  Status'),
+      L('Initialized', '           True', 'dim'),
+      L('Ready', '                 False', 'bad'),
+      L('ContainersReady', '       False', 'bad'),
+      L('PodScheduled', '          True', 'dim'),
+
+      head('VOLUMES'),
+      L('tls:'),
+      L('  Type:', 'Secret (a volume populated by a Secret)'),
+      L('  SecretName:', '', 'ref', 'api-tls'),
+      L('  Optional:', 'false'),
+      L('kube-api-access-x9k2m:'),
+      L('  Type:', 'Projected (a volume that contains injected data from multiple sources)'),
+      L('  TokenExpirationSeconds:', '3607'),
+      L('  ConfigMapName:', '', 'ref', 'kube-root-ca.crt'),
+      L('  DownwardAPI:', 'true'),
+
+      head('SCHEDULING'),
+      L('QoS Class:', 'Burstable'),
+      L('Node-Selectors:', '<none>'),
+      L('Tolerations:', 'node.kubernetes.io/not-ready:NoExecute op=Exists for 300s'),
+      L('', '                  node.kubernetes.io/unreachable:NoExecute op=Exists for 300s'),
+
+      head('EVENTS', 'the section people scroll to first', '#f3d08a'),
+      L('Type', '     Reason     Age                  From               Message'),
+      L('----', '     ------     ----                 ----               -------'),
+      L('Warning', '  Unhealthy  4h11m (x62 over 4h)  kubelet            Readiness probe failed: HTTP 503', 'warn'),
+      L('Warning', '  BackOff    2m (x47 over 4h11m)  kubelet            Back-off restarting failed container api', 'bad'),
+      L('Normal', '   Pulled     2m (x47 over 4h11m)  kubelet            Container image already present on machine', 'dim'),
+      L('Normal', '   Created    2m (x47 over 4h11m)  kubelet            Created container api', 'dim'),
+      L('Normal', '   Started    2m (x47 over 4h11m)  kubelet            Started container api', 'dim'),
+      L('Warning', '  Evicted    41m                  kubelet            The node was low on resource: memory', 'warn')
+    ];
+
+    const nv = (name, note, lineCount, kind) => ({
+      name, note, lines: lineCount,
+      glyph: kind === 'bad' ? '\u25b2' : kind === 'warn' ? '\u25c6' : '\u25cf',
+      tone: kind === 'bad' ? BAD : kind === 'warn' ? WARN : IDLE,
+      ink: kind === 'bad' || kind === 'warn' ? INK : '#c8d1dd',
+      noteInk: kind === 'bad' ? '#f0b5b0' : kind === 'warn' ? '#f3d08a' : INK3,
+      bar: kind === 'bad' ? BAD : kind === 'warn' ? WARN : 'transparent',
+      bg: kind === 'bad' ? 'rgba(255,95,95,.09)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+    });
+
+    const vr = (k, v, kind) => {
+      const bad = kind === 'bad', warn = kind === 'warn', dim = kind === 'dim';
+      return {
+        k, v,
+        mark: bad ? '\u25b2' : warn ? '\u25c6' : '', markInk: bad ? BAD : WARN,
+        keyInk: bad || warn ? INK : dim ? INK3 : KEY,
+        valInk: bad ? '#ffd7d7' : warn ? '#f3d08a' : dim ? INK3 : VAL,
+        bg: bad ? 'rgba(255,95,95,.11)' : warn ? 'rgba(240,180,41,.07)' : 'transparent',
+        ring: bad ? 'inset 2px 0 0 #ff5f5f' : warn ? 'inset 2px 0 0 #f0b429' : 'none'
+      };
+    };
+
+    return {
+      facts: [
+        { k: 'LINES', v: '96', tone: INK },
+        { k: 'MARKED', v: '3 places', tone: WARN },
+        { k: 'CLICKABLE REFS', v: '9', tone: INFO },
+        { k: 'COPY', v: 'plain text', tone: OK }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      chips: [
+        { t: 'mark what is failing', bg: 'var(--ks-sel)', line: '#2f4356', ink: INK },
+        { t: 'links live', bg: 'var(--ks-sel)', line: '#2f4356', ink: INK },
+        { t: 'wrap', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: 'hide Normal events', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: 'raw', bg: 'transparent', line: LINE, ink: INK2 }
+      ],
+      lines,
+      actions: [
+        { key: '\u2318C', label: 'copy all as text', ink: INK2, line: LINE, keyInk: INK },
+        { key: '\u21e7\u2318C', label: 'copy this section', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'Y', label: 'the YAML instead', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'E', label: 'events as a pane', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      nav: [
+        nv('Metadata', 'name, labels, owner', '12', 'ok'),
+        nv('  Labels', 'app=checkout · pod-template-hash', '2', 'ok'),
+        nv('  Controlled By', 'ReplicaSet/checkout-api-7f9c8d4b6', '1', 'ok'),
+        nv('Containers · api', 'OOMKilled · 47 restarts', '28', 'bad'),
+        nv('  Image', 'checkout-api:2026.8.3', '2', 'ok'),
+        nv('  State', 'Waiting · CrashLoopBackOff', '2', 'bad'),
+        nv('  Last State', 'Terminated · exit 137', '5', 'bad'),
+        nv('  Restart Count', '47', '1', 'bad'),
+        nv('  Limits', 'memory 512Mi · below the p95', '4', 'warn'),
+        nv('  Requests', 'memory 256Mi · cpu 200m', '3', 'warn'),
+        nv('  Probes', 'liveness delay 30s · startup takes 41s', '2', 'warn'),
+        nv('  Environment from', '2 references', '3', 'ok'),
+        nv('  Mounts', '2 · tls, service account token', '3', 'ok'),
+        nv('Conditions', 'Ready False · ContainersReady False', '5', 'bad'),
+        nv('  Ready', 'False', '1', 'bad'),
+        nv('  ContainersReady', 'False', '1', 'bad'),
+        nv('  Initialized', 'True', '1', 'ok'),
+        nv('  PodScheduled', 'True', '1', 'ok'),
+        nv('Volumes', '2 · one Secret, one projected', '9', 'ok'),
+        nv('  tls', 'Secret · api-tls', '4', 'ok'),
+        nv('  kube-api-access-x9k2m', 'projected · token expires 3607s', '5', 'ok'),
+        nv('Scheduling', 'Burstable · no selectors', '4', 'ok'),
+        nv('  Tolerations', '2 · the default 300s pair', '2', 'ok'),
+        nv('Events', '2 warnings, 1 of them 47 times', '9', 'warn'),
+        nv('  BackOff', '47 times over 4h11m', '1', 'bad'),
+        nv('  Unhealthy', '62 times over 4h', '1', 'warn'),
+        nv('  Evicted', 'the node ran out of memory', '1', 'warn'),
+        nv('  Pulled · Created · Started', '47 each · normal, folded', '3', 'ok')
+      ],
+      variants: [
+        {
+          title: 'A node', cap: 'RES-10', edge: WARN, scope: 'node/ip-10-0-3-19', scopeTone: INFO, state: '◆ pressure', stateTone: WARN, keyW: '116px',
+          rows: [
+            vr('Name:', 'ip-10-0-3-19'),
+            vr('Roles:', 'worker'),
+            vr('Taints:', 'node.kubernetes.io/memory-pressure:NoSchedule', 'bad'),
+            vr('Unschedulable:', 'false'),
+            vr('Conditions:', ''),
+            vr('  MemoryPressure', 'True · kubelet has insufficient memory', 'bad'),
+            vr('  DiskPressure', 'False', 'dim'),
+            vr('  Ready', 'True', 'dim'),
+            vr('Capacity:', 'cpu 16 · memory 64Gi · pods 110'),
+            vr('Allocatable:', 'cpu 15800m · memory 62Gi'),
+            vr('Allocated resources:', ''),
+            vr('  memory requests', '58Gi (91%)', 'warn'),
+            vr('  cpu requests', '11600m (73%)'),
+            vr('Events:', '2 Evicted in the last hour', 'warn')
+          ],
+          footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Node describe is where the taint appears in words — “memory-pressure:NoSchedule” explains four Pending pods elsewhere in the app.',
+          note: 'The same renderer, a different kind. Allocated resources is the block people actually came for, and it is marked when a percentage crosses 90.'
+        },
+        {
+          title: 'A Service with no endpoints', cap: 'RES-10', edge: BAD, scope: 'svc/legacy-export', scopeTone: INFO, state: '▲ 0 endpoints', stateTone: BAD, keyW: '104px',
+          rows: [
+            vr('Name:', 'legacy-export'),
+            vr('Namespace:', 'payments'),
+            vr('Selector:', 'app=legacy-export', 'bad'),
+            vr('Type:', 'ClusterIP'),
+            vr('IP:', '10.96.41.12'),
+            vr('Port:', '8080/TCP'),
+            vr('TargetPort:', '8080/TCP'),
+            vr('Endpoints:', '<none>', 'bad'),
+            vr('Session Affinity:', 'None'),
+            vr('Events:', '<none>', 'dim'),
+            vr('', ''),
+            vr('describe says <none> and stops.', '', 'dim'),
+            vr('We add one line under it:', '', 'dim'),
+            vr('no pod carries app=legacy-export', 'in this namespace — 0 of 41', 'bad')
+          ],
+          footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'The one place we add a line kubectl would not print, and it is marked as ours so a pasted ticket is still honest.',
+          note: '“Endpoints: <none>” with no events is the most silent failure in Kubernetes. The added line names the selector that matches nothing.'
+        },
+        {
+          title: 'What copy copies', cap: 'RES-10 · rule 12', edge: OK, scope: '⌘C · clipboard', scopeTone: OK, state: '● plain text', stateTone: OK, keyW: '104px',
+          rows: [
+            vr('Name:', 'checkout-api-7f9c8d4b6-k8n1p', 'dim'),
+            vr('Namespace:', 'payments', 'dim'),
+            vr('Node:', 'ip-10-0-3-19/10.0.3.19', 'dim'),
+            vr('Last State:', 'Terminated', 'dim'),
+            vr('  Reason:', 'OOMKilled', 'dim'),
+            vr('  Exit Code:', '137', 'dim'),
+            vr('Restart Count:', '47', 'dim'),
+            vr('', ''),
+            vr('no colour, no ▲ markers,', '', 'dim'),
+            vr('no added lines, no links —', '', 'dim'),
+            vr('byte-identical to kubectl', '', 'dim'),
+            vr('', ''),
+            vr('⇧⌘C copies one section', 'with its heading', 'dim'),
+            vr('the added Service line', 'is prefixed # kubescope:', 'dim')
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'A ticket with our markers pasted into it would be confusing and slightly dishonest. What lands in the clipboard is what the terminal would have printed.',
+          note: 'The rule that makes this pane trustworthy: everything we add is visual, and nothing we add survives a copy — except one commented line, clearly ours.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'THE SAME TEXT, WITH THREE MARKS', t: 'Describe is a fixed format everyone already reads, so the layout is not ours to redesign: same order, same indentation, same column alignment. What we add is a mark where something is failing — Last State, the two False conditions, the two Warning events — and a section list that jumps to them. ⌥↓ walks the marks; that is the whole navigation.' },
+        { tone: INFO, k: 'REFERENCES BECOME CLICKS', t: 'Nine strings in this output name other objects: the namespace, the node, the ServiceAccount, the owning ReplicaSet, the ConfigMap and Secret in envFrom, the Secret behind the volume. In a terminal they are text you retype into another command; here they open that object in a pane. It is the only structural advantage this pane has over the CLI, and it needs no new layout.' },
+        { tone: OK, k: 'WHAT WE GIVE UP', t: 'We do not restructure, we do not summarise, and we do not fold sections away by default — a describe that hides something is a describe nobody trusts. We add exactly one line kubectl would not print (the empty-selector explanation on a Service), and it is commented so a pasted ticket stays honest. Copy takes the plain text: no colour, no markers, no additions.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

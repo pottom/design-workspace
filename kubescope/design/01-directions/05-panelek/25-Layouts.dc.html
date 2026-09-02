@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:980px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 25 / 30 · THE FRAME · APP-04 · BRIEF §6.6</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Layouts</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The brief asks where saved layouts live, how you switch between them, and what happens to unsaved changes. The third question is the one worth answering properly: <span style="color:var(--ks-ink)">it should not be askable.</span> A tab is a desk and saves itself continuously; a template is a stencil and never changes on its own. Nothing in this product ever loses a layout, and nothing ever asks you to save one.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="layouts · tabs and templates" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }};border-right:1px solid {{ t.sep }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+          <span style="font-family:var(--ks-mono);font-size:9px;color:{{ t.metaInk }}">{{ t.meta }}</span>
+        </div>
+      </sc-for>
+      <div style="display:flex;align-items:center;padding:0 12px;font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink-3)">+</div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>every tab wrote itself to disk 3s ago · there is no save button in this product</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 452px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>the frame</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Layouts</span>
+          <span style="color:var(--ks-ink-3)">scope</span><span style="color:var(--ks-ink-2)">this machine</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">{{ headerLine }}</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>autosaved 3s ago</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-info);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">A <span style="color:var(--ks-ink)">tab</span> is where you are working: it writes itself to disk on every change and comes back exactly as you left it. A <span style="color:var(--ks-ink)">template</span> is a shape with roles instead of clusters — stamping one asks which clusters fill the roles, so <span style="font-family:var(--ks-mono);color:#8ac6ff">incident</span> works on a cluster it has never seen.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:22px 56px 1fr 66px 196px 116px 70px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div></div><div>SHAPE</div><div>NAME</div><div>PANES</div><div>POINTED AT</div><div style="color:var(--ks-ink-2)">LAST USED ↓</div><div style="text-align:right">KEY</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="14">
+            <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <span>{{ r.name }}</span><div style="flex:1"></div><span>{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+              <div style="height:40px;display:grid;grid-template-columns:22px 56px 1fr 66px 196px 116px 70px;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;justify-content:center;font-size:8px;color:{{ r.tone }}">{{ r.glyph }}</div>
+                <div style="width:48px;height:28px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1px;background:{{ r.shapeLine }};border:1px solid {{ r.shapeLine }}">
+                  <sc-for list="{{ r.shape }}" as="s" hint-placeholder-count="3">
+                    <div style="grid-column:{{ s.gc }};grid-row:{{ s.gr }};background:{{ s.bg }}"></div>
+                  </sc-for>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.subInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.sub }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.panesInk }}">{{ r.panes }}</div>
+                <div style="display:flex;align-items:center;gap:5px;min-width:0">
+                  <sc-for list="{{ r.dots }}" as="d" hint-placeholder-count="3">
+                    <span style="font-family:var(--ks-mono);font-size:9px;font-weight:600;padding:1px 4px;color:{{ d.ink }};border:1px solid {{ d.line }};background:{{ d.bg }};flex:none">{{ d.t }}</span>
+                  </sc-for>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.atNote }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.usedInk }}">{{ r.used }}</div>
+                <div style="display:flex;justify-content:flex-end"><span style="font-family:var(--ks-mono);font-size:9.5px;padding:2px 6px;border:1px solid {{ r.keyLine }};color:{{ r.keyInk }}">{{ r.key }}</span></div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="3">
+            <span style="color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ bucketSum }}</span>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">selected</span>
+          <span style="color:var(--ks-ink);font-weight:600">3 · incident</span>
+          <span style="color:#8ac6ff">4 panes · 3 clusters · drifted from the template it came from</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-info);font-weight:600">◈ tab 3</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">incident</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ok)">autosaved</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+
+          <div style="padding:13px 12px;display:flex;gap:14px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="width:186px;height:118px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line-strong);flex:none">
+              <sc-for list="{{ bigShape }}" as="s" hint-placeholder-count="4">
+                <div style="grid-column:{{ s.gc }};grid-row:{{ s.gr }};background:var(--ks-panel);border-left:2px solid {{ s.edge }};padding:4px 5px;display:flex;flex-direction:column;gap:2px;overflow:hidden">
+                  <span style="font-family:var(--ks-mono);font-size:8px;letter-spacing:.06em;color:{{ s.edge }};white-space:nowrap">{{ s.kind }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:7.5px;color:var(--ks-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.scope }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+              <div style="font-size:13px;font-weight:600;line-height:1.4;text-wrap:pretty">Four panes, three clusters, one question.</div>
+              <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">Opened from the <span style="font-family:var(--ks-mono);color:#8ac6ff">incident</span> template 41 minutes ago. You have since split the log pane and repointed one to ap-south, so the tab and the template no longer match.</div>
+              <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:10px;color:#f3d08a"><span style="font-size:7px">◆</span>drifted — the tab keeps your version, the template keeps its own</div>
+            </div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT THIS TAB HOLDS</div>
+            <sc-for list="{{ holds }}" as="h" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:14px 96px 1fr;align-items:baseline;gap:9px">
+                <span style="font-size:7px;color:{{ h.tone }}">{{ h.glyph }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ h.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ h.kind }}</span>
+                <span style="font-size:11px;line-height:1.45;color:var(--ks-ink-2);min-width:0;text-wrap:pretty">{{ h.detail }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line);background:rgba(240,180,41,.05)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-warn)">WHAT WILL NOT COME BACK</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">on the next launch</span>
+            </div>
+            <sc-for list="{{ lost }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:7px;color:{{ l.tone }};flex:none;padding-top:5px">{{ l.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-ink)">{{ l.k }}</span> — {{ l.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">SWITCHING</div>
+            <sc-for list="{{ keys }}" as="k" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-family:var(--ks-mono);font-size:10px;padding:2px 7px;border:1px solid {{ k.line }};color:{{ k.keyInk }};flex:none;min-width:62px;text-align:center">{{ k.key }}</span>
+                <span style="font-size:11.5px;color:{{ k.ink }};min-width:0;text-wrap:pretty">{{ k.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHERE IT LIVES</div>
+            <sc-for list="{{ storage }}" as="s" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:3px;padding:8px 10px;border:1px solid var(--ks-line);border-left:2px solid {{ s.edge }};background:var(--ks-field)">
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:{{ s.edge }};font-weight:600">{{ s.k }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.who }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.path }}</div>
+                <div style="font-size:10.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">NO SAVE BUTTON</span>
+            <span style="font-size:10.5px;color:var(--ks-ink-3)">the tab is already on disk</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Reset to template</span>
+          <span style="padding:6px 11px;border:1px solid #1e4a6e;background:rgba(74,168,255,.12);font-size:11.5px;color:#8ac6ff;font-weight:600">Save this shape as a template…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">DELIVERABLE 6</div>
+      <div style="font-size:19px;font-weight:600">What persists, field by field</div>
+      <div style="flex:1"></div>
+      <div style="font-size:12px;color:var(--ks-ink-3)">Three lifetimes. Anything not on this sheet does not exist across a boundary.</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ persistence }}" as="p" hint-placeholder-count="3">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ p.tone }};display:flex;flex-direction:column;overflow:hidden">
+          <div style="padding:11px 14px;display:flex;flex-direction:column;gap:5px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ p.tone }}">{{ p.k }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ p.count }}</span>
+            </div>
+            <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ p.sub }}</div>
+          </div>
+          <sc-for list="{{ p.fields }}" as="f" hint-placeholder-count="10">
+            <div style="min-height:24px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:5px 14px;background:{{ f.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="font-size:11.5px;line-height:1.4;color:{{ f.ink }};min-width:0;text-wrap:pretty">{{ f.t }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ f.noteInk }};flex:none">{{ f.note }}</span>
+            </div>
+          </sc-for>
+          <div style="padding:10px 14px;background:{{ p.footBg }};font-size:11px;line-height:1.5;color:{{ p.footInk }};text-wrap:pretty">{{ p.foot }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Coming back, stamping a stencil, and the tab you closed by accident</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const sh = spec => spec.map(s => ({ gc: s[0] + ' / span ' + s[2], gr: s[1] + ' / span ' + s[3], bg: s[4] || '#2c3542' }));
+    const dot = (code, tone) => ({ t: code, ink: tone, line: 'rgba(255,255,255,.10)', bg: 'rgba(255,255,255,.03)' });
+
+    // name, sub, shape, panes, dots, atNote, used, key, kind
+    const raw = [
+      ['DIVIDER', '', null, '', [], 'open right now · numbered, reorderable, autosaved', '', '', 'divider'],
+      ['fleet', 'one pane, the whole estate', [[1, 1, 4, 4, '#2f4a63']], '1', [['ALL', INK2]], 'every cluster', 'now', '⌘1', 'tab'],
+      ['payments', 'pods · log · events', [[1, 1, 2, 4, '#2f4a63'], [3, 1, 2, 2, '#3a3350'], [3, 3, 2, 2, '#2c3542']], '3', [['EW', INFO], ['UE', PURPLE]], 'ns payments on both', '4m ago', '⌘2', 'tab'],
+      ['incident', 'pods · log · events · shell', [[1, 1, 2, 2, '#2f4a63'], [3, 1, 2, 2, '#3a3350'], [1, 3, 2, 2, '#4a3a12'], [3, 3, 2, 2, '#123024']], '4', [['EW', INFO], ['UE', PURPLE], ['AS', WARN]], 'drifted from its template', '12m ago', '⌘3', 'tab'],
+      ['ci', 'jobs · log', [[1, 1, 4, 2, '#2f4a63'], [1, 3, 4, 2, '#3a3350']], '2', [['CI', '#9ad04a']], 'ci-runners only', 'yesterday', '⌘4', 'tab'],
+      ['certs', 'one pane, parked', [[1, 1, 4, 4, '#2c3542']], '1', [['ALL', INK2]], 'not opened since Friday', '4d ago', '⌘5', 'idle'],
+      ['DIVIDER2', '', null, '', [], 'shapes with roles, not clusters · stamp into a new tab', '', '', 'divider'],
+      ['incident', 'the four-pane one', [[1, 1, 2, 2, '#2f4a63'], [3, 1, 2, 2, '#3a3350'], [1, 3, 2, 2, '#4a3a12'], [3, 3, 2, 2, '#123024']], '4', [['?', INK3], ['?', INK3], ['?', INK3]], '3 roles to fill', 'used 23×', '⇧⌘I', 'tpl'],
+      ['morning check', 'fleet · certs · change stream', [[1, 1, 4, 2, '#2f4a63'], [1, 3, 2, 2, '#2c3542'], [3, 3, 2, 2, '#2c3542']], '3', [['ALL', INK2]], 'no roles — always the fleet', 'used 61×', '', 'tpl'],
+      ['one pod, everything', 'details · yaml · log · metrics · events', [[1, 1, 2, 2, '#2f4a63'], [3, 1, 2, 1, '#3a3350'], [3, 2, 2, 1, '#2c3542'], [1, 3, 2, 2, '#4a3a12'], [3, 3, 2, 2, '#123024']], '5', [['1', INK3]], 'fills from the selected row', 'used 8×', '', 'tpl'],
+      ['log wall', 'one log pane per cluster in a group', [[1, 1, 2, 1, '#3a3350'], [3, 1, 2, 1, '#3a3350'], [1, 2, 2, 1, '#3a3350'], [3, 2, 2, 1, '#3a3350'], [1, 3, 2, 1, '#3a3350'], [3, 3, 2, 1, '#3a3350'], [1, 4, 4, 1, '#2c3542']], 'N', [['GRP', '#8ac6ff']], 'expands to the group size', 'used 5×', '', 'tpl'],
+      ['capacity review', 'waste · nodes', [[1, 1, 4, 3, '#2f4a63'], [1, 4, 4, 1, '#2c3542']], '2', [['?', INK3]], '1 role to fill', 'used 3×', '', 'tpl'],
+      ['DIVIDER3', '', null, '', [], 'from the team repo · read-only until you copy one', '', '', 'divider'],
+      ['payments-oncall', 'checked in by @dora, 6 weeks ago', [[1, 1, 2, 4, '#2f4a63'], [3, 1, 2, 2, '#3a3350'], [3, 3, 2, 2, '#4a3a12']], '3', [['?', INK3], ['?', INK3]], 'ops-runbooks/kubescope/', 'used 12×', '', 'shared'],
+      ['ocp-upgrade-watch', 'checked in by @miklos, 3 days ago', [[1, 1, 4, 2, '#2f4a63'], [1, 3, 2, 2, '#2c3542'], [3, 3, 2, 2, '#123024']], '3', [['?', INK3]], 'ops-runbooks/kubescope/', 'never', '', 'shared']
+    ];
+
+    const K = {
+      tab: ['\u25c6', INFO], idle: ['\u25cb', IDLE], tpl: ['\u25c7', PURPLE], shared: ['\u25c7', '#5ad2c4']
+    };
+    const counts = {};
+    const rows = raw.map(r => {
+      if (r[8] === 'divider') {
+        const title = r[0] === 'DIVIDER' ? 'YOUR TABS' : r[0] === 'DIVIDER2' ? 'YOUR TEMPLATES' : 'SHARED TEMPLATES';
+        return { isDivider: true, isRow: false, name: title, note: r[5] };
+      }
+      counts[r[8]] = (counts[r[8]] || 0) + 1;
+      const m = K[r[8]];
+      const isTpl = r[8] === 'tpl' || r[8] === 'shared';
+      const live = r[8] === 'tab';
+      const sel = r[0] === 'incident' && r[8] === 'tab';
+      return {
+        isDivider: false, isRow: true,
+        name: r[0], sub: r[1], panes: r[3], atNote: r[5], used: r[6], key: r[7] || '\u2014',
+        shape: sh(r[2]), shapeLine: sel ? '#2f4a63' : LINE,
+        glyph: m[0], tone: sel ? INFO : m[1],
+        nameInk: sel ? '#fff' : live ? INK : isTpl ? '#c8d1dd' : INK3,
+        weight: sel ? '600' : '400',
+        subInk: sel ? '#8ac6ff' : INK3,
+        panesInk: r[3] === 'N' ? '#8ac6ff' : live ? INK : INK2,
+        usedInk: r[6] === 'now' ? OK : r[6] === 'never' ? INK3 : INK2,
+        keyLine: r[7] ? '#2c3542' : 'transparent', keyInk: r[7] ? INK2 : INK3,
+        dots: r[4].map(d => dot(d[0], d[1])),
+        bg: sel ? 'rgba(74,168,255,.10)' : r[8] === 'shared' ? 'rgba(90,210,196,.03)' : r[8] === 'idle' ? 'rgba(255,255,255,.012)' : 'transparent'
+      };
+    });
+
+    const tabsN = (counts.tab || 0) + (counts.idle || 0);
+    const tplN = counts.tpl || 0, sharedN = counts.shared || 0;
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+    const fld = (t, note, o) => Object.assign({ t, note, ink: INK2, noteInk: INK3, bg: 'transparent' }, o || {});
+
+    return {
+      facts: [
+        { k: 'TABS OPEN', v: '' + tabsN, tone: INK },
+        { k: 'TEMPLATES', v: tplN + ' + ' + sharedN, tone: PURPLE },
+        { k: 'SAVE BUTTONS', v: 'none', tone: OK },
+        { k: 'WAYS TO LOSE ONE', v: 'none', tone: OK }
+      ],
+      headerLine: tabsN + ' tabs · ' + tplN + ' templates · ' + sharedN + ' shared',
+      verdictLine: 'A tab saves itself. A template never changes unless you tell it to.',
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3, sep: 'transparent' },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3, sep: 'transparent' },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, meta: '◆', metaInk: WARN, sep: 'transparent' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3, sep: 'transparent' },
+        { n: '5', name: 'certs', bg: 'transparent', shadow: 'none', ink: INK3, numInk: INK3, meta: 'parked', metaInk: INK3, sep: LINE }
+      ],
+      rail: CL.map(x => ({ name: x[0], code: x[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: x[4], tone: x[3] })),
+      kpis: [
+        { label: 'TABS', v: '' + tabsN, tone: INK, sub: 'numbered 1–9' },
+        { label: 'TEMPLATES', v: '' + tplN, tone: PURPLE, sub: 'yours' },
+        { label: 'FROM THE REPO', v: '' + sharedN, tone: '#5ad2c4', sub: 'read-only' },
+        { label: 'DRIFTED', v: '1', tone: WARN, sub: 'tab 3' }
+      ],
+      rows,
+      buckets: [
+        { t: tabsN + ' tabs', ink: INFO },
+        { t: tplN + ' templates', ink: PURPLE },
+        { t: sharedN + ' shared', ink: '#5ad2c4' }
+      ],
+      bucketSum: 'tabs are written on every change; templates only when you ask · nothing here has ever needed a save dialog',
+      actions: [
+        { key: '\u21b5', label: 'go to it', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'R', label: 'rename', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'T', label: 'save as template…', ink: '#8ac6ff', line: '#1e4a6e', keyInk: '#8ac6ff' },
+        { key: '\u232b', label: 'close the tab', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      bigShape: [
+        { gc: '1 / span 2', gr: '1 / span 2', edge: INFO, kind: 'PODS', scope: 'eu-west · payments · !running' },
+        { gc: '3 / span 2', gr: '1 / span 2', edge: PURPLE, kind: 'LOG', scope: 'us-east · ledger-worker' },
+        { gc: '1 / span 2', gr: '3 / span 2', edge: WARN, kind: 'EVENTS', scope: 'ap-south · all namespaces' },
+        { gc: '3 / span 2', gr: '3 / span 2', edge: OK, kind: 'SHELL', scope: 'us-east · ledger-worker' }
+      ],
+      holds: [
+        { glyph: '\u25c6', tone: INFO, kind: 'pods', ink: INK, detail: 'prod-eu-west · ns payments · filter !running · sorted by restarts · 7 columns, 2 hidden' },
+        { glyph: '\u25c6', tone: PURPLE, kind: 'log', ink: INK, detail: 'prod-us-east · ledger-worker · container worker · pinned, wrapping off, level ≥ warn' },
+        { glyph: '\u25c6', tone: WARN, kind: 'events', ink: INK, detail: 'prod-ap-south · all namespaces · warnings only · watch paused by you at 14:02' },
+        { glyph: '\u25c6', tone: OK, kind: 'shell', ink: INK, detail: 'prod-us-east · ledger-worker · the geometry comes back, the session does not' }
+      ],
+      lost: [
+        { glyph: '\u25b2', tone: BAD, k: 'the shell session', t: 'a pod exec cannot be resumed. The pane returns with its scope and a “reattach” button, not a dead prompt.' },
+        { glyph: '\u25b2', tone: BAD, k: 'port-forwards', t: 'they die with the process. The tab lists the two that were running and offers to start them again.' },
+        { glyph: '\u25c6', tone: WARN, k: 'log scrollback', t: 'the pane comes back pointed at the same container and starts a fresh tail — we do not persist log bytes.' },
+        { glyph: '\u25c6', tone: WARN, k: 'the pod itself, sometimes', t: 'ledger-worker-…-2wq7t may not exist tomorrow. The pane opens as a tombstone naming what it was watching, with “find its replacement”.' },
+        { glyph: '\u25cb', tone: IDLE, k: 'revealed Secret values', t: 'never written anywhere. A revealed key re-masks on close, and the reveal itself stays in the audit log.' }
+      ],
+      keys: [
+        { key: '⌘1…9', t: 'go straight to a tab — the number is the tab, permanently', ink: INK, line: '#2c3542', keyInk: INK },
+        { key: '⌃⇥', t: 'next tab, in the order they sit in the bar', ink: INK2, line: LINE, keyInk: INK2 },
+        { key: '⌘T', t: 'a new empty tab, which asks what to put in it', ink: INK2, line: LINE, keyInk: INK2 },
+        { key: '⇧⌘T', t: 'reopen the tab you just closed, panes and all', ink: '#a8e6c8', line: '#22503c', keyInk: '#a8e6c8' },
+        { key: '⌘K', t: 'type a layout name — templates and tabs are both in the palette', ink: INK2, line: LINE, keyInk: INK2 },
+        { key: 'drag', t: 'reorder tabs; the ⌘-number follows the position, not the tab', ink: INK3, line: LINE, keyInk: INK3 }
+      ],
+      storage: [
+        { k: 'TABS', who: 'written by the app', edge: INFO, path: '~/.local/state/kubescope/tabs.json', note: 'State, not config. Machine-specific, debounced 400ms, never merged — this is your desk and nobody else’s.' },
+        { k: 'TEMPLATES', who: 'written when you ask', edge: PURPLE, path: '~/.config/kubescope/layouts/*.toml', note: 'One readable file per template, safe to hand-edit and to keep in a dotfiles repo.' },
+        { k: 'SHARED', who: 'read-only', edge: '#5ad2c4', path: 'any directory you point at, e.g. a git checkout', note: 'Copy one into your own before changing it. An upstream edit shows as “updated 3d ago” rather than silently replacing your copy.' }
+      ],
+      persistence: [
+        {
+          k: 'SURVIVES A RESTART', tone: OK, count: '14 fields', sub: 'Written to disk. You quit mid-incident and come back to the same screen.',
+          footBg: 'rgba(62,207,142,.06)', footInk: '#a8e6c8',
+          foot: 'The test: quit during an incident, relaunch, and be able to keep working without touching the mouse.',
+          fields: [
+            fld('the split tree and every ratio', 'per tab', { ink: INK }),
+            fld('each pane’s kind', 'per pane', { ink: INK }),
+            fld('each pane’s cluster and namespace', 'per pane', { ink: INK }),
+            fld('the object an object-pane is pinned to', 'name only', {}),
+            fld('filter text and saved-filter reference', '', {}),
+            fld('sort column and direction', '', {}),
+            fld('visible columns and their widths', '', {}),
+            fld('flat or grouped, in group scope', 'XC-08', {}),
+            fld('tab names, order and numbers', '', {}),
+            fld('which tab was active', '', {}),
+            fld('density, theme, font size', 'APP-05', {}),
+            fld('window size, position, monitor', '', {}),
+            fld('the cluster rail: expanded or collapsed', '', {}),
+            fld('paused watches, and that you paused them', 'so it is not a surprise', { ink: '#a8e6c8', noteInk: '#5f8f79', bg: 'rgba(62,207,142,.05)' })
+          ]
+        },
+        {
+          k: 'SURVIVES THE SESSION', tone: INFO, count: '7 fields', sub: 'Kept in memory while the app runs. Switching tabs does not lose them; quitting does.',
+          footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'The rule for this column: anything that would be wrong tomorrow. A scroll position into a log that no longer exists is worse than the top of a fresh one.',
+          fields: [
+            fld('the selected row in each pane', '', { ink: INK }),
+            fld('scroll position, and whether a log is tailing', '', {}),
+            fld('expanded nodes in an owner tree', '', {}),
+            fld('the time-travel position', 'TIME-02', { ink: '#8ac6ff', noteInk: '#4a7ea8' }),
+            fld('search and command-palette history', 'last 50', {}),
+            fld('an unsaved YAML buffer', 'prompts on quit', { ink: '#f3d08a', noteInk: '#8a7340', bg: 'rgba(240,180,41,.06)' }),
+            fld('which panes are showing a stale banner', 'recomputed on reconnect', {})
+          ]
+        },
+        {
+          k: 'SURVIVES NOTHING', tone: BAD, count: '6 fields', sub: 'Gone the moment the tab closes or the process ends. By design, not by omission.',
+          footBg: 'rgba(255,95,95,.06)', footInk: '#f0b5b0',
+          foot: 'Everything here is either a live connection we cannot fake or something it would be dangerous to keep. The pane that lost one says what it lost.',
+          fields: [
+            fld('terminal sessions and their scrollback', 'ACT-05', { ink: '#ffd7d7', noteInk: '#8a5f62' }),
+            fld('port-forwards', 'ACT-04 · offered again', { ink: '#ffd7d7', noteInk: '#8a5f62' }),
+            fld('log scrollback bytes', 'never written to disk', {}),
+            fld('an in-flight dry run or apply', '', {}),
+            fld('a half-finished confirmation dialog', 'ACT-07', {}),
+            fld('revealed Secret values', 'RES-09 · the reveal is audited', { ink: '#ffd7d7', noteInk: '#8a5f62', bg: 'rgba(255,95,95,.05)' })
+          ]
+        }
+      ],
+      variants: [
+        {
+          title: 'Coming back on Monday', cap: 'APP-04', edge: OK, scope: '3 · incident · restored', scopeTone: INFO, state: '● 3 of 4 live', stateTone: WARN,
+          leadBg: 'rgba(62,207,142,.07)', leadInk: '#a8e6c8',
+          lead: 'The shape is exact. Two panes need a word with you.',
+          cols: '84px 1fr',
+          rows: [
+            vr([c('pods', { ink: INK }), c('eu-west · payments · !running — 6 rows', { ink: '#a8e6c8', font: SANS, size: '11px' })], 'rgba(62,207,142,.06)'),
+            vr([c('events', { ink: INK }), c('ap-south · still paused, as you left it', { font: SANS, size: '11px' })]),
+            vr([c('log', { ink: INK }), c('ledger-worker-…-2wq7t is gone', { ink: '#f3d08a', font: SANS, size: '11px' })], 'rgba(240,180,41,.08)'),
+            vr([c('', {}), c('a replica of the same Deployment exists →', { ink: '#8ac6ff', font: SANS, size: '10.5px' })], 'rgba(240,180,41,.05)'),
+            vr([c('shell', { ink: INK }), c('not reattached — sessions do not survive', { ink: '#ffd7d7', font: SANS, size: '11px' })], 'rgba(255,95,95,.07)'),
+            vr([c('', {}), c('[ reattach to ledger-worker ]', { ink: '#8ac6ff', font: SANS, size: '10.5px' })], 'rgba(255,95,95,.04)'),
+            vr([c('', {}), c('', {})], 'transparent'),
+            vr([c('also', { ink: INK3 }), c('2 port-forwards were running · restart both?', { ink: '#8ac6ff', font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'A restored pane that cannot show what it showed becomes a tombstone naming the object, not an empty rectangle or a red error.',
+          note: 'The honest part of persistence. Restoring a layout is easy; restoring a layout whose world moved on is the actual design problem, and it is solved per pane rather than with one dialog at launch.'
+        },
+        {
+          title: 'Stamping a template', cap: 'APP-04', edge: PURPLE, scope: 'incident → new tab', scopeTone: PURPLE, state: '◇ 3 roles', stateTone: PURPLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'A template stores roles, not cluster names. This is the one dialog in the feature.',
+          cols: '96px 1fr',
+          rows: [
+            vr([c('the failing one', { ink: INK3 }), c('prod-ap-south ▾', { ink: INK })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('fills the pods and events panes', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('the healthy one', { ink: INK3 }), c('prod-eu-west ▾', { ink: INK })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('for comparison — same question, other side', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('the workload', { ink: INK3 }), c('ledger-worker ▾', { ink: INK })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('fills the log and shell panes', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('', {}), c('', {})]),
+            vr([c('opens as', { ink: INK3 }), c('tab 6 · incident 2 · ⌘6', { ink: '#c9a9ff' })], 'rgba(180,140,255,.05)'),
+            vr([c('', {}), c('the template is untouched by anything you do next', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'rgba(180,140,255,.06)', footInk: '#c9a9ff',
+          foot: 'Roles are why one template covers ten clusters. Without them a saved layout is a screenshot of last Tuesday.',
+          note: 'This is the whole argument for templates being separate from tabs. A tab remembers prod-ap-south; a template remembers “the failing one”, and next month that is a different cluster.'
+        },
+        {
+          title: 'What a layout does not own', cap: 'BRIEF §6.6', edge: IDLE, scope: 'the boundary', scopeTone: IDLE, state: '○ by design', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Three things people expect layouts to carry, and why they do not.',
+          cols: '1fr',
+          rows: [
+            vr([c('Not your settings. Density, theme and read-only', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('mode are the app’s, not the tab’s — switching', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('tabs must never change what a click does.', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('Not your credentials. A shared template names', { font: SANS, size: '11.5px' })]),
+            vr([c('roles and kinds; it cannot carry a context, a', { font: SANS, size: '11.5px' })]),
+            vr([c('token or a kubeconfig path.', { font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('Not a workspace per cluster. Tabs are questions,', { font: SANS, size: '11.5px' })]),
+            vr([c('not places — three of these tabs already span', { font: SANS, size: '11.5px' })]),
+            vr([c('more than one cluster.', { font: SANS, size: '11.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'The last one is the trap: a tab-per-cluster model looks tidy and quietly rebuilds the single-cluster product we are trying not to be.',
+          note: 'Written as a boundary because every one of these has an obvious-sounding argument for it, and each would cost the thing the frame exists for.'
+        }
+      ],
+      closing: [
+        { tone: OK, k: 'NO SAVE, NO PROMPT, NO LOSS', t: 'The brief asks what happens to unsaved changes. The answer is that there are none: a tab is written to disk on every change, debounced by 400ms, and ⇧⌘T brings back the last one you closed. Nothing in this product may ever show “you have unsaved layout changes” — during an incident that dialog is an obstacle between a person and a dying cluster.' },
+        { tone: PURPLE, k: 'A DESK AND A STENCIL ARE DIFFERENT OBJECTS', t: 'Tabs mutate constantly and belong to this machine; templates change only when you say so and belong in a dotfiles repo. Fusing them is the design mistake here — you would either be saving a stencil every time you dragged a splitter, or losing the layout you were working in when you stamped a new one.' },
+        { tone: INFO, k: 'ROLES, NOT CLUSTER NAMES', t: 'A template stores “the failing one” and “the workload”; stamping it asks which clusters fill the roles. This is what makes one incident layout work on a cluster that did not exist when it was written, and it is why a template can be checked into a team repo at all.' },
+        { tone: WARN, k: 'RESTORING IS A PER-PANE CONVERSATION', t: 'A pod named in a layout may be gone by morning. Rather than one launch dialog, each pane that cannot show what it showed becomes a tombstone with the object’s name and one offer — find the replacement, reattach, restart the forward. The shape always comes back; the contents negotiate.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

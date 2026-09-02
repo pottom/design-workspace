@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 20 / 30 · QUESTION PANE · DIAG-09</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Waste</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Requested against used, from one namespace to the whole fleet. The only pane in the product that is <span style="color:var(--ks-ink)">entirely blue</span> — nothing here is broken, nothing needs you tonight, and colouring it red would teach people to ignore red.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="waste · fleet-wide" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>p95 over 14 days · requests from the API, usage from prometheus</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>all clusters</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Waste</span>
+        <span style="color:var(--ks-ink-3)">group</span><span style="color:var(--ks-ink-2)">cluster › namespace<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">window</span><span style="color:var(--ks-ink-2)">14 days<span style="color:var(--ks-ink-3)">▾</span></span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">{{ rowCount }}</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>recomputed hourly</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+        <span style="font-size:13px;color:#8ac6ff;padding-top:4px">◈</span>
+        <div style="display:flex;flex-direction:column;gap:10px;flex:1;min-width:0">
+          <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">Across the fleet, <span style="color:#8ac6ff">343Gi and 130 cores</span> are reserved and never used. Nearly half of it is in staging.</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">The two staging clusters reserve about 184Gi between them and waste 162Gi of it — they were given production’s values verbatim. In production the picture is smaller and different: <span style="font-family:var(--ks-mono);color:var(--ks-ink)">38Gi</span>, most of it four workloads sized during an incident and never resized after.</div>
+          <div style="display:flex;align-items:center;gap:11px;padding-top:2px">
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:54px;flex:none">memory</span>
+            <div style="flex:1;height:14px;background:var(--ks-line-soft);position:relative">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:38%;background:rgba(62,207,142,.45)"></div>
+              <div style="position:absolute;left:38%;top:0;bottom:0;width:23%;background:rgba(74,168,255,.42)"></div>
+              <div style="position:absolute;left:61%;top:-2px;bottom:-2px;width:2px;background:var(--ks-info)"></div>
+            </div>
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);width:280px;flex:none">used 142Gi · reserved 228Gi · capacity 372Gi</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:18px;flex:none">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+              <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:6px">
+                <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="height:20px;display:grid;grid-template-columns:22px 216px 168px 70px 168px 66px 1fr;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+        <div></div><div>SCOPE</div><div>MEMORY · USED OF RESERVED</div><div style="text-align:right;color:var(--ks-ink-2)">IDLE ↓</div><div>CPU · USED OF RESERVED</div><div style="text-align:right">IDLE</div><div>WHY IT IS IDLE</div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="34">
+          <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+            <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+              <span>{{ r.name }}</span><div style="flex:1"></div><span>{{ r.why }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+          <div style="height:{{ r.h }};display:grid;grid-template-columns:22px 216px 168px 70px 168px 66px 1fr;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:{{ r.shadow }};font-size:11.5px">
+            <div style="display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">{{ r.twist }}</div>
+            <div style="display:flex;align-items:center;gap:8px;padding-left:{{ r.indent }};min-width:0">
+              <span style="width:2px;height:13px;background:{{ r.hue }};flex:none"></span>
+              <span style="font-family:var(--ks-mono);font-size:{{ r.size }};color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px">
+              <div style="flex:1;height:{{ r.barH }};background:var(--ks-line-soft);position:relative;min-width:0">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.memUsed }};background:rgba(62,207,142,.45)"></div>
+                <div style="position:absolute;left:{{ r.memUsed }};top:0;bottom:0;width:{{ r.memIdle }};background:rgba(74,168,255,.42)"></div>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:58px;flex:none;text-align:right">{{ r.memLabel }}</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.memIdleInk }};text-align:right;font-weight:{{ r.weight }}">{{ r.memIdleVal }}</div>
+            <div style="display:flex;align-items:center;gap:9px">
+              <div style="flex:1;height:{{ r.barH }};background:var(--ks-line-soft);position:relative;min-width:0">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.cpuUsed }};background:rgba(62,207,142,.45)"></div>
+                <div style="position:absolute;left:{{ r.cpuUsed }};top:0;bottom:0;width:{{ r.cpuIdle }};background:rgba(74,168,255,.42)"></div>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:44px;flex:none;text-align:right">{{ r.cpuLabel }}</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.cpuIdleInk }};text-align:right">{{ r.cpuIdleVal }}</div>
+            <div style="font-size:11px;color:{{ r.whyInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.why }}</div>
+          </div>
+          </sc-if>
+        </sc-for>
+      </div>
+
+      <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+        <span style="color:#8ac6ff;font-weight:600">343Gi · 130 cores reclaimable</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink-3)">the seven measurable clusters above, summed</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-3)">excluded: analytics 14Gi (paused, read-only) · 2 clusters not measurable</span>
+      </div>
+
+      <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-ink-2)">selected</span>
+        <span style="color:var(--ks-ink);font-weight:600">staging-eu · everything</span>
+        <span style="color:#8ac6ff">84Gi and 32 cores idle · 11% of what it reserves</span>
+        <div style="flex:1"></div>
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+          <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">The kinds of idle, the worst workloads, and what it would buy</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:288px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="8">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+                  </sc-for>
+                  <sc-if value="{{ r.hasBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.barUsed }};background:rgba(62,207,142,.45)"></div>
+                      <div style="position:absolute;left:{{ r.barUsed }};top:0;bottom:0;width:{{ r.barIdle }};background:rgba(74,168,255,.42)"></div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35', BLUE = '#8ac6ff';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+    const hue = {}; CL.forEach(c => { hue[c[0]] = c[2]; });
+
+    // lvl, name, hueKey, memUsed%, memIdleGi, cpuUsed%, cpuIdleCores, why, kind
+    const raw = [
+      [0, 'staging-eu', 'staging-eu', 11, 84, 9, 32, 'production’s values on a tenth of the traffic', 'loud'],
+      [1, 'payments', 'staging-eu', 8, 41, 6, 14, 'prod values verbatim, replicaCount included', 'child'],
+      [1, 'data', 'staging-eu', 14, 28, 11, 9, 'clickhouse asks 6Gi, holds 800Mi', 'child'],
+      [1, 'observability', 'staging-eu', 19, 11, 22, 6, 'a full prometheus stack for one team', 'child'],
+      [1, 'platform', 'staging-eu', 24, 4, 18, 3, '', 'child'],
+      [0, 'staging-us', 'staging-us', 13, 78, 11, 29, 'the same chart values as staging-eu', 'loud'],
+      [1, 'payments', 'staging-us', 9, 38, 7, 13, 'same copy, same problem', 'child'],
+      [1, 'data', 'staging-us', 16, 24, 12, 8, '', 'child'],
+      [1, 'observability', 'staging-us', 21, 12, 24, 5, '', 'child'],
+      [1, 'platform', 'staging-us', 26, 4, 19, 3, '', 'child'],
+      [0, 'ci-runners', 'ci-runners', 34, 62, 41, 24, 'reserves for the worst build, idle between them', 'quiet'],
+      [1, 'ci', 'ci-runners', 32, 54, 39, 21, 'headroom by design — leave it', 'child'],
+      [1, 'kube-system', 'ci-runners', 48, 8, 52, 3, '', 'child'],
+      [0, 'dev-sandbox', 'dev-sandbox', 9, 41, 7, 16, '41 Completed pods still hold their requests', 'loud'],
+      [1, 'data', 'dev-sandbox', 7, 22, 5, 9, 'abandoned experiments from July', 'child'],
+      [1, 'jobs', 'dev-sandbox', 4, 14, 3, 5, '41 Completed pods, never reaped', 'child'],
+      [1, 'default', 'dev-sandbox', 18, 5, 14, 2, '', 'child'],
+      [0, 'prod-eu-west', 'prod-eu-west', 38, 38, 22, 14, 'four workloads sized during an incident', 'quiet'],
+      [1, 'jobs', 'prod-eu-west', 4, 14, 3, 5, 'nightly-export holds 2Gi all day for 4 minutes', 'child'],
+      [1, 'payments', 'prod-eu-west', 34, 12, 26, 4, 'payout-batcher: 1Gi asked, 210Mi used', 'child'],
+      [1, 'observability', 'prod-eu-west', 58, 8, 44, 3, '', 'child'],
+      [1, 'data', 'prod-eu-west', 82, 4, 61, 2, 'right-sized — the only namespace that is', 'child'],
+      [0, 'prod-us-east', 'prod-us-east', 41, 34, 24, 13, 'mirrors eu-west’s over-requests', 'quiet'],
+      [1, 'payments', 'prod-us-east', 38, 14, 28, 5, '', 'child'],
+      [1, 'jobs', 'prod-us-east', 6, 12, 4, 4, 'the same nightly-export', 'child'],
+      [1, 'observability', 'prod-us-east', 61, 6, 46, 3, '', 'child'],
+      [1, 'data', 'prod-us-east', 79, 2, 58, 1, 'right-sized', 'child'],
+      [0, 'edge-02', 'edge-02', 52, 6, 38, 2, 'only 6Gi to find — three nodes, tightly packed', 'quiet'],
+      [1, 'ingress', 'edge-02', 48, 4, 34, 1, '', 'child'],
+      [1, 'kube-system', 'edge-02', 58, 2, 44, 1, '', 'child'],
+      [-1, 'NOT IN THE TOTAL', '', 0, 0, 0, 0, 'a paused context and two clusters we cannot measure', 'divider'],
+      [0, 'analytics', 'analytics', 28, 14, 19, 4, 'paused, read-only — not ours to reclaim', 'idle'],
+      [0, 'prod-ap-south', 'prod-ap-south', 0, 0, 0, 0, '', 'nometrics'],
+      [0, 'edge-01', 'edge-01', 0, 0, 0, 0, '', 'down']
+    ];
+    const fmtGi = v => v >= 1 ? v + 'Gi' : '—';
+    const rows = raw.map(r => {
+      const [lvl, name, hk, memUsed, memIdle, cpuUsed, cpuIdle, why, kind] = r;
+      const dead = kind === 'down' || kind === 'nometrics';
+      const excluded = kind === 'idle';
+      const parent = lvl === 0;
+      if (kind === 'divider') return { isDivider: true, isRow: false, name, why, twist: '', hue: 'transparent', indent: '0px', size: '10px', weight: '400', nameInk: INK3, h: '26px', barH: '9px', memUsed: '0%', memIdle: '0%', memLabel: '', memIdleVal: '', memIdleInk: INK3, cpuUsed: '0%', cpuIdle: '0%', cpuLabel: '', cpuIdleVal: '', cpuIdleInk: INK3, whyInk: INK3, bg: 'transparent', shadow: 'none' };
+      return {
+        isDivider: false, isRow: true,
+        twist: parent && !dead ? '\u25be' : '',
+        name, hue: hue[hk], indent: parent ? '0px' : '18px',
+        size: parent ? '11.5px' : '10.5px',
+        weight: parent && kind === 'loud' ? '600' : '400',
+        nameInk: dead ? '#8a5f62' : excluded ? INK2 : parent ? INK : '#c8d1dd',
+        h: parent ? '28px' : '24px',
+        barH: parent ? '11px' : '9px',
+        memUsed: dead ? '0%' : memUsed + '%',
+        memIdle: dead ? '0%' : Math.max(0, 100 - memUsed - 6) + '%',
+        memLabel: dead ? 'n/a' : memUsed + '%',
+        memIdleVal: dead ? '—' : fmtGi(memIdle),
+        memIdleInk: dead ? '#8a5f62' : excluded ? '#5c7488' : memIdle >= 20 ? BLUE : memIdle >= 8 ? '#6f9fc4' : INK2,
+        cpuUsed: dead ? '0%' : cpuUsed + '%',
+        cpuIdle: dead ? '0%' : Math.max(0, 100 - cpuUsed - 6) + '%',
+        cpuLabel: dead ? 'n/a' : cpuUsed + '%',
+        cpuIdleVal: dead ? '—' : cpuIdle ? cpuIdle + ' c' : '—',
+        cpuIdleInk: dead ? '#8a5f62' : excluded ? '#5c7488' : cpuIdle >= 12 ? BLUE : INK2,
+        why: kind === 'nometrics' ? 'no prometheus here — cannot be measured' : kind === 'down' ? 'unreachable — cannot be measured' : why,
+        whyInk: dead ? '#8a5f62' : excluded ? INK3 : kind === 'loud' ? BLUE : INK2,
+        bg: kind === 'loud' ? 'rgba(74,168,255,.07)' : dead ? 'rgba(255,255,255,.015)' : 'transparent',
+        shadow: parent ? 'inset 0 -1px 0 #242b35' : 'inset 0 -1px 0 #1a2028'
+      };
+    });
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg, bar) => Object.assign({ cells, bg: bg || 'transparent', hasBar: false, barUsed: '0%', barIdle: '0%' }, bar || {});
+
+    return {
+      facts: [
+        { k: 'RECLAIMABLE', v: '343Gi', tone: BLUE },
+        { k: 'IDLE CPU', v: '130 cores', tone: BLUE },
+        { k: 'IN STAGING', v: 'nearly half', tone: BLUE },
+        { k: 'URGENCY', v: 'none', tone: OK }
+      ],
+      rowCount: '10 clusters · 7 in the total',
+      tabs: [
+        { n: '1', name: 'fleet', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map(x => ({ name: x[0], code: x[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: x[4], tone: x[3] })),
+      kpis: [
+        { label: 'RECLAIMABLE', v: '343Gi', tone: BLUE, sub: '+130 cores' },
+        { label: 'WORST CLUSTER', v: '84Gi', tone: BLUE, sub: 'staging-eu · 11% used' },
+        { label: 'NOT MEASURABLE', v: '2', tone: IDLE, sub: 'no metrics · unreachable' },
+        { label: 'WOULD FREE', v: '2 nodes', tone: INK, sub: 'in staging' }
+      ],
+      rows,
+      actions: [
+        { key: '\u21b5', label: 'the namespaces', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'W', label: 'worst workloads', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'M', label: 'the p95 curves', ink: INK2, line: LINE, keyInk: INK },
+        { key: '\u2318C', label: 'copy as a report', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      variants: [
+        {
+          title: 'The four kinds of idle', cap: 'DIAG-09', edge: INFO, scope: 'why it is idle', scopeTone: INFO, state: '◈ classified', stateTone: BLUE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Not all idle is waste. Only two of the four kinds are worth acting on.',
+          cols: '96px 1fr',
+          rows: [
+            vr([c('over-sized', { ink: BLUE }), c('p95 is a third of the request · act on it', { font: SANS, size: '11px', ink: INK })], 'rgba(74,168,255,.07)'),
+            vr([c('', {}), c('142 workloads · 214Gi', { size: '10px', ink: INK3 })], 'rgba(74,168,255,.07)'),
+            vr([c('abandoned', { ink: BLUE }), c('Completed pods, orphaned PVCs · act on it', { font: SANS, size: '11px', ink: INK })], 'rgba(74,168,255,.07)'),
+            vr([c('', {}), c('41 pods · 4 PVCs · 61Gi', { size: '10px', ink: INK3 })], 'rgba(74,168,255,.07)'),
+            vr([c('headroom', { ink: INK2 }), c('kept for a spike that does happen · leave it', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('ci-runners, hpa targets · 48Gi', { size: '10px', ink: INK3 })]),
+            vr([c('by design', { ink: INK2 }), c('a database filling its cache slowly · leave it', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('clickhouse, kafka · 14Gi', { size: '10px', ink: INK3 })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'The classification is the work. A bare number produces a spreadsheet somebody ignores; with it, 275Gi of the 343Gi is actionable and the rest is explained.',
+          note: 'Every row of the main table carries this in its “why” column. This card is the legend, and the reason the pane is not a leaderboard.'
+        },
+        {
+          title: 'Worst workloads', cap: 'DIAG-09 · MET-12', edge: INFO, scope: 'prod-eu-west · by idle memory', scopeTone: INFO, state: '● live', stateTone: OK,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Four workloads account for 30Gi of the 38Gi this cluster wastes.',
+          cols: '148px 1fr 54px',
+          rows: [
+            vr([c('nightly-export', { ink: INK }), c('', {}), c('14Gi', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)', { hasBar: true, barUsed: '4%', barIdle: '88%' }),
+            vr([c('payout-batcher', { ink: INK }), c('', {}), c('9Gi', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)', { hasBar: true, barUsed: '20%', barIdle: '72%' }),
+            vr([c('fraud-scorer', { ink: INK }), c('', {}), c('4Gi', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)', { hasBar: true, barUsed: '46%', barIdle: '46%' }),
+            vr([c('grafana', { ink: INK }), c('', {}), c('3Gi', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)', { hasBar: true, barUsed: '41%', barIdle: '51%' }),
+            vr([c('loki-ingester', {}), c('', {}), c('2Gi', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barUsed: '70%', barIdle: '22%' }),
+            vr([c('redis-cache', {}), c('', {}), c('1Gi', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barUsed: '82%', barIdle: '10%' }),
+            vr([c('checkout-api', { ink: '#f3d08a' }), c('', {}), c('none', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.05)', { hasBar: true, barUsed: '99%', barIdle: '0%' }),
+            vr([c('', {}), c('checkout-api is the opposite problem', { ink: '#f3d08a', font: SANS, size: '10.5px' }), c('', {})], 'rgba(240,180,41,.05)')
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'One amber row at the bottom: a workload that is under-requested, not over. The same pair of numbers finds both, and the resource monitor is where you fix either.',
+          note: 'Sorted by absolute idle memory rather than percentage — a 90% idle 128Mi container is noise, a 88% idle 16Gi job is two nodes.'
+        },
+        {
+          title: 'What it would buy', cap: 'DIAG-09', edge: OK, scope: 'if the actionable 275Gi came back', scopeTone: OK, state: '◈ a forecast', stateTone: BLUE,
+          leadBg: 'rgba(74,168,255,.07)', leadInk: BLUE,
+          lead: 'Two staging nodes could be switched off, and prod would stop being fragmented.',
+          cols: '1fr 92px',
+          rows: [
+            vr([c('staging-eu', { ink: INK, font: SANS, size: '11px' }), c('−1 node', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)'),
+            vr([c('staging-us', { ink: INK, font: SANS, size: '11px' }), c('−1 node', { justify: 'flex-end', ink: BLUE })], 'rgba(74,168,255,.07)'),
+            vr([c('dev-sandbox', { font: SANS, size: '11px' }), c('reap 41 pods', { justify: 'flex-end', ink: INK2 })]),
+            vr([c('prod-eu-west', { font: SANS, size: '11px' }), c('+11Gi usable', { justify: 'flex-end', ink: INK2 })]),
+            vr([c('', {}), c('', {})], 'transparent'),
+            vr([c('the prod line matters more than the node count:', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('ledger-worker has been Pending 22 minutes because', { ink: BLUE, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('no node has 2Gi free — and 11Gi is sitting in jobs.', { ink: BLUE, font: SANS, size: '11px' }), c('', {})])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'We deliberately do not put a currency figure on this. We do not know your node prices, and a made-up number is the fastest way to lose the reader.',
+          note: 'The argument that makes anyone act. Not “you are wasting money” but “the pod that will not schedule could schedule”.'
+        }
+      ],
+      closing: [
+        { tone: INFO, k: 'BLUE, ON PURPOSE, THROUGHOUT', t: 'This is the one pane with no red in it. Waste is not an incident: nothing is down, no user is affected, and every row can wait until Thursday. Using the alarm colour here would be the fastest way to make people stop trusting the alarm colour — so idle capacity gets the same blue the product uses for “not true yet”, which is what reclaimed memory is.' },
+        { tone: INFO, k: 'THE PAIR, NOT THE PERCENTAGE', t: 'Every bar shows used and idle in one lane, and every row shows both memory and CPU, because they lie in different directions: a job that holds 2Gi and 1 core for four minutes a day is 88% idle on memory and irrelevant on CPU. Sorting is by absolute idle, so a 90%-idle 128Mi sidecar never outranks a 40%-idle 16Gi database.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'Without Prometheus there is no waste figure at all — two clusters here say “cannot be measured” rather than showing zero, because zero would read as tidy. We also do not act: no bulk right-sizing, no automated resize, no recommendation applied for you. The pane hands each row to the resource monitor, where the change is one edit with a diff. And no money: node prices are yours, and a fabricated dollar figure would discredit an otherwise honest number.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

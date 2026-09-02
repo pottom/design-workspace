@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 6 / 6 · PRIMITIVES · SVELTE 5 + TYPESCRIPT</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Every control, indicator and chart</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Page 5 covers the frame. This is everything inside it: <span style="color:var(--ks-ink)">{{ count }} primitives</span>, each with all its states in one row. The old widget catalogue belonged to the discarded egui build, so nothing here is a reuse — it is the list to write. Every state that exists is drawn, because a state that is not drawn gets invented.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ laws }}" as="l" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ l.tone }};padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ l.tone }}">{{ l.k }}</div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ l.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{ groups }}" as="grp" hint-placeholder-count="4">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:{{ grp.tone }}">{{ grp.tag }}</div>
+        <div style="font-size:19px;font-weight:600">{{ grp.title }}</div>
+        <div style="flex:1"></div>
+        <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">{{ grp.note }}</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start">
+        <sc-for list="{{ grp.items }}" as="s" hint-placeholder-count="6">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <span style="font-family:var(--ks-mono);font-size:11.5px;font-weight:600;color:var(--ks-cy)">{{ s.name }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.size }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.cap }}</span>
+            </div>
+
+            <div style="padding:12px;background:var(--ks-bg);display:flex;flex-direction:column;gap:9px">
+              <sc-if value="{{ s.isRows }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;gap:10px;min-height:{{ r.h }}">
+                    <span style="width:{{ r.labelW }};flex:none;font-family:var(--ks-mono);font-size:9px;letter-spacing:.08em;color:{{ r.labelInk }};text-align:right">{{ r.label }}</span>
+                    <div style="flex:1;min-width:0;display:flex;align-items:center;gap:{{ r.gap }};background:{{ r.bg }};padding:{{ r.pad }};box-shadow:{{ r.shadow }};position:relative">
+                      <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="4">
+                        <span style="flex:{{ i.flex }};width:{{ i.w }};height:{{ i.h }};min-width:0;display:flex;align-items:center;justify-content:{{ i.align }};background:{{ i.bg }};border:{{ i.border }};color:{{ i.ink }};font-family:{{ i.font }};font-size:{{ i.size }};font-weight:{{ i.weight }};padding:{{ i.pad }};opacity:{{ i.op }};box-shadow:{{ i.shadow }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:{{ i.strike }}">{{ i.t }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </sc-if>
+
+              <sc-if value="{{ s.isPlot }}" hint-placeholder-val="{{ false }}">
+                <div style="height:{{ s.plotH }};position:relative;background:var(--ks-panel);border:1px solid var(--ks-line-soft)">
+                  <sc-for list="{{ s.boxes }}" as="b" hint-placeholder-count="8">
+                    <div style="position:absolute;left:{{ b.l }};top:{{ b.t }};width:{{ b.w }};height:{{ b.h }};background:{{ b.bg }};border:{{ b.border }};opacity:{{ b.op }}"></div>
+                  </sc-for>
+                  <sc-for list="{{ s.marks }}" as="m" hint-placeholder-count="4">
+                    <div style="position:absolute;left:{{ m.l }};top:{{ m.t }};font-family:var(--ks-mono);font-size:8.5px;color:{{ m.ink }};white-space:nowrap">{{ m.t2 }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+
+            <div style="padding:10px 12px;border-top:1px solid var(--ks-line);font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.body }}</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--ks-line)">
+              <div style="padding:9px 12px;border-right:1px solid var(--ks-line);display:flex;flex-direction:column;gap:4px">
+                <div style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.1em;color:var(--ks-ink-3)">PROPS</div>
+                <sc-for list="{{ s.props }}" as="p" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:baseline;gap:7px;font-family:var(--ks-mono);font-size:9.5px">
+                    <span style="color:{{ p.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                    <div style="flex:1"></div>
+                    <span style="color:var(--ks-ink-3);flex:none">{{ p.type }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="padding:9px 12px;display:flex;flex-direction:column;gap:4px;background:rgba(255,77,109,.04)">
+                <div style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.1em;color:var(--ks-bad)">MUST NOT</div>
+                <div style="font-size:10.5px;line-height:1.45;color:#ffc4cf;text-wrap:pretty">{{ s.mustNot }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const it = (t, o) => Object.assign({
+      t, flex: '0 0 auto', w: 'auto', h: 'auto', align: 'center', bg: 'transparent',
+      border: '1px solid transparent', ink: INK2, font: MONO, size: '10px', weight: '400',
+      pad: '3px 9px', op: '1', shadow: 'none', strike: 'none'
+    }, o || {});
+    const row = (label, items, o) => Object.assign({
+      label, labelW: '58px', labelInk: INK3, items, gap: '7px', h: '22px',
+      bg: 'transparent', pad: '0', shadow: 'none'
+    }, o || {});
+    const P = (name, type, hot) => ({ name, type, ink: hot ? CY : INK2 });
+    const card = (name, size, cap, extra) => Object.assign({
+      name, size, cap, isRows: true, isPlot: false, rows: [], boxes: [], marks: [], plotH: '96px',
+      body: '', props: [], mustNot: ''
+    }, extra || {});
+
+    // button faces
+    const btn = (t, variant, state) => {
+      const V = {
+        primary: { bg: 'rgba(63,224,208,.14)', line: '#1f5f58', ink: CY, weight: '600' },
+        secondary: { bg: 'rgba(255,255,255,.04)', line: LINE_H, ink: INK, weight: '400' },
+        destructive: { bg: 'rgba(255,77,109,.12)', line: '#54262b', ink: '#ffc4cf', weight: '600' },
+        ghost: { bg: 'transparent', line: 'transparent', ink: INK2, weight: '400' }
+      }[variant];
+      const s = {
+        rest: {}, hover: { bg: variant === 'ghost' ? 'rgba(255,255,255,.05)' : null, bright: true },
+        active: { down: true }, focus: { ring: true }, disabled: { dim: true }, busy: { busy: true }
+      }[state] || {};
+      let bg = s.bg || V.bg, ink = V.ink, line = V.line, op = '1', shadow = 'none';
+      if (s.bright) { bg = variant === 'primary' ? 'rgba(63,224,208,.22)' : variant === 'destructive' ? 'rgba(255,77,109,.2)' : 'rgba(255,255,255,.07)'; }
+      if (s.down) { bg = variant === 'primary' ? 'rgba(63,224,208,.30)' : 'rgba(255,255,255,.10)'; shadow = 'inset 0 1px 2px rgba(0,0,0,.4)'; }
+      if (s.ring) { shadow = '0 0 0 2px rgba(63,224,208,.55)'; }
+      if (s.dim) { op = '.38'; }
+      if (s.busy) { ink = INK3; }
+      return it(s.busy ? '◐ ' + t : t, { bg, ink, border: '1px solid ' + line, weight: V.weight, op, shadow, size: '10.5px', h: '24px' });
+    };
+
+    const groups = [
+      {
+        tag: 'CONTROLS', title: 'Things you press, type into and drag', tone: CY,
+        note: '24px control height · 22px in a 26px control bar · every state drawn',
+        items: [
+          card('Button.svelte', '24px', 'four variants × six states', {
+            rows: [
+              row('primary', [btn('Apply', 'primary', 'rest'), btn('Apply', 'primary', 'hover'), btn('Apply', 'primary', 'active'), btn('Apply', 'primary', 'focus'), btn('Apply', 'primary', 'disabled'), btn('Apply', 'primary', 'busy')]),
+              row('secondary', [btn('Cancel', 'secondary', 'rest'), btn('Cancel', 'secondary', 'hover'), btn('Cancel', 'secondary', 'active'), btn('Cancel', 'secondary', 'focus'), btn('Cancel', 'secondary', 'disabled'), btn('Cancel', 'secondary', 'busy')]),
+              row('destructive', [btn('Delete', 'destructive', 'rest'), btn('Delete', 'destructive', 'hover'), btn('Delete', 'destructive', 'active'), btn('Delete', 'destructive', 'focus'), btn('Delete', 'destructive', 'disabled'), btn('Delete', 'destructive', 'busy')]),
+              row('ghost', [btn('More', 'ghost', 'rest'), btn('More', 'ghost', 'hover'), btn('More', 'ghost', 'active'), btn('More', 'ghost', 'focus'), btn('More', 'ghost', 'disabled'), btn('More', 'ghost', 'busy')]),
+              row('states', [it('rest', { ink: INK3, size: '8.5px', pad: '0 4px' }), it('hover', { ink: INK3, size: '8.5px', pad: '0 4px' }), it('active', { ink: INK3, size: '8.5px', pad: '0 4px' }), it('focus', { ink: CY, size: '8.5px', pad: '0 4px' }), it('disabled', { ink: INK3, size: '8.5px', pad: '0 4px' }), it('busy', { ink: INK3, size: '8.5px', pad: '0 4px' })], { h: '14px' })
+            ],
+            body: 'Square corners, 1px border, 24px tall. Focus is the 2px outward cyan ring — the same ring everywhere, which is why the pane does not use it. Busy replaces the label’s glyph rather than the label, so the button never changes width mid-action.',
+            props: [P('variant', "'primary'|'secondary'|'destructive'|'ghost'", true), P('busy', 'boolean', true), P('disabled', 'boolean'), P('glyph', 'string|null'), P('onclick', '() => void')],
+            mustNot: 'be the only affordance for a destructive act. Destructive variant always leads to a ConfirmDialog; the colour is a warning, not a guard.'
+          }),
+          card('IconButton.svelte', '17 / 24px', 'the ⊞ ⋯ ✕ in a header', {
+            rows: [
+              row('17px', [it('⊞', { ink: INK3, w: '17px', h: '17px', pad: '0', align: 'center', size: '11px' }), it('⋯', { ink: INK3, w: '17px', h: '17px', pad: '0', align: 'center', size: '11px' }), it('✕', { ink: INK3, w: '17px', h: '17px', pad: '0', align: 'center', size: '11px' }), it('hover', { ink: INK, w: '17px', h: '17px', pad: '0', align: 'center', size: '11px', bg: 'rgba(255,255,255,.07)' }), it('focus', { t: '✕', ink: INK, w: '17px', h: '17px', pad: '0', align: 'center', size: '11px', shadow: '0 0 0 2px rgba(63,224,208,.55)' })]),
+              row('24px', [it('⧉', { ink: INK2, w: '24px', h: '24px', pad: '0', align: 'center', size: '12px', border: '1px solid ' + LINE }), it('↻', { ink: INK2, w: '24px', h: '24px', pad: '0', align: 'center', size: '12px', border: '1px solid ' + LINE }), it('⏸', { ink: INK2, w: '24px', h: '24px', pad: '0', align: 'center', size: '12px', border: '1px solid ' + LINE })]),
+              row('hit area', [it('the drawn glyph is 11px; the hit box is never below 17px', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'Two sizes only: 17px inside a pane header, 24px everywhere else. The glyph is smaller than the hit box in both, and every one of them has a tooltip, because a glyph without a name is a puzzle.',
+            props: [P('glyph', 'string', true), P('label', 'string', true), P('size', '17 | 24'), P('danger', 'boolean')],
+            mustNot: 'ship without a label prop. The tooltip and the accessible name come from it, and a header of five unnamed glyphs is what this round is replacing.'
+          }),
+          card('Field.svelte', '24px · 22px dense', 'text, number, search', {
+            rows: [
+              row('rest', [it('filter', { flex: '1 1 auto', ink: INK3, bg: 'var(--ks-field)', border: '1px solid ' + LINE, h: '24px', align: 'flex-start' })]),
+              row('typing', [it('!running', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-field)', border: '1px solid ' + LINE_H, h: '24px', align: 'flex-start' }), it('6 of 41', { ink: INK3, size: '9px', pad: '0 4px' })]),
+              row('focus', [it('!running▊', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-field)', border: '1px solid ' + LINE_H, h: '24px', align: 'flex-start', shadow: '0 0 0 2px rgba(63,224,208,.55)' })]),
+              row('invalid', [it('memory>>', { flex: '1 1 auto', ink: '#ffc4cf', bg: 'rgba(255,77,109,.06)', border: '1px solid #54262b', h: '24px', align: 'flex-start' }), it('unparsed', { ink: BAD, size: '9px', pad: '0 4px' })]),
+              row('number', [it('512', { w: '64px', ink: INK, bg: 'var(--ks-field)', border: '1px solid ' + LINE, h: '24px', align: 'flex-end' }), it('Mi', { ink: INK3, size: '9px', pad: '0 4px' }), it('▲▼', { ink: INK3, w: '17px', h: '24px', pad: '0', align: 'center', size: '8px', border: '1px solid ' + LINE })]),
+              row('disabled', [it('read-only cluster', { flex: '1 1 auto', ink: INK3, bg: 'transparent', border: '1px solid ' + LINE_S, h: '24px', align: 'flex-start', op: '.5' })])
+            ],
+            body: 'One component for text, number and search, differing by a type prop and a unit suffix. Invalid is a tint plus a word — never a red border alone, which on a dark field reads as a status change.',
+            props: [P('value', 'string', true), P('type', "'text'|'number'|'search'", true), P('unit', 'string|null'), P('invalid', 'string|null', true), P('dense', 'boolean')],
+            mustNot: 'validate as you type in a filter. A filter is applied live and a half-typed expression is not an error; only committed fields show the invalid state.'
+          }),
+          card('Select.svelte', '24px', 'the cluster and scope pickers', {
+            rows: [
+              row('closed', [it('prod-eu-west ▾', { ink: INK, bg: 'rgba(255,255,255,.04)', border: '1px solid ' + LINE, h: '24px' }), it('payments ▾', { ink: INK2, bg: 'transparent', border: '1px solid ' + LINE, h: '24px' })]),
+              row('open', [it('prod-eu-west ▴', { ink: CY, bg: 'rgba(63,224,208,.10)', border: '1px solid #1f5f58', h: '24px' })]),
+              row('menu', [it('prod-eu-west', { flex: '1 1 auto', ink: INK, bg: 'rgba(63,224,208,.10)', h: '20px', align: 'flex-start', pad: '0 8px' })], { bg: 'var(--ks-panel-hi)', pad: '3px', shadow: 'inset 0 0 0 1px ' + LINE_H }),
+              row('', [it('prod-us-east', { flex: '1 1 auto', ink: INK2, h: '20px', align: 'flex-start', pad: '0 8px' })], { bg: 'var(--ks-panel-hi)', pad: '3px', labelW: '58px' }),
+              row('', [it('prod-ap-south', { flex: '1 1 auto', ink: '#f3d08a', h: '20px', align: 'flex-start', pad: '0 8px' }), it('610ms', { ink: WARN, size: '9px', pad: '0 6px' })], { bg: 'var(--ks-panel-hi)', pad: '3px' }),
+              row('fixed', [it('prod-us-east', { ink: INK2, bg: 'transparent', border: '1px dashed ' + LINE, h: '24px' }), it('object pane — scope is inherited', { ink: INK3, size: '9px', pad: '0 4px' })])
+            ],
+            body: 'A button that opens a MenuLayer, not a native select. The last row is the object-pane case: same component, no caret, and a tooltip that explains why it cannot be re-pointed.',
+            props: [P('value', 'T', true), P('options', 'Option[]', true), P('fixed', 'boolean', true), P('fixedReason', 'string|null'), P('dense', 'boolean')],
+            mustNot: 'use a native <select>. It cannot carry the per-option latency and status columns, and it would be the only OS-drawn surface in the app.'
+          }),
+          card('Toggle.svelte · Checkbox.svelte', '14 / 12px', 'boolean, two shapes', {
+            rows: [
+              row('toggle', [it('', { w: '26px', h: '14px', bg: 'rgba(63,224,208,.16)', border: '1px solid #1f5f58', pad: '0', align: 'flex-end' }), it('on', { ink: INK, size: '9.5px', pad: '0 4px' }), it('', { w: '26px', h: '14px', bg: '#141922', border: '1px solid ' + LINE, pad: '0', align: 'flex-start' }), it('off', { ink: INK3, size: '9.5px', pad: '0 4px' }), it('', { w: '26px', h: '14px', bg: '#141922', border: '1px solid ' + LINE, pad: '0', op: '.4' }), it('disabled', { ink: INK3, size: '9.5px', pad: '0 4px' })]),
+              row('checkbox', [it('✓', { w: '12px', h: '12px', bg: 'rgba(63,224,208,.16)', border: '1px solid #1f5f58', ink: CY, size: '8px', pad: '0', align: 'center' }), it('checked', { ink: INK, size: '9.5px', pad: '0 4px' }), it('', { w: '12px', h: '12px', border: '1px solid ' + LINE_H, pad: '0' }), it('empty', { ink: INK3, size: '9.5px', pad: '0 4px' }), it('–', { w: '12px', h: '12px', bg: 'rgba(63,224,208,.10)', border: '1px solid #1f5f58', ink: CY, size: '9px', pad: '0', align: 'center' }), it('mixed', { ink: INK2, size: '9.5px', pad: '0 4px' })]),
+              row('rule', [it('toggle = a setting that applies at once · checkbox = a selection you then act on', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'Two shapes because they mean two things: a toggle takes effect immediately, a checkbox contributes to a set you act on later. Mixed exists only on checkboxes, for a group header.',
+            props: [P('checked', 'boolean | "mixed"', true), P('kind', "'toggle'|'check'", true), P('label', 'string'), P('disabled', 'boolean')],
+            mustNot: 'use a toggle for anything that needs confirming. If the change is dangerous it is a Button plus a ConfirmDialog, because a toggle has already happened by the time you read it.'
+          }),
+          card('Segmented.svelte', '24px', 'two to four exclusive choices', {
+            rows: [
+              row('rest', [it('rolled up', { ink: INK, bg: 'rgba(63,224,208,.12)', border: '1px solid #1f5f58', h: '24px', weight: '600' }), it('flat', { ink: INK2, bg: 'transparent', border: '1px solid ' + LINE, h: '24px' })], { gap: '0' }),
+              row('three', [it('compact', { ink: INK2, bg: 'transparent', border: '1px solid ' + LINE, h: '24px' }), it('roomy', { ink: INK, bg: 'rgba(63,224,208,.12)', border: '1px solid #1f5f58', h: '24px', weight: '600' }), it('tall', { ink: INK2, bg: 'transparent', border: '1px solid ' + LINE, h: '24px' })], { gap: '0' }),
+              row('keys', [it('each segment owns a letter · R / ⇧F', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'For a choice with two to four short options where seeing the alternatives matters. Above four it is a Select; if the options are not mutually exclusive it is a row of Toggles.',
+            props: [P('value', 'string', true), P('options', '{value,label,key}[]', true), P('dense', 'boolean')],
+            mustNot: 'hold more than four segments. At five the labels truncate and it becomes a worse Select with none of the search.'
+          }),
+          card('Slider.svelte · RangeSlider.svelte', '20px', 'one value, or two', {
+            rows: [
+              row('single', [it('', { flex: '1 1 auto', h: '3px', bg: CY, pad: '0' }), it('', { w: '9px', h: '14px', bg: CY, pad: '0' }), it('', { flex: '1 1 auto', h: '3px', bg: LINE_H, pad: '0' }), it('40%', { ink: CY, size: '9.5px', pad: '0 4px', w: '34px', align: 'flex-end' })], { gap: '0', h: '20px' }),
+              row('hover', [it('', { flex: '1 1 auto', h: '3px', bg: CY, pad: '0' }), it('', { w: '11px', h: '16px', bg: CY, pad: '0', shadow: '0 0 0 3px rgba(63,224,208,.20)' }), it('', { flex: '1 1 auto', h: '3px', bg: LINE_H, pad: '0' }), it('40%', { ink: CY, size: '9.5px', pad: '0 4px', w: '34px', align: 'flex-end' })], { gap: '0', h: '20px' }),
+              row('range', [it('', { w: '18%', h: '3px', bg: LINE_H, pad: '0' }), it('', { w: '9px', h: '14px', bg: CY, pad: '0' }), it('', { flex: '1 1 auto', h: '3px', bg: CY, pad: '0' }), it('', { w: '9px', h: '14px', bg: CY, pad: '0' }), it('', { w: '14%', h: '3px', bg: LINE_H, pad: '0' }), it('25→75', { ink: CY, size: '9.5px', pad: '0 4px', w: '44px', align: 'flex-end' })], { gap: '0', h: '20px' }),
+              row('disabled', [it('', { flex: '1 1 auto', h: '3px', bg: LINE, pad: '0' }), it('', { w: '9px', h: '14px', bg: LINE_H, pad: '0' }), it('', { flex: '1 1 auto', h: '3px', bg: LINE, pad: '0' }), it('no data', { ink: INK3, size: '9.5px', pad: '0 4px', w: '44px', align: 'flex-end' })], { gap: '0', h: '20px' })
+            ],
+            body: 'Rectangular 9 × 14 knob on a 3px track — the split handle’s geometry, so the two draggable things in the app feel like the same object. The value is always printed beside it, never only in a tooltip.',
+            props: [P('value', 'number | [number,number]', true), P('min', 'number'), P('max', 'number'), P('step', 'number'), P('format', '(n) => string', true)],
+            mustNot: 'be used for a value that must be exact. A memory limit is a Field; a slider is for canary splits and opacity, where the number is a feel rather than a fact.'
+          }),
+          card('KeyCap.svelte', '16px', 'every shortcut in the product', {
+            rows: [
+              row('single', [it('L', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' }), it('Y', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' }), it('⏎', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' }), it('⌫', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' })]),
+              row('combo', [it('⌘K', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' }), it('⇧⌘→', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' }), it('⌘\\', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9.5px' })]),
+              row('tones', [it('D', { ink: WARN, border: '1px solid #4a3a12', h: '16px', pad: '1px 5px', size: '9.5px' }), it('destructive', { ink: INK3, size: '9px', pad: '0 4px' }), it('⌘⎋', { ink: CY, border: '1px solid #1f5f58', h: '16px', pad: '1px 5px', size: '9.5px' }), it('the terminal escape hatch', { ink: INK3, size: '9px', pad: '0 4px' })])
+            ],
+            body: 'One component so a shortcut is written identically in a menu, the palette, the help sheet and a pane footer. It renders the platform’s own modifier glyphs from a single canonical string.',
+            props: [P('keys', 'string', true), P('tone', "'neutral'|'warn'|'cy'"), P('platform', "'mac'|'win'|'linux'")],
+            mustNot: 'be hand-written as text anywhere. A shortcut spelled out in a label is a shortcut that will disagree with the key map after the first change.'
+          })
+        ]
+      },
+      {
+        tag: 'INDICATORS', title: 'Things that report, and never accept input', tone: OK,
+        note: 'three status channels: glyph, hue and word — never hue alone',
+        items: [
+          card('StatusBadge.svelte', '18px', 'eight states, three channels', {
+            rows: [
+              row('healthy', [it('● Running', { ink: OK, bg: 'rgba(62,207,142,.08)', border: '1px solid #1c3a2c', h: '18px', size: '9.5px' }), it('● Ready', { ink: OK, bg: 'rgba(62,207,142,.08)', border: '1px solid #1c3a2c', h: '18px', size: '9.5px' })]),
+              row('working', [it('◐ Pending', { ink: WARN, bg: 'rgba(240,180,41,.08)', border: '1px solid #4a3a12', h: '18px', size: '9.5px' }), it('◐ Creating', { ink: WARN, bg: 'rgba(240,180,41,.08)', border: '1px solid #4a3a12', h: '18px', size: '9.5px' })]),
+              row('bad', [it('▲ CrashLoop', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.10)', border: '1px solid #54262b', h: '18px', size: '9.5px' }), it('▲ NotReady', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.10)', border: '1px solid #54262b', h: '18px', size: '9.5px' })]),
+              row('quiet', [it('○ Succeeded', { ink: INK3, border: '1px solid ' + LINE, h: '18px', size: '9.5px' }), it('■ Paused', { ink: IDLE, border: '1px solid ' + LINE, h: '18px', size: '9.5px' })]),
+              row('bare', [it('●', { ink: OK, size: '8px', pad: '0 3px' }), it('◐', { ink: WARN, size: '8px', pad: '0 3px' }), it('▲', { ink: BAD, size: '8px', pad: '0 3px' }), it('○', { ink: INK3, size: '8px', pad: '0 3px' }), it('■', { ink: IDLE, size: '8px', pad: '0 3px' }), it('glyph only, for a 22px row', { ink: INK3, size: '9px', pad: '0 6px' })])
+            ],
+            body: 'The single place a Kubernetes phase becomes a glyph, a hue and a word. Eight states, and in a dense row only the glyph survives — which is why the glyph and not the colour is the primary channel.',
+            props: [P('phase', 'K8sPhase | ConnState', true), P('variant', "'badge'|'glyph'", true), P('reason', 'string|null')],
+            mustNot: 'be given a colour directly. It maps a phase; a caller choosing the hue is how the same phase ends up two colours in two panes.'
+          }),
+          card('Chip.svelte', '18px', 'measurements and refusals', {
+            rows: [
+              row('measure', [it('412 ⇿ 203', { ink: '#0a0c10', bg: CY, border: '1px solid ' + CY, h: '18px', size: '9.5px' }), it('50 / 50', { ink: INK2, bg: 'rgba(255,255,255,.04)', border: '1px solid ' + LINE, h: '18px', size: '9.5px' })]),
+              row('refusal', [it('320 min', { ink: '#0a0c10', bg: WARN, border: '1px solid ' + WARN, h: '18px', size: '9.5px' }), it('depth limit 4', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.14)', border: '1px solid #54262b', h: '18px', size: '9.5px' }), it('already here', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.14)', border: '1px solid #54262b', h: '18px', size: '9.5px' })]),
+              row('count', [it('8 selected · 3 gone', { ink: '#f3d08a', bg: 'rgba(240,180,41,.14)', border: '1px solid #5a4520', h: '18px', size: '9.5px' }), it('6 of 41', { ink: INK2, bg: 'transparent', border: '1px solid ' + LINE, h: '18px', size: '9.5px' })]),
+              row('cluster', [it('EW', { ink: '#0a0c10', bg: '#4aa8ff', border: '1px solid #4aa8ff', h: '18px', size: '9.5px', weight: '600' }), it('AS', { ink: '#0a0c10', bg: WARN, border: '1px solid ' + WARN, h: '18px', size: '9.5px', weight: '600' }), it('the two-letter code, in the cluster hue', { ink: INK3, size: '9px', pad: '0 6px' })])
+            ],
+            body: 'Every live measurement and every refusal in the frame is a Chip, so the 320px clamp, the depth limit and the selection count cannot drift apart. Solid for a value you are producing right now, outlined for a standing fact.',
+            props: [P('text', 'string', true), P('tone', "'cy'|'warn'|'bad'|'neutral'|'cluster'", true), P('solid', 'boolean'), P('at', '{x,y}|null'), P('ttl', 'number|null')],
+            mustNot: 'animate in. A chip that fades up during a drag arrives after the decision it was meant to inform.'
+          }),
+          card('Meter.svelte · Progress.svelte', '9 / 3px', 'a share, and a wait', {
+            rows: [
+              row('meter', [it('', { w: '62%', h: '9px', bg: '#3f5a7a', pad: '0' }), it('', { flex: '1 1 auto', h: '9px', bg: 'var(--ks-field)', pad: '0', border: '1px solid ' + LINE }), it('498Mi', { ink: INK2, size: '9px', pad: '0 5px', w: '46px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('over', [it('', { w: '88%', h: '9px', bg: '#8a5f62', pad: '0' }), it('', { flex: '1 1 auto', h: '9px', bg: 'var(--ks-field)', pad: '0', border: '1px solid ' + LINE }), it('98%', { ink: '#ffc4cf', size: '9px', pad: '0 5px', w: '46px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('request', [it('', { w: '40%', h: '9px', bg: '#3f5a7a', pad: '0' }), it('', { w: '2px', h: '13px', bg: INK2, pad: '0' }), it('', { flex: '1 1 auto', h: '9px', bg: 'var(--ks-field)', pad: '0', border: '1px solid ' + LINE }), it('used vs asked', { ink: INK3, size: '9px', pad: '0 5px', w: '76px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('progress', [it('', { w: '34%', h: '3px', bg: CY, pad: '0' }), it('', { flex: '1 1 auto', h: '3px', bg: LINE, pad: '0' }), it('4 of 12', { ink: INK2, size: '9px', pad: '0 5px', w: '52px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('unknown', [it('', { flex: '1 1 auto', h: '3px', bg: 'repeating-linear-gradient(90deg,#2c3542 0 6px,transparent 6px 12px)', pad: '0' }), it('no total', { ink: INK3, size: '9px', pad: '0 5px', w: '52px', align: 'flex-end' })], { gap: '0', h: '16px' })
+            ],
+            body: 'A Meter is a share of a known whole and always carries the absolute number; the third row is the pairing this product leans on — real usage as fill, the request as a tick. Progress is 3px and only for a bounded operation.',
+            props: [P('value', 'number', true), P('max', 'number|null', true), P('mark', 'number|null', true), P('format', '(n) => string'), P('tone', "'auto'|'neutral'")],
+            mustNot: 'render a percentage without the absolute value. “98%” of an unstated total is the most common way a dashboard misleads.'
+          }),
+          card('Sparkline.svelte', '18px', 'a shape, not a reading', {
+            rows: [
+              row('rising', [it('▁▂▂▃▄▄▅▆▇█', { ink: '#8a5f62', size: '11px', pad: '0', font: MONO }), it('memory, 30m', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('flat', [it('▄▄▃▄▄▄▃▄▄▄', { ink: '#3f5a7a', size: '11px', pad: '0', font: MONO }), it('cpu, 30m', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('spiky', [it('▁▁█▁▁▁█▁▁▁', { ink: '#4a4520', size: '11px', pad: '0', font: MONO }), it('restarts, 6h', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('empty', [it('no data', { ink: INK3, size: '9px', pad: '0', border: '1px dashed ' + LINE, h: '18px' }), it('never a flat line at zero', { ink: '#f3d08a', size: '9px', pad: '0 6px' })])
+            ],
+            body: 'Twenty-odd points in 18px, drawn as an SVG path with no axes and no labels — it answers “is this changing”, and the Plot answers “to what”. Missing data says so rather than drawing zero.',
+            props: [P('points', 'number[]', true), P('tone', "'auto'|'neutral'", true), P('width', 'number')],
+            mustNot: 'draw a zero line when data is missing. A flat sparkline is a claim that nothing is happening, which is the opposite of not knowing.'
+          }),
+          card('Spinner.svelte · Skeleton.svelte', '11px · row', 'waiting, two ways', {
+            rows: [
+              row('spinner', [it('◐', { ink: CY, size: '11px', pad: '0' }), it('probing prod-ap-south…', { ink: INK2, size: '9.5px', pad: '0 6px' })]),
+              row('skeleton', [it('', { w: '38%', h: '8px', bg: '#1e242d', pad: '0' }), it('', { w: '18%', h: '8px', bg: '#191f26', pad: '0' }), it('', { flex: '1 1 auto', h: '8px', bg: '#161b21', pad: '0' })], { gap: '7px' }),
+              row('', [it('', { w: '30%', h: '8px', bg: '#1e242d', pad: '0' }), it('', { w: '22%', h: '8px', bg: '#191f26', pad: '0' }), it('', { flex: '1 1 auto', h: '8px', bg: '#161b21', pad: '0' })], { gap: '7px' }),
+              row('rule', [it('spinner = one thing, named · skeleton = a list whose shape we already know', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'A spinner is only ever next to a sentence saying what it is waiting for. A skeleton stands in for rows whose geometry is already known, so the layout does not jump when they arrive.',
+            props: [P('label', 'string', true), P('rows', 'number', true), P('columns', 'number[]')],
+            mustNot: 'cover a whole pane. A pane that is loading shows its chrome and skeletons its body; a full-pane spinner throws away the header you were reading.'
+          }),
+          card('Tooltip.svelte · Toast.svelte', '18 / 32px', 'a name, and a receipt', {
+            rows: [
+              row('tooltip', [it('Split right · ⌘⇧→', { ink: INK, bg: 'var(--ks-panel-hi)', border: '1px solid ' + LINE_H, h: '20px', size: '9.5px' }), it('300ms delay, never on a row', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('why', [it('scope is inherited from the source row', { ink: '#f3d08a', bg: 'rgba(240,180,41,.10)', border: '1px solid #5a4520', h: '20px', size: '9.5px' })]),
+              row('toast ok', [it('● restarted ledger-worker · 3 clusters', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-panel-hi)', border: '1px solid #1c3a2c', h: '30px', size: '9.5px', align: 'flex-start' })]),
+              row('toast bad', [it('▲ prod-ap-south refused: forbidden', { flex: '1 1 auto', ink: '#ffc4cf', bg: 'rgba(255,77,109,.10)', border: '1px solid #54262b', h: '30px', size: '9.5px', align: 'flex-start' }), it('stays', { ink: BAD, size: '9px', pad: '0 5px' })])
+            ],
+            body: 'A tooltip names a control or explains a refusal, after 300ms, and never appears over a data row. A toast is the receipt for something you did: success fades after four seconds, failure stays until dismissed.',
+            props: [P('text', 'string', true), P('tone', "'neutral'|'warn'|'bad'|'ok'", true), P('sticky', 'boolean', true), P('at', "'pointer'|'element'")],
+            mustNot: 'report a failure only as a toast. A failed write also marks the pane and the affected rows, because a toast that fades takes the only evidence with it.'
+          })
+        ]
+      },
+      {
+        tag: 'CHARTS', title: 'The two plots, and what they refuse to do', tone: WARN,
+        note: 'one drawing engine · axes are optional, honesty is not',
+        items: [
+          card('Plot.svelte', '· 96px min', 'series + event annotations', {
+            isRows: false, isPlot: true, plotH: '112px',
+            boxes: [
+              { l: '0', t: '0', w: '100%', h: '1px', bg: LINE_S, border: 'none', op: '1' },
+              { l: '0', t: '28px', w: '100%', h: '1px', bg: LINE_S, border: 'none', op: '1' },
+              { l: '0', t: '56px', w: '100%', h: '1px', bg: LINE_S, border: 'none', op: '1' },
+              { l: '0', t: '84px', w: '100%', h: '1px', bg: LINE, border: 'none', op: '1' },
+              { l: '4%', t: '62px', w: '3%', h: '22px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '11%', t: '52px', w: '3%', h: '32px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '18%', t: '56px', w: '3%', h: '28px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '25%', t: '44px', w: '3%', h: '40px', bg: '#3f5a7a', border: 'none', op: '1' },
+              { l: '32%', t: '38px', w: '3%', h: '46px', bg: '#3f5a7a', border: 'none', op: '1' },
+              { l: '39%', t: '30px', w: '3%', h: '54px', bg: '#3f5a7a', border: 'none', op: '1' },
+              { l: '46%', t: '20px', w: '3%', h: '64px', bg: '#8a5f62', border: 'none', op: '1' },
+              { l: '53%', t: '14px', w: '3%', h: '70px', bg: '#8a5f62', border: 'none', op: '1' },
+              { l: '60%', t: '10px', w: '3%', h: '74px', bg: '#8a5f62', border: 'none', op: '1' },
+              { l: '67%', t: '48px', w: '3%', h: '36px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '74%', t: '52px', w: '3%', h: '32px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '81%', t: '50px', w: '3%', h: '34px', bg: '#26313d', border: 'none', op: '1' },
+              { l: '64.5%', t: '0', w: '2px', h: '84px', bg: BAD, border: 'none', op: '1' },
+              { l: '70%', t: '0', w: '2px', h: '84px', bg: WARN, border: 'none', op: '1' },
+              { l: '28%', t: '0', w: '18%', h: '84px', bg: 'rgba(63,224,208,.08)', border: '1px dashed ' + CY, op: '1' }
+            ],
+            marks: [
+              { l: '2px', t: '2px', ink: INK3, t2: '512Mi' },
+              { l: '2px', t: '88px', ink: INK3, t2: '09:00' },
+              { l: 'calc(100% - 34px)', t: '88px', ink: INK3, t2: '09:30' },
+              { l: '66%', t: '88px', ink: '#ffc4cf', t2: '▲ OOMKilled' },
+              { l: '29%', t: '88px', ink: CY, t2: 'drag = window' }
+            ],
+            body: 'One engine for every time series: a series band, the object’s lifecycle events as vertical rules on the curve, and a drag that sets the window. The annotations are the product’s third wedge, so they are part of the primitive rather than an option.',
+            props: [P('series', 'Series[]', true), P('annotations', 'Annotation[]', true), P('window', '{from,to}', true), P('yMax', "number|'auto'"), P('syncGroup', 'string|null', true)],
+            mustNot: 'smooth or interpolate. A gap in the data is drawn as a gap; a curve through missing minutes is the chart equivalent of a silent timeline.'
+          }),
+          card('Bars.svelte', '· per row', 'a category comparison', {
+            isRows: true,
+            rows: [
+              row('prod-eu', [it('', { w: '84%', h: '10px', bg: '#3f5a7a', pad: '0' }), it('840MB', { ink: INK2, size: '9px', pad: '0 5px', w: '48px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('prod-us', [it('', { w: '71%', h: '10px', bg: '#3f5a7a', pad: '0' }), it('710MB', { ink: INK2, size: '9px', pad: '0 5px', w: '48px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('prod-ap', [it('', { w: '52%', h: '10px', bg: '#8a5f62', pad: '0' }), it('520MB', { ink: '#ffc4cf', size: '9px', pad: '0 5px', w: '48px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('ci', [it('', { w: '21%', h: '10px', bg: '#2f3a52', pad: '0' }), it('210MB', { ink: INK3, size: '9px', pad: '0 5px', w: '48px', align: 'flex-end' })], { gap: '0', h: '16px' }),
+              row('analytics', [it('', { w: '2px', h: '10px', bg: LINE_H, pad: '0' }), it('off', { ink: INK3, size: '9px', pad: '0 5px', w: '48px', align: 'flex-end' })], { gap: '0', h: '16px' })
+            ],
+            body: 'A horizontal bar per row, sorted by value, with the number always at the end of the bar. Used for coverage, waste and any per-cluster comparison — it is a Meter repeated, not a chart with axes.',
+            props: [P('rows', '{label,value,tone}[]', true), P('max', "number|'auto'"), P('format', '(n) => string', true)],
+            mustNot: 'render a zero-length bar for an absent measurement. “off” or “cannot be measured” is a word, because a 0px bar reads as zero.'
+          })
+        ]
+      },
+      {
+        tag: 'SURFACES & TEXT', title: 'Scroll, overlay, and the four ways text is written', tone: INK2,
+        note: 'one scroll implementation · one truncation rule · one clock',
+        items: [
+          card('ScrollArea.svelte', '10 / 8px', 'the only scrollbar', {
+            rows: [
+              row('idle', [it('', { flex: '1 1 auto', h: '10px', bg: 'transparent', pad: '0' }), it('', { w: '10px', h: '10px', bg: 'transparent', pad: '0', border: '1px dashed ' + LINE })], { gap: '0', h: '14px' }),
+              row('visible', [it('', { flex: '1 1 auto', h: '10px', bg: 'transparent', pad: '0' }), it('', { w: '10px', h: '10px', bg: '#2c3542', pad: '0' })], { gap: '0', h: '14px' }),
+              row('hover', [it('', { flex: '1 1 auto', h: '10px', bg: 'transparent', pad: '0' }), it('', { w: '10px', h: '10px', bg: '#3b4655', pad: '0' })], { gap: '0', h: '14px' }),
+              row('dense', [it('8px inside a pane · 10px in a dialog · gutter always reserved', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'A styled native overflow, not a reimplementation — momentum, keyboard paging and accessibility come free. The gutter is always reserved so content never reflows when the bar appears.',
+            props: [P('dense', 'boolean', true), P('scrollbarGutter', "'stable'", true), P('onEdge', '(edge) => void')],
+            mustNot: 'be replaced with a custom scroll. A synthetic scrollbar loses trackpad momentum and Page Up, and this is a keyboard-first product.'
+          }),
+          card('Dialog.svelte · Sheet.svelte', '· centred / edge', 'the two blocking surfaces', {
+            rows: [
+              row('dialog', [it('Delete 3 pods on prod-eu-west?', { flex: '1 1 auto', ink: INK, size: '10px', pad: '0 8px', align: 'flex-start' })], { bg: 'var(--ks-panel-hi)', pad: '6px 0', shadow: 'inset 0 0 0 1px ' + LINE_H }),
+              row('', [it('kubectl delete pod …', { flex: '1 1 auto', ink: INK3, size: '9px', pad: '0 8px', align: 'flex-start' })], { bg: 'var(--ks-panel-hi)', pad: '0 0 6px' }),
+              row('', [it('type the cluster name', { flex: '1 1 auto', ink: INK3, size: '9px', bg: 'var(--ks-field)', border: '1px solid ' + LINE, h: '22px', align: 'flex-start' }), it('Cancel', { ink: INK2, border: '1px solid ' + LINE_H, h: '22px', size: '9.5px' }), it('Delete', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.12)', border: '1px solid #54262b', h: '22px', size: '9.5px', weight: '600' })], { bg: 'var(--ks-panel-hi)', pad: '0 8px 8px' }),
+              row('sheet', [it('edits slide from the pane’s own edge and do not block the rest of the app', { ink: INK3, size: '9px', pad: '0' })], { h: '14px' })
+            ],
+            body: 'A Dialog is modal and only for a write you must consent to — it names the cluster, shows the equivalent kubectl and says what breaks. A Sheet is pane-local, non-blocking, and is where editing happens.',
+            props: [P('title', 'string', true), P('danger', 'boolean', true), P('confirmText', 'string|null', true), P('impact', 'ImpactLine[]'), P('onconfirm', '() => void')],
+            mustNot: 'be used for anything readable. Reading never blocks: a detail, a diff and a manifest are panes, so two of them can be open at once.'
+          }),
+          card('CommandPalette.svelte', '· 560px', 'the one global overlay', {
+            rows: [
+              row('query', [it('rest▊', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-field)', border: '1px solid ' + LINE_H, h: '26px', align: 'flex-start', size: '11px', shadow: '0 0 0 2px rgba(63,224,208,.35)' })]),
+              row('hit', [it('Restart rollout', { flex: '1 1 auto', ink: INK, size: '10px', pad: '0 8px', align: 'flex-start' }), it('this pane', { ink: INK3, size: '9px', pad: '0 6px' }), it('R', { ink: INK, border: '1px solid ' + LINE_H, h: '16px', pad: '1px 5px', size: '9px' })], { bg: 'rgba(63,224,208,.10)', pad: '3px 0' }),
+              row('', [it('Restart rollout on 3 clusters', { flex: '1 1 auto', ink: INK2, size: '10px', pad: '0 8px', align: 'flex-start' }), it('fleet', { ink: WARN, size: '9px', pad: '0 6px' })], { pad: '3px 0' }),
+              row('', [it('Restore layout · incident', { flex: '1 1 auto', ink: INK2, size: '10px', pad: '0 8px', align: 'flex-start' }), it('⇧⌘I', { ink: INK3, size: '9px', pad: '0 6px' })], { pad: '3px 0' })
+            ],
+            body: 'Five rings in one list — this row, this pane, this cluster, the fleet, the app — each hit labelled with its scope, because “restart” means four different things depending on where it lands.',
+            props: [P('query', 'string', true), P('rings', 'Ring[]', true), P('registry', 'Action[]', true), P('scopeHint', 'ScopeRef')],
+            mustNot: 'show an action without its scope label. An unlabelled fleet action in a list of pane actions is how somebody restarts eight clusters by pressing Enter.'
+          }),
+          card('Truncate · Mono · Timestamp · Rel', '· text rules', 'four ways to write a value', {
+            rows: [
+              row('middle', [it('coredns-64d64f99dd-…-7fjvd', { ink: INK, size: '10px', pad: '0' }), it('names: keep head and tail', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('end', [it('readiness probe failed — /health…', { ink: INK2, size: '10px', pad: '0' }), it('messages: keep the head', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('absolute', [it('14:22:09.412', { ink: INK, size: '10px', pad: '0' }), it('logs and events, always local', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('relative', [it('41m', { ink: INK, size: '10px', pad: '0' }), it('ages · absolute on hover', { ink: INK3, size: '9px', pad: '0 6px' })]),
+              row('never', [it('2 minutes ago', { ink: '#8a5f62', size: '10px', pad: '0', strike: 'line-through' }), it('prose time in a dense column', { ink: INK3, size: '9px', pad: '0 6px' })])
+            ],
+            body: 'Four tiny components so the same value is never written two ways: names truncate in the middle, messages at the end, times are absolute in streams and relative for ages, and every relative time reveals the absolute on hover.',
+            props: [P('value', 'string | number | Date', true), P('mode', "'middle'|'end'|'abs'|'rel'", true), P('tz', "'local'"), P('title', 'boolean')],
+            mustNot: 'use CSS ellipsis for a name. text-overflow can only cut the end, which removes the six characters that identify a pod.'
+          })
+        ]
+      }
+    ];
+
+    let count = 0;
+    for (const g of groups) count += g.items.length;
+
+    return {
+      count,
+      facts: [
+        { k: 'PRIMITIVES', v: '' + count, tone: INK },
+        { k: 'CONTROL HEIGHT', v: '24px', tone: CY },
+        { k: 'STATUS CHANNELS', v: '3', tone: OK },
+        { k: 'REUSED FROM THE OLD BUILD', v: 'none', tone: WARN }
+      ],
+      laws: [
+        { tone: CY, k: 'ONE FOCUS RING, ONE OWNER', t: 'The 2px outward cyan ring means keyboard focus inside a control, and only that. It is why the pane uses a header tint instead — if the ring meant both “this pane” and “this button”, a person tabbing through a dialog could not tell which level they were on.' },
+        { tone: OK, k: 'EVERY STATE THAT EXISTS IS DRAWN', t: 'Rest, hover, active, focus, disabled and busy for anything pressable; empty, loading, partial and error for anything that reports. A state left undrawn is a state somebody invents at three in the morning, and the previous build is the evidence.' },
+        { tone: WARN, k: 'STATUS IS GLYPH, HUE AND WORD', t: 'Three channels, always, and the glyph is the primary one — a 22px row has space for a glyph and not for a word, and roughly one reader in twelve cannot use the hue. No component takes a colour directly; it takes a phase and resolves it.' },
+        { tone: INK2, k: 'NUMBERS CARRY THEIR UNITS AND THEIR TOTALS', t: 'No bare percentage, no bar without its absolute value, no chart that interpolates over a gap, no relative time without the absolute on hover. Each of these is a way a monitoring interface can be confidently wrong, and each is prevented in the primitive rather than in review.' }
+      ],
+      groups
+    };
+  }
+}
+</script>
+</body>
+</html>

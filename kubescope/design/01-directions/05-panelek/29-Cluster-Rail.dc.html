@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 29 / 31 · THE FRAME · CONN-02 · CONN-03 · BRIEF §6.4</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The cluster rail</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Today it is three unnamed dots on the left edge, permanently. The brief asks what has earned a place on every screen forever — and this has not. <span style="color:var(--ks-ink)">Three widths, one of them zero, hidden by default</span>: a rail is a convenience, not a region. What it did uniquely — warn about a cluster you are not looking at — moves to a chip that exists only while it is true.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="rail · named, 40 clusters, mid-drag" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:340px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #54262b;background:rgba(255,95,95,.12);color:#ffb3b3;font-weight:600"><span style="font-size:8px">▲</span>2 clusters need you</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span>rail open for the drag</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line-strong);color:var(--ks-ink-2)">⌘\</span>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-field);border-right:1px solid var(--ks-line)">
+      <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+        <span style="color:var(--ks-ink-3)">filter</span>
+        <span style="flex:1;padding:3px 8px;border:1px solid var(--ks-line-strong);background:var(--ks-bg);color:var(--ks-ink)">prod<span style="color:var(--ks-ink-3)"> │</span></span>
+        <span style="color:var(--ks-ink-3)">40</span>
+      </div>
+      <div style="height:20px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--ks-bg);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <span style="width:20px">ID</span><span>CLUSTER</span><div style="flex:1"></div><span>VER</span><span style="width:46px;text-align:right">RTT</span><span style="width:32px;text-align:right">PANES</span>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+        <sc-for list="{{ rail }}" as="c" hint-placeholder-count="34">
+          <sc-if value="{{ c.isGroup }}" hint-placeholder-val="{{ false }}">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">
+              <span style="color:{{ c.tone }}">{{ c.name }}</span><div style="flex:1"></div><span>{{ c.note }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ c.isRow }}" hint-placeholder-val="{{ true }}">
+            <div style="height:25px;display:flex;align-items:center;gap:8px;padding:0 10px;position:relative;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="position:absolute;left:0;top:3px;bottom:3px;width:2px;background:{{ c.bar }}"></span>
+              <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.codeInk }};width:20px;flex:none">{{ c.code }}</span>
+              <span style="font-size:6px;color:{{ c.tone }};flex:none">{{ c.glyph }}</span>
+              <span style="font-size:11.5px;color:{{ c.nameInk }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.verInk }};flex:none">{{ c.ver }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.rttInk }};width:46px;text-align:right;flex:none">{{ c.rtt }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.panesInk }};width:32px;text-align:right;flex:none">{{ c.panes }}</span>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+      <div style="flex:none;padding:9px 10px;border-top:1px solid var(--ks-line);background:var(--ks-bg);display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">DRAGGING · prod-us-east</div>
+        <div style="font-size:11px;line-height:1.45;color:#8ac6ff;text-wrap:pretty">Drop it on a pane to point that pane at this cluster. Drop it on a group header to add it to the group.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;position:relative"><div style="position:absolute;left:25%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:75%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div>
+      <sc-for list="{{ panes }}" as="p" hint-placeholder-count="2">
+        <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);outline:{{ p.outline }};outline-offset:-3px">
+          <div style="height:24px;flex:none;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+            <span style="color:{{ p.clTone }};font-weight:600;flex:none">{{ p.cluster }}</span>
+            <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink);flex:none">{{ p.kind }}</span>
+            <span style="color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.scope }}</span>
+            <div style="flex:1"></div>
+            <span style="color:{{ p.stateTone }};flex:none">{{ p.state }}</span>
+            <span style="color:var(--ks-ink-3);padding:0 2px;flex:none">⋮</span>
+          </div>
+          <sc-if value="{{ p.hasDrop }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:none;padding:10px 12px;background:rgba(74,168,255,.10);border-bottom:1px solid #1e4a6e;display:flex;align-items:center;gap:11px">
+              <span style="font-size:11px;color:#8ac6ff">◉</span>
+              <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:12.5px;font-weight:600;color:#8ac6ff">Ask prod-us-east the same question</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">Pods · ns payments · filter !running — keeps the filter, changes the cluster</span>
+              </div>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;padding:3px 8px;border:1px solid #1e4a6e;color:#8ac6ff;flex:none">drop</span>
+            </div>
+          </sc-if>
+          <div style="height:19px;flex:none;display:grid;grid-template-columns:{{ p.cols }};align-items:center;padding:0 10px;gap:9px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.07em;color:var(--ks-ink-3)">
+            <sc-for list="{{ p.heads }}" as="h" hint-placeholder-count="4">
+              <div style="text-align:{{ h.align }}">{{ h.t }}</div>
+            </sc-for>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden">
+            <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="14">
+              <div style="height:24px;display:grid;grid-template-columns:{{ p.cols }};align-items:center;padding:0 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                  <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                    <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+          <div style="height:22px;flex:none;display:flex;align-items:center;gap:9px;padding:0 10px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ p.foot }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">THE THREE WIDTHS</div>
+      <div style="font-size:19px;font-weight:600">Zero, forty-six, three hundred and forty</div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="padding:3px 8px;border:1px solid var(--ks-line-strong);color:var(--ks-ink-2)">⌘\</span>cycles · per tab · remembered
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start">
+      <sc-for list="{{ railStates }}" as="s" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600;color:{{ s.titleInk }}">{{ s.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:11px;color:{{ s.wInk }}">{{ s.w }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ s.cap }}</span>
+          </div>
+
+          <div style="height:296px;background:var(--ks-bg);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:26px;flex:none;display:flex;align-items:center;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px">
+              <span style="padding:0 9px;color:var(--ks-ink-3);border-right:1px solid var(--ks-line-soft);letter-spacing:.14em">KS</span>
+              <span style="padding:0 9px;color:var(--ks-ink);box-shadow:inset 0 -2px 0 var(--ks-info)">2 payments</span>
+              <div style="flex:1"></div>
+              <sc-if value="{{ s.showChip }}" hint-placeholder-val="{{ false }}">
+                <span style="display:flex;align-items:center;gap:6px;margin-right:8px;padding:2px 7px;border:1px solid #54262b;background:rgba(255,95,95,.12);color:#ffb3b3;font-weight:600"><span style="font-size:7px">▲</span>2 need you</span>
+              </sc-if>
+              <span style="padding:0 9px;color:var(--ks-ink-3)">⌘\</span>
+            </div>
+
+            <div style="flex:1;min-height:0;display:flex">
+              <sc-if value="{{ s.isNarrow }}" hint-placeholder-val="{{ false }}">
+                <div style="width:46px;flex:none;border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:5px 0;gap:1px">
+                  <sc-for list="{{ railNarrow }}" as="c" hint-placeholder-count="10">
+                    <div style="height:24px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:10px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+                      <span style="position:absolute;left:0;top:3px;bottom:3px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+                      <span style="position:absolute;right:4px;bottom:4px;font-size:6px;color:{{ c.tone }}">{{ c.glyph }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ s.isWide }}" hint-placeholder-val="{{ false }}">
+                <div style="width:340px;flex:none;border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;overflow:hidden">
+                  <div style="height:22px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                    <span>CLUSTER</span><div style="flex:1"></div><span>VER</span><span style="width:42px;text-align:right">RTT</span><span style="width:34px;text-align:right">PANES</span>
+                  </div>
+                  <sc-for list="{{ railWideSample }}" as="c" hint-placeholder-count="11">
+                    <sc-if value="{{ c.isGroup }}" hint-placeholder-val="{{ false }}">
+                      <div style="height:20px;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.1em;color:var(--ks-ink-3)">
+                        <span>{{ c.name }}</span><div style="flex:1"></div><span>{{ c.note }}</span>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ c.isRow }}" hint-placeholder-val="{{ true }}">
+                      <div style="height:24px;display:flex;align-items:center;gap:8px;padding:0 9px;position:relative;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                        <span style="position:absolute;left:0;top:3px;bottom:3px;width:2px;background:{{ c.bar }}"></span>
+                        <span style="font-size:6px;color:{{ c.tone }};flex:none">{{ c.glyph }}</span>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);width:20px;flex:none">{{ c.code }}</span>
+                        <span style="font-size:11px;color:{{ c.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+                        <div style="flex:1"></div>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.verInk }};flex:none">{{ c.ver }}</span>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.rttInk }};width:42px;text-align:right;flex:none">{{ c.rtt }}</span>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:{{ c.panesInk }};width:34px;text-align:right;flex:none">{{ c.panes }}</span>
+                      </div>
+                    </sc-if>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <div style="flex:1;min-width:0;background:var(--ks-panel);display:flex;flex-direction:column">
+                <div style="height:20px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9px">
+                  <span style="color:var(--ks-info);font-weight:600">prod-eu-west</span>
+                  <div style="flex:1"></div><span style="color:var(--ks-ink-3);flex:none">{{ s.paneNote }}</span>
+                </div>
+                <sc-for list="{{ s.ghost }}" as="g" hint-placeholder-count="10">
+                  <div style="height:{{ g.h }};display:flex;align-items:center;gap:7px;padding:0 9px;background:{{ g.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                    <span style="width:{{ g.w1 }};height:5px;background:{{ g.c1 }};flex:none"></span>
+                    <span style="width:{{ g.w2 }};height:5px;background:{{ g.c2 }};flex:none"></span>
+                    <div style="flex:1"></div>
+                    <span style="width:{{ g.w3 }};height:5px;background:{{ g.c3 }};flex:none"></span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-ink)">{{ s.forWhat }}</span> {{ s.body }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ s.cost }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">A row, the chip that replaces the rail, and what it must never become</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="11">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    const D = (name, note, tone) => ({ isGroup: true, isRow: false, name, note, tone: tone || INK3 });
+    const R = (code, name, ver, rtt, panes, hue, st) => {
+      const tone = st === 'odd' ? WARN : st === 'down' ? BAD : st === 'off' ? IDLE : st === 'drag' ? INFO : OK;
+      return {
+        isGroup: false, isRow: true, code, name, ver, rtt, panes,
+        bar: st === 'off' ? 'transparent' : hue,
+        glyph: st === 'odd' ? '\u25c8' : st === 'down' ? '\u25b2' : st === 'off' ? '\u25cb' : '\u25cf',
+        tone,
+        codeInk: st === 'off' ? '#2f3742' : INK3,
+        nameInk: st === 'drag' ? '#8ac6ff' : st === 'off' ? INK3 : st === 'odd' ? '#f3d08a' : st === 'down' ? '#ffb3b3' : INK,
+        weight: st === 'drag' ? '600' : '400',
+        verInk: st === 'off' || st === 'down' ? '#2f3742' : INK3,
+        rttInk: st === 'down' ? '#8a5f62' : st === 'odd' ? '#f3d08a' : st === 'off' ? '#2f3742' : INK3,
+        panesInk: panes === '\u2014' ? '#2f3742' : '#8ac6ff',
+        bg: st === 'drag' ? 'rgba(74,168,255,.14)' : st === 'odd' ? 'rgba(240,180,41,.06)' : st === 'down' ? 'rgba(255,95,95,.06)' : 'transparent'
+      };
+    };
+
+    const rail = [
+      D('PROD · 9 CLUSTERS', '2 need you', WARN),
+      R('EW', 'prod-eu-west', '1.29', '41ms', '2', INFO, 'ok'),
+      R('UE', 'prod-us-east', '1.29', '88ms', '\u2014', PURPLE, 'drag'),
+      R('AS', 'prod-ap-south', '1.28', '610ms', '1', WARN, 'odd'),
+      R('EC', 'prod-eu-central', '1.29', '52ms', '\u2014', '#6fa8dc', 'ok'),
+      R('UW', 'prod-us-west', '1.29', '104ms', '\u2014', '#a78bfa', 'ok'),
+      R('SA', 'prod-sa-east', '1.28', '188ms', '\u2014', '#e0a3c8', 'ok'),
+      R('OC', 'ocp-prod', '4.15', '71ms', '\u2014', ORANGE, 'ok'),
+      R('OD', 'ocp-dr', '4.15', '\u2014', '\u2014', '#c47a4f', 'down'),
+      R('AN', 'analytics-prod', '1.29', '210ms', '\u2014', '#c9a227', 'ok'),
+      D('STAGING · 6', 'all healthy', OK),
+      R('SE', 'staging-eu', '1.30', '22ms', '\u2014', OK, 'ok'),
+      R('SU', 'staging-us', '1.30', '26ms', '\u2014', '#5ad2c4', 'ok'),
+      R('SC', 'staging-eu-central', '1.30', '31ms', '\u2014', '#7fd6b0', 'ok'),
+      R('OS', 'ocp-staging', '4.15', '66ms', '\u2014', '#d99a6c', 'ok'),
+      R('SP', 'staging-perf', '1.30', '44ms', '\u2014', '#8ad6c4', 'ok'),
+      R('SD', 'staging-dr', '1.29', '96ms', '\u2014', '#6bbfa8', 'ok'),
+      D('EDGE · 8', '1 unreachable', BAD),
+      R('E1', 'edge-01', '\u2014', 'no route', '\u2014', BAD, 'down'),
+      R('E2', 'edge-02', '1.29', '140ms', '\u2014', ORANGE, 'ok'),
+      R('E3', 'edge-03', '1.29', '162ms', '\u2014', '#e07a5f', 'ok'),
+      R('E4', 'edge-04', '1.28', '210ms', '\u2014', '#d96f4f', 'ok'),
+      R('E5', 'edge-05', '1.28', '244ms', '\u2014', '#c76244', 'ok'),
+      R('E6', 'edge-06', '1.28', '281ms', '\u2014', '#b8583c', 'ok'),
+      R('E7', 'edge-07', '1.29', '156ms', '\u2014', '#a84f36', 'ok'),
+      R('E8', 'edge-08', '1.29', '171ms', '\u2014', '#98462f', 'ok'),
+      D('CI · 4', '', INK3),
+      R('CI', 'ci-runners', '1.28', '14ms', '\u2014', '#9ad04a', 'odd'),
+      R('CA', 'ci-runners-arm', '1.28', '18ms', '\u2014', '#8bbf42', 'ok'),
+      R('CB', 'ci-build-cache', '1.28', '12ms', '\u2014', '#7cae3a', 'ok'),
+      R('CG', 'ci-gpu', '1.28', '22ms', '\u2014', '#6d9d32', 'ok'),
+      D('NOT ENABLED · 13', 'read from kubeconfig, never contacted', IDLE),
+      R('DS', 'dev-sandbox', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off'),
+      R('MK', 'minikube', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off'),
+      R('KK', 'kind-kind', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off'),
+      R('DD', 'docker-desktop', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off'),
+      R('OG', 'gke_old-corp_eu_prod', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off'),
+      R('OS', 'gke_old-corp_eu_stg', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off')
+    ];
+
+    const enabled = rail.filter(r => r.isRow && r.rtt !== '\u2014').length;
+
+    const panes = [
+      {
+        edge: INFO, cluster: 'prod-eu-west', clTone: INFO, kind: 'Pods', scope: 'ns payments · !running',
+        state: '● watch 2s', stateTone: OK, hasDrop: false, outline: 'none',
+        cols: '16px 1fr 66px 44px 58px',
+        heads: [{ t: '', align: 'left' }, { t: 'NAME', align: 'left' }, { t: 'PHASE', align: 'left' }, { t: 'RST', align: 'right' }, { t: 'AGE', align: 'right' }],
+        foot: '6 of 41 · the filter stays with the pane, not the cluster',
+        rows: [
+          vr([c('\u25b2', { ink: BAD }), c('ledger-worker-…-2wq7t', { ink: '#ffd7d7', size: '11px', font: SANS }), c('CrashLoop', { ink: BAD }), c('7', { justify: 'flex-end', ink: '#ffb3b3' }), c('41m', { justify: 'flex-end', ink: INK3 })], 'rgba(255,95,95,.09)'),
+          vr([c('\u25b2', { ink: BAD }), c('ledger-worker-…-h4k9x', { ink: '#ffd7d7', size: '11px', font: SANS }), c('CrashLoop', { ink: BAD }), c('7', { justify: 'flex-end', ink: '#ffb3b3' }), c('41m', { justify: 'flex-end', ink: INK3 })], 'rgba(255,95,95,.09)'),
+          vr([c('\u25d0', { ink: WARN }), c('ledger-worker-…-p1r7m', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('2m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          vr([c('\u25d0', { ink: WARN }), c('ledger-worker-…-v8n2c', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('2m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          vr([c('\u25d0', { ink: WARN }), c('payout-batcher-…-q3w8z', { ink: '#f3d08a', size: '11px', font: SANS }), c('Creating', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('1m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          vr([c('\u25cb', { ink: IDLE }), c('nightly-export-28471', { ink: INK3, size: '11px', font: SANS }), c('Succeeded', { ink: INK3 }), c('0', { justify: 'flex-end', ink: INK3 }), c('7h', { justify: 'flex-end', ink: INK3 })])
+        ]
+      },
+      {
+        edge: INFO, cluster: 'prod-us-east', clTone: PURPLE, kind: 'Pods', scope: 'ns payments · !running',
+        state: '◉ drop to repoint', stateTone: '#8ac6ff', hasDrop: true, outline: '2px solid rgba(74,168,255,.55)',
+        cols: '16px 1fr 66px 44px 58px',
+        heads: [{ t: '', align: 'left' }, { t: 'NAME', align: 'left' }, { t: 'PHASE', align: 'left' }, { t: 'RST', align: 'right' }, { t: 'AGE', align: 'right' }],
+        foot: 'this pane currently asks prod-ap-south — the drop replaces the cluster only',
+        rows: [
+          vr([c('\u25d0', { ink: WARN }), c('ledger-worker-…-k2p9r', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('14m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          vr([c('\u25d0', { ink: WARN }), c('otel-collector-…-w7t3n', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('14m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          vr([c('\u25cb', { ink: IDLE }), c('settlement-cron-9912', { ink: INK3, size: '11px', font: SANS }), c('Succeeded', { ink: INK3 }), c('0', { justify: 'flex-end', ink: INK3 }), c('3h', { justify: 'flex-end', ink: INK3 })])
+        ]
+      }
+    ];
+
+    const railNarrow = [['EW', INFO, 'ok'], ['UE', PURPLE, 'ok'], ['AS', WARN, 'odd'], ['SE', OK, 'ok'],
+      ['SU', '#5ad2c4', 'ok'], ['E1', BAD, 'down'], ['E2', ORANGE, 'ok'], ['CI', '#9ad04a', 'odd'],
+      ['AN', '#c9a227', 'ok'], ['DS', '#8a94a6', 'off']].map(x => {
+        const st = x[2];
+        return {
+          code: x[0],
+          ink: st === 'off' ? '#39414d' : st === 'odd' ? '#f3d08a' : st === 'down' ? '#ffb3b3' : INK2,
+          bg: st === 'odd' ? 'rgba(240,180,41,.07)' : st === 'down' ? 'rgba(255,95,95,.06)' : st === 'off' ? 'transparent' : 'rgba(255,255,255,.02)',
+          bar: st === 'off' ? 'transparent' : x[1],
+          glyph: st === 'odd' ? '\u25c8' : st === 'down' ? '\u25b2' : st === 'off' ? '\u25cb' : '\u25cf',
+          tone: st === 'odd' ? WARN : st === 'down' ? BAD : st === 'off' ? '#2f3742' : OK
+        };
+      });
+
+    const railWideSample = [
+      D('PROD · 9', '2 need you', WARN),
+      R('EW', 'prod-eu-west', '1.29', '41ms', '2', INFO, 'ok'),
+      R('UE', 'prod-us-east', '1.29', '88ms', '1', PURPLE, 'ok'),
+      R('AS', 'prod-ap-south', '1.28', '610ms', '1', WARN, 'odd'),
+      R('OC', 'ocp-prod', '4.15', '71ms', '\u2014', ORANGE, 'ok'),
+      R('OD', 'ocp-dr', '4.15', '\u2014', '\u2014', '#c47a4f', 'down'),
+      D('STAGING · 6', '', OK),
+      R('SE', 'staging-eu', '1.30', '22ms', '\u2014', OK, 'ok'),
+      R('SU', 'staging-us', '1.30', '26ms', '\u2014', '#5ad2c4', 'ok'),
+      D('NOT ENABLED · 13', '', IDLE),
+      R('DS', 'dev-sandbox', '\u2014', '\u2014', '\u2014', '#8a94a6', 'off')
+    ];
+
+    const g = (h, w1, w2, w3, c1, c2, c3, bg) => ({ h, w1, w2, w3, c1, c2, c3, bg: bg || 'transparent' });
+    const ghost = n => {
+      const out = [g('16px', '54px', '38px', '30px', '#2c3542', '#212932', '#212932', 'var(--ks-field)')];
+      const spec = [
+        ['#5a2528', '#3a1c1e', '#3a1c1e', 'rgba(255,95,95,.07)'],
+        ['#5a4520', '#3a2f1c', '#3a2f1c', 'rgba(240,180,41,.07)'],
+        ['#3f5a7a', '#26313d', '#26313d', 'transparent'],
+        ['#2c3542', '#212932', '#212932', 'transparent'],
+        ['#2c3542', '#212932', '#212932', 'transparent'],
+        ['#242b35', '#1c222b', '#1c222b', 'transparent'],
+        ['#242b35', '#1c222b', '#1c222b', 'transparent'],
+        ['#1e242d', '#191f26', '#191f26', 'transparent'],
+        ['#1e242d', '#191f26', '#191f26', 'transparent'],
+        ['#1a1f26', '#161b21', '#161b21', 'transparent']
+      ];
+      for (let i = 0; i < n; i++) {
+        const s = spec[i % spec.length];
+        out.push(g('24px', (72 - (i % 4) * 9) + 'px', (44 - (i % 3) * 7) + 'px', (26 + (i % 3) * 6) + 'px', s[0], s[1], s[2], s[3]));
+      }
+      return out;
+    };
+
+    return {
+      facts: [
+        { k: 'CONTEXTS', v: '40', tone: INK },
+        { k: 'ENABLED', v: '' + enabled, tone: INK2 },
+        { k: 'DEFAULT WIDTH', v: '0px', tone: OK },
+        { k: 'PERMANENT REGIONS', v: '2', tone: INFO }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 #4aa8ff', ink: INK, numInk: INFO },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail, panes, railNarrow, railWideSample,
+      railStates: [
+        {
+          title: 'Hidden', w: '0px', wInk: OK, titleInk: INK, cap: 'the default',
+          isNarrow: false, isWide: false, showChip: true,
+          paneNote: '6 of 41', ghost: ghost(10),
+          forWhat: 'For the ninety percent of the time you are reading one pane.',
+          body: 'Every pane already names its own cluster in its header, so a rail is the same fact twice. Trouble elsewhere arrives as the chip in the tab bar — present only while it is true.',
+          cost: '0px · full width to the panes'
+        },
+        {
+          title: 'Codes', w: '46px', wInk: INFO, titleInk: INK, cap: 'the glance',
+          isNarrow: true, isWide: false, showChip: false,
+          paneNote: '6 of 41', ghost: ghost(10),
+          forWhat: 'For watching a fleet you are actively worried about.',
+          body: 'Two letters and one status glyph. The codes are the same ones panes use to say where they came from, so this width doubles as the legend for the whole screen.',
+          cost: '46px · 2.9% of 1600 · ten clusters without scrolling'
+        },
+        {
+          title: 'Named', w: '340px', wInk: WARN, titleInk: INK, cap: 'the work surface',
+          isNarrow: false, isWide: true, showChip: false,
+          paneNote: '6 of 41', ghost: ghost(10),
+          forWhat: 'For editing groups, comparing latency, or finding one of forty by name.',
+          body: 'Names, version, round-trip time and how many panes point at each — grouped, so a group’s membership is visible while you ask it a question. A working width, not a resting one.',
+          cost: '340px · 21% of 1600 · deliberately expensive'
+        }
+      ],
+      variants: [
+        {
+          title: 'One row, field by field', cap: 'CONN-03', edge: INFO, scope: '25px · six facts', scopeTone: INFO, state: '● anatomy', stateTone: INFO,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Six facts in 340px, and each one earns its place by answering a question people actually ask.',
+          cols: '84px 1fr',
+          rows: [
+            vr([c('hue bar', { ink: INK }), c('2px · the cluster’s identity colour', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('the same hue the pane border uses', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('code', { ink: INK }), c('EW · what panes and diffs call it', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('glyph', { ink: INK }), c('● ◈ ▲ ○ — the third status channel', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('so colourblindness costs nothing here', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('name', { ink: INK }), c('the kubeconfig context, truncated left', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('version', { ink: INK }), c('1.29 · 4.15 — answers “is this OCP?”', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('rtt', { ink: INK }), c('610ms in amber · the slow one is visible', { ink: '#f3d08a', font: SANS, size: '11px' })], 'rgba(240,180,41,.06)'),
+            vr([c('panes', { ink: INK }), c('2 · how much of your screen it owns', { ink: '#8ac6ff', font: SANS, size: '11px' })], 'rgba(74,168,255,.06)'),
+            vr([c('', {}), c('the only column that is about you', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'No pod counts, no CPU, no node totals. Those are the fleet pane’s job, and a rail that summarises a cluster becomes a pane that cannot be closed.',
+          note: 'The “panes” column is the one nobody asks for and everybody needs at six panes open: it is how you find the pane you are about to lose track of.'
+        },
+        {
+          title: 'The chip that replaces it', cap: 'BRIEF §6.5', edge: BAD, scope: 'tab bar · appears only when true', scopeTone: BAD, state: '▲ 2 need you', stateTone: BAD,
+          leadBg: 'rgba(255,95,95,.08)', leadInk: '#ffd7d7',
+          lead: 'The rail’s one irreplaceable job, done in 120px of tab bar.',
+          cols: '96px 1fr',
+          rows: [
+            vr([c('nothing wrong', { ink: INK3 }), c('no chip · 0px', { ink: '#a8e6c8' })], 'rgba(62,207,142,.06)'),
+            vr([c('a cluster down', { ink: INK }), c('▲ 1 cluster unreachable', { ink: '#ffb3b3' })], 'rgba(255,95,95,.08)'),
+            vr([c('two', { ink: INK }), c('▲ 2 clusters need you', { ink: '#ffb3b3' })], 'rgba(255,95,95,.08)'),
+            vr([c('slow, not down', { ink: INK }), c('◈ 1 cluster answering slowly', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('your rules', { ink: INK }), c('◆ 3 rules firing', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('', {}), c('', {})]),
+            vr([c('click', { ink: INK3 }), c('opens the fleet pane in this tab', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('⌘\\', { ink: INK3 }), c('opens the rail instead, if you want the list', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('never', { ink: '#8a5f62' }), c('a toast, a modal, or a stolen focus —', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('a cluster going down is not an interruption,', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('it is a fact that must be visible.', { ink: INK2, font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'Red is the fleet’s own condition; amber is either latency or your rules. This is the one place the two channels sit next to each other, so the wording carries the difference.',
+          note: 'The trade is explicit: a calm fleet costs zero pixels, an unhappy one costs 120 in a region that has room. The old rail charged 46px whether or not anything was wrong.'
+        },
+        {
+          title: 'What it must never become', cap: 'BRIEF §6.2', edge: IDLE, scope: 'the rejected versions', scopeTone: IDLE, state: '○ by design', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Three plausible rails, each of which quietly rebuilds a single-cluster product.',
+          cols: '1fr',
+          rows: [
+            vr([c('Not navigation. Clicking a cluster does not', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('change the screen — panes own their scope,', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('and a rail that switches everything is the', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('global-scope model we rejected.', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('Not a tree. Cluster → namespace → kind →', { font: SANS, size: '11.5px' })]),
+            vr([c('object is four levels of clicking to reach', { font: SANS, size: '11.5px' })]),
+            vr([c('what ⌘K reaches in four keystrokes.', { font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('Not auto-hiding on hover. It would flick', { font: SANS, size: '11.5px' })]),
+            vr([c('open every time somebody crossed the left', { font: SANS, size: '11.5px' })]),
+            vr([c('edge; in an app kept open for eight hours,', { font: SANS, size: '11.5px' })]),
+            vr([c('a region that moves by itself is worse than', { font: SANS, size: '11.5px' })]),
+            vr([c('one that is 46px wide.', { font: SANS, size: '11.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'Each of these is what the rail is in some other tool, and each of them is why that tool shows one cluster at a time.',
+          note: 'Worth stating because a left sidebar has enormous gravity: it wants to become the navigation, and the moment it does, the panes stop being able to disagree about scope.'
+        }
+      ],
+      closing: [
+        { tone: OK, k: 'ZERO IS A LEGITIMATE WIDTH', t: 'The rail answers two questions — which clusters exist, and are they healthy — and both are answered better elsewhere: the pane header names its cluster, the fleet pane owns health, ⌘K repoints a pane without it. A convenience is not a region. Today’s three unnamed dots on the left edge are 46px spent on every screen forever to show something no pane needed.' },
+        { tone: BAD, k: 'THE ONE IRREPLACEABLE JOB MOVES TO THE TAB BAR', t: 'What only the rail could do was warn about a cluster you are not looking at. Hidden, that becomes a chip that exists only while it is true: “2 clusters need you”, click to open the fleet. A calm fleet now costs nothing, and an unhappy one costs 120px in a bar that already has room — instead of 46px permanently, whatever the state.' },
+        { tone: INFO, k: 'IT OPENS ON THE GESTURE THAT NEEDS IT', t: '⌘\\ cycles the three widths, remembered per tab like every other layout field. It also slides in for the length of a drag: dragging a pane header means “point this at another cluster”, which is the one gesture that genuinely wants every target on screen. The rail arrives with the drag and leaves with it — and the drop replaces the cluster only, keeping the filter, the columns and the sort.' },
+        { tone: WARN, k: 'AT FORTY CLUSTERS IT IS A LIST, NOT A DECORATION', t: 'The named width is designed for the real number: forty contexts, grouped, filterable, with latency and pane count visible. That is why 340px is allowed to exist at all — and why it is framed as a width you open and close rather than a sidebar you live with. Groups are edited here by dropping a cluster on a header, which is the only place CONN-02 has a home.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

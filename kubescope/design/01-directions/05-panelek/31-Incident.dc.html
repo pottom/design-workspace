@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 31 / 31 · THE WHOLE THING · 14:02 → 14:31</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">One incident, end to end</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Twenty-nine minutes, nine moments, one tab. This is the screen the whole project was for — the four things the brief said a platform engineer wants at once, <span style="color:var(--ks-ink)">actually at once</span>: a pod table that refreshes itself, the log of the pod that is dying, a shell in another pod on another cluster, and the fleet in the corner of the eye.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="incident · four panes, three clusters, 14:19" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:1fr;grid-template-rows:38px 1fr 24px;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="display:flex;align-items:center;padding:0 12px;font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink-3)">+</div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #54262b;background:rgba(255,95,95,.12);color:#ffb3b3;font-weight:600"><span style="font-size:8px">▲</span>{{ troubleChip }}</span>
+        <span>rail hidden</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘\</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;position:relative"><div style="position:absolute;left:50%;top:25%;width:3px;height:20px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:50%;top:75%;width:3px;height:20px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:25%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:75%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div>
+      <sc-for list="{{ panes }}" as="p" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;min-height:0;background:{{ p.paneBg }}">
+          <div style="height:28px;flex:none;display:flex;align-items:center;gap:9px;padding:0 10px;background:{{ p.headBg }};box-shadow:inset 0 -1px 0 {{ p.headLine }};font-size:11px;font-family:var(--ks-mono)">
+            <span style="color:{{ p.clTone }};font-weight:600;flex:none">{{ p.cluster }}</span>
+            <span style="color:var(--ks-line-strong)">│</span><span style="color:var(--ks-ink);flex:none">{{ p.kind }}</span>
+            <span style="color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.scope }}</span>
+            <div style="flex:1"></div>
+            <span style="color:{{ p.stateTone }};flex:none">{{ p.state }}</span>
+            <span style="color:var(--ks-ink-3);flex:none">⊞ ⋯ ✕</span>
+          </div>
+          <sc-if value="{{ p.hasBar }}" hint-placeholder-val="{{ false }}">
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="flex:1;min-width:0;padding:3px 7px;border:1px solid var(--ks-line);background:var(--ks-bg);color:{{ p.filterInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.filter }}</span>
+              <span style="color:{{ p.countInk }};flex:none">{{ p.count }}</span>
+            </div>
+          </sc-if>
+          <div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+            <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="16">
+              <div style="height:22px;flex:none;display:grid;grid-template-columns:{{ p.cols }};align-items:center;gap:9px;padding:0 10px;position:relative;background:{{ r.bg }};box-shadow:{{ r.shadow }}">
+                <sc-if value="{{ r.hasMark }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                </sc-if>
+                <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                  <span style="text-align:{{ c.align }};font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};text-decoration:{{ c.strike }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</span>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ p.hasFoot }}" hint-placeholder-val="{{ false }}">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:{{ p.footBg }};border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ p.footInk }};font-weight:600">{{ p.footText }}</span>
+              <div style="flex:1"></div>
+              <sc-for list="{{ p.footVerbs }}" as="v" hint-placeholder-count="3">
+                <span style="padding:3px 7px;border:1px solid {{ v.line }};background:{{ v.bg }};color:{{ v.ink }}">{{ v.t }}</span>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:12px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+      <span style="color:var(--ks-info);font-weight:600">EW</span>
+      <span style="color:var(--ks-ink-2)">pods · payments · !running</span>
+      <span style="color:var(--ks-line)">│</span>
+      <span style="color:#f3d08a">8 selected · 2 gone</span>
+      <div style="flex:1"></div>
+      <span style="color:var(--ks-ink-3)">3 · incident</span>
+      <span style="color:var(--ks-line)">│</span>
+      <span style="color:var(--ks-ink-3)">autosaved 3s ago</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE ARC</div>
+      <div style="font-size:19px;font-weight:600">Nine moments, and which screen answered each one</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">no moment needs a screen that was not designed</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ moments }}" as="m" hint-placeholder-count="9">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ m.tone }};display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:26px;flex:none;display:flex;align-items:center;gap:9px;padding:0 12px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:{{ m.tone }};font-weight:600">{{ m.time }}</span>
+            <span style="color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.title }}</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-ink-3);font-size:9.5px;flex:none">{{ m.screen }}</span>
+          </div>
+
+          <div style="height:112px;flex:none;position:relative;background:var(--ks-bg);border-bottom:1px solid var(--ks-line);overflow:hidden">
+            <sc-for list="{{ m.boxes }}" as="b" hint-placeholder-count="4">
+              <div style="position:absolute;left:{{ b.l }};top:{{ b.t }};width:{{ b.w }};height:{{ b.h }};background:{{ b.bg }};border:1px {{ b.style }} {{ b.line }};display:flex;flex-direction:column;overflow:hidden">
+                <div style="height:12px;flex:none;display:flex;align-items:center;gap:3px;padding:0 4px;background:{{ b.headBg }};font-family:var(--ks-mono);font-size:7.5px;color:{{ b.ink }};white-space:nowrap">{{ b.label }}</div>
+                <sc-for list="{{ b.ghost }}" as="g" hint-placeholder-count="4">
+                  <div style="height:9px;flex:none;display:flex;align-items:center;gap:3px;padding:0 4px">
+                    <span style="width:{{ g.w1 }};height:2px;background:{{ g.c1 }};flex:none"></span>
+                    <div style="flex:1"></div>
+                    <span style="width:{{ g.w2 }};height:2px;background:{{ g.c2 }};flex:none"></span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+            <sc-if value="{{ m.hasTag }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;left:{{ m.tagL }};top:{{ m.tagT }};padding:2px 6px;background:{{ m.tagBg }};border:1px solid {{ m.tagLine }};font-family:var(--ks-mono);font-size:8px;color:{{ m.tagInk }};white-space:nowrap">{{ m.tagText }}</div>
+            </sc-if>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ m.body }}</div>
+            <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:{{ m.tone }}">{{ m.gesture }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35', LINE_S = '#1a2028';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+const CY = '#3fe0d0';
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', align: 'left', font: SANS, size: '11px', strike: 'none' }, o || {});
+    const R = (cells, o) => Object.assign({ cells, bg: 'transparent', shadow: 'inset 0 -1px 0 ' + LINE_S, hasMark: false, mark: 'transparent' }, o || {});
+
+    const SEL = 'rgba(63,224,208,.08)';
+    const run = edge => {
+      const side = 'inset 1px 0 0 ' + CY + ', inset -1px 0 0 ' + CY;
+      if (edge === 'top') return side + ', inset 0 1px 0 ' + CY;
+      if (edge === 'bottom') return side + ', inset 0 -1px 0 ' + CY;
+      return side;
+    };
+
+    const podRow = (name, phase, rst, age, kind, o) => R([
+      c(name, { ink: kind === 'bad' ? '#ffb3b3' : kind === 'warn' ? '#f3d08a' : kind === 'gone' ? '#8a5f62' : INK, strike: kind === 'gone' ? 'line-through' : 'none' }),
+      c(phase, { font: MONO, size: '9.5px', ink: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'gone' ? '#8a5f62' : INK3 }),
+      c(rst, { font: MONO, size: '9.5px', align: 'right', ink: kind === 'bad' ? '#ffb3b3' : INK3 }),
+      c(age, { font: MONO, size: '9.5px', align: 'right', ink: INK3 })
+    ], Object.assign({
+      hasMark: true,
+      mark: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'gone' ? '#54262b' : OK,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.05)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+    }, o || {}));
+
+    const logRow = (ts, lvl, msg, tone) => R([
+      c(ts, { font: MONO, size: '9.5px', ink: INK3 }),
+      c(lvl, { font: MONO, size: '9.5px', ink: tone === 'bad' ? BAD : tone === 'warn' ? WARN : INK3 }),
+      c(msg, { font: MONO, size: '10px', ink: tone === 'bad' ? '#ffb3b3' : tone === 'warn' ? '#e9dcc0' : INK2 })
+    ], { bg: tone === 'bad' ? 'rgba(255,95,95,.05)' : 'transparent' });
+
+    const shellRow = t => R([c(t, { font: MONO, size: '10px', ink: INK2 })], { shadow: 'none' });
+
+    const fleetRow = (name, code, hue, verdict, tone) => R([
+      c(code, { font: MONO, size: '9.5px', ink: hue, weight: '600' }),
+      c(name, { ink: tone === 'bad' ? '#ffb3b3' : tone === 'warn' ? '#f3d08a' : INK }),
+      c(verdict, { font: MONO, size: '9.5px', align: 'right', ink: tone === 'bad' ? BAD : tone === 'warn' ? WARN : INK3 })
+    ], {
+      hasMark: true, mark: hue,
+      bg: tone === 'bad' ? 'rgba(255,95,95,.06)' : tone === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+    });
+
+    const verb = (t, tone) => ({
+      t,
+      ink: tone === 'bad' ? '#ffb3b3' : tone === 'warn' ? '#f3d08a' : INK2,
+      bg: tone === 'bad' ? 'rgba(255,95,95,.12)' : tone === 'warn' ? 'rgba(240,180,41,.14)' : 'rgba(255,255,255,.04)',
+      line: tone === 'bad' ? '#54262b' : tone === 'warn' ? '#5a4520' : '#2c3542'
+    });
+
+    const pods = [
+      podRow('ledger-worker-…-2wq7t', 'gone 14:02', '—', '—', 'gone', { bg: 'rgba(255,95,95,.03)', shadow: run('top') }),
+      podRow('ledger-worker-…-h4k9x', 'gone 14:02', '—', '—', 'gone', { bg: 'rgba(255,95,95,.03)', shadow: run('mid') }),
+      podRow('ledger-worker-…-p1r7m', 'CrashLoop', '7', '17m', 'bad', { bg: 'rgba(63,224,208,.10)', shadow: run('mid') }),
+      podRow('ledger-worker-…-v8n2c', 'CrashLoop', '7', '17m', 'bad', { bg: 'rgba(63,224,208,.10)', shadow: run('mid') }),
+      podRow('ledger-worker-…-t3x9d', 'CrashLoop', '6', '17m', 'bad', { bg: 'rgba(63,224,208,.10)', shadow: run('mid') }),
+      podRow('ledger-worker-…-m6q1w', 'Pending', '0', '4m', 'warn', { bg: 'rgba(63,224,208,.10)', shadow: run('mid') }),
+      podRow('ledger-worker-…-b2k7s', 'Pending', '0', '4m', 'warn', { bg: 'rgba(63,224,208,.10)', shadow: run('mid') }),
+      podRow('ledger-worker-…-k9f2p', 'Pending', '0', '3m', 'warn', { bg: SEL, shadow: run('bottom') }),
+      podRow('checkout-api-…-k8n1p', 'Running', '0', '6d', 'ok'),
+      podRow('checkout-api-…-x2m4q', 'Running', '0', '6d', 'ok'),
+      podRow('checkout-api-…-z0mq4', 'Running', '0', '6d', 'ok'),
+      podRow('payout-batcher-…-f5flv', 'Running', '0', '3d', 'ok'),
+      podRow('envoy-gateway-…-9dd21', 'Running', '0', '12d', 'ok'),
+      podRow('redis-cache-0', 'Running', '0', '21d', 'ok'),
+      podRow('nightly-export-28471', 'Succeeded', '0', '7h', 'ok')
+    ];
+
+    const logs = [
+      logRow('14:19:02', 'ERROR', 'heap 511Mi of 512Mi — alloc failed in json.Decode', 'bad'),
+      logRow('14:19:01', 'WARN', 'gc pause 1.8s, heap after 509Mi', 'warn'),
+      logRow('14:18:58', 'INFO', 'queue depth 6109, above soft limit 4000'),
+      logRow('14:18:52', 'ERROR', 'OOMKilled — container worker, restart #7', 'bad'),
+      logRow('14:18:51', 'WARN', 'retry budget 82% consumed for ledger', 'warn'),
+      logRow('14:18:44', 'INFO', 'starting, 8 workers, listen :8080'),
+      logRow('14:18:43', 'INFO', 'config sha 4bd91c, limit 512Mi'),
+      logRow('14:18:12', 'ERROR', 'back-off 40s restarting failed container', 'bad'),
+      logRow('14:18:11', 'ERROR', 'OOMKilled — container worker, restart #6', 'bad'),
+      logRow('14:17:58', 'WARN', 'slow query 1.81s — SELECT balance FROM accounts_eu', 'warn'),
+      logRow('14:17:44', 'INFO', 'queue depth 5980'),
+      logRow('14:17:31', 'INFO', 'flushed 2048 records in 340ms'),
+      logRow('14:17:02', 'WARN', 'heap 486Mi of 512Mi', 'warn'),
+      logRow('14:16:48', 'INFO', 'starting, 8 workers, listen :8080'),
+      logRow('14:16:47', 'ERROR', 'back-off 20s restarting failed container', 'bad'),
+      logRow('14:16:46', 'ERROR', 'OOMKilled — container worker, restart #5', 'bad'),
+      logRow('14:16:31', 'WARN', 'heap 502Mi of 512Mi', 'warn'),
+      logRow('14:16:12', 'INFO', 'queue depth 5411'),
+      logRow('14:15:58', 'INFO', 'flushed 2048 records in 402ms'),
+      logRow('14:15:44', 'WARN', 'gc pause 1.2s, heap after 478Mi', 'warn')
+    ];
+
+    const shell = [
+      shellRow('$ kubectl get cm checkout-config -o yaml | grep -A2 limits'),
+      shellRow('  limits:'),
+      shellRow('    memory: 512Mi'),
+      shellRow('    cpu: 500m'),
+      shellRow('$ echo $QUEUE_SOFT_LIMIT'),
+      shellRow('4000'),
+      shellRow('$ curl -s localhost:8080/debug/heap | head -3'),
+      shellRow('inuse_space: 509.4MiB'),
+      shellRow('alloc_rate: 41.2MiB/s'),
+      shellRow('sys: 511.8MiB'),
+      shellRow('$ # 512Mi is the ceiling, and the queue is the cause'),
+      shellRow('$ kubectl get deploy ledger-worker -o jsonpath=\'{..replicas}\''),
+      shellRow('12'),
+      shellRow('$ nslookup ledger.payments.svc.cluster.local'),
+      shellRow('Address: 10.96.14.22'),
+      shellRow('$ time curl -s -o /dev/null ledger:8080/healthz'),
+      shellRow('real  0m1.812s'),
+      shellRow('$ # us-east answers, so it is not the service'),
+      shellRow('$ ▊')
+    ];
+
+    const fleetSpec = [
+      ['prod-eu-west', 'EW', INFO, '3 crashloop', 'bad'],
+      ['prod-us-east', 'UE', PURPLE, '1 pending', 'warn'],
+      ['prod-ap-south', 'AS', WARN, '610ms · read-only', 'warn'],
+      ['prod-eu-central', 'EC', '#6fa8dc', 'healthy', 'ok'],
+      ['prod-us-west', 'UW', '#a78bfa', 'healthy', 'ok'],
+      ['prod-sa-east', 'SA', '#e0a3c8', 'healthy', 'ok'],
+      ['ocp-prod', 'OC', ORANGE, '4.15 · healthy', 'ok'],
+      ['ocp-dr', 'OD', '#c47a4f', 'unreachable', 'bad'],
+      ['staging-eu', 'SE', OK, 'healthy', 'ok'],
+      ['staging-us', 'SU', '#5ad2c4', 'healthy', 'ok'],
+      ['staging-eu-central', 'SC', '#7fd6b0', 'healthy', 'ok'],
+      ['edge-01', 'E1', BAD, 'unreachable', 'bad'],
+      ['edge-02', 'E2', ORANGE, 'healthy', 'ok'],
+      ['edge-03', 'E3', '#e07a5f', 'healthy', 'ok'],
+      ['edge-04', 'E4', '#d96f4f', 'healthy', 'ok'],
+      ['ci-runners', 'CI', '#9ad04a', 'healthy', 'ok'],
+      ['analytics', 'AN', '#c9a227', 'time travel off', 'ok']
+    ];
+    const fleet = fleetSpec.map(x => fleetRow(x[0], x[1], x[2], x[3], x[4]));
+    const clusterCount = fleetSpec.length;
+    const troubled = fleetSpec.filter(x => x[4] === 'bad' || x[4] === 'warn').length;
+    const quiet = clusterCount - troubled;
+    const troubleChip = troubled + ' clusters need you';
+
+    const panes = [
+      {
+        edge: CY, paneBg: 'var(--ks-panel)', cluster: 'prod-eu-west', clTone: CY,
+        headBg: 'rgba(63,224,208,.06)', headLine: CY, kind: 'Pods', scope: 'payments · !running',
+        state: '● watch 2s', stateTone: OK, hasBar: true, filter: '!running', filterInk: INK, count: '8 of 41', countInk: CY,
+        cols: '1fr 74px 30px 40px', rows: pods,
+        hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a', footText: '8 selected · 2 gone',
+        footVerbs: [verb('restart 6', 'warn'), verb('logs'), verb('⋯')]
+      },
+      {
+        edge: PURPLE, paneBg: 'var(--ks-panel)', cluster: 'prod-eu-west', clTone: INFO,
+        headBg: 'transparent', headLine: LINE_S, kind: 'Logs', scope: 'pinned · ledger-…p1r7m · worker',
+        state: '● 214/s', stateTone: OK, hasBar: false, filter: '', filterInk: INK3, count: '', countInk: INK3,
+        cols: '58px 40px 1fr', rows: logs, hasFoot: false, footVerbs: []
+      },
+      {
+        edge: PURPLE, paneBg: '#080a0d', cluster: 'prod-us-east', clTone: PURPLE,
+        headBg: 'transparent', headLine: LINE_S, kind: 'Shell', scope: 'pinned · checkout-api-…-k8n1p',
+        state: '● attached', stateTone: OK, hasBar: false, filter: '', filterInk: INK3, count: '', countInk: INK3,
+        cols: '1fr', rows: shell, hasFoot: false, footVerbs: []
+      },
+      {
+        edge: INFO, paneBg: 'var(--ks-panel)', cluster: 'all clusters', clTone: INK2,
+        headBg: 'transparent', headLine: LINE_S, kind: 'Fleet', scope: 'probing every 30s',
+        state: '◐ ' + troubled + ' need you', stateTone: WARN, hasBar: true, filter: 'only what needs me', filterInk: INK2, count: clusterCount + ' clusters', countInk: INK3,
+        cols: '26px 1fr 108px', rows: fleet,
+        hasFoot: true, footBg: 'var(--ks-field)', footInk: INK3, footText: troubled + ' need you · ' + quiet + ' quiet',
+        footVerbs: [verb('open pods'), verb('⋯')]
+      }
+    ];
+
+    const gh = (n, seed) => {
+      const out = [], pal = [['#5a2530', '#3a1c22'], ['#4a4520', '#332f18'], ['#2c3542', '#212932'], ['#242b35', '#1c222b'], ['#1e242d', '#191f26']];
+      for (let i = 0; i < n; i++) { const p = pal[(i + seed) % pal.length]; out.push({ w1: (30 - (i % 4) * 5) + 'px', w2: (10 + (i % 3) * 3) + 'px', c1: p[0], c2: p[1] }); }
+      return out;
+    };
+    const bx = (l, t, w, h, label, o) => Object.assign({
+      l, t, w, h, label, bg: 'var(--ks-panel)', line: LINE, style: 'solid',
+      headBg: 'var(--ks-field)', ink: INK3, ghost: gh(4, 0)
+    }, o || {});
+    const M = (time, title, screen, tone, o) => Object.assign({
+      time, title, screen, tone, boxes: [],
+      hasTag: false, tagL: '0', tagT: '0', tagText: '', tagBg: 'var(--ks-panel-hi)', tagLine: '#2c3542', tagInk: INK,
+      body: '', gesture: ''
+    }, o);
+
+    const moments = [
+      M('14:02', 'A chip appears', '29 · rail', BAD, {
+        boxes: [
+          bx('0', '0', '100%', '14px', 'KS  1 fleet  2 payments  3 incident', { bg: 'var(--ks-field)', headBg: 'transparent', ink: INK2, ghost: [] }),
+          bx('0', '15px', '100%', 'calc(100% - 15px)', 'EW  Pods · payments', { ghost: gh(8, 2) })
+        ],
+        hasTag: true, tagL: '48%', tagT: '1px', tagText: '▲ 5 clusters need you', tagBg: 'rgba(255,95,95,.16)', tagLine: '#54262b', tagInk: '#ffb3b3',
+        body: 'You were reading something else. The rail is hidden, so the first sign is a chip in the tab bar that did not exist a second ago — five of seventeen clusters, and it exists only while that is true.',
+        gesture: 'no interruption · no toast · no stolen focus'
+      }),
+      M('14:03', 'The fleet, in a new tab', '04 · fleet', INFO, {
+        boxes: [
+          bx('0', '0', '100%', '14px', 'KS  1 fleet  2 payments  3 incident  4 ci', { bg: 'var(--ks-field)', headBg: 'transparent', ink: INK2, ghost: [] }),
+          bx('0', '15px', '100%', 'calc(100% - 15px)', 'ALL  Fleet · 9 clusters', { ghost: gh(8, 0), line: '#1e4a6e' })
+        ],
+        hasTag: true, tagL: '4px', tagT: '30px', tagText: 'eu-west: 3 crashloop', tagBg: 'rgba(255,95,95,.16)', tagLine: '#54262b', tagInk: '#ffb3b3',
+        body: 'Clicking the chip opens the fleet: seventeen clusters, five of them lit. Only one is this incident — eu-west with three pods crash-looping. Two unreachable clusters and two slow ones are unrelated, and the pane says so rather than merging four findings into one alarm.',
+        gesture: 'click the chip · ⌘T · sorted so the ones that need you are first'
+      }),
+      M('14:05', 'The incident template', '25 · layouts', PURPLE, {
+        boxes: [
+          bx('0', '0', '46%', '48%', 'PODS', { line: '#4a3a6e', bg: 'rgba(180,140,255,.07)', headBg: 'rgba(180,140,255,.12)', ink: '#c9a9ff', ghost: [] }),
+          bx('47%', '0', '53%', '48%', 'LOGS', { line: '#4a3a6e', bg: 'rgba(180,140,255,.07)', headBg: 'rgba(180,140,255,.12)', ink: '#c9a9ff', ghost: [] }),
+          bx('0', '50%', '46%', '50%', 'SHELL', { line: '#4a3a6e', bg: 'rgba(180,140,255,.07)', headBg: 'rgba(180,140,255,.12)', ink: '#c9a9ff', ghost: [] }),
+          bx('47%', '50%', '53%', '50%', 'FLEET', { line: '#4a3a6e', bg: 'rgba(180,140,255,.07)', headBg: 'rgba(180,140,255,.12)', ink: '#c9a9ff', ghost: [] })
+        ],
+        hasTag: true, tagL: '20%', tagT: '44px', tagText: 'the failing one → prod-eu-west', tagBg: 'rgba(180,140,255,.16)', tagLine: '#4a3a6e', tagInk: '#c9a9ff',
+        body: 'Stamped from a template rather than built by hand. It stores roles, not cluster names, so one dialog asks which cluster is the failing one — and the shape arrives already correct.',
+        gesture: '⇧⌘I · one dialog, three roles · opens as tab 3'
+      }),
+      M('14:07', 'Right-click, and the log opens', '02 · log', CY, {
+        boxes: [
+          bx('0', '0', '46%', '100%', 'EW  Pods', { ghost: gh(8, 0) }),
+          bx('47%', '0', '53%', '100%', 'EW  Logs · pinned', { ghost: gh(8, 1), line: '#1f5f58', headBg: 'rgba(63,224,208,.10)', ink: CY })
+        ],
+        hasTag: true, tagL: '6%', tagT: '34px', tagText: 'open logs  L', tagBg: 'var(--ks-panel-hi)', tagLine: '#2c3542', tagInk: INK,
+        body: 'The gesture the customer described in the first brief. The log fills the pane that was waiting for it, and its scope is pinned to the container — clicking its cluster chip explains why it cannot be re-pointed.',
+        gesture: 'right-click a row → open logs · or select and press L'
+      }),
+      M('14:11', 'OOMKilled, seven times', '02 · log', BAD, {
+        boxes: [
+          bx('0', '0', '46%', '100%', 'EW  Pods', { ghost: gh(8, 0) }),
+          bx('47%', '0', '53%', '100%', 'EW  Logs · 214/s', { ghost: gh(8, 0), line: '#54262b' })
+        ],
+        hasTag: true, tagL: '50%', tagT: '30px', tagText: 'heap 511Mi of 512Mi', tagBg: 'rgba(255,95,95,.16)', tagLine: '#54262b', tagInk: '#ffb3b3',
+        body: 'The log names the cause in one line: the heap reaching the limit, seven restarts, and a queue above its soft limit. Level colouring does the finding; nothing had to be searched for.',
+        gesture: 'level ≥ warn · the gutter holds the line selection for the ticket'
+      }),
+      M('14:14', 'A shell on another cluster', '14 · terminal', PURPLE, {
+        boxes: [
+          bx('0', '0', '46%', '48%', 'EW  Pods', { ghost: gh(3, 0) }),
+          bx('47%', '0', '53%', '48%', 'EW  Logs', { ghost: gh(3, 1) }),
+          bx('0', '50%', '46%', '50%', 'UE  Shell', { bg: '#080a0d', line: '#4a3a6e', headBg: 'rgba(180,140,255,.10)', ink: '#c9a9ff', ghost: gh(3, 2) }),
+          bx('47%', '50%', '53%', '50%', 'ALL  Fleet', { ghost: gh(3, 3) })
+        ],
+        hasTag: true, tagL: '4px', tagT: '92px', tagText: 'the terminal owns the keys', tagBg: 'rgba(240,180,41,.14)', tagLine: '#5a4520', tagInk: '#f3d08a',
+        body: 'Four panes, three clusters, live at once — the thing the old shell could not do. The shell is on us-east, checking the config the eu-west pods share, and while it is focused it owns Tab, the arrows and Escape.',
+        gesture: 'the frame’s own keys move to ⌘⎋ while the terminal has focus'
+      }),
+      M('14:19', 'Eight picked, two already dead', '03 · selection', WARN, {
+        boxes: [
+          bx('0', '0', '46%', '100%', 'EW  Pods · 8 selected', { ghost: gh(8, 0), line: '#1f5f58' }),
+          bx('47%', '0', '53%', '100%', 'EW  Logs', { ghost: gh(8, 1) })
+        ],
+        hasTag: true, tagL: '4px', tagT: '92px', tagText: '8 selected · 2 gone', tagBg: 'rgba(240,180,41,.16)', tagLine: '#5a4520', tagInk: '#f3d08a',
+        body: 'Two of the eight died while the selection was being assembled. They stay in place struck through and the count says so, because the next action would otherwise quietly go to six.',
+        gesture: '⌘-click, ⇧-click · the count never shrinks in silence'
+      }),
+      M('14:24', 'One write, five objects', '30 · bulk action', BAD, {
+        boxes: [
+          bx('0', '0', '58%', '100%', 'PREFLIGHT · 5 will run', { ghost: gh(8, 0), line: '#5a4520' }),
+          bx('59%', '0', '41%', '100%', 'APPROVAL', { ghost: gh(8, 2), line: '#54262b', headBg: 'rgba(255,95,95,.10)', ink: '#ffb3b3' })
+        ],
+        hasTag: true, tagL: '4px', tagT: '92px', tagText: 'raise the limit to 1Gi, then restart', tagBg: 'rgba(255,95,95,.16)', tagLine: '#54262b', tagInk: '#ffb3b3',
+        body: 'The fix is a limit change plus a rolling restart across two prod clusters. Itemised first: five will run, two are refused because ap-south is read-only, one is skipped for a job mid-flight.',
+        gesture: 'one approval · the prod names typed · sequential, stops on failure'
+      }),
+      M('14:31', 'Closed, and it keeps itself', '25 · layouts', OK, {
+        boxes: [
+          bx('0', '0', '100%', '14px', 'KS  1 fleet  2 payments  3 incident  4 ci', { bg: 'var(--ks-field)', headBg: 'transparent', ink: INK2, ghost: [] }),
+          bx('0', '15px', '46%', 'calc(100% - 15px)', 'EW  Pods · all running', { ghost: gh(6, 3), line: '#1c3a2c' }),
+          bx('47%', '15px', '53%', 'calc(100% - 15px)', 'CHANGE STREAM', { ghost: gh(6, 2) })
+        ],
+        hasTag: true, tagL: '4px', tagT: '92px', tagText: 'export 14:00 → 14:35', tagBg: 'rgba(62,207,142,.14)', tagLine: '#22503c', tagInk: '#a8e6c8',
+        body: 'Nothing to save: the tab wrote itself on every change and is still there tomorrow. What leaves the machine is one incident package — the window’s object states, events and the two revisions, Secrets masked.',
+        gesture: 'no save dialog · ⇧⌘T if you close it by mistake · TIME-05 export'
+      })
+    ];
+
+    return {
+      facts: [
+        { k: 'ELAPSED', v: '29m', tone: INK },
+        { k: 'PANES AT ONCE', v: '4', tone: CY },
+        { k: 'CLUSTERS ON SCREEN', v: '3', tone: INK },
+        { k: 'NEW SCREENS NEEDED', v: '0', tone: OK }
+      ],
+      troubleChip,
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + CY, ink: INK, numInk: CY },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      panes, moments,
+      closing: [
+        { tone: CY, k: 'THE FOUR THINGS, ACTUALLY AT ONCE', t: 'The frame brief listed what a platform engineer wants on one screen: a pod table that refreshes itself, the log of the pod that is dying, a shell in another pod on another cluster, and the fleet in the corner of the eye. All four are here, three clusters between them, and the only permanent chrome is 38px of tab bar and 24px of status bar. That sentence is the whole project, and this is it drawn.' },
+        { tone: OK, k: 'NINE MOMENTS, NO NEW SCREENS', t: 'Every step of the arc is answered by a screen that already exists — the rail chip, the fleet, the layout template, the log, the terminal, the selection rules, the bulk write, the change stream, the export. The mark the frame brief set was that it should be obvious where the next capability goes without asking again; twenty-nine minutes of incident is the test, and nothing had to be invented to get through it.' },
+        { tone: WARN, k: 'THREE PLACES THE DESIGN REFUSES TO BE HELPFUL', t: 'Two pods die mid-selection and the count says so instead of quietly becoming six. ap-south is read-only and the write is refused rather than offered with a force flag. The terminal takes the keyboard and the frame gets out of the way. Each of these costs a step; each is the step where somebody would otherwise have done the wrong thing at speed.' },
+        { tone: PURPLE, k: 'IT STARTED FROM A TEMPLATE AND ENDED WITHOUT A SAVE', t: 'The layout was stamped at 14:05 from a shape that stores roles rather than cluster names, so it fitted a cluster it had never seen. At 14:31 there is nothing to save, because the tab has been writing itself all along — and what leaves the machine is a masked incident package, not a screenshot in a chat window.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

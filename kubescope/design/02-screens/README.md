@@ -33,13 +33,9 @@ same pod list has headers when it owns the workspace and loses them when it is o
 | four panes, 1600×1000 | 44px each = 176px total | 24px each = 96px total |
 | four panes, 1280×800 | 44px each | 24px each — one extra data row per pane |
 
-## Still to come in this round
+## Where this round went next
 
-1. First run — no clusters, no layout (`CONN`).
-2. Time travel — the same screen half an hour ago (`TIME-01`), with field-level diff.
-3. The cross-cluster question — "is the same thing running everywhere?" (`XC`).
-4. Sketch level: metrics + events timeline, diagnostics, RBAC answer, certificates, a write action
-   with confirmation, the command palette, OpenShift differences.
-5. The clickable prototype (brief `6.2`): open a pane from empty, split it and fill the second, change
-   a pane's cluster and namespace, filter with a live count, select a row and open logs / YAML / shell
-   from it, and a pane that has lost its watch.
+Everything listed here as "still to come" was built in `01-directions/05-panelek/` (31 screens) and
+`04-fogantyuk/` (7 pages): first run is screen 26, time travel 27, cross-cluster 28, the cluster rail
+29, bulk action 30, and the end-to-end incident 31. The handles, the drag arc, selection and the
+component inventory are round 04.

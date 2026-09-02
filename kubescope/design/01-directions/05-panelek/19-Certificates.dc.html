@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 19 / 30 · QUESTION PANE · SEC-03</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Certificates</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">A pane that exists for one reason: <span style="color:var(--ks-ink)">an expiring certificate gives no warning and then takes everything down at once</span>. Every cert we can find, on every cluster, sorted by how long you have left — and the bar is time remaining against the cert’s own lifetime, so eleven days out of ninety looks as urgent as it is.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="certificates · fleet-wide" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>parsed from Secrets, Ingresses, Routes and the kubelet — read only</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>all clusters</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Certificates</span>
+        <span style="color:var(--ks-ink-3)">within</span><span style="color:var(--ks-ink-2)">90 days<span style="color:var(--ks-ink-3)">▾</span></span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">31 of 214 certificates</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-warn)"><span style="font-size:7px">◐</span>9 of 10 clusters</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+        <span style="font-size:13px;color:var(--ks-bad);padding-top:4px">▲</span>
+        <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+          <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">One certificate expires in <span style="color:#ffb3b3">eleven days</span> and nothing is set up to renew it.</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty"><span style="font-family:var(--ks-mono);color:#ffb3b3">ingress-tls</span> on edge-02 is a manually created Secret — no cert-manager Certificate points at it, so nothing will replace it. Three more expire within thirty days; all three are managed and should renew themselves.</div>
+        </div>
+        <div style="display:flex;gap:18px;flex:none">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+              <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:6px">
+                <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="height:20px;display:grid;grid-template-columns:150px 1fr 116px 168px 118px 128px;align-items:center;padding:0 12px;gap:11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+        <div>CLUSTER</div><div>CERTIFICATE</div><div style="color:var(--ks-ink-2)">EXPIRES ↓</div><div>TIME LEFT OF ITS LIFETIME</div><div>RENEWAL</div><div>WHAT IT SERVES</div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+        <sc-for list="{{ certs }}" as="c" hint-placeholder-count="16">
+          <div style="min-height:30px;display:grid;grid-template-columns:150px 1fr 116px 168px 118px 128px;align-items:center;padding:3px 12px;gap:11px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+            <div style="display:flex;align-items:center;gap:8px;border-left:2px solid {{ c.hue }};padding-left:9px;min-width:0">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:{{ c.clusterInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.cluster }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+              <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ c.nameInk }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+              <span style="font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.subject }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:11px;color:{{ c.leftInk }};font-weight:{{ c.weight }}"><span style="font-size:8px">{{ c.glyph }}</span>{{ c.left }}</div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:{{ c.barW }};background:{{ c.barTone }}"></div>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ c.lifetime }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10px;color:{{ c.renewInk }}"><span style="font-size:7px">{{ c.renewGlyph }}</span>{{ c.renew }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.serves }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-ink-2)">selected</span>
+        <span style="color:var(--ks-ink);font-weight:600">edge-02 · ingress-tls</span>
+        <span style="color:#ffb3b3">11 days · unmanaged · serves pay.edge.corp</span>
+        <div style="flex:1"></div>
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+          <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">One certificate, the chain, and the calendar</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:296px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+                <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+              </div>
+            </sc-if>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="8">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ r.hasBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.barW }};background:{{ r.barTone }}"></div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+    const hue = {}; CL.forEach(c => { hue[c[0]] = c[2]; });
+
+    // cluster, name, subject, daysLeft, lifetimeDays, renewal, serves
+    const raw = [
+      ['edge-02', 'ingress-tls', 'CN=pay.edge.corp · secret/ingress-tls', 11, 90, 'none', 'route/checkout'],
+      ['prod-eu-west', 'api-tls', 'CN=api.corp · cert-manager', 24, 90, 'auto', 'ingress/api'],
+      ['prod-us-east', 'api-tls', 'CN=api-us.corp · cert-manager', 26, 90, 'auto', 'ingress/api'],
+      ['staging-eu', 'wildcard-stg', 'CN=*.stg.corp · cert-manager', 29, 90, 'auto', '4 ingresses'],
+      ['prod-ap-south', 'api-tls', 'CN=api-ap.corp · manual secret', 31, 365, 'none', 'ingress/api'],
+      ['edge-01', '\u2014', 'cluster unreachable \u2014 certificates unknown', -1, 0, 'unknown', '\u2014'],
+      ['prod-eu-west', 'grafana-tls', 'CN=grafana.corp · cert-manager', 34, 90, 'auto', 'ingress/grafana'],
+      ['dev-sandbox', 'selfsigned', 'CN=dev.local · self-signed', 36, 365, 'none', 'nothing'],
+      ['prod-ap-south', 'apiserver-kubelet', 'kubelet client · kube-controller', 41, 365, 'auto', 'kubelet'],
+      ['staging-eu', 'argocd-tls', 'CN=argocd.stg.corp · cert-manager', 44, 90, 'auto', 'ingress/argocd'],
+      ['prod-us-east', 'webhook-tls', 'CN=admission.payments.svc', 46, 365, 'auto', 'a webhook'],
+      ['ci-runners', 'runner-tls', 'CN=runner.ci.corp · manual secret', 48, 90, 'none', 'svc/runner'],
+      ['prod-eu-west', 'loki-tls', 'CN=loki.corp · cert-manager', 51, 90, 'auto', 'ingress/loki'],
+      ['edge-02', 'router-ca', 'OpenShift router CA', 58, 730, 'manual', 'the router'],
+      ['analytics', 'api-tls', 'CN=analytics.corp · cert-manager', 59, 90, 'auto', 'ingress/api'],
+      ['prod-eu-west', 'webhook-tls', 'CN=admission.payments.svc', 62, 365, 'auto', 'a webhook'],
+      ['staging-us', 'argocd-tls', 'CN=argocd.stg-us.corp · cert-manager', 64, 90, 'auto', 'ingress/argocd'],
+      ['prod-ap-south', 'etcd-peer', 'etcd peer · kube-controller', 66, 365, 'auto', 'etcd'],
+      ['dev-sandbox', 'registry-tls', 'CN=registry.dev.corp · cert-manager', 68, 90, 'auto', 'the registry'],
+      ['prod-us-east', 'grafana-tls', 'CN=grafana-us.corp · cert-manager', 70, 90, 'auto', 'ingress/grafana'],
+      ['prod-eu-west', 'etcd-peer', 'etcd peer · kube-controller', 74, 365, 'auto', 'etcd'],
+      ['edge-02', 'kubelet-serving', 'kubelet serving · kube-controller', 75, 365, 'auto', 'kubelet'],
+      ['prod-us-east', 'etcd-peer', 'etcd peer · kube-controller', 76, 365, 'auto', 'etcd'],
+      ['staging-eu', 'webhook-tls', 'CN=admission.payments.svc', 77, 365, 'auto', 'a webhook'],
+      ['ci-runners', 'registry-tls', 'CN=registry.ci.corp · cert-manager', 79, 90, 'auto', 'the registry'],
+      ['prod-ap-south', 'kubelet-serving', 'kubelet serving · kube-controller', 80, 365, 'auto', 'kubelet'],
+      ['staging-us', 'wildcard-stg', 'CN=*.stg-us.corp · cert-manager', 81, 90, 'auto', '3 ingresses'],
+      ['analytics', 'etcd-peer', 'etcd peer · kube-controller', 83, 365, 'auto', 'etcd'],
+      ['prod-eu-west', 'kubelet-serving', 'kubelet serving · kube-controller', 85, 365, 'auto', 'kubelet'],
+      ['edge-02', 'metrics-tls', 'CN=metrics.edge.corp · cert-manager', 87, 90, 'auto', 'svc/metrics'],
+      ['staging-eu', 'kubelet-serving', 'kubelet serving · kube-controller', 89, 365, 'auto', 'kubelet']
+    ];
+    const certs = raw.map(r => {
+      const [cluster, name, subject, days, life, renew, serves] = r;
+      const unknown = days < 0;
+      const pct = life ? Math.max(2, Math.min(100, (days / life) * 100)) : 100;
+      const critical = !unknown && days <= 14;
+      const soon = !unknown && days > 14 && days <= 30;
+      const unmanaged = renew === 'none';
+      return {
+        cluster, hue: hue[cluster], name, subject, serves,
+        clusterInk: unknown ? '#8a5f62' : '#c8d1dd',
+        nameInk: unknown ? '#8a5f62' : critical ? INK : soon ? INK : '#c8d1dd',
+        weight: critical ? '600' : '400',
+        glyph: unknown ? '\u25cb' : critical ? '\u25b2' : soon ? '\u25c6' : '\u25cf',
+        left: unknown ? 'unknown' : days + ' days',
+        leftInk: unknown ? '#8a5f62' : critical ? '#ffb3b3' : soon ? '#f3d08a' : INK2,
+        barW: unknown ? '100%' : pct.toFixed(1) + '%',
+        barTone: unknown ? 'rgba(255,95,95,.12)' : critical ? BAD : soon ? WARN : 'rgba(62,207,142,.45)',
+        lifetime: unknown ? '?' : 'of ' + life + 'd',
+        renew, renewGlyph: renew === 'auto' ? '\u25cf' : renew === 'manual' ? '\u25a0' : renew === 'unknown' ? '\u25cb' : '\u25b2',
+        renewInk: renew === 'auto' ? OK : renew === 'manual' ? INK3 : renew === 'unknown' ? '#8a5f62' : '#ffb3b3',
+        bg: unknown ? 'rgba(255,95,95,.05)' : critical && unmanaged ? 'rgba(255,95,95,.11)' : critical ? 'rgba(255,95,95,.08)' : soon ? 'rgba(240,180,41,.05)' : 'transparent'
+      };
+    });
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg, bar) => Object.assign({ cells, bg: bg || 'transparent', hasBar: false, barW: '0%', barTone: OK }, bar || {});
+
+    return {
+      facts: [
+        { k: 'WITHIN 90 DAYS', v: '31', tone: INK },
+        { k: 'WITHIN 14', v: '1', tone: BAD },
+        { k: 'UNMANAGED', v: '4', tone: WARN },
+        { k: 'UNKNOWN', v: '1 cluster', tone: IDLE }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'edge', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map(x => ({ name: x[0], code: x[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: x[4], tone: x[3] })),
+      kpis: [
+        { label: 'SOONEST', v: '11d', tone: BAD, sub: 'edge-02' },
+        { label: 'UNMANAGED', v: '4', tone: WARN, sub: 'nothing will renew' },
+        { label: 'AUTO-RENEWING', v: '24', tone: OK, sub: 'cert-manager or kubelet' },
+        { label: 'SOURCES', v: '4', tone: INK, sub: 'secret · ingress · route · kubelet' }
+      ],
+      certs,
+      actions: [
+        { key: '\u21b5', label: 'the certificate', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'S', label: 'the Secret', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'W', label: 'what serves it', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'R', label: 'renew…', ink: WARN, line: '#4a3a12', keyInk: WARN }
+      ],
+      variants: [
+        {
+          title: 'One certificate', cap: 'SEC-03', edge: BAD, scope: 'edge-02 · secret/ingress-tls', scopeTone: ORANGE, state: '▲ 11 days', stateTone: BAD,
+          hasLead: true, leadBg: 'rgba(255,95,95,.09)', leadInk: '#ffd7d7',
+          lead: 'Expires 13 Sep. Nothing is configured to replace it.',
+          cols: '104px 1fr',
+          rows: [
+            vr([c('subject', { ink: INK3 }), c('CN=pay.edge.corp', { ink: INK })]),
+            vr([c('also valid for', { ink: INK3 }), c('pay.edge.corp, www.pay.edge.corp', {})]),
+            vr([c('issuer', { ink: INK3 }), c('DigiCert TLS RSA4096 G1', {})]),
+            vr([c('issued', { ink: INK3 }), c('15 Jun 2026 · 90 day lifetime', {})]),
+            vr([c('expires', { ink: INK3 }), c('13 Sep 2026 · in 11 days', { ink: '#ffb3b3' })], 'rgba(255,95,95,.09)'),
+            vr([c('key', { ink: INK3 }), c('RSA 4096 · SHA-256', {})]),
+            vr([c('serial', { ink: INK3 }), c('0a:41:9f:2c:88:d1:…', {})]),
+            vr([c('renewal', { ink: INK3 }), c('none — a hand-made Secret', { ink: '#ffb3b3' })], 'rgba(255,95,95,.09)'),
+            vr([c('serves', { ink: INK3 }), c('route/checkout · 1 hostname', {})])
+          ],
+          hasFoot: true, footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'The renewal row is the one that matters. A managed cert at 11 days is routine; an unmanaged one is an outage with a date on it.',
+          note: 'Parsed from the Secret’s PEM, not from an annotation — annotations lie and expired certs often still carry a cheerful “managed-by”.'
+        },
+        {
+          title: 'The chain', cap: 'SEC-03', edge: WARN, scope: 'edge-02 · chain of trust', scopeTone: ORANGE, state: '◆ 3 links', stateTone: WARN,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'The leaf expires first, but the intermediate expires inside the year too.',
+          cols: '20px 1fr 74px',
+          rows: [
+            vr([c('└', { ink: INK3 }), c('pay.edge.corp · leaf', { ink: INK }), c('11d', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)', { hasBar: false }),
+            vr([c(' ', {}), c('DigiCert TLS RSA4096 G1 · intermediate', {}), c('284d', { justify: 'flex-end', ink: INK2 })]),
+            vr([c(' ', {}), c('DigiCert Global Root G2 · root', {}), c('4y', { justify: 'flex-end', ink: OK })]),
+            vr([c('', {}), c('', {})], 'transparent'),
+            vr([c('', {}), c('the chain the Secret actually contains', { ink: INK3, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('is missing the intermediate — clients that', { ink: '#f3d08a', font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('do not fetch it will fail today, not in 11 days', { ink: '#f3d08a', font: SANS, size: '11px' }), c('', {})])
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'An incomplete chain is a live fault, not a future one. It is the most common TLS bug in the field and no expiry dashboard catches it.',
+          note: 'Reading the chain matters as much as the date: half of “certificate problems” are a missing intermediate, and the cert itself is fine.'
+        },
+        {
+          title: 'The next twelve months', cap: 'SEC-03 · APP-13', edge: INFO, scope: 'all clusters · by month', scopeTone: INFO, state: '● 214 certificates', stateTone: OK,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'June is the month to worry about: 41 certificates land in the same week.',
+          cols: '52px 1fr 40px',
+          rows: [
+            vr([c('Sep', { ink: INK }), c('', {}), c('1', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.08)', { hasBar: true, barW: '4%', barTone: BAD }),
+            vr([c('Oct', { ink: INK }), c('', {}), c('3', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.05)', { hasBar: true, barW: '9%', barTone: WARN }),
+            vr([c('Nov', {}), c('', {}), c('8', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '20%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('Dec', {}), c('', {}), c('12', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '29%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('Jan', {}), c('', {}), c('6', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '15%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('Feb–May', {}), c('', {}), c('31', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '38%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('Jun', { ink: INK }), c('', {}), c('41', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.05)', { hasBar: true, barW: '100%', barTone: WARN }),
+            vr([c('', {}), c('everything installed on the same day renews', { ink: INK3, font: SANS, size: '11px' }), c('', {})])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'A cluster built in one afternoon has all its certificates expire in one afternoon. The histogram is how you find that out a year early.',
+          note: 'The planning view. It answers a question nobody asks until it is too late: not “what expires soon” but “when is the bad week”.'
+        }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE RENEWAL COLUMN IS THE POINT', t: 'Days remaining is the obvious number and the least useful one on its own — twenty-four of these certificates will renew themselves and need no attention at any number of days. The pane sorts by time left but colours by the pair: eleven days and unmanaged is red, eleven days and cert-manager is routine. Four unmanaged certificates is the actual finding on this screen.' },
+        { tone: WARN, k: 'FOUR SOURCES, ONE LIST', t: 'Certificates hide in different places: TLS Secrets, Ingress and Route TLS blocks, cert-manager Certificate objects, and the kubelet and etcd PKI the control plane manages itself. Each is read and parsed from its PEM rather than trusted from an annotation, so a Secret somebody made by hand appears next to a managed one — and is visibly different.' },
+        { tone: INFO, k: 'WHAT WE GIVE UP', t: 'We do not renew anything. Rotating a certificate means having its private key or an issuer that will mint one, and neither belongs in a console — the action offers to open the cert-manager Certificate or the Secret, and stops there. We also cannot see certificates that live only in a mounted file or a sidecar’s own store; if it is not in the API, it is not in this list, and the header says the list is what we could read.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

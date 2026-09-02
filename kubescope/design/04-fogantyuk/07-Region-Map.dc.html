@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 7 / 7 · REGION MAP · FRAME BRIEF §7/1 §6.4</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The regions, in pixels</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Three windows at one scale, so the comparison is honest. Two permanent regions and nothing else: <span style="color:var(--ks-ink)">the tab bar at 38px and the status bar at 24px</span> — 62px of vertical chrome instead of the 144px the earlier brief budgeted, because the cluster rail became a width you open and the scope bar was absorbed into each pane’s own header.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-for list="{{ maps }}" as="m" hint-placeholder-count="3">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:{{ m.tone }}">{{ m.tag }}</div>
+        <div style="font-size:19px;font-weight:600">{{ m.title }}</div>
+        <div style="flex:1"></div>
+        <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">{{ m.note }}</div>
+      </div>
+
+      <div style="display:flex;gap:22px;align-items:flex-start">
+        <div style="width:{{ m.w }};height:{{ m.h }};flex:none;position:relative;background:var(--ks-bg);border:1px solid var(--ks-line-strong);overflow:hidden">
+          <sc-for list="{{ m.boxes }}" as="b" hint-placeholder-count="8">
+            <div style="position:absolute;left:{{ b.l }};top:{{ b.t }};width:{{ b.w }};height:{{ b.h }};background:{{ b.bg }};border:1px {{ b.style }} {{ b.line }};display:flex;flex-direction:column;overflow:hidden">
+              <sc-if value="{{ b.hasHead }}" hint-placeholder-val="{{ true }}">
+                <div style="height:{{ b.headH }};flex:none;display:flex;align-items:center;gap:4px;padding:0 4px;background:{{ b.headBg }};font-family:var(--ks-mono);font-size:7.5px;color:{{ b.ink }};white-space:nowrap;overflow:hidden">{{ b.label }}</div>
+              </sc-if>
+              <sc-for list="{{ b.ghost }}" as="g" hint-placeholder-count="6">
+                <div style="height:{{ g.h }};flex:none;display:flex;align-items:center;gap:3px;padding:0 4px">
+                  <span style="width:{{ g.w1 }};height:2px;background:{{ g.c1 }};flex:none"></span>
+                  <div style="flex:1"></div>
+                  <span style="width:{{ g.w2 }};height:2px;background:{{ g.c2 }};flex:none"></span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+          <sc-for list="{{ m.dims }}" as="d" hint-placeholder-count="6">
+            <div style="position:absolute;left:{{ d.l }};top:{{ d.t }};font-family:var(--ks-mono);font-size:8px;color:{{ d.ink }};white-space:nowrap;background:{{ d.bg }};padding:0 3px">{{ d.t2 }}</div>
+          </sc-for>
+        </div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:12px">
+          <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ m.body }}</div>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
+            <sc-for list="{{ m.numbers }}" as="n" hint-placeholder-count="6">
+              <div style="display:flex;align-items:baseline;gap:9px;padding:7px 11px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ n.tone }}">
+                <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3);width:118px;flex:none">{{ n.k }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11.5px;font-weight:600;color:{{ n.tone }};flex:none">{{ n.v }}</span>
+                <span style="font-size:10.5px;line-height:1.4;color:var(--ks-ink-3);min-width:0;text-wrap:pretty">{{ n.note }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">BUDGET</div>
+      <div style="font-size:19px;font-weight:600">Where every vertical pixel goes</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">rows are 22px · the old target was 40 rows at 1080p</div>
+    </div>
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+      <div style="height:24px;display:grid;grid-template-columns:1fr 120px 120px 120px 1fr;align-items:center;gap:14px;padding:0 16px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div>WHAT</div><div style="text-align:right">1280 × 800</div><div style="text-align:right">1920 × 1080</div><div style="text-align:right">3440 × 1440</div><div>NOTE</div>
+      </div>
+      <sc-for list="{{ budget }}" as="b" hint-placeholder-count="9">
+        <div style="min-height:28px;display:grid;grid-template-columns:1fr 120px 120px 120px 1fr;align-items:center;gap:14px;padding:5px 16px;background:{{ b.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+          <div style="font-size:11.5px;color:{{ b.kInk }};font-weight:{{ b.weight }}">{{ b.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ b.aInk }};text-align:right">{{ b.a }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ b.bInk }};text-align:right">{{ b.b }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ b.cInk }};text-align:right">{{ b.c }}</div>
+          <div style="font-size:11px;line-height:1.4;color:var(--ks-ink-3);text-wrap:pretty">{{ b.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    const S = 0.26; // one scale for all three windows
+    const px = n => (n * S).toFixed(1) + 'px';
+
+    const gh = (n, seed, hh) => {
+      const out = [], pal = [['#5a2530', '#3a1c22'], ['#4a4520', '#332f18'], ['#2c3542', '#212932'], ['#242b35', '#1c222b'], ['#1e242d', '#191f26']];
+      for (let i = 0; i < n; i++) {
+        const p = pal[(i + seed) % pal.length];
+        out.push({ h: hh, w1: (26 - (i % 4) * 4) + 'px', w2: (9 + (i % 3) * 3) + 'px', c1: p[0], c2: p[1] });
+      }
+      return out;
+    };
+    const box = (l, t, w, h, o) => Object.assign({
+      l: px(l), t: px(t), w: px(w), h: px(h), bg: 'var(--ks-panel)', line: LINE, style: 'solid',
+      hasHead: true, headH: px(28), headBg: 'var(--ks-field)', ink: INK3, label: '', ghost: []
+    }, o || {});
+    const chrome = (l, t, w, h, label, ink) => box(l, t, w, h, {
+      bg: 'var(--ks-field)', line: LINE_H, headH: px(h), headBg: 'transparent', ink: ink || INK2, label
+    });
+    const pane = (l, t, w, h, label, rows, seed, focused) => box(l, t, w, h, {
+      label, ink: focused ? CY : INK3,
+      headBg: focused ? 'rgba(63,224,208,.10)' : 'var(--ks-field)',
+      line: LINE, ghost: gh(rows, seed, px(22))
+    });
+    const dim = (l, t, t2, o) => Object.assign({ l: px(l), t: px(t), t2, ink: INK3, bg: 'rgba(10,12,16,.85)' }, o || {});
+    const N = (k, v, note, tone) => ({ k, v, note, tone: tone || INK2 });
+
+    const maps = [
+      {
+        tag: '1920 × 1080', title: 'The default window', tone: CY, note: 'the size the frame is tuned for · rail hidden',
+        w: px(1920), h: px(1080),
+        boxes: [
+          chrome(0, 0, 1920, 38, 'KUBESCOPE   1 fleet   2 payments   3 incident   4 ci   +', INK2),
+          pane(0, 38, 960, 1018, 'EW  Pods · payments', 40, 0, true),
+          pane(961, 38, 959, 509, 'AS  Events', 19, 1, false),
+          pane(961, 548, 959, 508, 'UE  Logs · ledger-worker', 19, 2, false),
+          chrome(0, 1056, 1920, 24, 'EW  pods · payments · !running                              ▲ 2 clusters need you', INK3)
+        ],
+        dims: [
+          dim(1420, 8, '38px'), dim(1420, 1060, '24px'),
+          dim(300, 44, '960 × 1018'), dim(1240, 44, '959 × 509'),
+          dim(300, 1030, '40 rows fit'), dim(1240, 554, '19 rows')
+        ],
+        body: 'Two permanent bands and everything else is panes. A full-height pane fits 40 rows of 22px, which was the old target and survives — because the scope bar disappeared into each pane’s own header and the 46px rail became a width you open with ⌘\\ rather than a region.',
+        numbers: [
+          N('TAB BAR', '38px', 'workspaces, the + and the trouble chip', CY),
+          N('STATUS BAR', '24px', 'focused scope left, fleet right', CY),
+          N('PERMANENT CHROME', '62px', '5.7% of the height', CY),
+          N('PANE CHROME', '54px', '28px header + 26px control bar'),
+          N('FULL-HEIGHT PANE', '40 rows', '1018 − 54 = 964 / 22', OK),
+          N('RAIL', '0px', '46 or 340 when opened')
+        ]
+      },
+      {
+        tag: '1280 × 800', title: 'The smallest supported window — and the everyday one', tone: WARN, note: 'four panes of ~318px · this is where the old shell failed',
+        w: px(1280), h: px(800),
+        boxes: [
+          chrome(0, 0, 1280, 38, 'KUBESCOPE   1 fleet   2 payments   3 incident   4 ci', INK2),
+          pane(0, 38, 640, 369, 'EW  Pods', 14, 0, true),
+          pane(641, 38, 639, 369, 'AS  Events', 14, 1, false),
+          pane(0, 408, 640, 368, 'UE  Logs', 14, 2, false),
+          pane(641, 408, 639, 368, 'UE  Shell', 14, 3, false),
+          chrome(0, 776, 1280, 24, 'EW  pods · payments                          ▲ 2 need you', INK3)
+        ],
+        dims: [
+          dim(900, 8, '38px'), dim(900, 780, '24px'),
+          dim(180, 44, '640 × 369'), dim(180, 414, '640 × 368'),
+          dim(820, 44, 'min pane 320 × 180'), dim(180, 350, '14 rows each')
+        ],
+        body: 'Four panes at 318 × 315 usable — above the 320 × 180 minimum on the vertical axis and exactly at it horizontally, which is why the minimum is what it is. Column headers are dropped below 3 columns of grid space, taking pane chrome from 54px to 28px and buying back one data row per pane.',
+        numbers: [
+          N('USABLE PER PANE', '638 × 315', 'after 1px borders', WARN),
+          N('AT THE MINIMUM', 'yes', '320 wide is the floor, by design', WARN),
+          N('PANE CHROME', '28px', 'control bar collapses into the header'),
+          N('ROWS PER PANE', '14', '(369 − 28 − 22) / 22', OK),
+          N('COLUMNS SHOWN', '4 of 7', 'restarts and node drop first'),
+          N('WHAT DEGRADES', 'columns', 'never the row height')
+        ]
+      },
+      {
+        tag: '3440 × 1440', title: 'Ultrawide — more panes, never longer rows', tone: OK, note: 'content capped at 1180px per pane',
+        w: px(3440), h: px(1440),
+        boxes: [
+          chrome(0, 0, 3440, 38, 'KUBESCOPE   1 fleet   2 payments   3 incident   4 ci   5 drift   6 certs   +', INK2),
+          chrome(0, 38, 340, 1378, 'RAIL 340px', INK3),
+          pane(341, 38, 1180, 1378, 'EW  Pods · payments', 54, 0, true),
+          pane(1522, 38, 959, 689, 'AS  Events', 27, 1, false),
+          pane(1522, 728, 959, 688, 'UE  Logs', 27, 2, false),
+          pane(2482, 38, 958, 459, 'ALL  Fleet', 17, 3, false),
+          pane(2482, 498, 958, 459, 'UE  Metrics', 17, 4, false),
+          pane(2482, 958, 958, 458, 'UE  Shell', 17, 2, false),
+          chrome(0, 1416, 3440, 24, 'EW  pods · payments · !running                                                        ▲ 2 clusters need you', INK3)
+        ],
+        dims: [
+          dim(2900, 8, '38px'), dim(60, 44, '340px'),
+          dim(700, 44, 'content max 1180px'), dim(1700, 44, '959 × 689'),
+          dim(2600, 44, '958 × 459'), dim(700, 1390, '54 rows')
+        ],
+        body: 'The extra width becomes panes, not longer rows: a monospace line over about 110 characters loses its start, which is where the 1180px content cap comes from. Six panes here, the rail open at its named width, and the two chrome bands are still 38 and 24 — the frame does not grow with the window.',
+        numbers: [
+          N('PANES SHOWN', '6', 'plus the rail at 340px', OK),
+          N('CONTENT CAP', '1180px', 'per pane, ~110 mono characters', OK),
+          N('CHROME', '62px', 'identical to 1080p', CY),
+          N('TALLEST PANE', '54 rows', '1378 − 54 = 1324 / 22'),
+          N('WIDER THAN THE CAP', 'padding', 'the row stops, the pane does not'),
+          N('WHAT NEVER CHANGES', 'row height', '22px at every width')
+        ]
+      }
+    ];
+
+    const B = (k, a, b, c, note, o) => Object.assign({
+      k, a, b, c, note, kInk: INK, weight: '400',
+      aInk: INK2, bInk: INK2, cInk: INK2, bg: 'transparent'
+    }, o || {});
+
+    const budget = [
+      B('Window height', '800', '1080', '1440', 'the three sizes this design is drawn for', { kInk: INK3 }),
+      B('Tab bar', '38', '38', '38', 'permanent · workspaces and the trouble chip', { aInk: CY, bInk: CY, cInk: CY }),
+      B('Status bar', '24', '24', '24', 'permanent · focused scope and the fleet', { aInk: CY, bInk: CY, cInk: CY }),
+      B('Permanent chrome', '62', '62', '62', 'against the earlier brief’s 144px budget', { weight: '600', aInk: CY, bInk: CY, cInk: CY, bg: 'rgba(63,224,208,.05)' }),
+      B('Left for panes', '738', '1018', '1378', 'the whole rest of the window', { weight: '600' }),
+      B('Pane header', '28', '28', '28', 'cluster, kind, scope, ⊞ ⋯ ✕'),
+      B('Control bar', '0', '26', '26', 'collapses into the header below 3 grid columns', { aInk: WARN }),
+      B('Tab strip', '0', '0', '0', 'only when a slot holds more than one tab', { aInk: INK3, bInk: INK3, cInk: INK3 }),
+      B('Rows, one full-height pane', '32', '40', '54', 'at 22px, after that pane’s own chrome', { weight: '600', aInk: OK, bInk: OK, cInk: OK, bg: 'rgba(62,207,142,.05)' }),
+      B('Rows, four panes', '14 each', '19 each', '27 each', '56 / 76 / 108 rows on screen at once', { aInk: OK, bInk: OK, cInk: OK }),
+      B('Time bar, when in the past', '84', '84', '84', 'rented per tab, not owned — see screen 27', { aInk: '#c9a9ff', bInk: '#c9a9ff', cInk: '#c9a9ff' })
+    ];
+
+    return {
+      facts: [
+        { k: 'PERMANENT REGIONS', v: '2', tone: CY },
+        { k: 'VERTICAL CHROME', v: '62px', tone: CY },
+        { k: 'ROW HEIGHT', v: '22px', tone: INK },
+        { k: 'CONTENT CAP', v: '1180px', tone: OK }
+      ],
+      maps, budget,
+      closing: [
+        { tone: CY, k: 'TWO PERMANENT REGIONS, 62PX', t: 'The earlier brief budgeted 144px of frame at 1080p and asked whether it could be held. It came in at 62: a 38px tab bar and a 24px status bar. The 58px scope bar went into each pane’s own header, where the scope actually belongs now that panes carry their own; the 46px rail became a width you open with ⌘\\. A full-height pane still fits the 40 rows the old target asked for.' },
+        { tone: WARN, k: '1280 × 800 IS THE DESIGN CASE, NOT THE EDGE CASE', t: 'Four panes at 318px wide is the everyday layout on a laptop, and it is exactly where the previous shell fell apart. It is also where the 320px minimum comes from — one more pixel of chrome anywhere in the horizontal chain and a four-pane split becomes impossible on the machine most people are actually using.' },
+        { tone: OK, k: 'WIDTH BECOMES PANES, NEVER LONGER ROWS', t: 'Content inside a pane is capped at 1180px, about 110 monospace characters, because a longer line loses its start before the eye reaches its end. On an ultrawide the surplus becomes a sixth pane and an open rail rather than a wider table — the same reason the frame’s two bands do not grow with the window.' },
+        { tone: INK2, k: 'DEGRADATION DROPS COLUMNS, NEVER DENSITY', t: 'From 1920 to 1280 the row stays 22px and the columns go: restarts and node leave first, then the control bar folds into the header, buying back one row per pane. Shrinking the row instead would make the small window the unreadable one, which is the opposite of what the smallest supported size needs.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

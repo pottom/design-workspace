@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 17 / 30 · OBJECT PANE · HELM-01…08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Helm</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Read from the release Secrets in the API — <span style="color:var(--ks-ink)">no helm binary, no local state</span>. Which means the pane can do the one thing the CLI cannot: put the same release from ten clusters side by side and name the value that drifted.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="helm · release across the fleet" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>release secrets · sh.helm.release.v1 · read directly</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 486px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>all clusters</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Helm release</span>
+          <span style="color:var(--ks-ink-3)">payments/checkout</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">8 installs · 3 differ</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">Installed on eight clusters, and three of them are not what you think.</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty"><span style="font-family:var(--ks-mono);color:#f3d08a">prod-ap-south</span> is two chart versions behind and its last upgrade failed and was rolled back. <span style="font-family:var(--ks-mono);color:#f3d08a">staging-eu</span> has a value nobody else has. <span style="font-family:var(--ks-mono);color:#ffb3b3">edge-01</span> could not be read at all.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:148px 172px 88px 100px 58px 1fr 84px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div>CLUSTER</div><div>CHART</div><div>APP</div><div>STATUS</div><div style="text-align:right">REV</div><div>LAST CHANGE</div><div style="text-align:right">VALUES</div>
+        </div>
+
+        <div style="min-height:0">
+          <sc-for list="{{ installs }}" as="i" hint-placeholder-count="9">
+            <div style="height:30px;display:grid;grid-template-columns:148px 172px 88px 100px 58px 1fr 84px;align-items:center;padding:0 12px;gap:10px;background:{{ i.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+              <div style="display:flex;align-items:center;gap:8px;border-left:2px solid {{ i.hue }};padding-left:9px;min-width:0">
+                <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ i.nameInk }};font-weight:{{ i.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.cluster }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:7px;min-width:0">
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ i.chartNameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.chartName }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ i.chartInk }};flex:none">{{ i.chart }}</span>
+              </div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ i.appInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.app }}</div>
+              <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10.5px;color:{{ i.tone }};font-weight:600"><span style="font-size:8px">{{ i.glyph }}</span>{{ i.status }}</div>
+              <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-2);text-align:right">{{ i.rev }}</div>
+              <div style="font-size:11px;color:{{ i.changeInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.change }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ i.valuesInk }};text-align:right">{{ i.values }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;border-top:1px solid var(--ks-line);background:var(--ks-field)">
+          <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-ink);font-weight:600">Where the values differ</span>
+            <span style="color:var(--ks-ink-3)">every readable cluster · edge-01 keeps its column</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-warn)">8 differ</span><span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink-3)">41 identical</span>
+          </div>
+          <div style="height:18px;display:grid;grid-template-columns:196px repeat(9,1fr) 84px;align-items:center;gap:4px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.04em;color:var(--ks-ink-3)">
+            <div style="letter-spacing:.08em">KEY</div>
+            <sc-for list="{{ valueCols }}" as="c" hint-placeholder-count="9">
+              <div style="text-align:center;color:{{ c.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+            </sc-for>
+            <div style="text-align:right;letter-spacing:.08em">VERDICT</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ valueDiff }}" as="v" hint-placeholder-count="6">
+              <sc-if value="{{ v.isDivider }}" hint-placeholder-val="{{ false }}">
+                <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line),inset 0 1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+                  <span style="color:var(--ks-ink-2)">▾</span>{{ v.key }}<div style="flex:1"></div><span>{{ v.verdict }}</span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ v.isRow }}" hint-placeholder-val="{{ true }}">
+                <div style="height:26px;display:grid;grid-template-columns:196px repeat(9,1fr) 84px;align-items:center;gap:4px;padding:0 12px;background:{{ v.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ v.keyInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.key }}</div>
+                  <sc-for list="{{ v.cells }}" as="c" hint-placeholder-count="9">
+                    <div title="{{ c.title }}" style="height:19px;display:flex;align-items:center;justify-content:center;background:{{ c.bg }};font-family:var(--ks-mono);font-size:9.5px;color:{{ c.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+                  </sc-for>
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ v.verdictInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.verdict }}</div>
+                </div>
+              </sc-if>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-warn);font-weight:600"><span style="font-size:7px">◐</span>prod-ap-south</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">History</span>
+          <span style="color:var(--ks-ink-3)">7 of 10 kept<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">compare</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <!-- the compare bar: two revisions picked, what changed between them -->
+        <div style="padding:10px 12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10.5px">
+            <span style="display:flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid #4a3a12;background:rgba(240,180,41,.10);color:var(--ks-warn)"><span style="font-size:9px">A</span>#5 · Aug 28</span>
+            <span style="color:var(--ks-ink-3)">↔</span>
+            <span style="display:flex;align-items:center;gap:6px;padding:3px 9px;border:1px solid #2f4356;background:rgba(74,168,255,.10);color:#8ac6ff"><span style="font-size:9px">B</span>#7 · now</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-warn)">3 keys · 4 resources</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:2px">
+            <sc-for list="{{ compare }}" as="c" hint-placeholder-count="4">
+              <div style="min-height:20px;display:grid;grid-template-columns:14px 1fr 92px 92px;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10px">
+                <span style="color:{{ c.tone }};text-align:center">{{ c.mark }}</span>
+                <span style="color:{{ c.keyInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.key }}</span>
+                <span style="color:{{ c.aInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.a }}</span>
+                <span style="color:{{ c.bInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.b }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:10px">
+            <span style="padding:4px 9px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">rendered manifest diff</span>
+            <span style="padding:4px 9px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">values as YAML</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-ink-3)">shift-click a revision to set B</span>
+          </div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ revisions }}" as="r" hint-placeholder-count="7">
+            <div style="padding:10px 12px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:2px;align-self:stretch;background:{{ r.tone }};flex:none"></span>
+                <span style="width:15px;height:15px;flex:none;border:1px solid {{ r.pickLine }};background:{{ r.pickBg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:8.5px;color:{{ r.pickInk }}">{{ r.pick }}</span>
+                <span style="font-family:var(--ks-mono);font-size:12px;color:{{ r.numInk }};font-weight:600;flex:none">{{ r.n }}</span>
+                <span style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10px;color:{{ r.tone }};font-weight:600;flex:none"><span style="font-size:7px">{{ r.glyph }}</span>{{ r.status }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ r.chart }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.byInk }};flex:none">{{ r.by }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none">{{ r.when }}</span>
+              </div>
+              <div style="padding-left:11px;display:flex;flex-direction:column;gap:4px">
+                <div style="font-size:11.5px;line-height:1.45;color:{{ r.ink }};text-wrap:pretty">{{ r.what }}</div>
+                <sc-if value="{{ r.hasChanges }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:2px;padding-top:2px">
+                    <sc-for list="{{ r.changes }}" as="ch" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:baseline;gap:8px;font-family:var(--ks-mono);font-size:10px">
+                        <span style="color:{{ ch.tone }};flex:none">{{ ch.mark }}</span>
+                        <span style="color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ch.t }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.hasAction }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:7px;padding-top:4px">
+                    <span style="padding:4px 9px;border:1px solid {{ r.actionLine }};background:{{ r.actionBg }};font-family:var(--ks-mono);font-size:10px;color:{{ r.actionInk }}">{{ r.action }}</span>
+                    <span style="padding:4px 9px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">diff against now</span>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT THE RELEASE OWNS</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ owned }}" as="o" hint-placeholder-count="7">
+              <span style="display:flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid {{ o.line }};background:{{ o.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ o.ink }}">
+                <span style="font-size:7px;color:{{ o.tone }}">{{ o.glyph }}</span>{{ o.t }}
+              </span>
+            </sc-for>
+          </div>
+          <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">Rendered from the manifest in the release Secret, then matched against what is actually in the cluster — the amber chip is a resource the release believes it owns and cannot find.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">INHERITANCE</div>
+      <div style="font-size:19px;font-weight:600">Where each value came from</div>
+      <div style="font-size:13px;color:var(--ks-ink-3);text-wrap:pretty">the chart default, a values file, a subchart, or somebody’s <span style="font-family:var(--ks-mono);font-size:12px">--set</span></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 396px;gap:16px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-ok);display:flex;flex-direction:column;overflow:hidden">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:var(--ks-info);font-weight:600">prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Values · resolved</span>
+          <span style="color:var(--ks-ink-3)">47 keys · 6 you set · 41 from the chart</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ layerChips }}" as="l" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:5px;color:{{ l.ink }}"><span style="width:8px;height:8px;background:{{ l.tone }}"></span>{{ l.t }}</span>
+          </sc-for>
+        </div>
+        <div style="height:19px;display:grid;grid-template-columns:26px 250px 116px 1fr 132px;align-items:center;gap:10px;padding:0 12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.07em;color:var(--ks-ink-3)">
+          <div></div><div>KEY</div><div style="text-align:right">EFFECTIVE</div><div>CAME FROM</div><div style="text-align:right">OVERRODE</div>
+        </div>
+        <div style="max-height:352px;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ provenance }}" as="p" hint-placeholder-count="14">
+            <div style="min-height:26px;display:grid;grid-template-columns:26px 250px 116px 1fr 132px;align-items:center;gap:10px;padding:3px 12px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="display:flex;align-items:center;justify-content:center"><span style="width:9px;height:9px;background:{{ p.tone }}"></span></div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ p.keyInk }};padding-left:{{ p.indent }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.key }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ p.valInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.value }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10px;color:{{ p.srcInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.source }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10px;color:{{ p.overInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.overrode }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:9px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:11px;font-size:11.5px;color:var(--ks-ink-2);line-height:1.45">
+          <span style="text-wrap:pretty">The <span style="font-family:var(--ks-mono);color:#f0c887">--set</span> rows are the dangerous ones: they exist only in whatever command ran last and in this Secret — not in any file, not in git.</span>
+          <div style="flex:1"></div>
+          <span style="padding:5px 10px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink);flex:none">export as a values file</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:14px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">THE LAYERS, IN THE ORDER HELM APPLIES THEM</div>
+          <sc-for list="{{ layers }}" as="l" hint-placeholder-count="5">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding-bottom:9px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="width:9px;height:9px;background:{{ l.tone }};flex:none;margin-top:4px"></span>
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ l.nameInk }};font-weight:600">{{ l.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none">{{ l.count }}</span>
+                </div>
+                <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ l.t }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Later beats earlier, and the pane shows the winner in the effective column with the loser beside it. A key with three layers behind it is a key somebody will argue about at 2am.</div>
+        </div>
+
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-warn);padding:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-warn)">WHAT WE CAN AND CANNOT KNOW</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">The release Secret stores two things: the <span style="color:var(--ks-ink)">merged user values</span> and the <span style="color:var(--ks-ink)">chart’s own defaults</span>. So “chart default versus overridden” is exact — we compute it, we do not guess.</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">What the Secret does <span style="color:#f3d08a">not</span> record is which file or flag a user value arrived through. Where a values file is committed and reachable we match it and name it; where we cannot, the row says <span style="font-family:var(--ks-mono);color:#f0c887">--set or an untracked file</span> rather than inventing a filename.</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Subchart provenance <span style="color:var(--ks-ok)">is</span> exact — the key path says it, and the parent’s override of a subchart default is the single most common surprise in Helm.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">One release, one cluster, one rollback — and the inventory</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:10px 10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+                <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+              </div>
+            </sc-if>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="8">
+                <div style="min-height:24px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+    const hue = {};
+    CL.forEach(c => { hue[c[0]] = c[2]; });
+
+    // cluster, chart version, status, rev, change, values, kind, release name, chart name, app version
+    const inst = [
+      ['prod-eu-west', '4.2.1', 'deployed', '12', 'upgraded 13:56 today · by argocd', 'baseline', 'ok', 'checkout', '2026.8.3'],
+      ['prod-us-east', '4.2.1', 'deployed', '12', 'upgraded 13:58 today · by argocd', 'identical', 'ok', 'checkout', '2026.8.3'],
+      ['prod-ap-south', '4.0.3', 'rolled back', '7', 'upgrade to 4.2.1 failed 11:04 · rolled back 11:09', '2 differ', 'bad', 'checkout', '2026.8.1'],
+      ['staging-eu', '4.2.1', 'deployed', '31', 'upgraded 09:12 today · by a person', '1 extra key', 'warn', 'checkout', '2026.8.3'],
+      ['staging-us', '4.2.1', 'deployed', '30', 'upgraded 09:14 today · by a person', 'identical', 'ok', 'checkout', '2026.8.3'],
+      ['dev-sandbox', '4.3.0-rc2', 'deployed', '88', 'upgraded 08:40 · a release candidate', '4 differ', 'warn', 'checkout', '2026.9.0-rc2'],
+      ['edge-02', '4.2.1', 'deployed', '5', 'upgraded yesterday 17:20', 'identical', 'ok', 'checkout-edge', '2026.8.3'],
+      ['ci-runners', '4.2.1', 'deployed', '9', 'upgraded yesterday 17:22', 'identical', 'ok', 'checkout', '2026.8.3'],
+      ['edge-01', '\u2014', 'unknown', '\u2014', 'cluster unreachable \u2014 not “not installed”', '?', 'down', '\u2014', '\u2014']
+    ];
+    const sMeta = {
+      deployed: ['\u25cf', OK], 'rolled back': ['\u25b2', BAD], unknown: ['\u25cb', IDLE], failed: ['\u25b2', BAD], pending: ['\u25c6', WARN]
+    };
+    const installs = inst.map(i => {
+      const m = sMeta[i[2]];
+      const k = i[6];
+      return {
+        cluster: i[0], hue: hue[i[0]], chart: i[1], status: i[2], glyph: m[0], tone: k === 'down' ? IDLE : m[1],
+        chartName: i[7], app: i[8],
+        chartNameInk: k === 'down' ? '#8a5f62' : i[7] === 'checkout-edge' ? '#f3d08a' : INK,
+        appInk: k === 'down' ? '#8a5f62' : i[8].indexOf('rc') > 0 ? '#f3d08a' : i[8] === '2026.8.1' ? '#ffb3b3' : INK2,
+        rev: i[3], change: i[4], values: i[5],
+        nameInk: k === 'down' ? '#8a5f62' : k === 'bad' || k === 'warn' ? INK : '#c8d1dd',
+        weight: k === 'bad' ? '600' : '400',
+        chartInk: i[1] === '4.0.3' ? '#ffb3b3' : i[1].indexOf('rc') > 0 ? '#f3d08a' : INK2,
+        changeInk: k === 'bad' ? '#f0b5b0' : k === 'down' ? '#8a5f62' : INK2,
+        valuesInk: i[5] === 'identical' ? INK3 : i[5] === 'baseline' ? '#8ac6ff' : i[5] === '?' ? '#8a5f62' : WARN,
+        bg: k === 'bad' ? 'rgba(255,95,95,.10)' : k === 'warn' ? 'rgba(240,180,41,.05)' : k === 'down' ? 'rgba(255,95,95,.05)' : 'transparent'
+      };
+    });
+
+    const cell = (t, kind, title) => ({
+      t, title: title || '',
+      bg: kind === 'base' ? 'rgba(74,168,255,.10)' : kind === 'diff' ? 'rgba(240,180,41,.18)' : kind === 'bad' ? 'rgba(255,95,95,.20)' : kind === 'gone' ? 'rgba(255,95,95,.07)' : kind === 'none' ? 'rgba(255,255,255,.012)' : 'rgba(255,255,255,.025)',
+      ink: kind === 'base' ? '#8ac6ff' : kind === 'diff' ? '#f0c887' : kind === 'bad' ? '#ffc0c2' : kind === 'gone' ? '#8a5f62' : kind === 'none' ? '#3f4855' : INK2
+    });
+    // columns follow the installs table order — every readable cluster, and edge-01 kept as a silent slot
+    const cols = ['prod-eu-west', 'prod-us-east', 'prod-ap-south', 'staging-eu', 'staging-us', 'dev-sandbox', 'edge-02', 'ci-runners', 'edge-01'];
+    const valueCols = cols.map(n => ({
+      t: n.replace('prod-', '').replace('staging-', 'stg-').replace('dev-', ''),
+      ink: n === 'edge-01' ? '#8a5f62' : hue[n]
+    }));
+    const row = (key, vals, verdict, kind) => ({
+      isRow: true, isDivider: false, key,
+      cells: vals.map(v => cell(v[0], v[1], v[2] || '')),
+      verdict,
+      verdictInk: kind === 'bad' ? BAD : kind === 'warn' ? WARN : INK3,
+      keyInk: kind === 'bad' || kind === 'warn' ? INK : kind === 'same' ? INK3 : INK2,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.08)' : kind === 'warn' ? 'rgba(240,180,41,.06)' : 'transparent'
+    });
+    const G = ['\u2014', 'gone', 'cluster unreachable'];
+    const valueDiff = [
+      row('image.tag', [['2026.8.3', 'base'], ['2026.8.3', 'same'], ['2026.8.1', 'bad'], ['2026.8.3', 'same'], ['2026.8.3', 'same'], ['rc2', 'diff'], ['2026.8.3', 'same'], ['2026.8.3', 'same'], G], '1 behind', 'bad'),
+      row('resources.limits.memory', [['512Mi', 'base'], ['1Gi', 'diff'], ['512Mi', 'same'], ['256Mi', 'diff'], ['256Mi', 'diff'], ['128Mi', 'diff'], ['512Mi', 'same'], ['512Mi', 'same'], G], '4 values', 'warn'),
+      row('debug.verboseLogging', [['\u2014', 'none'], ['\u2014', 'none'], ['\u2014', 'none'], ['true', 'diff'], ['\u2014', 'none'], ['true', 'diff'], ['\u2014', 'none'], ['\u2014', 'none'], G], 'nobody else', 'warn'),
+      row('features.payoutsV2', [['false', 'base'], ['false', 'same'], ['false', 'same'], ['true', 'diff'], ['true', 'diff'], ['true', 'diff'], ['false', 'same'], ['false', 'same'], G], 'staging only', 'warn'),
+      row('podDisruptionBudget.enabled', [['true', 'base'], ['true', 'same'], ['false', 'diff'], ['false', 'diff'], ['false', 'diff'], ['false', 'diff'], ['true', 'same'], ['false', 'diff'], G], 'off in ap-south', 'warn'),
+      row('replicaCount', [['8', 'base'], ['6', 'diff'], ['6', 'same'], ['2', 'diff'], ['2', 'diff'], ['1', 'diff'], ['2', 'diff'], ['3', 'diff'], G], 'by size', 'same'),
+      row('ingress.host', [['pay.corp', 'base'], ['pay-us', 'diff'], ['pay-ap', 'diff'], ['pay.stg', 'diff'], ['pay-us.stg', 'diff'], ['pay.dev', 'diff'], ['pay.edge', 'diff'], ['\u2014', 'none'], G], 'expected', 'same'),
+      row('nodeSelector.tier', [['prod', 'base'], ['prod', 'same'], ['prod', 'same'], ['\u2014', 'none'], ['\u2014', 'none'], ['\u2014', 'none'], ['edge', 'diff'], ['ci', 'diff'], G], 'by cluster', 'same'),
+      { isRow: false, isDivider: true, key: '41 identical keys · shown', verdict: 'collapse', cells: [], verdictInk: INK3, keyInk: INK3, bg: 'transparent' },
+      row('image.repository', [['registry.internal/checkout', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('serviceAccount.create', [['true', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('service.port', [['8080', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('probes.readiness.path', [['/healthz', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('resources.requests.cpu', [['200m', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('autoscaling.enabled', [['true', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('autoscaling.maxReplicas', [['12', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('affinity.podAntiAffinity', [['soft', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], ['·', 'same'], G], 'identical', 'same'),
+      row('+ 33 more', [['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none'], ['·', 'none']], 'identical', 'same')
+    ];
+
+    const rev = (n, status, when, what, kind, changes, action, chart, by, pick) => {
+      const m = sMeta[status] || ['\u25cf', OK];
+      return {
+        n: '#' + n, status, glyph: m[0], tone: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'now' ? INFO : IDLE,
+        chart: chart || '', by: by || '',
+        byInk: (by || '').indexOf('argocd') >= 0 || (by || '').indexOf('ci-bot') >= 0 ? INK3 : '#8ac6ff',
+        pick: pick || '', 
+        pickLine: pick === 'A' ? '#4a3a12' : pick === 'B' ? '#2f4356' : LINE,
+        pickBg: pick === 'A' ? 'rgba(240,180,41,.16)' : pick === 'B' ? 'rgba(74,168,255,.14)' : 'transparent',
+        pickInk: pick === 'A' ? WARN : pick === 'B' ? '#8ac6ff' : INK3,
+        when, what, ink: kind === 'bad' ? '#f0b5b0' : kind === 'now' ? INK : INK2,
+        numInk: kind === 'now' ? INK : kind === 'bad' ? '#ffb3b3' : INK2,
+        hasChanges: !!(changes && changes.length), changes: changes || [],
+        hasAction: !!action, action: action || '',
+        actionLine: kind === 'bad' ? '#54262b' : '#5a4520',
+        actionBg: kind === 'bad' ? 'rgba(255,95,95,.10)' : 'rgba(240,180,41,.10)',
+        actionInk: kind === 'bad' ? '#ffb3b3' : WARN,
+        bg: kind === 'now' ? 'var(--ks-sel)' : kind === 'bad' ? 'rgba(255,95,95,.08)' : 'transparent'
+      };
+    };
+    const ch = (mark, t, tone) => ({ mark, t, tone });
+
+    const own = (t, kind) => ({
+      t, glyph: kind === 'missing' ? '\u25c6' : kind === 'extra' ? '\u25cb' : '\u25cf',
+      tone: kind === 'missing' ? WARN : kind === 'extra' ? IDLE : OK,
+      ink: kind === 'missing' ? '#f3d08a' : kind === 'extra' ? INK3 : INK2,
+      line: kind === 'missing' ? '#4a3a12' : LINE,
+      bg: kind === 'missing' ? 'rgba(240,180,41,.08)' : 'transparent'
+    });
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    return {
+      facts: [
+        { k: 'INSTALLS', v: '8 of 10', tone: INK },
+        { k: 'DRIFTING', v: '3', tone: WARN },
+        { k: 'HELM BINARY', v: 'not used', tone: OK },
+        { k: 'HISTORY', v: 'any two revisions', tone: INFO }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map(x => ({ name: x[0], code: x[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: x[4], tone: x[3] })),
+      kpis: [
+        { label: 'CHART VERSIONS', v: '3', tone: WARN, sub: '4.2.1 · 4.0.3 · rc2' },
+        { label: 'BEHIND', v: '1', tone: BAD, sub: 'ap-south' },
+        { label: 'FAILED UPGRADES', v: '1', tone: BAD, sub: 'today' },
+        { label: 'UNREADABLE', v: '1', tone: IDLE, sub: 'edge-01' }
+      ],
+      installs, valueDiff, valueCols,
+      layerChips: [
+        { t: 'chart', tone: '#2c3542', ink: INK3 },
+        { t: 'subchart', tone: '#4fc3b0', ink: '#8fdccf' },
+        { t: 'values file', tone: INFO, ink: '#8ac6ff' },
+        { t: '--set', tone: WARN, ink: '#f0c887' }
+      ],
+      layers: [
+        { name: 'chart defaults', count: '41 keys', tone: '#2c3542', nameInk: INK2, t: 'values.yaml inside the chart. Whatever the maintainer thought was sensible.' },
+        { name: 'subchart defaults', count: '18 keys', tone: '#4fc3b0', nameInk: '#8fdccf', t: 'Each dependency brings its own, namespaced under its name — redis.*, postgresql.*.' },
+        { name: 'parent over subchart', count: '2 keys', tone: '#4fc3b0', nameInk: '#8fdccf', t: 'The umbrella chart overriding a dependency. Invisible in both charts read alone.' },
+        { name: 'values files', count: '4 keys', tone: INFO, nameInk: '#8ac6ff', t: 'What -f pointed at, in order. Matched to a file when we can reach it.' },
+        { name: '--set on the command line', count: '2 keys', tone: WARN, nameInk: '#f0c887', t: 'Wins over everything, recorded nowhere but here. The reason this view exists.' }
+      ],
+      provenance: (() => {
+        const L = {
+          chart: ['#2c3542', INK3, 'chart values.yaml'],
+          sub: ['#4fc3b0', '#8fdccf', ''],
+          file: [INFO, '#8ac6ff', ''],
+          set: [WARN, '#f0c887', '--set or an untracked file']
+        };
+        const p = (key, value, kind, source, overrode, indent) => {
+          const l = L[kind];
+          const loud = kind === 'set' || (overrode && kind === 'sub');
+          return {
+            key, value, indent: (indent || 0) + 'px',
+            tone: l[0], srcInk: l[1], source: source || l[2], overrode: overrode || '',
+            keyInk: loud ? INK : kind === 'chart' ? INK3 : '#c8d1dd',
+            valInk: kind === 'set' ? '#f0c887' : kind === 'chart' ? INK2 : INK,
+            overInk: overrode ? '#8a5f62' : INK3,
+            bg: kind === 'set' ? 'rgba(240,180,41,.07)' : overrode ? 'rgba(255,255,255,.02)' : 'transparent'
+          };
+        };
+        return [
+          p('image.tag', '2026.8.3', 'set', 'set by argocd at 13:56', 'chart: 4.2.1', 0),
+          p('resources.limits.memory', '512Mi', 'set', 'set by you at 14:41', 'file: 256Mi', 0),
+          p('replicaCount', '8', 'file', 'values/prod-eu-west.yaml', 'chart: 3', 0),
+          p('ingress.host', 'pay.corp', 'file', 'values/prod-eu-west.yaml', 'chart: ""', 0),
+          p('autoscaling.maxReplicas', '12', 'file', 'values/prod.yaml', 'chart: 6', 0),
+          p('features.payoutsV2', 'false', 'file', 'values/prod.yaml', '', 0),
+          p('image.repository', 'registry.internal/checkout', 'chart', '', '', 0),
+          p('service.port', '8080', 'chart', '', '', 0),
+          p('probes.readiness.path', '/healthz', 'chart', '', '', 0),
+          p('serviceAccount.create', 'true', 'chart', '', '', 0),
+          p('redis.architecture', 'replication', 'sub', 'subchart redis 20.1.0', '', 12),
+          p('redis.master.persistence.size', '20Gi', 'sub', 'parent chart overrides redis', 'subchart: 8Gi', 12),
+          p('redis.auth.enabled', 'false', 'set', 'set by j.kovacs · Aug 14', 'subchart: true', 12),
+          p('postgresql.primary.resources.limits.cpu', '2', 'sub', 'subchart postgresql 15.5.2', '', 12),
+          p('postgresql.auth.database', 'checkout', 'sub', 'parent chart overrides postgresql', 'subchart: postgres', 12),
+          p('+ 32 more chart defaults', '', 'chart', 'unchanged', '', 0)
+        ];
+      })(),
+      compare: [
+        { mark: '~', tone: WARN, key: 'image.tag', a: '2026.8.1', b: '2026.8.1', keyInk: INK3, aInk: INK3, bInk: INK3 },
+        { mark: '~', tone: WARN, key: 'resources.limits.memory', a: '512Mi', b: '512Mi', keyInk: INK3, aInk: INK3, bInk: INK3 },
+        { mark: '−', tone: BAD, key: 'podDisruptionBudget.enabled', a: 'true', b: 'false', keyInk: INK, aInk: '#a8e6c8', bInk: '#ffb3b3' },
+        { mark: '+', tone: OK, key: 'tolerations[0]', a: '—', b: 'maintenance', keyInk: INK, aInk: INK3, bInk: '#a8e6c8' },
+        { mark: '~', tone: WARN, key: 'replicaCount', a: '6', b: '6', keyInk: INK3, aInk: INK3, bInk: INK3 }
+      ],
+      revisions: [
+        rev(7, 'deployed', '11:09 today', 'Rolled back to the values of #5. This is what is running now.', 'now',
+          [ch('←', 'restored image.tag 2026.8.1', INFO)], '', '4.0.3', 'you', 'B'),
+        rev(6, 'failed', '11:04 today', 'Upgrade to chart 4.2.1 failed: the new job template is invalid for this kubernetes version.', 'bad',
+          [ch('+', 'chart 4.0.3 → 4.2.1', WARN), ch('+', 'image.tag → 2026.8.3', WARN)], 'try the upgrade again…', '4.2.1', 'argocd', ''),
+        rev(5, 'deployed', 'Aug 28 · 14:20', 'Raised the memory limit after the OOM week.', 'idle',
+          [ch('~', 'resources.limits.memory 256Mi → 512Mi', INK2)], '', '4.0.3', 'you', 'A'),
+        rev(4, 'deployed', 'Aug 21 · 09:02', 'Routine chart bump, no value changes.', 'idle', [], '', '4.0.3', 'argocd', ''),
+        rev(3, 'deployed', 'Aug 14 · 16:41', 'Scaled down for the maintenance window and never scaled back.', 'warn',
+          [ch('~', 'replicaCount 8 → 6', WARN)], 'this is still true today', '3.9.1', 'j.kovacs', ''),
+        rev(2, 'deployed', 'Aug 02 · 11:30', 'Added the ingress host.', 'idle', [], '', '3.9.1', 'ci-bot', ''),
+        rev(1, 'deployed', 'Jul 19 · 10:00', 'First install.', 'idle', [], '', '3.8.0', 'j.kovacs', ''),
+        { n: '\u2014', status: '', glyph: '', tone: '#2c3542', chart: '', by: '', byInk: INK3, pick: '', pickLine: LINE, pickBg: 'transparent', pickInk: INK3,
+          when: '', what: 'Revisions older than #1 were pruned by helm\u2019s history limit of 10. What was here is gone from the cluster \u2014 we cannot recover it.',
+          ink: INK3, numInk: INK3, hasChanges: false, changes: [], hasAction: false, action: '', actionLine: LINE, actionBg: 'transparent', actionInk: INK3, bg: 'transparent' }
+      ],
+      owned: [
+        own('deploy/checkout-api', 'ok'), own('svc/checkout', 'ok'), own('cm/checkout-config', 'ok'),
+        own('secret/db-credentials', 'ok'), own('ingress/checkout', 'ok'),
+        own('hpa/checkout-api — missing', 'missing'),
+        own('sa/checkout', 'ok'), own('pdb/checkout — not in the chart', 'extra')
+      ],
+      variants: [
+        {
+          title: 'One release, one cluster', cap: 'HELM-01 · HELM-02', edge: INFO, scope: 'prod-eu-west · payments/checkout', scopeTone: INFO, state: '● deployed', stateTone: OK,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'Chart 4.2.1, revision 12, upgraded four minutes ago by argocd. Healthy.',
+          cols: '128px 1fr',
+          rows: [
+            vr([c('chart', { ink: INK3 }), c('checkout-4.2.1', { ink: INK })]),
+            vr([c('app version', { ink: INK3 }), c('2026.8.3', { ink: INK })]),
+            vr([c('namespace', { ink: INK3 }), c('payments', {})]),
+            vr([c('revision', { ink: INK3 }), c('12 · deployed', { ink: INK })]),
+            vr([c('updated', { ink: INK3 }), c('13:56 today by argocd', {})]),
+            vr([c('resources', { ink: INK3 }), c('7 owned · all present', { ink: '#a8e6c8' })]),
+            vr([c('values', { ink: INK3 }), c('given 6 keys · computed 47', {})]),
+            vr([c('notes', { ink: INK3 }), c('NOTES.txt · 14 lines ▸', { ink: INFO })])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'Given values and computed values are separate tabs — the difference between what someone chose and what the chart defaulted to is usually the whole question.',
+          note: 'The ordinary case. Nothing is wrong, so the pane is short: eight rows and a link to the notes nobody reads until they need them.'
+        },
+        {
+          title: 'Rolling back', cap: 'HELM-06 · HELM-07', edge: BAD, scope: 'prod-ap-south · rollback to #5', scopeTone: WARN, state: '◆ not sent', stateTone: WARN,
+          hasLead: true, leadBg: 'rgba(255,95,95,.08)', leadInk: '#ffd7d7',
+          lead: 'Rolling back to #5 would undo two things — one of them is not what you want.',
+          cols: '20px 1fr 84px',
+          rows: [
+            vr([c('−', { ink: BAD }), c('image.tag 2026.8.1 → 2026.8.0', { ink: '#ffd7d7' }), c('undo', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)'),
+            vr([c('−', { ink: BAD }), c('memory limit 512Mi → 256Mi', { ink: '#ffd7d7' }), c('undo', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)'),
+            vr([c('', {}), c('the memory limit was raised for a reason —', { ink: '#f3d08a', font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('it fixed the OOM loop on Aug 28', { ink: '#f3d08a', font: SANS, size: '11px' }), c('', {})]),
+            vr([c('=', { ink: INK3 }), c('replicaCount 6', { ink: INK3 }), c('same', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('=', { ink: INK3 }), c('ingress.host pay-ap.corp', { ink: INK3 }), c('same', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('4 resources would be updated, 0 deleted', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('about 90 seconds · pods restart', { ink: INK2, font: SANS, size: '11px' }), c('', {})])
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Offer: roll back the image only, keeping the memory limit. A rollback is rarely all-or-nothing in practice, so the pane says so out loud.',
+          note: 'The diff comes before the confirmation, and the pane volunteers the consequence nobody remembers: what else was in that revision.'
+        },
+        {
+          title: 'Every release, everywhere', cap: 'HELM-08 · XC-04', edge: OK, scope: 'all clusters · 34 releases', scopeTone: OK, state: '◐ 8 of 10', stateTone: WARN,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'Nine charts run on more than one cluster. Four of the nine are not the same version everywhere.',
+          cols: '1fr 68px 54px',
+          rows: [
+            vr([c('ingress-nginx', { ink: INK }), c('4.11.3', { justify: 'flex-end' }), c('8/8', { justify: 'flex-end', ink: OK })]),
+            vr([c('cert-manager', { ink: INK }), c('1.14.4', { justify: 'flex-end' }), c('7/8', { justify: 'flex-end', ink: WARN })], 'rgba(240,180,41,.06)'),
+            vr([c('checkout', { ink: INK }), c('4.2.1', { justify: 'flex-end' }), c('7/8', { justify: 'flex-end', ink: WARN })], 'rgba(240,180,41,.06)'),
+            vr([c('kube-prometheus', { ink: INK }), c('61.3.0', { justify: 'flex-end' }), c('5/8', { justify: 'flex-end', ink: BAD })], 'rgba(255,95,95,.07)'),
+            vr([c('loki', { ink: INK }), c('6.6.2', { justify: 'flex-end' }), c('6/6', { justify: 'flex-end', ink: OK })]),
+            vr([c('external-secrets', { ink: INK }), c('0.9.19', { justify: 'flex-end' }), c('8/8', { justify: 'flex-end', ink: OK })]),
+            vr([c('argo-cd', { ink: INK }), c('7.3.11', { justify: 'flex-end' }), c('3/3', { justify: 'flex-end', ink: OK })]),
+            vr([c('velero', { ink: INK }), c('7.1.4', { justify: 'flex-end' }), c('4/6', { justify: 'flex-end', ink: BAD })], 'rgba(255,95,95,.07)')
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'The last column is “on how many clusters is this the majority version” — a fraction, because the useful number is the exception count, not the total.',
+          note: 'The inventory nobody has. It is the same data as the fleet matrix, keyed by chart instead of by cluster, and it is where an upgrade campaign starts.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'THE VALUE GRID IS THE PANE', t: 'Every readable cluster gets a column — including edge-01, which gets a dimmed one with a dash, because an absent column would read as “no difference here”. Differing keys first, then the identical ones, dimmed and reduced to a dot after the first column: a wall of repeated values would drown the eight rows that matter. The verdict column separates “by design” from “nobody meant this” — a different ingress host is expected, a stray debug.verboseLogging is not.' },
+        { tone: OK, k: 'NO BINARY, WHICH IS WHY IT SCALES', t: 'Reading sh.helm.release.v1 Secrets directly means ten clusters cost ten API reads, not ten shell-outs with ten kubeconfig contexts. It also means every release is visible whether or not the person who installed it is at their desk — and that an unreachable cluster reports “unknown”, never “not installed”.' },
+        { tone: BAD, k: 'WHAT WE GIVE UP', t: 'We do not install charts and we do not template them: no repo browser, no helm install, no local chart directory. Upgrading a chart version is out of scope — this pane rolls back and edits values, which is what an incident needs, and leaves fresh installs to whatever put them there. Rendering the manifest without the helm binary also means our render can drift from helm’s on exotic template functions; where the rendered set does not match the cluster, we say so rather than guessing which is right.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

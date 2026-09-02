@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 28 / 30 · THE FRAME · XC-03 · XC-04 · XC-07 · XC-08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Cross-cluster</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The first wedge, and it lives or dies on one drawing decision. Eight clusters asked the same question produce a hundred and eight rows, and the finding is two characters in the third column. So the group-scope list <span style="color:var(--ks-ink)">rolls up to one row per name</span>, and a diff across N clusters is <span style="color:var(--ks-ink)">a majority and its outliers</span> — never eight columns.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="cross-cluster · one question, eight clusters" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="display:flex;align-items:center;padding:0 12px;font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink-3)">+</div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #5a4520;background:rgba(240,180,41,.12);color:var(--ks-warn);font-weight:600"><span style="font-size:8px">◈</span>2 clusters need you</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span>rail hidden</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘\</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 452px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>group: payments-prod</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Deployments</span>
+          <span style="color:var(--ks-ink-3)">ns</span><span style="color:var(--ks-ink-2)">payments<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">{{ headerLine }}</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>8 of 8 answered</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◈</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">The two dissenters are the same two clusters on both fields, which makes this <span style="color:var(--ks-ink)">one stalled rollout, not three problems</span>. The cluster codes on each row are the only place a colour is spent: lit means this cluster is the odd one out.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:9px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+            <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid {{ m.line }};background:{{ m.bg }};color:{{ m.ink }};font-weight:{{ m.weight }}">
+              <span style="font-size:9px;color:{{ m.gtone }}">{{ m.glyph }}</span>{{ m.t }}
+              <span style="padding:1px 4px;border:1px solid {{ m.keyLine }};color:{{ m.keyInk }};font-size:9px">{{ m.key }}</span>
+            </span>
+          </sc-for>
+          <span style="color:var(--ks-line)">│</span>
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="3">
+            <span style="padding:3px 8px;border:1px solid {{ f.line }};background:{{ f.bg }};color:{{ f.ink }}">{{ f.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">a rolled-up row can always be opened into the objects it summarises</span>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:92px 1fr 76px 200px 152px 78px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div style="color:var(--ks-ink-2)">SPREAD ↓</div><div>NAME</div><div style="text-align:right">REPLICAS</div><div>VERDICT</div><div>WHERE</div><div style="text-align:right">CHANGED</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="18">
+            <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <span style="color:{{ r.tone }}">{{ r.name }}</span><div style="flex:1"></div><span>{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+              <div style="height:34px;display:grid;grid-template-columns:92px 1fr 76px 200px 152px 78px;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10px;color:{{ r.tone }};font-weight:600">
+                  <span style="font-size:8px;flex:none">{{ r.glyph }}</span>{{ r.spread }}
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.sub }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.repInk }};text-align:right">{{ r.replicas }}</div>
+                <div style="font-size:11px;color:{{ r.verdictInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.verdict }}</div>
+                <div style="display:flex;align-items:center;gap:2px;min-width:0">
+                  <sc-for list="{{ r.dots }}" as="d" hint-placeholder-count="8">
+                    <span style="font-family:var(--ks-mono);font-size:8.5px;font-weight:600;padding:1px 3px;color:{{ d.ink }};border:1px solid {{ d.line }};background:{{ d.bg }};flex:none">{{ d.t }}</span>
+                  </sc-for>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.changedInk }};text-align:right">{{ r.changed }}</div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="3">
+            <span style="color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ bucketSum }}</span>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">selected</span>
+          <span style="color:var(--ks-ink);font-weight:600">checkout-api</span>
+          <span style="color:#f3d08a">6 clusters agree · ap-south and ci-runners do not</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-warn);font-weight:600">◈ the difference</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">checkout-api</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">40 fields · 3 differ</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+
+          <div style="padding:13px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">Two clusters are on the pre-rollout version.</div>
+            <div style="font-size:12px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Not eight columns. Each field states what the majority holds, then names only the clusters that disagree — the shape that still works when the group has thirty members.</div>
+          </div>
+
+          <sc-for list="{{ diffFields }}" as="d" hint-placeholder-count="3">
+            <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line);border-left:2px solid {{ d.edge }}">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.field }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ d.edge }};flex:none">{{ d.severity }}</span>
+              </div>
+              <div style="display:grid;grid-template-columns:104px 1fr;align-items:center;gap:9px;padding:5px 9px;background:rgba(62,207,142,.06);border:1px solid #1c3a2c">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ok)">{{ d.majorityN }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:#a8e6c8;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.majority }}</span>
+              </div>
+              <sc-for list="{{ d.outliers }}" as="o" hint-placeholder-count="2">
+                <div style="display:grid;grid-template-columns:104px 1fr;align-items:center;gap:9px;padding:4px 9px;background:rgba(240,180,41,.07)">
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ o.clInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.cluster }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:#f3d08a;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.value }}</span>
+                </div>
+              </sc-for>
+              <div style="font-size:10.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ d.note }}</div>
+            </div>
+          </sc-for>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:7px;border-bottom:1px solid var(--ks-line);background:rgba(62,207,142,.04)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ok)">WHAT ALL EIGHT AGREE ON</div>
+            <sc-for list="{{ agreeing }}" as="a" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10.5px">
+                <span style="color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.t }}</span>
+                <span style="color:{{ a.noteInk }};flex:none">{{ a.note }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:10.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">Agreement is one line, not thirty-seven. A diff that lists what is the same is a diff you scroll past.</div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-warn)">RULE ON IT ONCE</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">XC-04</span>
+            </div>
+            <sc-for list="{{ driftOpts }}" as="d" hint-placeholder-count="3">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:7px;color:{{ d.tone }};flex:none;padding-top:5px">{{ d.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-ink)">{{ d.k }}</span> — {{ d.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHERE THIS GOES NEXT</div>
+            <sc-for list="{{ nexts }}" as="n" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px;padding:6px 9px;border:1px solid var(--ks-line);background:var(--ks-field)">
+                <span style="font-size:11.5px;color:{{ n.ink }};min-width:0;text-wrap:pretty">{{ n.t }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ n.cap }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">READ-ONLY ON ALL EIGHT</span>
+            <span style="font-size:10.5px;color:var(--ks-ink-3)">a group write needs its own consent</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Mark expected</span>
+          <span style="padding:6px 11px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:11.5px;color:var(--ks-warn);font-weight:600">Watch for drift…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">The view we rejected, the case where columns are honest, and the counter-example</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="11">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO], ['prod-us-east', 'UE', PURPLE], ['prod-ap-south', 'AS', WARN],
+      ['staging-eu', 'SE', OK], ['staging-us', 'SU', '#5ad2c4'], ['dev-sandbox', 'DS', '#8a94a6'],
+      ['edge-01', 'E1', BAD], ['edge-02', 'E2', ORANGE], ['ci-runners', 'CI', '#9ad04a'], ['analytics', 'AN', '#c9a227']];
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    const GRP = ['EW', 'UE', 'AS', 'SE', 'SU', 'E2', 'CI', 'AN'];
+    const chipsFor = (odd, miss) => GRP.map(code => {
+      const gone = miss.indexOf(code) >= 0;
+      const bad = odd.indexOf(code) >= 0;
+      return {
+        t: code,
+        ink: gone ? '#ffb3b3' : bad ? '#f3d08a' : '#39414d',
+        line: gone ? '#54262b' : bad ? '#5a4520' : 'transparent',
+        bg: gone ? 'rgba(255,95,95,.14)' : bad ? 'rgba(240,180,41,.14)' : 'transparent'
+      };
+    });
+
+    // 0 name, 1 sub, 2 replicas, 3 verdict, 4 changed, 5 kind, 6 odd[], 7 missing[]
+    const raw = [
+      ['DIVIDER', '', '', '', 'NOT THE SAME EVERYWHERE · 5', 'sorted by how much of the group disagrees', WARN, 'divider'],
+      ['ledger-worker', 'Deployment · payments', '12 / 4', 'missing on 2 · replicas differ on 3', '9m ago', 'bad', ['AS', 'SU', 'CI'], ['E2', 'AN']],
+      ['checkout-api', 'Deployment · payments', '4', 'image 2 versions behind on 2', '2h ago', 'warn', ['AS', 'CI'], []],
+      ['otel-collector', 'DaemonSet · payments', '—', 'replicas and limits differ on 3', '6d ago', 'warn', ['AS', 'SU', 'AN'], []],
+      ['payout-batcher', 'Deployment · payments', '2', 'one cluster on the old ConfigMap', '4h ago', 'warn', ['SU'], []],
+      ['fraud-scorer', 'Deployment · payments', '3', 'staging only — never shipped to prod', '3w ago', 'info', [], ['EW', 'UE', 'AS', 'E2']],
+      ['DIVIDER2', '', '', '', 'IDENTICAL ACROSS ALL 8 · 9', 'one row each · nothing to do here', OK, 'divider'],
+      ['envoy-gateway', 'Deployment · payments', '6', 'identical', '12d ago', 'ok', [], []],
+      ['redis-cache', 'StatefulSet · payments', '3', 'identical', '21d ago', 'ok', [], []],
+      ['ledger-api', 'Deployment · payments', '8', 'identical', '5d ago', 'ok', [], []],
+      ['settlement-cron', 'CronJob · payments', '—', 'identical', '31d ago', 'ok', [], []],
+      ['statement-render', 'Deployment · payments', '2', 'identical', '9d ago', 'ok', [], []],
+      ['webhook-relay', 'Deployment · payments', '4', 'identical', '14d ago', 'ok', [], []],
+      ['audit-shipper', 'DaemonSet · payments', '—', 'identical', '2mo ago', 'ok', [], []],
+      ['card-tokeniser', 'Deployment · payments', '3', 'identical', '18d ago', 'ok', [], []],
+      ['fx-rates', 'Deployment · payments', '2', 'identical', '7d ago', 'ok', [], []],
+      ['DIVIDER3', '', '', '', 'NOT COMPARABLE · 2', 'the group holds clusters where the question does not apply', IDLE, 'divider'],
+      ['router-canary', 'Deployment · payments', '1', 'exists on 1 — nothing to compare', '1d ago', 'idle', [], ['UE', 'AS', 'SE', 'SU', 'E2', 'CI', 'AN']],
+      ['dc/legacy-batch', 'DeploymentConfig · payments', '1', 'OpenShift only — no k8s equivalent', '8mo ago', 'idle', [], ['EW', 'UE', 'AS', 'SE', 'SU', 'E2', 'CI']]
+    ];
+
+    const K = { bad: ['\u25b2', BAD], warn: ['\u25c8', WARN], info: ['\u25cb', INFO], ok: ['\u25cf', OK], idle: ['\u25cb', IDLE] };
+    const counts = {};
+    const rows = raw.map(r => {
+      if (r[7] === 'divider') return { isDivider: true, isRow: false, name: r[4], note: r[5], tone: r[6] };
+      const kind = r[5];
+      counts[kind] = (counts[kind] || 0) + 1;
+      const m = K[kind];
+      const odd = r[6] || [], miss = r[7] || [];
+      const sel = r[0] === 'checkout-api';
+      const spread = miss.length ? (8 - miss.length) + ' of 8' : odd.length ? '8 / ' + odd.length + ' differ' : '8 / same';
+      return {
+        isDivider: false, isRow: true,
+        name: r[0], sub: r[1], replicas: r[2], verdict: r[3], changed: r[4],
+        spread, glyph: m[0], tone: sel ? WARN : m[1], dots: chipsFor(odd, miss),
+        nameInk: sel ? '#fff' : kind === 'ok' ? '#c8d1dd' : kind === 'idle' ? INK3 : INK,
+        weight: kind === 'ok' || kind === 'idle' ? '400' : '600',
+        repInk: r[2].indexOf('/') > 0 ? '#ffb3b3' : INK2,
+        verdictInk: sel ? '#fff' : kind === 'bad' ? '#ffb3b3' : kind === 'warn' ? '#f3d08a' : INK3,
+        changedInk: kind === 'ok' || kind === 'idle' ? INK3 : INK2,
+        bg: sel ? 'rgba(240,180,41,.11)' : kind === 'bad' ? 'rgba(255,95,95,.07)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : kind === 'idle' ? 'rgba(255,255,255,.01)' : 'transparent'
+      };
+    });
+
+    const diffN = (counts.bad || 0) + (counts.warn || 0) + (counts.info || 0);
+    const sameN = counts.ok || 0;
+    const naN = counts.idle || 0;
+    const total = diffN + sameN + naN;
+
+    return {
+      facts: [
+        { k: 'CLUSTERS IN SCOPE', v: '8', tone: INK },
+        { k: 'OBJECTS BEHIND THIS', v: '108', tone: INK2 },
+        { k: 'ROWS YOU MUST READ', v: '' + diffN, tone: WARN },
+        { k: 'DEFAULT VIEW', v: 'rolled up', tone: INFO }
+      ],
+      headerLine: total + ' names · ' + diffN + ' differ · ' + sameN + ' identical',
+      verdictLine: 'Six clusters agree. Two do not, on three fields.',
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '5', name: 'drift', bg: '#161a21', shadow: 'inset 0 -2px 0 #4aa8ff', ink: INK, numInk: INFO }
+      ],
+      kpis: [
+        { label: 'DIFFER', v: '' + diffN, tone: WARN, sub: 'of ' + total },
+        { label: 'IDENTICAL', v: '' + sameN, tone: OK, sub: 'collapsed' },
+        { label: 'DISSENTERS', v: '2', tone: WARN, sub: 'AS · CI' },
+        { label: 'FIELDS APART', v: '3', tone: BAD, sub: 'of 40' }
+      ],
+      rail: CL.map(x => {
+        const inGroup = GRP.indexOf(x[1]) >= 0;
+        const odd = x[1] === 'AS' || x[1] === 'CI';
+        return {
+          name: x[0], code: x[1],
+          ink: inGroup ? (odd ? '#f3d08a' : INK2) : '#39414d',
+          bg: inGroup ? (odd ? 'rgba(240,180,41,.07)' : 'rgba(255,255,255,.02)') : 'transparent',
+          bar: inGroup ? x[2] : 'transparent',
+          glyph: inGroup ? (odd ? '\u25c8' : '\u25cf') : '\u25cb',
+          tone: inGroup ? (odd ? WARN : OK) : '#2f3742'
+        };
+      }),
+      railNarrow: CL.map(x => {
+        const inGroup = GRP.indexOf(x[1]) >= 0;
+        const odd = x[1] === 'AS' || x[1] === 'CI';
+        return {
+          code: x[1], ink: inGroup ? (odd ? '#f3d08a' : INK2) : '#39414d',
+          bg: inGroup ? (odd ? 'rgba(240,180,41,.07)' : 'rgba(255,255,255,.02)') : 'transparent',
+          bar: inGroup ? x[2] : 'transparent',
+          glyph: inGroup ? (odd ? '\u25c8' : '\u25cf') : '\u25cb',
+          tone: inGroup ? (odd ? WARN : OK) : '#2f3742'
+        };
+      }),
+      railWide: (() => {
+        const D = (name, note) => ({ isGroup: true, isRow: false, name, note });
+        const R = (code, name, ver, rtt, panes, hue, st) => {
+          const tone = st === 'odd' ? WARN : st === 'down' ? BAD : st === 'off' ? IDLE : OK;
+          return {
+            isGroup: false, isRow: true, code, name, ver, rtt, panes,
+            bar: st === 'off' ? 'transparent' : hue,
+            glyph: st === 'odd' ? '\u25c8' : st === 'down' ? '\u25b2' : st === 'off' ? '\u25cb' : '\u25cf',
+            tone,
+            nameInk: st === 'off' ? INK3 : st === 'odd' ? '#f3d08a' : INK,
+            verInk: st === 'off' ? '#2f3742' : INK3,
+            rttInk: st === 'down' ? '#8a5f62' : st === 'off' ? '#2f3742' : INK3,
+            panesInk: panes === '—' ? '#2f3742' : '#8ac6ff',
+            bg: st === 'odd' ? 'rgba(240,180,41,.06)' : st === 'down' ? 'rgba(255,95,95,.05)' : 'transparent'
+          };
+        };
+        return [
+          D('PAYMENTS-PROD · IN SCOPE', '8'),
+          R('EW', 'prod-eu-west', '1.29', '41ms', '2', INFO, 'ok'),
+          R('UE', 'prod-us-east', '1.29', '88ms', '1', PURPLE, 'ok'),
+          R('AS', 'prod-ap-south', '1.28', '610ms', '1', WARN, 'odd'),
+          R('SE', 'staging-eu', '1.30', '22ms', '—', OK, 'ok'),
+          R('SU', 'staging-us', '1.30', '26ms', '—', '#5ad2c4', 'ok'),
+          R('E2', 'edge-02', '1.29', '140ms', '—', ORANGE, 'ok'),
+          R('CI', 'ci-runners', '1.28', '14ms', '—', '#9ad04a', 'odd'),
+          R('AN', 'analytics', '1.29', '210ms', '—', '#c9a227', 'ok'),
+          D('NOT IN THIS GROUP', '2'),
+          R('DS', 'dev-sandbox', '1.30', '9ms', '—', '#8a94a6', 'off'),
+          R('E1', 'edge-01', '—', 'no route', '—', BAD, 'down')
+        ];
+      })(),
+      railStates: (() => {
+        const g = (h, w1, w2, w3, c1, c2, c3, bg) => ({ h, w1, w2, w3, c1, c2, c3, bg: bg || 'transparent' });
+        const ghost = n => {
+          const out = [g('16px', '54px', '38px', '30px', '#2c3542', '#212932', '#212932', 'var(--ks-field)')];
+          const spec = [
+            ['#5a4520', '#3a2f1c', '#3a2f1c', 'rgba(240,180,41,.07)'],
+            ['#3f5a7a', '#26313d', '#26313d', 'transparent'],
+            ['#3f5a7a', '#26313d', '#26313d', 'transparent'],
+            ['#2c3542', '#212932', '#212932', 'transparent'],
+            ['#2c3542', '#212932', '#212932', 'transparent'],
+            ['#2c3542', '#212932', '#212932', 'transparent'],
+            ['#242b35', '#1c222b', '#1c222b', 'transparent'],
+            ['#242b35', '#1c222b', '#1c222b', 'transparent'],
+            ['#242b35', '#1c222b', '#1c222b', 'transparent'],
+            ['#1e242d', '#191f26', '#191f26', 'transparent']
+          ];
+          for (let i = 0; i < n; i++) {
+            const s = spec[i % spec.length];
+            out.push(g('24px', (72 - (i % 4) * 9) + 'px', (44 - (i % 3) * 7) + 'px', (26 + (i % 3) * 6) + 'px', s[0], s[1], s[2], s[3]));
+          }
+          return out;
+        };
+        return [
+          {
+            title: 'Hidden', w: '0px', wInk: OK, titleInk: INK, cap: 'the default',
+            isNarrow: false, isWide: false, showChip: true, barNote: '⌘\\',
+            paneNote: '16 names · 5 differ', ghost: ghost(10),
+            forWhat: 'For the ninety percent of the time you are reading one pane.',
+            body: 'Every pane already names its own cluster in its header, so the rail is repeating itself. Trouble elsewhere arrives as the amber chip in the tab bar — present only when it is true.',
+            cost: '0px · full width to the panes · the chip appears on trouble only'
+          },
+          {
+            title: 'Codes', w: '46px', wInk: INFO, titleInk: INK, cap: 'the glance',
+            isNarrow: true, isWide: false, showChip: false, barNote: '⌘\\',
+            paneNote: '16 names · 5 differ', ghost: ghost(10),
+            forWhat: 'For watching a fleet you are actively worried about.',
+            body: 'Two letters and one status glyph per cluster: the codes are the same ones panes use to say where they came from, so this doubles as the legend. Ten clusters fit without scrolling; forty scroll.',
+            cost: '46px · 2.9% of 1600 · still inside the 144px frame budget'
+          },
+          {
+            title: 'Named', w: '340px', wInk: WARN, titleInk: INK, cap: 'the work surface',
+            isNarrow: false, isWide: true, showChip: false, barNote: '⌘\\',
+            paneNote: '5 differ', ghost: ghost(10),
+            forWhat: 'For editing groups, comparing latency, or finding a cluster by name.',
+            body: 'Full names, version, round-trip time and how many panes point at it — grouped, so the scope of a group question is visible as membership. This is a working width, not a resting one: it takes a fifth of the screen and should be closed again.',
+            cost: '340px · 21% of 1600 · deliberately expensive'
+          }
+        ];
+      })(),
+      railRules: [
+        { tone: OK, k: 'WHY ZERO IS ALLOWED', t: 'The rail answers two questions — which clusters exist, and are they healthy — and both are answered better elsewhere: the pane header names its cluster, the fleet pane owns health, ⌘K repoints without it. A convenience is not a region, and it should not spend pixels on every screen forever.' },
+        { tone: WARN, k: 'WHAT ZERO GIVES UP, AND WHO PAYS IT BACK', t: 'The one thing the rail did uniquely was warn about trouble off-screen. Hidden, that becomes a chip in the tab bar that exists only while it is true — “2 clusters need you”, click to open the fleet. A calm fleet costs nothing; an unhappy one costs 120px of tab bar.' },
+        { tone: INFO, k: 'IT OPENS ON THE GESTURE THAT NEEDS IT', t: '⌘\\ cycles the three widths and is remembered per tab, like every other layout field. It also slides in for the length of a drag: dragging a pane header is “point this at another cluster”, which is the one gesture that genuinely wants every target on screen, so the rail appears and leaves with the drag.' },
+        { tone: IDLE, k: 'WHAT WE REJECTED', t: 'An auto-hiding rail that appears on hover at the screen edge. It would give the same pixels back without a keystroke, and it would also flick open every time someone crossed the left edge on the way to a pane — in an app people keep open for eight hours, a region that moves by itself is worse than one that is 46px wide.' }
+      ],
+      modes: [
+        { t: 'rolled up', glyph: '\u25a4', key: 'R', ink: INK, line: '#1e4a6e', bg: 'rgba(74,168,255,.12)', gtone: INFO, weight: '600', keyLine: '#1e4a6e', keyInk: '#8ac6ff' },
+        { t: 'flat', glyph: '\u2261', key: '⇧F', ink: INK2, line: LINE, bg: 'transparent', gtone: INK3, weight: '400', keyLine: LINE, keyInk: INK3 }
+      ],
+      filters: [
+        { t: 'only what differs', ink: INK2, line: LINE, bg: 'transparent' },
+        { t: 'everything', ink: '#8ac6ff', line: '#1e4a6e', bg: 'rgba(74,168,255,.10)' },
+        { t: 'ignore replicas', ink: INK3, line: LINE, bg: 'transparent' }
+      ],
+      rows,
+      buckets: [
+        { t: diffN + ' differ', ink: WARN },
+        { t: sameN + ' identical', ink: OK },
+        { t: naN + ' not comparable', ink: INK3 }
+      ],
+      bucketSum: 'flat, this same question is 108 rows · rolled up it is ' + diffN + ' that need you and ' + sameN + ' that do not',
+      actions: [
+        { key: '\u21b5', label: 'the field diff', ink: INK2, line: LINE, keyInk: INK },
+        { key: '⇧F', label: 'flatten this row', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'D', label: 'watch for drift', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'M', label: 'version matrix', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      diffFields: [
+        {
+          field: 'spec…containers[0].image', edge: BAD, severity: 'two versions behind',
+          majorityN: '6 clusters', majority: 'checkout:2.14.2',
+          outliers: [
+            { cluster: 'prod-ap-south', value: 'checkout:2.12.0', clInk: WARN },
+            { cluster: 'ci-runners', value: 'checkout:2.13.4', clInk: '#9ad04a' }
+          ],
+          note: 'Two different old versions, which usually means two stalled rollouts rather than one deliberate pin.'
+        },
+        {
+          field: 'spec…resources.limits.memory', edge: WARN, severity: 'differs',
+          majorityN: '6 clusters', majority: '1Gi',
+          outliers: [
+            { cluster: 'prod-ap-south', value: '512Mi', clInk: WARN },
+            { cluster: 'ci-runners', value: '512Mi', clInk: '#9ad04a' }
+          ],
+          note: 'The same two clusters, both on the pre-rollout value. One drift seen twice, not two problems — which is why the dissenters are named rather than counted.'
+        },
+        {
+          field: 'metadata.annotations["deploy.acme/rev"]', edge: IDLE, severity: 'expected',
+          majorityN: '6 clusters', majority: '"2026-08-28T09:14Z"',
+          outliers: [
+            { cluster: 'prod-ap-south', value: '"2026-07-02T11:40Z"', clInk: WARN },
+            { cluster: 'ci-runners', value: '"2026-08-01T08:02Z"', clInk: '#9ad04a' }
+          ],
+          note: 'A timestamp annotation always differs. Marked expected once, it stops counting toward the verdict for every workload that carries it.'
+        }
+      ],
+      agreeing: [
+        { t: 'replicas · 4', note: '8 / 8', noteInk: OK },
+        { t: 'strategy · RollingUpdate 25% / 25%', note: '8 / 8', noteInk: OK },
+        { t: 'probes, ports, service account, labels', note: '8 / 8', noteInk: OK },
+        { t: '33 more fields', note: 'open', noteInk: '#8ac6ff' }
+      ],
+      driftOpts: [
+        { glyph: '\u25c6', tone: WARN, k: 'watch these three fields', t: 'a named drift watch over image, limits and replicas for this workload across the group. It fires when a cluster leaves the majority, not for as long as it sits outside it.' },
+        { glyph: '\u25cb', tone: IDLE, k: 'mark the annotation expected', t: 'the timestamp stops counting as a difference everywhere, permanently, and six other workloads get a quieter verdict too.' },
+        { glyph: '\u25cb', tone: IDLE, k: 'accept this as the new majority', t: 'if ap-south is right and the other six are wrong, say so — the verdict inverts and the six become the outliers.' }
+      ],
+      nexts: [
+        { t: 'the two clusters side by side, as YAML', ink: INK2, cap: 'XC-03' },
+        { t: 'a version matrix for the whole group', ink: INK2, cap: 'XC-07' },
+        { t: 'roll the image forward on both, as one write', ink: '#f3d08a', cap: 'XC-06' },
+        { t: 'what this workload looked like before the rollout', ink: INK2, cap: 'TIME-03' }
+      ],
+      variants: [
+        {
+          title: 'Flat, and why it is not the default', cap: 'XC-08', edge: IDLE, scope: 'the same question, flat', scopeTone: IDLE, state: '≡ 108 rows', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'One row per object. Correct, exhausting, and one keystroke away.',
+          cols: '52px 1fr 66px',
+          rows: [
+            vr([c('EW', { ink: INFO }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('UE', { ink: PURPLE }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('AS', { ink: WARN }), c('checkout-api', { ink: INK }), c('2.12.0', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('SE', { ink: OK }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('SU', { ink: '#5ad2c4' }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('E2', { ink: ORANGE }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('CI', { ink: '#9ad04a' }), c('checkout-api', { ink: INK }), c('2.13.4', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('AN', { ink: '#c9a227' }), c('checkout-api', { ink: INK }), c('2.14.2', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('… and 100 more rows', { ink: INK3, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('good for', { ink: INK3, size: '9.5px' }), c('one cluster is broken and you know which', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('bad for', { ink: INK3, size: '9.5px' }), c('“is this the same everywhere?”', { ink: '#f0b5b0', font: SANS, size: '11px' }), c('', {})])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'This overrules the scope document, which proposed flat by default. Flat makes the reader the diff engine: eight near-identical lines, and the finding is two characters in the third column.',
+          note: 'It stays one keystroke away because it is genuinely better once you know which cluster you care about — and because a rolled-up row you distrust must be openable into the objects it claims to summarise.'
+        },
+        {
+          title: 'Two clusters — the honest side-by-side', cap: 'XC-03', edge: INFO, scope: 'group of 2', scopeTone: INFO, state: '⇄ left / right', stateTone: INFO,
+          leadBg: 'rgba(74,168,255,.07)', leadInk: '#8ac6ff',
+          lead: 'Left and right is a real shape — for exactly two clusters.',
+          cols: '80px 1fr 1fr',
+          rows: [
+            vr([c('', { size: '9px' }), c('prod-eu-west', { ink: INFO, size: '9.5px' }), c('prod-ap-south', { ink: WARN, size: '9.5px' })], 'var(--ks-field)'),
+            vr([c('image', { ink: INK3 }), c('2.14.2', { ink: INK }), c('2.12.0', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('limits.mem', { ink: INK3 }), c('1Gi', { ink: INK }), c('512Mi', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('replicas', { ink: INK3 }), c('4', { ink: INK }), c('4', { ink: INK2 })]),
+            vr([c('strategy', { ink: INK3 }), c('25% / 25%', { ink: INK2 }), c('25% / 25%', { ink: INK2 })]),
+            vr([c('probes', { ink: INK3 }), c('identical', { ink: INK3 }), c('identical', { ink: INK3 })]),
+            vr([c('sa', { ink: INK3 }), c('checkout', { ink: INK2 }), c('checkout', { ink: INK2 })]),
+            vr([c('', {}), c('', {}), c('', {})]),
+            vr([c('above 2', { ink: INK3, size: '9.5px' }), c('a third column doubles the width and', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('halves the field names; at eight it is a', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('spreadsheet nobody can read in a panel.', { ink: INK2, font: SANS, size: '11px' }), c('', {})])
+          ],
+          footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'So the diff has two renderings and picks by arity: two clusters get columns, three or more get majority-and-outliers. Same data, same widget, one branch.',
+          note: 'Worth drawing because side-by-side is what everyone pictures when they hear “diff” — and it is right, just only in the case this product will least often be in.'
+        },
+        {
+          title: 'The version matrix', cap: 'XC-07', edge: PURPLE, scope: 'a pane, not a mode of this one', scopeTone: PURPLE, state: '◧ 8 × 6', stateTone: PURPLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'The one question where a grid really is the right drawing.',
+          cols: '86px 1fr',
+          rows: [
+            vr([c('k8s', { ink: INK }), c('1.29 ×3 · 1.30 ×2 · 1.28 ×2 · 4.15 ×1', { ink: INK2 })]),
+            vr([c('', {}), c('two minor versions apart inside prod', { ink: '#f3d08a', font: SANS, size: '10.5px' })], 'rgba(240,180,41,.06)'),
+            vr([c('cert-manager', { ink: INK }), c('1.14.5 everywhere', { ink: '#a8e6c8' })], 'rgba(62,207,142,.05)'),
+            vr([c('istio', { ink: INK }), c('1.21 ×6 · absent ×2', { ink: INK2 })]),
+            vr([c('otel', { ink: INK }), c('0.98 ×5 · 0.91 ×3', { ink: '#f3d08a' })], 'rgba(240,180,41,.06)'),
+            vr([c('argocd', { ink: INK }), c('2.11 ×8', { ink: '#a8e6c8' })], 'rgba(62,207,142,.05)'),
+            vr([c('kernel', { ink: INK }), c('6.1 ×5 · 5.15 ×3', { ink: INK2 })]),
+            vr([c('', {}), c('', {})]),
+            vr([c('why apart', { ink: INK3 }), c('the axes are clusters and components,', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('not clusters and fields — and the answer', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('is a count per version, not a diff.', { ink: INK2, font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(180,140,255,.06)', footInk: '#c9a9ff',
+          foot: 'Reachable from any rolled-up row with M, but its own pane kind with its own scope. Folding it in would give one pane two grammars.',
+          note: 'The counter-example that keeps the rule honest: majority-and-outliers is right for one object across N clusters, and wrong for N components across N clusters, where the whole grid is the finding.'
+        }
+      ],
+      closing: [
+        { tone: INFO, k: 'ROLLED UP BY DEFAULT — OVERRULING THE SCOPE DOC', t: 'The scope document proposed flat by default with rolled-up behind a switch. We are inverting it: in group scope the question is nearly always “is this the same everywhere”, and flat answers it by handing you eight near-identical rows to compare by eye. Rolled up turns 108 objects into 5 rows that need you and 9 that do not. Flat stays on ⇧F, per row and per pane, because once you know which cluster is wrong it is the better view.' },
+        { tone: WARN, k: 'WITH N CLUSTERS, A DIFF IS A MAJORITY AND ITS OUTLIERS', t: 'Left-and-right does not survive past two columns: at eight, field names get sixty pixels and the reader becomes a spreadsheet. So each field states what six or more clusters agree on and names only the dissenters — one line for agreement, one line per outlier, and thirty-three identical fields collapsed into a single count. Two clusters keep real columns, chosen by arity rather than by a setting.' },
+        { tone: WARN, k: 'THE PRODUCT CANNOT KNOW WHAT IS DELIBERATE', t: 'A 512Mi limit on ap-south might be a stalled rollout or a smaller node pool, and no score can tell the difference. So the pane lets you rule once — expected, a named drift watch, or invert the majority — and then reports only when the answer changes. That is XC-04, and it is deliberately the same machinery as a watch rule: local, amber, and yours.' },
+        { tone: OK, k: 'THE VERDICT IS A SENTENCE', t: '“image 2 versions behind on 2”, “missing on 2 · replicas differ on 3”, “staging only — never shipped to prod”. No drift score and no health percentage: a number would rank the rows convincingly and tell you nothing about what to do, whereas the sentence is usually the entire finding — and the field diff is there for when it is not.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

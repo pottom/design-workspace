@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 30 / 31 · RES-11 · XC-06 · ACT-17 · ACT-07</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">One write, eight objects, three clusters</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The moment the product is most useful and most dangerous in the same gesture. One rule decides the whole screen: <span style="color:var(--ks-ink)">a fleet write is a list you read before it happens, not a dialog you dismiss</span> — itemised per cluster, with what will be skipped and why, and with the failures kept afterwards instead of a toast that fades.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="bulk action · preflight" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #5a4520;background:rgba(240,180,41,.12);color:var(--ks-warn);font-weight:600"><span style="font-size:8px">◈</span>a write is pending your approval</span>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 560px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-warn);font-weight:600"><span style="font-size:7px">◈</span>preflight</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Rolling restart</span>
+          <span style="color:var(--ks-ink-3)">from</span><span style="color:var(--ks-ink-2)">8 selected rows · 3 clusters</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">{{ headerLine }}</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Nothing has been sent. This is the itemised list `XC-06` requires — every object named, grouped by cluster, with the three that will be skipped stated <span style="color:var(--ks-ink)">before</span> approval rather than reported after it.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:22px 1fr 120px 130px 190px 92px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div></div><div>OBJECT</div><div>KIND</div><div>WHAT HAPPENS</div><div>WHAT IT COSTS</div><div style="text-align:right">ORDER</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="18">
+            <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <span style="color:{{ r.tone }}">{{ r.name }}</span><div style="flex:1"></div><span>{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+              <div style="height:34px;display:grid;grid-template-columns:22px 1fr 120px 130px 190px 92px;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;justify-content:center;font-size:8px;color:{{ r.tone }}">{{ r.glyph }}</div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:{{ r.strike }}">{{ r.name }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.ns }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ r.kind }}</div>
+                <div style="font-size:11px;color:{{ r.actInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.act }}</div>
+                <div style="font-size:11px;color:{{ r.costInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.cost }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.orderInk }};text-align:right">{{ r.order }}</div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="3">
+            <span style="color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ bucketSum }}</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-bad);font-weight:600">◈ approval</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">one gate for all three clusters</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">ACT-07 · ACT-17</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+
+          <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="4">
+            <div style="padding:12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line);background:{{ sec.bg }}">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ sec.tone }}">{{ sec.k }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ sec.note }}</span>
+              </div>
+              <sc-for list="{{ sec.lines }}" as="l" hint-placeholder-count="4">
+                <div style="display:flex;align-items:flex-start;gap:9px">
+                  <span style="font-size:7px;color:{{ l.tone }};flex:none;padding-top:5px">{{ l.glyph }}</span>
+                  <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:{{ l.headInk }}">{{ l.head }}</span> {{ l.t }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ sec.hasCode }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:9px 10px;background:var(--ks-field);border:1px solid var(--ks-line);display:flex;flex-direction:column;gap:3px">
+                  <sc-for list="{{ sec.code }}" as="c" hint-placeholder-count="3">
+                    <div style="font-family:var(--ks-mono);font-size:10px;color:{{ c.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+
+          <div style="padding:12px;display:flex;flex-direction:column;gap:9px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-bad)">TYPE THE CLUSTER NAMES TO CONFIRM</div>
+            <sc-for list="{{ typeGate }}" as="t" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:1fr 22px;align-items:center;gap:9px">
+                <span style="padding:5px 9px;border:1px solid {{ t.line }};background:var(--ks-field);font-family:var(--ks-mono);font-size:11px;color:{{ t.ink }}">{{ t.t }}</span>
+                <span style="font-size:10px;color:{{ t.markInk }};text-align:center">{{ t.mark }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Only the prod clusters ask for their name. Typing three names to restart a CI runner would train people to type names without reading them, which is the failure mode of the whole idea.</div>
+          </div>
+        </div>
+
+        <div style="padding:12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">NOTHING HAS BEEN SENT</span>
+            <span style="font-size:10.5px;color:var(--ks-ink-3)">5 of 8 will run · 3 skipped</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:7px 12px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Discard</span>
+          <span style="padding:7px 12px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink)">Dry run all 5</span>
+          <span style="padding:7px 12px;border:1px solid #54262b;background:rgba(255,95,95,.14);font-size:11.5px;color:#ffb3b3;font-weight:600">Restart 5 objects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Running, partly failed, and the receipt that stays</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:290px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    // name, ns, kind, act, cost, order, state
+    const raw = [
+      ['DIVIDER', '', '', '', 'PROD-EU-WEST · 3 OBJECTS', 'writes allowed · name required', WARN, 'divider'],
+      ['checkout-api', 'payments', 'Deployment', 'restart 4 pods', '25% at a time · ~90s', '1', 'go'],
+      ['ledger-worker', 'payments', 'Deployment', 'restart 12 pods', '25% at a time · ~4m', '2', 'go'],
+      ['payout-batcher', 'payments', 'Deployment', 'skipped', 'a job is mid-run · 8m left', '—', 'skip'],
+      ['DIVIDER2', '', '', '', 'PROD-US-EAST · 2 OBJECTS', 'writes allowed · name required', WARN, 'divider'],
+      ['checkout-api', 'payments', 'Deployment', 'restart 4 pods', '25% at a time · ~90s', '3', 'go'],
+      ['ledger-worker', 'payments', 'Deployment', 'restart 6 pods', 'PDB minAvailable 6 · will block', '4', 'warn'],
+      ['DIVIDER3', '', '', '', 'PROD-AP-SOUTH · 2 OBJECTS', 'read-only — the write is refused here', BAD, 'divider'],
+      ['checkout-api', 'payments', 'Deployment', 'refused', 'cluster is read-only · CONN-08', '—', 'no'],
+      ['otel-collector', 'payments', 'DaemonSet', 'refused', 'cluster is read-only · CONN-08', '—', 'no'],
+      ['DIVIDER4', '', '', '', 'CI-RUNNERS · 1 OBJECT', 'writes allowed · no name needed', OK, 'divider'],
+      ['ci-runner-pool', 'ci', 'StatefulSet', 'restart 3 pods', 'one at a time · ~2m', '5', 'go'],
+      ['DIVIDER5', '', '', '', 'NOT IN THE WRITE · 2 OF YOUR SELECTION', 'these were selected and are gone', IDLE, 'divider'],
+      ['ledger-worker-…-2wq7t', 'payments · prod-eu-west', 'Pod', 'gone 14:02', 'deleted while selected', '—', 'gone'],
+      ['ledger-worker-…-h4k9x', 'payments · prod-eu-west', 'Pod', 'gone 14:02', 'deleted while selected', '—', 'gone']
+    ];
+
+    const K = { go: ['●', OK], warn: ['◈', WARN], skip: ['○', IDLE], no: ['▲', BAD], gone: ['○', '#54262b'] };
+    const counts = {};
+    const rows = raw.map(r => {
+      if (r[7] === 'divider') return { isDivider: true, isRow: false, name: r[4], note: r[5], tone: r[6] };
+      const st = r[6];
+      counts[st] = (counts[st] || 0) + 1;
+      const m = K[st];
+      return {
+        isDivider: false, isRow: true,
+        name: r[0], ns: r[1], kind: r[2], act: r[3], cost: r[4], order: r[5],
+        glyph: m[0], tone: m[1],
+        nameInk: st === 'gone' ? '#8a5f62' : st === 'no' ? '#ffb3b3' : st === 'skip' ? INK3 : INK,
+        weight: st === 'go' || st === 'warn' ? '600' : '400',
+        strike: st === 'gone' ? 'line-through' : 'none',
+        actInk: st === 'go' ? INK : st === 'warn' ? '#f3d08a' : st === 'no' ? '#ffb3b3' : INK3,
+        costInk: st === 'warn' ? '#f3d08a' : st === 'no' ? '#ffb3b3' : st === 'go' ? INK2 : INK3,
+        orderInk: st === 'go' || st === 'warn' ? INK2 : INK3,
+        bg: st === 'no' ? 'rgba(255,95,95,.07)' : st === 'warn' ? 'rgba(240,180,41,.06)' : st === 'gone' ? 'rgba(255,95,95,.03)' : st === 'skip' ? 'rgba(255,255,255,.012)' : 'transparent'
+      };
+    });
+
+    const go = (counts.go || 0) + (counts.warn || 0);
+    const skipped = (counts.skip || 0) + (counts.no || 0);
+    const gone = counts.gone || 0;
+    const selected = go + skipped + gone;
+
+    return {
+      facts: [
+        { k: 'SELECTED', v: '' + selected, tone: INK },
+        { k: 'WILL RUN', v: '' + go, tone: OK },
+        { k: 'SKIPPED OR REFUSED', v: '' + skipped, tone: BAD },
+        { k: 'APPROVALS', v: '1', tone: INFO }
+      ],
+      headerLine: selected + ' selected · ' + go + ' will run · ' + skipped + ' skipped · ' + gone + ' gone',
+      verdictLine: go + ' of your ' + selected + ' will actually be written.',
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 #f0b429', ink: INK, numInk: WARN },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      kpis: [
+        { label: 'WILL RUN', v: '' + go, tone: OK, sub: 'of ' + selected },
+        { label: 'REFUSED', v: '' + (counts.no || 0), tone: BAD, sub: 'read-only' },
+        { label: 'SKIPPED', v: '' + (counts.skip || 0), tone: IDLE, sub: 'job mid-run' },
+        { label: 'GONE', v: '' + gone, tone: '#8a5f62', sub: 'since you picked' }
+      ],
+      rows,
+      buckets: [
+        { t: go + ' will run', ink: OK },
+        { t: (counts.no || 0) + ' refused', ink: BAD },
+        { t: (counts.skip || 0) + ' skipped', ink: IDLE },
+        { t: gone + ' gone', ink: '#8a5f62' }
+      ],
+      bucketSum: 'sequential, one cluster at a time, in the order shown · a failure stops the run and keeps the rest unstarted',
+      sections: [
+        {
+          k: 'WHAT THIS DOES TO TRAFFIC', tone: BAD, note: 'the reason to read before approving', bg: 'rgba(255,95,95,.05)',
+          hasCode: false, code: [],
+          lines: [
+            { glyph: '▲', tone: BAD, headInk: INK, head: 'checkout-api on two prod clusters', t: 'is the customer-facing path. A 25% rolling restart keeps three of four pods serving, so no request is dropped — but latency rises for about ninety seconds per cluster.' },
+            { glyph: '◈', tone: WARN, headInk: INK, head: 'ledger-worker on prod-us-east', t: 'has a PodDisruptionBudget of minAvailable 6 and exactly 6 ready. The eviction will block rather than fail; the run will wait and then report it instead of forcing.' },
+            { glyph: '●', tone: OK, headInk: INK, head: 'Nothing here deletes anything.', t: 'A rolling restart replaces pods one wave at a time. This is the mildest fleet write the product offers, and it still gets this screen.' }
+          ]
+        },
+        {
+          k: 'THE EQUIVALENT COMMANDS', tone: INFO, note: '5 objects, in order', bg: 'transparent',
+          hasCode: true,
+          code: [
+            { t: 'kubectl --context prod-eu-west -n payments \\', ink: INK3 },
+            { t: '  rollout restart deploy/checkout-api deploy/ledger-worker', ink: INK },
+            { t: 'kubectl --context prod-us-east -n payments \\', ink: INK3 },
+            { t: '  rollout restart deploy/checkout-api deploy/ledger-worker', ink: INK },
+            { t: 'kubectl --context ci-runners -n ci \\', ink: INK3 },
+            { t: '  rollout restart statefulset/ci-runner-pool', ink: INK }
+          ],
+          lines: [
+            { glyph: '●', tone: INFO, headInk: INK, head: 'Copyable, and honest.', t: 'The list is exactly what the app will send. If the two do not match, the app is wrong — this is the line a reviewer checks.' }
+          ]
+        },
+        {
+          k: 'IF SOMETHING FAILS', tone: WARN, note: 'decided in advance', bg: 'transparent',
+          hasCode: false, code: [],
+          lines: [
+            { glyph: '◈', tone: WARN, headInk: INK, head: 'Stop, do not continue.', t: 'The run is sequential and halts on the first failure, leaving the untouched clusters untouched. Half a fleet restarted is recoverable; a fleet half-restarted by a loop that kept going is not.' },
+            { glyph: '◈', tone: WARN, headInk: INK, head: 'Nothing is rolled back.', t: 'A restart cannot be undone, and pretending otherwise would be the dangerous kind of comfort. What you get is the exact point it stopped and what is left.' },
+            { glyph: '●', tone: OK, headInk: INK, head: 'The result is a pane, not a toast.', t: 'It stays open with a row per object, and it is logged to the audit trail — SEC-06 — with who, what, when and which cluster.' }
+          ]
+        }
+      ],
+      typeGate: [
+        { t: 'prod-eu-west', ink: INK, line: '#22503c', mark: '✓', markInk: OK },
+        { t: 'prod-us-east▊', ink: INK, line: '#5a4520', mark: '', markInk: INK3 },
+        { t: 'ci-runners — not required', ink: INK3, line: LINE, mark: '–', markInk: INK3 }
+      ],
+      variants: [
+        {
+          title: 'Running', cap: 'XC-06', edge: INFO, scope: '5 objects · sequential', scopeTone: INFO, state: '◐ 3 of 5', stateTone: INFO,
+          leadBg: 'rgba(74,168,255,.07)', leadInk: '#8ac6ff',
+          lead: 'One cluster at a time, and you can stop it between objects.',
+          cols: '104px 1fr 54px',
+          rows: [
+            vr([c('eu-west', { ink: INFO }), c('checkout-api', { ink: INK }), c('done', { justify: 'flex-end', ink: OK })], 'rgba(62,207,142,.06)'),
+            vr([c('eu-west', { ink: INFO }), c('ledger-worker', { ink: INK }), c('done', { justify: 'flex-end', ink: OK })], 'rgba(62,207,142,.06)'),
+            vr([c('us-east', { ink: PURPLE }), c('checkout-api', { ink: INK }), c('3 of 4', { justify: 'flex-end', ink: '#8ac6ff' })], 'rgba(74,168,255,.08)'),
+            vr([c('us-east', { ink: PURPLE }), c('ledger-worker', { ink: INK3 }), c('queued', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('ci-runners', { ink: '#9ad04a' }), c('ci-runner-pool', { ink: INK3 }), c('queued', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('', {}), c('', {})]),
+            vr([c('elapsed', { ink: INK3 }), c('2m 41s of about 8m', { ink: INK2, font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('[ stop after this object ]', { ink: '#f3d08a', font: SANS, size: '11px' }), c('', {})], 'rgba(240,180,41,.06)')
+          ],
+          footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'Sequential by design. Parallel would be four times faster and would remove the only moment at which a person can change their mind.',
+          note: 'The stop button says “after this object”, not “now”, because a rolling restart interrupted mid-wave leaves a Deployment in a state nobody asked for.'
+        },
+        {
+          title: 'Partly failed', cap: 'ACT-17', edge: BAD, scope: 'stopped at object 4 of 5', scopeTone: BAD, state: '▲ halted', stateTone: BAD,
+          leadBg: 'rgba(255,95,95,.09)', leadInk: '#ffd7d7',
+          lead: 'Three done, one blocked, one never started. It says so and stays.',
+          cols: '104px 1fr 54px',
+          rows: [
+            vr([c('eu-west', { ink: INFO }), c('checkout-api', { ink: INK }), c('done', { justify: 'flex-end', ink: OK })], 'rgba(62,207,142,.06)'),
+            vr([c('eu-west', { ink: INFO }), c('ledger-worker', { ink: INK }), c('done', { justify: 'flex-end', ink: OK })], 'rgba(62,207,142,.06)'),
+            vr([c('us-east', { ink: PURPLE }), c('checkout-api', { ink: INK }), c('done', { justify: 'flex-end', ink: OK })], 'rgba(62,207,142,.06)'),
+            vr([c('us-east', { ink: PURPLE }), c('ledger-worker', { ink: '#ffd7d7' }), c('blocked', { justify: 'flex-end', ink: BAD })], 'rgba(255,95,95,.09)'),
+            vr([c('', {}), c('PDB minAvailable 6 — eviction refused', { ink: '#f0b5b0', font: SANS, size: '10.5px' }), c('', {})], 'rgba(255,95,95,.05)'),
+            vr([c('ci-runners', { ink: '#9ad04a' }), c('ci-runner-pool', { ink: INK3 }), c('not run', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('', {}), c('', {})]),
+            vr([c('offers', { ink: INK3 }), c('[ retry the one that blocked ]', { ink: '#8ac6ff', font: SANS, size: '11px' }), c('', {})]),
+            vr([c('', {}), c('[ run the last one only ]', { ink: '#8ac6ff', font: SANS, size: '11px' }), c('', {})])
+          ],
+          footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'The two offers are per object, never “retry all” — retrying a restart that already succeeded would restart it a second time.',
+          note: 'This is the pane the brief’s “a toast that fades takes the only evidence with it” rule exists for. It stays until closed, and the audit line survives the app.'
+        },
+        {
+          title: 'What we refuse to offer', cap: 'CONN-08 · ACT-07', edge: IDLE, scope: 'the boundary', scopeTone: IDLE, state: '○ by design', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Four plausible conveniences, each of which makes a fleet write more likely to be wrong.',
+          cols: '1fr',
+          rows: [
+            vr([c('No “apply to all clusters in the group”.', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('The objects are named individually or not', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('at all — a group is a scope, not a target.', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('No parallel execution, no “force”, no', { font: SANS, size: '11.5px' })]),
+            vr([c('ignoring a PodDisruptionBudget. If the', { font: SANS, size: '11.5px' })]),
+            vr([c('cluster refuses, that is the answer.', { font: SANS, size: '11.5px' })]),
+            vr([c('', {})]),
+            vr([c('No saved bulk actions. A list of objects', { font: SANS, size: '11.5px' })]),
+            vr([c('from last Tuesday is a different list', { font: SANS, size: '11.5px' })]),
+            vr([c('today, and it would not say so.', { font: SANS, size: '11.5px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'Each of these would save real time. Each also removes the step at which a person notices that ap-south is read-only for a reason.',
+          note: 'The last one is the one that will be asked for repeatedly: a saved fleet action is a script, and a script that names objects it cannot re-verify is how one cluster gets restarted twice.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'THE ITEMISED LIST IS THE FEATURE', t: 'XC-06 requires that a fleet write states in advance exactly what it will touch, and this screen is that requirement taken literally: every object named, grouped by cluster, with the action and its cost per row. Five of eight will actually run — two refused by a read-only cluster, one skipped for a job mid-flight — and all three exclusions are visible before approval rather than reported after it.' },
+        { tone: BAD, k: 'ONE APPROVAL, TYPED ONLY WHERE IT MATTERS', t: 'A single gate for all three clusters, because three dialogs teach people to dismiss dialogs. The prod clusters ask for their names typed; ci-runners does not. Requiring a name for a CI runner would make name-typing a reflex, and a reflex is exactly what ACT-07 is trying to interrupt.' },
+        { tone: OK, k: 'SEQUENTIAL, AND IT STOPS ON FAILURE', t: 'One cluster at a time, in the order shown, with a stop that takes effect after the current object rather than mid-wave. On failure the run halts and the untouched clusters stay untouched — half a fleet restarted is recoverable, a fleet half-restarted by a loop that kept going is not. Nothing is rolled back, and the screen says so rather than implying otherwise.' },
+        { tone: IDLE, k: 'THE RESULT IS A PANE, AND THE SELECTION IS HONEST', t: 'Failures live in a pane that stays open with a row per object, plus an audit line that outlives the app. And two objects in the selection died while it was being assembled: they are listed, struck through, excluded from the count — the same tombstone rule as the selection page, applied at the exact moment it would otherwise cause a write against the wrong number of things.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

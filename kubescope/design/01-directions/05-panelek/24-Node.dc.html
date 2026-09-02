@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 24 / 30 · OBJECT PANE · RES-05 · DIAG-04 · ACT-06 · ACT-07 · ACT-11</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Node</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The pane the plan forgot, and the one with the most dangerous actions in the product. A node’s questions do not fit in a table row: <span style="color:var(--ks-ink)">what runs here, how much is promised versus used, who tainted it and when, and what happens if I take it away</span>.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="node · one node under pressure" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>cordon and drain are writes · both simulate before they ask</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 470px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Node</span>
+          <span style="color:var(--ks-ink-3)">ip-10-0-3-19</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">memory pressure</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>kubelet posting · 8s ago</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:10px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">Ready, but one eviction away: <span style="color:#f3d08a">91% of its memory is promised</span> and the kubelet has already tainted it.</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Two pods were evicted in the last hour. Nothing new will schedule here while <span style="font-family:var(--ks-mono);color:#f3d08a">memory-pressure:NoSchedule</span> stands, and the twenty-four pods already running are competing for what is left.</div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding-top:2px">
+              <sc-for list="{{ bars }}" as="b" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:11px">
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:52px;flex:none">{{ b.label }}</span>
+                  <div style="flex:1;height:14px;background:var(--ks-line-soft);position:relative;min-width:0">
+                    <div style="position:absolute;left:0;top:0;bottom:0;width:{{ b.used }};background:{{ b.usedTone }}"></div>
+                    <div style="position:absolute;left:{{ b.req }};top:-2px;bottom:-2px;width:2px;background:var(--ks-ink-2)"></div>
+                    <div style="position:absolute;left:{{ b.lim }};top:-2px;bottom:-2px;width:2px;background:{{ b.limTone }}"></div>
+                  </div>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ b.valInk }};width:250px;flex:none">{{ b.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:22px 1fr 116px 152px 66px 132px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div></div><div>POD</div><div>NAMESPACE</div><div style="color:var(--ks-ink-2)">MEMORY PROMISED ↓</div><div style="text-align:right">USED</div><div>WHAT IT WOULD DO</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ pods }}" as="p" hint-placeholder-count="26">
+            <div style="height:26px;display:grid;grid-template-columns:22px 1fr 116px 152px 66px 132px;align-items:center;padding:0 12px;gap:10px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+              <div style="display:flex;align-items:center;justify-content:center;font-size:8px;color:{{ p.tone }}">{{ p.glyph }}</div>
+              <div style="font-family:var(--ks-mono);font-size:11.5px;color:{{ p.nameInk }};font-weight:{{ p.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.ns }}</div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <div style="flex:1;height:10px;background:var(--ks-line-soft);position:relative;min-width:0">
+                  <div style="position:absolute;left:0;top:0;bottom:0;width:{{ p.usedW }};background:{{ p.barTone }}"></div>
+                  <div style="position:absolute;left:{{ p.reqW }};top:-2px;bottom:-2px;width:2px;background:rgba(152,164,180,.9)"></div>
+                </div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:44px;flex:none;text-align:right">{{ p.req }}</span>
+              </div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ p.usedInk }};text-align:right">{{ p.used }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10px;color:{{ p.moveInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.move }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:var(--ks-ink-2)">{{ podSum }}</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ podNote }}</span>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">this node</span>
+          <span style="color:var(--ks-ink);font-weight:600">ip-10-0-3-19</span>
+          <span style="color:#f3d08a">{{ stripLine }}</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-ink)">The node itself</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">1 taint · 1 condition</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+          <sc-for list="{{ detail }}" as="d" hint-placeholder-count="6">
+            <div style="display:flex;flex-direction:column">
+              <div style="padding:9px 12px 6px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line);display:flex;align-items:center;gap:9px">
+                <span style="width:6px;height:6px;background:{{ d.tone }}"></span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:{{ d.tone }}">{{ d.label }}</span>
+                <span style="font-size:11px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.note }}</span>
+              </div>
+              <sc-for list="{{ d.rows }}" as="r" hint-placeholder-count="5">
+                <div style="min-height:26px;display:grid;grid-template-columns:132px 1fr;align-items:baseline;gap:11px;padding:5px 12px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <div style="font-size:11.5px;line-height:1.4;color:var(--ks-ink-3);min-width:0;white-space:normal;overflow-wrap:anywhere">{{ r.k }}</div>
+                  <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:7px;min-width:0">
+                    <sc-if value="{{ r.hasGlyph }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-size:8px;color:{{ r.gtone }};flex:none">{{ r.glyph }}</span>
+                    </sc-if>
+                    <span style="font-family:var(--ks-mono);font-size:11px;line-height:1.4;color:{{ r.ink }};min-width:0;white-space:normal;overflow-wrap:anywhere">{{ r.v }}</span>
+                    <sc-if value="{{ r.hasTag }}" hint-placeholder-val="{{ false }}">
+                      <span style="padding:1px 6px;border:1px solid {{ r.tagLine }};background:{{ r.tagBg }};font-family:var(--ks-mono);font-size:9px;line-height:1.5;color:{{ r.tagInk }};white-space:normal">{{ r.tag }}</span>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-warn)">BOTH OF THESE SIMULATE FIRST</span>
+            <span style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.35">cordon is reversible · drain is not</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:11.5px;color:var(--ks-warn)">Cordon</span>
+          <span style="padding:6px 11px;border:1px solid #54262b;background:rgba(255,95,95,.14);font-size:11.5px;color:#ffb3b3;font-weight:600">Drain…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">A node that stopped talking, the fleet’s nodes, and the debug shell</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:296px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ r.hasBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.barW }};background:{{ r.barTone }}"></div>
+                      <div style="position:absolute;left:{{ r.barMark }};top:-2px;bottom:-2px;width:1px;background:rgba(240,180,41,.8)"></div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    // name, ns, requestedMi, usedMi, move, kind
+    const raw = [
+      ['clickhouse-0', 'data', 16384, 13500, 'ip-10-0-1-204', 'ok'],
+      ['kafka-0', 'data', 8192, 7900, 'ip-10-0-1-204', 'ok'],
+      ['kafka-1', 'data', 8192, 7680, 'blocked by a PDB', 'bad'],
+      ['loki-ingester-4b8d2c7f6-x71vd', 'observability', 8192, 7600, 'ip-10-0-3-91', 'ok'],
+      ['redis-cache-7c4b9d2f8-8plz1', 'data', 4096, 3800, 'ip-10-0-2-88', 'warn'],
+      ['nightly-export-3f8c5d9b2-2', 'jobs', 4096, 96, 'ip-10-0-1-17', 'ok'],
+      ['ledger-worker-5d8f9c74c-2wq7t', 'payments', 2048, 412, 'nowhere · needs 2Gi', 'bad'],
+      ['fraud-scorer-9c1b7a5e2-2wq7t', 'payments', 2048, 1880, 'ip-10-0-1-204', 'ok'],
+      ['payout-batcher-4e7c9b2d5-f5flv', 'payments', 1024, 210, 'ip-10-0-1-17', 'ok'],
+      ['grafana-6f9a3c5d8-m21kd', 'observability', 512, 480, 'ip-10-0-1-17', 'ok'],
+      ['checkout-api-7f9c8d4b6-k8n1p', 'payments', 256, 511, 'ip-10-0-3-91', 'warn'],
+      ['checkout-api-7f9c8d4b6-x2m4q', 'payments', 256, 486, 'ip-10-0-3-91', 'warn'],
+      ['argocd-repo-server-8d4c7b9e1-r2k9v', 'platform', 512, 720, 'ip-10-0-1-204', 'warn'],
+      ['otel-collector-7d5c8f9a1-4mzq1', 'observability', 256, 388, 'ip-10-0-2-88', 'warn'],
+      ['envoy-gateway-6b4d9f7c8-abc12', 'ingress', 128, 268, 'ip-10-0-1-17', 'warn'],
+      ['cert-manager-58c7d9b41-p9k2d', 'ingress', 128, 176, 'ip-10-0-1-204', 'ok'],
+      ['external-secrets-5a9c3d8f2-p2mq1', 'platform', 128, 148, 'ip-10-0-3-91', 'ok'],
+      ['metrics-server-5d7c9b4a2-k41zq', 'kube-system', 200, 118, 'ip-10-0-1-17', 'ok'],
+      ['coredns-9f4b7c2d8-4kd9v', 'kube-system', 70, 82, 'ip-10-0-1-204', 'ok'],
+      ['coredns-9f4b7c2d8-m2p1x', 'kube-system', 70, 78, 'ip-10-0-3-91', 'ok'],
+      ['cilium-operator-6c8a4f9b3-mm4kd', 'kube-system', 256, 214, 'stays · DaemonSet', 'idle'],
+      ['cilium-agent-x9k2m', 'kube-system', 256, 198, 'stays · DaemonSet', 'idle'],
+      ['node-exporter-p1m9x', 'observability', 64, 48, 'stays · DaemonSet', 'idle'],
+      ['fluent-bit-k2j8v', 'observability', 128, 104, 'stays · DaemonSet', 'idle']
+    ];
+    const totalReq = raw.reduce((n, r) => n + r[2], 0);
+    const totalUsed = raw.reduce((n, r) => n + r[3], 0);
+    const fmt = v => v >= 1024 ? (v / 1024).toFixed(1).replace('.0', '') + 'Gi' : v + 'Mi';
+    // the node's headline is computed from the rows, so the two can never disagree
+    const ALLOC = 62 * 1024;
+    const pctReq = (totalReq / ALLOC) * 100;
+    const pctUsed = (totalUsed / ALLOC) * 100;
+    const maxReq = 16384;
+    const stuckCount = raw.filter(r => r[5] === 'bad').length;
+    const stayCount = raw.filter(r => /DaemonSet/.test(r[4])).length;
+    const pods = raw.map(r => {
+      const [name, ns, req, used, move, kind] = r;
+      const over = used > req;
+      return {
+        name, ns, req: fmt(req), used: fmt(used), move,
+        glyph: kind === 'bad' ? '\u25b2' : kind === 'warn' ? '\u25c6' : kind === 'idle' ? '\u25a0' : '\u25cf',
+        tone: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'idle' ? IDLE : OK,
+        nameInk: kind === 'bad' ? INK : kind === 'idle' ? INK3 : '#c8d1dd',
+        weight: kind === 'bad' ? '600' : '400',
+        reqW: ((req / maxReq) * 100).toFixed(1) + '%',
+        usedW: Math.min(100, (used / maxReq) * 100).toFixed(1) + '%',
+        barTone: over ? WARN : 'rgba(62,207,142,.45)',
+        usedInk: over ? '#f3d08a' : INK2,
+        moveInk: kind === 'bad' ? '#ffb3b3' : kind === 'idle' ? INK3 : INK2,
+        bg: kind === 'bad' ? 'rgba(255,95,95,.09)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+      };
+    });
+
+    const dr = (k, v, o) => Object.assign({ k, v, ink: INK, bg: 'transparent', hasTag: false, tag: '', tagLine: LINE, tagBg: 'transparent', tagInk: INK2, hasGlyph: false, glyph: '', gtone: INK3 }, o || {});
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg, bar) => Object.assign({ cells, bg: bg || 'transparent', hasBar: false, barW: '0%', barMark: '100%', barTone: OK }, bar || {});
+
+    return {
+      facts: [
+        { k: 'PODS HERE', v: '' + raw.length, tone: INK },
+        { k: 'MEMORY PROMISED', v: pctReq.toFixed(0) + '%', tone: WARN },
+        { k: 'EVICTIONS · 1H', v: '2', tone: BAD },
+        { k: 'WOULD NOT FIT ELSEWHERE', v: '2', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      bars: [
+        { label: 'memory', used: pctUsed.toFixed(0) + '%', req: pctReq.toFixed(0) + '%', lim: '100%', usedTone: 'rgba(62,207,142,.5)', limTone: BAD, value: 'used ' + fmt(totalUsed) + ' · promised ' + fmt(totalReq) + ' · allocatable 62Gi', valInk: '#f3d08a' },
+        { label: 'cpu', used: '52%', req: '73%', lim: '100%', usedTone: 'rgba(62,207,142,.5)', limTone: INK2, value: 'used 8.2 · promised 11.6 · allocatable 15.8 cores', valInk: INK2 }
+      ],
+      kpis: [
+        { label: 'PROMISED', v: pctReq.toFixed(0) + '%', tone: WARN, sub: fmt(totalReq) + ' of 62Gi' },
+        { label: 'ACTUALLY USED', v: pctUsed.toFixed(0) + '%', tone: INK, sub: fmt(totalUsed) + ' of 62Gi' },
+        { label: 'PODS', v: '' + raw.length, tone: INK, sub: 'of 110' },
+        { label: 'AGE', v: '31d', tone: INK, sub: 'kernel 5.15.0-91' }
+      ],
+      pods,
+      podSum: raw.length + ' pods · promised ' + fmt(totalReq) + ' (' + pctReq.toFixed(0) + '% of 62Gi) · using ' + fmt(totalUsed) + ' (' + pctUsed.toFixed(0) + '%)',
+      podNote: stayCount + ' DaemonSet pods stay through a drain · ' + stuckCount + ' have nowhere to go',
+      stripLine: raw.length + ' pods · ' + stuckCount + ' would not fit elsewhere · ' + stayCount + ' stay through a drain',
+      actions: [
+        { key: '\u21b5', label: 'the pod', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'M', label: 'metrics', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'S', label: 'debug shell', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'C', label: 'cordon', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'D', label: 'drain…', ink: '#ffb3b3', line: '#54262b', keyInk: '#ffb3b3' }
+      ],
+      detail: [
+        {
+          label: 'CONDITIONS', tone: WARN, note: 'one of five is not what you want',
+          rows: [
+            dr('MemoryPressure', 'True', { ink: '#ffd7d7', hasGlyph: true, glyph: '\u25b2', gtone: BAD, bg: 'rgba(255,95,95,.09)', hasTag: true, tag: 'since 13:41', tagLine: '#54262b', tagBg: 'rgba(255,95,95,.10)', tagInk: '#ffb3b3' }),
+            dr('DiskPressure', 'False', { ink: INK2, hasGlyph: true, glyph: '\u25cf', gtone: OK }),
+            dr('PIDPressure', 'False', { ink: INK2, hasGlyph: true, glyph: '\u25cf', gtone: OK }),
+            dr('NetworkUnavailable', 'False', { ink: INK2, hasGlyph: true, glyph: '\u25cf', gtone: OK }),
+            dr('Ready', 'True', { ink: INK, hasGlyph: true, glyph: '\u25cf', gtone: OK, hasTag: true, tag: 'kubelet posted 8s ago', tagLine: LINE, tagInk: INK3 })
+          ]
+        },
+        {
+          label: 'TAINTS', tone: WARN, note: 'who put them there, and when',
+          rows: [
+            dr('memory-pressure', 'NoSchedule', { ink: '#f3d08a', hasGlyph: true, glyph: '\u25c6', gtone: WARN, bg: 'rgba(240,180,41,.06)', hasTag: true, tag: 'by the kubelet · 13:41', tagLine: '#4a3a12', tagBg: 'rgba(240,180,41,.10)', tagInk: WARN }),
+            dr('no others', 'nothing you added', { ink: INK3 })
+          ]
+        },
+        {
+          label: 'CAPACITY', tone: INK2, note: 'what the kubelet reports',
+          rows: [
+            dr('cpu', '16 · allocatable 15800m'),
+            dr('memory', '64Gi · allocatable 62Gi'),
+            dr('ephemeral storage', '200Gi · 41% used'),
+            dr('pods', '110 · 24 running'),
+            dr('hugepages-2Mi', '0')
+          ]
+        },
+        {
+          label: 'THE MACHINE', tone: INK2, note: 'the part that dates a fleet',
+          rows: [
+            dr('kubelet', 'v1.29.4', { hasTag: true, tag: 'matches the cluster', tagLine: LINE, tagInk: INK3 }),
+            dr('os', 'Amazon Linux 2 · 5.15.0-91'),
+            dr('runtime', 'containerd 1.7.13'),
+            dr('instance', 'm6i.4xlarge · eu-west-1b'),
+            dr('provider ID', 'aws:///eu-west-1b/i-0a41f92c88d1e7b4')
+          ]
+        },
+        {
+          label: 'LABELS THAT MATTER', tone: INFO, note: 'the ones something selects on',
+          rows: [
+            dr('tier', 'prod', { hasTag: true, tag: '3 workloads select this', tagLine: '#2f4356', tagBg: 'rgba(74,168,255,.08)', tagInk: '#8ac6ff' }),
+            dr('topology.zone', 'eu-west-1b', { hasTag: true, tag: 'a StatefulSet is pinned here', tagLine: '#2f4356', tagBg: 'rgba(74,168,255,.08)', tagInk: '#8ac6ff' }),
+            dr('node.kubernetes.io/instance-type', 'm6i.4xlarge'),
+            dr('+ 22 more', 'the standard set', { ink: INK3 })
+          ]
+        },
+        {
+          label: 'WHAT HAPPENED HERE', tone: BAD, note: 'last hour',
+          rows: [
+            dr('14:02', 'Evicted · checkout-api-…-p91md', { ink: '#ffd7d7', bg: 'rgba(255,95,95,.09)', hasGlyph: true, glyph: '\u25b2', gtone: BAD }),
+            dr('13:47', 'Evicted · loki-ingester-…-z0mq4', { ink: '#ffd7d7', bg: 'rgba(255,95,95,.09)', hasGlyph: true, glyph: '\u25b2', gtone: BAD }),
+            dr('13:41', 'MemoryPressure became True', { ink: '#f3d08a', hasGlyph: true, glyph: '\u25c6', gtone: WARN }),
+            dr('13:38', 'clickhouse-0 scheduled here', { ink: INK2 }),
+            dr('12:54', 'you cordoned ip-10-0-2-44', { ink: INK3, hasTag: true, tag: 'which sent load here', tagLine: LINE, tagInk: INK3 })
+          ]
+        }
+      ],
+      variants: [
+        {
+          title: 'A node that stopped talking', cap: 'RES-05 · CONN-03', edge: BAD, scope: 'ip-10-0-4-8', scopeTone: BAD, state: '▲ NotReady 18m', stateTone: BAD,
+          leadBg: 'rgba(255,95,95,.09)', leadInk: '#ffd7d7',
+          lead: 'The kubelet stopped posting at 13:58. Everything below is what it last said.',
+          cols: '124px 1fr',
+          rows: [
+            vr([c('last heartbeat', { ink: INK3 }), c('13:58:12 · 18m ago', { ink: '#ffd7d7' })], 'rgba(255,95,95,.09)'),
+            vr([c('Ready', { ink: INK3 }), c('Unknown — not False', { ink: '#ffd7d7' })], 'rgba(255,95,95,.09)'),
+            vr([c('its 18 pods', { ink: INK3 }), c('shown as Unknown, not Running', { ink: '#f3d08a' })]),
+            vr([c('', {}), c('and not as Failed — we do not know', { ink: '#f3d08a', font: SANS, size: '11px' })]),
+            vr([c('capacity', { ink: INK3 }), c('unknown · not zero', { ink: '#8a5f62' })]),
+            vr([c('the taint', { ink: INK3 }), c('not-ready:NoExecute · added 13:58', {})]),
+            vr([c('eviction', { ink: INK3 }), c('starts at 14:03 · 300s tolerations', { ink: '#f3d08a' })]),
+            vr([c('what we offer', { ink: INK3 }), c('drain, or delete from the API', { ink: INK })]),
+            vr([c('', {}), c('both say the pods’ fate first', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'Every number on a silent node is “as of 13:58”, and the pane says so once at the top rather than dimming each field into ambiguity.',
+          note: 'The state most tools render as zeros. Unknown is not zero: an 18-pod node that went quiet still has 18 pods until somebody decides otherwise.'
+        },
+        {
+          title: 'Every node in the fleet', cap: 'RES-05 · DIAG-04', edge: WARN, scope: '148 nodes · 10 clusters', scopeTone: INFO, state: '◐ 4 need attention', stateTone: WARN,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Four nodes out of 148, and two of them are on the same cluster.',
+          cols: '116px 1fr 52px',
+          rows: [
+            vr([c('ip-10-0-4-8', { ink: INK }), c('', {}), c('ap-s', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)', { hasBar: true, barW: '100%', barMark: '100%', barTone: 'rgba(255,95,95,.35)' }),
+            vr([c('ip-10-0-4-11', { ink: INK }), c('', {}), c('ap-s', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)', { hasBar: true, barW: '100%', barMark: '100%', barTone: 'rgba(255,95,95,.35)' }),
+            vr([c('ip-10-0-3-19', { ink: INK }), c('', {}), c('91%', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.06)', { hasBar: true, barW: '91%', barMark: '80%', barTone: WARN }),
+            vr([c('worker-2', { ink: INK }), c('', {}), c('ocp', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.06)', { hasBar: true, barW: '62%', barMark: '80%', barTone: WARN }),
+            vr([c('ip-10-0-3-91', {}), c('', {}), c('74%', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '74%', barMark: '80%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('ip-10-0-1-204', {}), c('', {}), c('61%', { justify: 'flex-end', ink: INK2 })], 'transparent', { hasBar: true, barW: '61%', barMark: '80%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('ip-10-0-2-44', { ink: INK3 }), c('', {}), c('cord', { justify: 'flex-end', ink: INK3 })], 'transparent', { hasBar: true, barW: '24%', barMark: '80%', barTone: '#2c3542' }),
+            vr([c('+ 141 more', { ink: INK3 }), c('all under 70% promised', { ink: INK3, font: SANS, size: '11px' }), c('', {})])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'The tick is 80% — the line past which an eviction becomes likely. Sorted by how close to it each node is, worst first.',
+          note: 'The list you open once a week. 148 nodes is unreadable as 148 rows, so the sort and the 80% tick do the reading for you.'
+        },
+        {
+          title: 'The debug shell', cap: 'ACT-11', edge: BAD, scope: 'ip-10-0-3-19 · privileged', scopeTone: BAD, state: '▲ your name on it', stateTone: BAD,
+          leadBg: 'rgba(255,95,95,.09)', leadInk: '#ffd7d7',
+          lead: 'This creates a privileged pod in the host namespaces, as you.',
+          cols: '1fr',
+          rows: [
+            vr([c('kubectl debug node/ip-10-0-3-19 -it --image=busybox', { ink: INK3, size: '10px' })]),
+            vr([c('creates pod node-debug-4kd9v in kube-system', { ink: '#ffd7d7', font: SANS, size: '11px' })], 'rgba(255,95,95,.09)'),
+            vr([c('host pid, host network, host filesystem at /host', { ink: '#ffd7d7', font: SANS, size: '11px' })], 'rgba(255,95,95,.09)'),
+            vr([c('audited as you · SEC-06', { ink: '#f3d08a', font: SANS, size: '11px' })]),
+            vr([c('deletes itself when the pane closes', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {})]),
+            vr([c('and it is the only way to answer:', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('what does dmesg say about the OOM killer?', { ink: INK, font: SANS, size: '11px' })]),
+            vr([c('is the disk really full, or just the kubelet’s view?', { ink: INK, font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'On a read-only cluster the action is greyed with “read-only context” where its shortcut would be, and no pane opens.',
+          note: 'The most dangerous action in the product gets the most words before it. The terminal pane it opens is red-edged for the whole session.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'PROMISED AGAINST USED, TWICE', t: 'The node’s own bar and every pod’s bar carry the same two marks: the fill is real usage, the tick is what was requested. That pairing is the whole diagnosis — 91% promised with 74% used means the node is full of reservations, not of work, and the pods over their own tick (checkout-api at 511Mi on a 256Mi request) are the ones that made the kubelet taint it.' },
+        { tone: BAD, k: 'THE LAST COLUMN IS A FORECAST', t: 'Every pod row says where it would go if you drained this node — computed, not promised, in the blue-is-not-yet-true convention. Two rows cannot move: one has nowhere to go, one is blocked by a disruption budget. That is the answer to the question people actually ask before draining, and it is on screen before the button is pressed rather than in the confirmation after.' },
+        { tone: IDLE, k: 'WHAT WE GIVE UP', t: 'No machine API: we do not scale node groups, replace instances, or talk to the cloud provider — on a managed cluster that is the autoscaler’s job and getting it wrong costs money. We also cannot see anything the kubelet does not report, which is why the debug shell exists and why it is the loudest action in the product. Delete-from-the-API is offered only on a node that has already stopped talking, and it asks you to type the node name.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

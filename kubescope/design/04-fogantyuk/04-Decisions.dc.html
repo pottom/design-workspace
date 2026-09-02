@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 4 / 6 · DECISIONS · BRIEF §7</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The six contradictions, settled</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Each one is two defensible rules pulling apart. The brief asked for the <span style="color:var(--ks-ink)">code</span> to be the base where the prose disagrees, and for the choice to be said out loud so the prose can be corrected — so every row names the winner, the loser, and what the loser was right about.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="6">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ d.tone }};display:grid;grid-template-columns:250px 1fr 300px;overflow:hidden">
+
+        <div style="padding:16px 18px;border-right:1px solid var(--ks-line);display:flex;flex-direction:column;gap:9px;background:var(--ks-field)">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ d.tone }}">{{ d.n }}</span>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.1em;color:var(--ks-ink-3)">{{ d.tag }}</span>
+          </div>
+          <div style="font-size:15px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ d.title }}</div>
+          <div style="display:flex;flex-direction:column;gap:5px;padding-top:2px">
+            <sc-for list="{{ d.sides }}" as="s" hint-placeholder-count="2">
+              <div style="display:flex;align-items:baseline;gap:7px">
+                <span style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.09em;color:{{ s.srcInk }};width:44px;flex:none">{{ s.src }}</span>
+                <span style="font-size:11px;line-height:1.4;color:{{ s.ink }};min-width:0;text-wrap:pretty">{{ s.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:7px;padding-top:4px;border-top:1px solid var(--ks-line)">
+            <span style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.09em;color:var(--ks-ink-3);width:44px;flex:none">TODAY</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2);min-width:0;text-wrap:pretty">{{ d.today }}</span>
+          </div>
+        </div>
+
+        <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:{{ d.tone }};padding:2px 7px;border:1px solid {{ d.chipLine }};background:{{ d.chipBg }}">DECIDED</span>
+            <span style="font-size:13.5px;font-weight:600;color:var(--ks-ink);min-width:0;text-wrap:pretty">{{ d.decision }}</span>
+          </div>
+          <div style="font-size:12px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ d.why }}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:2px">
+            <sc-for list="{{ d.spec }}" as="x" hint-placeholder-count="4">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;padding:2px 7px;border:1px solid {{ x.line }};background:{{ x.bg }};color:{{ x.ink }}">{{ x.t }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:16px 18px;border-left:1px solid var(--ks-line);display:flex;flex-direction:column;gap:8px;background:rgba(255,77,109,.03)">
+          <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-bad)">DROPPED · {{ d.loser }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:#ffc4cf;text-wrap:pretty">{{ d.cost }}</div>
+          <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:var(--ks-ink-3);padding-top:4px;border-top:1px solid var(--ks-line)">{{ d.fix }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_H = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    const side = (src, t, won) => ({
+      src, t,
+      srcInk: won ? CY : INK3,
+      ink: won ? INK : INK3
+    });
+    const sp = (t, tone) => ({
+      t,
+      ink: tone === 'cy' ? CY : tone === 'warn' ? '#f3d08a' : tone === 'bad' ? '#ffc4cf' : INK2,
+      bg: tone === 'cy' ? 'rgba(63,224,208,.10)' : tone === 'warn' ? 'rgba(240,180,41,.10)' : tone === 'bad' ? 'rgba(255,77,109,.10)' : 'transparent',
+      line: tone === 'cy' ? '#1f5f58' : tone === 'warn' ? '#5a4520' : tone === 'bad' ? '#54262b' : LINE
+    });
+    const D = (n, tag, title, tone, o) => Object.assign({
+      n, tag, title, tone,
+      chipBg: tone === CY ? 'rgba(63,224,208,.10)' : tone === WARN ? 'rgba(240,180,41,.10)' : 'rgba(255,77,109,.10)',
+      chipLine: tone === CY ? '#1f5f58' : tone === WARN ? '#5a4520' : '#54262b'
+    }, o);
+
+    const decisions = [
+      D('1', 'FOCUS', 'How a pane says the keys are coming here', CY, {
+        sides: [
+          side('PLAN', '2px cyan border plus a 4px cyan left edge', false),
+          side('CODE', 'header background rgba(63,224,208,.06), no border', true)
+        ],
+        today: '1px border — neither',
+        decision: 'The code’s header tint, plus a cyan header hairline.',
+        why: 'The code wins, but 6% alone is not findable across 1600px, so the header’s bottom hairline goes cyan — two channels and still no geometry change. A 2px ring would move every pane boundary by a pixel whenever focus moved, making the whole layout twitch as you tab; and the outward ring has to keep its existing meaning, keyboard focus inside a control, or a person in a dialog cannot tell which level they are on. The 4px left edge loses separately: it collides with the cluster hue bar and costs 24px of colour at six panes.',
+        spec: [sp('header rgba(63,224,208,.06)', 'cy'), sp('header hairline 1px cyan', 'cy'), sp('border unchanged'), sp('no hover state on the pane')],
+        loser: 'THE 2PX RING + 4PX EDGE',
+        cost: 'It was right that a tint is weak — at 6% it genuinely is not enough on its own, which is why the hairline was added rather than the tint simply accepted. It was also the more obvious signal from across a room.',
+        fix: 'Prose to correct: “Fókuszkeret” in the frame plan. Ring stays defined, scoped to controls.'
+      }),
+
+      D('2', 'HEADER', 'How many buttons a 28px pane header carries', CY, {
+        sides: [
+          side('PLAN', 'five buttons at 26px — ⌕ ⇱ ⊞ ⋯ ✕', false),
+          side('CODE', 'two buttons at 17px — ⊞ ✕', true)
+        ],
+        today: 'two buttons, 17px',
+        decision: 'Three buttons at 17px: ⊞ ⋯ ✕.',
+        why: 'The code wins on size — 26px inside a 28px header is full-bleed, and five of them eat 130px of a 320px header, leaving 190px for cluster, type and namespace. But ⋯ is added back, because right-click is the only route to the pane menu otherwise and an undiscoverable menu is a menu that does not exist. ⌕ and ⇱ are dropped as buttons: filter already has a permanent field in the 26px control bar below, and maximise is ⌘⏎ plus a menu item.',
+        spec: [sp('⊞ ⋯ ✕ at 17px', 'cy'), sp('glyph 11px, hit box 17px'), sp('⌕ → the control bar field'), sp('⇱ → ⌘⏎ and the menu')],
+        loser: 'THE FIVE-BUTTON BAR',
+        cost: 'Discoverability. Every capability visible in the header is one nobody has to be told about, and search and maximise are now learned from the menu or the palette rather than seen.',
+        fix: 'Prose to correct: the 26px control row in the frame plan. Keep the five in the pane menu, in that order.'
+      }),
+
+      D('3', 'PREVIEW', 'What you see while a pane is in the air', CY, {
+        sides: [
+          side('PLAN', 'a single alpha rectangle on the target', false),
+          side('CODE', 'a live rehearsal of the whole resulting layout', true)
+        ],
+        today: 'live rehearsal',
+        decision: 'The live rehearsal — accuracy over quiet.',
+        why: 'The brief supplies the deciding argument itself: take a pane out and the split it lived in collapses, so a pane on the far side of the screen grows. A rectangle drawn on the target cannot express that, which means it is wrong at the exact moment you are deciding — and a preview that lies is paid back as a layout you undo. The cost is bounded by drawing chrome only: borders, headers, titles and flat fills at 45%, no rows and no queries, so a drag never becomes as slow as the slowest cluster.',
+        spec: [sp('same tree function, uncommitted', 'cy'), sp('chrome only, 45%'), sp('landing slot at 100%'), sp('frozen on an invalid target', 'bad')],
+        loser: 'THE SINGLE RECTANGLE',
+        cost: 'It was much calmer: one shape appearing under the pointer instead of the whole screen restructuring on every crossing of an edge. On a 4-pane screen the rehearsal is busy, and that is a real loss.',
+        fix: 'Prose to correct: “PlacementPreview — egyetlen alfás téglalap”. It has no remaining use, including the menu path.'
+      }),
+
+      D('4', 'SPLIT', 'What happens to ⊞ when there is no room', WARN, {
+        sides: [
+          side('PLAN', '⊞ greys out below 643px — 320 + 3 + 320, i.e. halving', false),
+          side('CODE', 'the new pane gets 40%, so the threshold is 804px', true)
+        ],
+        today: 'the 40% rule, threshold computed from it',
+        decision: '40% and 804px — and below it ⊞ changes meaning instead of greying.',
+        why: 'The code’s arithmetic wins: 320 ÷ 0.4 = 800, plus the 4px handle. The 40% is also directional on purpose — the arriving pane takes the smaller share, so the pane you were reading keeps the majority. What is added is the refusal behaviour: below 804px ⊞ becomes “open as a tab here”, which is always possible. Greying out the primary way to open anything teaches that the app is full; offering the fifth drop target teaches that there is another way.',
+        spec: [sp('new pane 40%', 'warn'), sp('threshold 804px = 320 / 0.4 + 4'), sp('below it: open as a tab', 'cy'), sp('never greyed')],
+        loser: 'GREYING OUT, AND 50/50',
+        cost: 'A greyed control is honest about a limit, and 50/50 is easier to reason about — with 40% the two panes are never symmetric, so double-click to equalise had to be given a receipt of its own.',
+        fix: 'Prose to correct: the 643px threshold. Double-click still returns 50/50, with a 140ms animation and a chip.'
+      }),
+
+      D('5', 'ROW EDGE', 'Who owns the 2px left channel of a row', BAD, {
+        sides: [
+          side('PROSE', 'a cyan left mark, belonging to the selection', false),
+          side('CODE', 'r.mark — a separate channel, in the status hue', true)
+        ],
+        today: 'no left edge at all',
+        decision: 'Status keeps it. Selection takes fill plus a run outline.',
+        why: 'Two reasons beyond deference to the code. Status must be scannable straight down a column at a glance — that is what the channel is for — and a selection of eight rows would put eight cyan bars in the same two pixels as eight status bars, so both become noise. Selection therefore gets a geometry nothing else uses: an 8% fill and a 1px cyan outline drawn around a contiguous run rather than each row, which also answers the brief’s worry that the same fill eight times reads differently.',
+        spec: [sp('r.mark keeps 2px left', 'bad'), sp('selection = fill + 1px outline', 'cy'), sp('outline wraps the run, not the row', 'cy'), sp('runEdge: top | mid | bottom')],
+        loser: 'THE CYAN LEFT MARK',
+        cost: 'It was the strongest single signal available in a 22px row, and it would have made a selected row identifiable from the far edge of the screen without reading the fill.',
+        fix: 'Prose to correct: §5.6’s “cián bal jel”. The status channel keeps its name r.mark in the code.'
+      }),
+
+      D('6', 'ROW FILL', 'How strong a selected row’s fill is', BAD, {
+        sides: [
+          side('PROSE', '10% cyan', false),
+          side('CODE', 'rgba(63,224,208,.08) — 8%', true)
+        ],
+        today: '—',
+        decision: '8% on a neutral row, 10% composited on a tinted one.',
+        why: 'The code’s 8% wins where it was measured — on a plain row it is enough next to the outline. The brief’s hard case needed a second value: a selected CrashLoop row already carries rgba(255,77,109,.05), and stacking 8% cyan on it produces a muddy nothing. So on any tinted row the selection fill is replaced rather than added, at 10%, with the text going to full white; the outline is what actually identifies it, and the status hue survives underneath. That row is the one you care about during an incident, so it could not be the one that is hardest to see.',
+        spec: [sp('neutral row 8%', 'cy'), sp('tinted row 10%, composited not stacked', 'bad'), sp('text → #fff'), sp('unfocused pane: fill 4%, outline 40%')],
+        loser: 'A SINGLE FILL VALUE',
+        cost: 'One number is simpler to implement and to remember, and two values mean a reviewer has to know which case they are looking at before they can tell whether it is right.',
+        fix: 'Prose to correct: §5.6’s 10%. Both values live in DataRow, keyed off whether the row has a status tint.'
+      })
+    ];
+
+    return {
+      facts: [
+        { k: 'CONTRADICTIONS', v: '6', tone: INK },
+        { k: 'CODE WON', v: '6', tone: CY },
+        { k: 'CODE WON UNCHANGED', v: '2', tone: INK2 },
+        { k: 'PROSE LINES TO FIX', v: '6', tone: WARN }
+      ],
+      decisions,
+      closing: [
+        { tone: CY, k: 'THE CODE WON EVERY TIME — BUT NOT UNTOUCHED', t: 'As asked, the built behaviour is the base in all six. In four of them it needed something added rather than simply ratified: the focus tint needed a hairline to be findable, the two-button header needed ⋯ to make the menu discoverable, the 40% rule needed a refusal that is not a greyed control, and the 8% fill needed a second value for tinted rows. Deferring to the code is not the same as agreeing that the code was complete.' },
+        { tone: WARN, k: 'EVERY LOSER WAS RIGHT ABOUT SOMETHING', t: 'The ring was right that a 6% tint is weak. The five-button header was right about discoverability. The single rectangle was right that the rehearsal is busy. Greying out was right to be honest about a limit. The cyan left mark was the strongest signal available in 22px. Recording what each one was right about is what stops it being re-proposed in six weeks as though it were new.' },
+        { tone: BAD, k: 'SIX LINES OF PROSE ARE NOW WRONG', t: 'The two plans carry six statements that contradict what is built and what is decided here: the focus frame, the 26px five-button control row, “egyetlen alfás téglalap”, the 643px threshold, the cyan left mark, and the 10% fill. Each is named in its row so the documents can be corrected rather than quietly diverging — which is how the two of them came apart in the first place.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

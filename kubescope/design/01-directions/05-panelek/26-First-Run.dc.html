@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:980px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 26 / 30 · THE FRAME · CONN-01 · CONN-04 · CONN-05 · CONN-08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">First run</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Forty-one contexts, none of them connected, and no layout at all. The temptation is a wizard. <span style="color:var(--ks-ink)">This is the app with one pane open</span> — the same frame, the same widgets, the same right-click — because the first thing a person learns here is how the product is shaped, and a wizard teaches them a shape that never appears again.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="first run · nothing connected yet" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:#161a21;box-shadow:inset 0 -2px 0 #4aa8ff;font-size:12px;color:var(--ks-ink)">
+        <span style="font-family:var(--ks-mono);color:var(--ks-info);font-weight:600">1</span>getting started
+      </div>
+      <div style="display:flex;align-items:center;padding:0 12px;font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink-3)">+</div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>no layout saved yet · this tab becomes your fleet when the probes finish</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="12">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 452px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>first run</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Choose your clusters</span>
+          <span style="color:var(--ks-ink-3)">read from</span><span style="color:var(--ks-ink-2)">5 files<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">{{ headerLine }}</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-warn)"><span style="font-size:7px">◐</span>probing 9</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-info);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Nothing was contacted before you asked. Enabling a context runs its auth, probes the API server and reads its version — <span style="color:var(--ks-ink)">and nothing else</span>. No watches start until you open a pane, and every cluster arrives <span style="font-family:var(--ks-mono);color:#a8e6c8">read-only</span> whatever your RBAC allows.</div>
+          </div>
+          <div style="display:flex;gap:18px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:9px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:var(--ks-ink-3)">select</span>
+          <sc-for list="{{ selectors }}" as="s" hint-placeholder-count="5">
+            <span style="padding:3px 8px;border:1px solid {{ s.line }};background:{{ s.bg }};color:{{ s.ink }}">{{ s.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">or type a pattern</span>
+          <span style="padding:3px 9px;border:1px solid var(--ks-line-strong);background:var(--ks-field);color:var(--ks-ink);min-width:150px">prod-*<span style="color:var(--ks-ink-3)"> │</span></span>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:22px 1fr 118px 96px 106px 98px 76px;align-items:center;padding:0 12px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div></div><div>CONTEXT</div><div>FROM</div><div>KIND</div><div>AUTH</div><div style="color:var(--ks-ink-2)">STATE ↓</div><div style="text-align:right">WRITE</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="20">
+            <sc-if value="{{ r.isDivider }}" hint-placeholder-val="{{ false }}">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <span style="color:{{ r.tone }}">{{ r.name }}</span><div style="flex:1"></div><span>{{ r.note }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ r.isRow }}" hint-placeholder-val="{{ true }}">
+              <div style="height:34px;display:grid;grid-template-columns:22px 1fr 118px 96px 106px 98px 76px;align-items:center;padding:0 12px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;justify-content:center">
+                  <span style="width:11px;height:11px;border:1px solid {{ r.boxLine }};background:{{ r.boxBg }};display:flex;align-items:center;justify-content:center;font-size:7px;color:{{ r.boxInk }}">{{ r.check }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.subInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.sub }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.from }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.kindInk }}">{{ r.kind }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.authInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.auth }}</div>
+                <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10.5px;color:{{ r.tone }};font-weight:600;min-width:0">
+                  <span style="font-size:7px;flex:none">{{ r.glyph }}</span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.state }}</span>
+                </div>
+                <div style="display:flex;justify-content:flex-end"><span style="font-family:var(--ks-mono);font-size:9.5px;padding:2px 6px;border:1px solid {{ r.wLine }};background:{{ r.wBg }};color:{{ r.wInk }}">{{ r.write }}</span></div>
+              </div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+          <sc-for list="{{ buckets }}" as="b" hint-placeholder-count="4">
+            <span style="color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">{{ bucketSum }}</span>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 12px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink-2)">selected</span>
+          <span style="color:var(--ks-ink);font-weight:600">prod-ap-south</span>
+          <span style="color:#f3d08a">exec plugin returned 1 · aws sso session expired</span>
+          <div style="flex:1"></div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:var(--ks-info);font-weight:600">◈ progress</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">9 enabled</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">2 need you</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+
+          <div style="padding:12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT ENABLING DOES</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">four steps, in this order</span>
+            </div>
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:18px 1fr;align-items:baseline;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ s.tone }};font-weight:600">{{ s.n }}</span>
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-size:11.5px;line-height:1.4;color:{{ s.ink }};text-wrap:pretty">{{ s.t }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);min-width:0;text-wrap:pretty">{{ s.note }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-warn)">PROBING</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">6 answered · 2 need you · 1 unreachable</span>
+            </div>
+            <div style="height:5px;display:flex;gap:1px;background:var(--ks-field)">
+              <sc-for list="{{ bar }}" as="b" hint-placeholder-count="9">
+                <div style="flex:1;background:{{ b.bg }}"></div>
+              </sc-for>
+            </div>
+            <sc-for list="{{ probing }}" as="p" hint-placeholder-count="9">
+              <div style="display:grid;grid-template-columns:12px 118px 1fr auto;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10.5px">
+                <span style="font-size:7px;color:{{ p.tone }}">{{ p.glyph }}</span>
+                <span style="color:{{ p.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                <span style="color:{{ p.msgInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.msg }}</span>
+                <span style="color:{{ p.rttInk }};flex:none">{{ p.rtt }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line);background:rgba(240,180,41,.05)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-warn)">THE TWO THAT NEED YOU</div>
+            <sc-for list="{{ blocked }}" as="b" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column;gap:5px;padding:9px 10px;border:1px solid {{ b.line }};border-left:2px solid {{ b.edge }};background:var(--ks-field)">
+                <div style="display:flex;align-items:baseline;gap:8px">
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ b.edge }};font-weight:600">{{ b.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ b.cap }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2);min-width:0;text-wrap:pretty">{{ b.err }}</div>
+                <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ b.note }}</div>
+                <div style="display:flex;gap:7px;padding-top:2px">
+                  <sc-for list="{{ b.buttons }}" as="x" hint-placeholder-count="2">
+                    <span style="padding:5px 10px;border:1px solid {{ x.line }};background:{{ x.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ x.ink }};font-weight:{{ x.weight }}">{{ x.t }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Neither one blocks the other six. You can start working now and come back to these — the rail will keep showing them as unreachable rather than hiding them.</div>
+          </div>
+
+          <div style="padding:12px;display:flex;flex-direction:column;gap:9px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ok)">WHEN THIS FINISHES</div>
+            <div style="display:flex;gap:12px">
+              <div style="width:132px;height:84px;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line-strong);flex:none">
+                <sc-for list="{{ endShape }}" as="s" hint-placeholder-count="3">
+                  <div style="grid-column:{{ s.gc }};grid-row:{{ s.gr }};background:var(--ks-panel);border-left:2px solid {{ s.edge }};padding:3px 4px;overflow:hidden">
+                    <span style="font-family:var(--ks-mono);font-size:7.5px;letter-spacing:.05em;color:{{ s.edge }};white-space:nowrap">{{ s.kind }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <div style="font-size:12px;font-weight:600;line-height:1.4;text-wrap:pretty">Tab 1 opens as the <span style="font-family:var(--ks-mono);color:#c9a9ff">morning check</span> template.</div>
+                <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">Fleet across the top, certificates and the change stream underneath. An empty desk is a puzzle; six clusters and their state is an answer, and it is also the fastest way to learn what a pane is.</div>
+              </div>
+            </div>
+            <sc-for list="{{ endNotes }}" as="n" hint-placeholder-count="3">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:7px;color:{{ n.tone }};flex:none;padding-top:5px">{{ n.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">NOTHING IS PERMANENT HERE</span>
+            <span style="font-size:10.5px;color:var(--ks-ink-3)">⌘K → kubeconfig, any time</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Start with none</span>
+          <span style="padding:6px 11px;border:1px solid #1e4a6e;background:rgba(74,168,255,.12);font-size:11.5px;color:#8ac6ff;font-weight:600">Work with these 6 →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">No kubeconfig at all, the three ways auth goes, and the second launch</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    // code, tone, glyph, state  — the rail as it fills in
+    const RAIL = [['EW', OK, '\u25cf'], ['UE', OK, '\u25cf'], ['AS', BAD, '\u25b2'], ['SE', OK, '\u25cf'],
+      ['SU', OK, '\u25cf'], ['E1', WARN, '\u25d0'], ['CI', OK, '\u25cf'], ['OC', WARN, '\u25d0'], ['AN', OK, '\u25cf']];
+    const rail = RAIL.map(x => ({ name: x[0], code: x[1] === BAD ? x[0] : x[0], ink: x[1] === BAD ? '#8a5f62' : INK3, bg: 'transparent', bar: 'transparent', glyph: x[2], tone: x[1] }))
+      .concat([1, 2, 3].map(() => ({ name: 'not enabled', code: '\u00b7', ink: '#232a34', bg: 'transparent', bar: 'transparent', glyph: '', tone: 'transparent' })));
+
+    // name, server, from, kind, auth, state, write, group
+    const raw = [
+      ['DIVIDER', '', '', '', '', 'ENABLED BY YOU \u00b7 9', 'probing now \u00b7 nothing was contacted before you clicked', OK, 'divider'],
+      ['prod-eu-west', 'https://api.eu-west.k8s.acme.io', 'eks-prod.yaml', 'k8s 1.29', 'aws exec', 'ready \u00b7 41ms', 'read-only', 'on'],
+      ['prod-us-east', 'https://api.us-east.k8s.acme.io', 'eks-prod.yaml', 'k8s 1.29', 'aws exec', 'ready \u00b7 88ms', 'read-only', 'on'],
+      ['prod-ap-south', 'https://api.ap-south.k8s.acme.io', 'eks-prod.yaml', '\u2014', 'aws exec', 'sso expired', 'read-only', 'auth'],
+      ['staging-eu', 'https://api.staging-eu.k8s.acme.io', 'config', 'k8s 1.30', 'client cert', 'ready \u00b7 22ms', 'read-only', 'on'],
+      ['staging-us', 'https://api.staging-us.k8s.acme.io', 'config', 'k8s 1.30', 'client cert', 'ready \u00b7 26ms', 'read-only', 'on'],
+      ['edge-01', 'https://10.44.2.9:6443', 'edge.yaml', '\u2014', 'token', 'no route to host', 'read-only', 'down'],
+      ['ci-runners', 'https://api.ci.internal:6443', 'config', 'k8s 1.28', 'sa token', 'ready \u00b7 14ms', 'read-only', 'on'],
+      ['ocp-prod', 'https://api.ocp.acme.io:6443', 'ocp.yaml', 'OCP 4.15', 'oauth', 'browser open', 'read-only', 'auth'],
+      ['analytics', 'https://api.analytics.k8s.acme.io', 'config', 'k8s 1.29', 'gke exec', 'ready \u00b7 210ms', 'read-only', 'on'],
+      ['DIVIDER2', '', '', '', '', 'LOOKS LIKE THE SAME ESTATE \u00b7 6', 'same issuer and domain as the ones above \u2014 probably yours', INFO, 'divider'],
+      ['dev-sandbox', 'https://api.dev.k8s.acme.io', 'config', '\u2014', 'client cert', 'not enabled', '\u2014', 'off'],
+      ['edge-02', 'https://10.44.3.4:6443', 'edge.yaml', '\u2014', 'token', 'not enabled', '\u2014', 'off'],
+      ['ocp-staging', 'https://api.ocp-stg.acme.io:6443', 'ocp.yaml', '\u2014', 'oauth', 'not enabled', '\u2014', 'off'],
+      ['data-eu-west', 'https://api.data-eu.k8s.acme.io', 'eks-prod.yaml', '\u2014', 'aws exec', 'not enabled', '\u2014', 'off'],
+      ['data-us-east', 'https://api.data-us.k8s.acme.io', 'eks-prod.yaml', '\u2014', 'aws exec', 'not enabled', '\u2014', 'off'],
+      ['ci-runners-arm', 'https://api.ci-arm.internal:6443', 'config', '\u2014', 'sa token', 'not enabled', '\u2014', 'off'],
+      ['DIVIDER3', '', '', '', '', 'PROBABLY NOT YOURS \u00b7 26', 'localhost, a former employer\u2019s domain, and 19 that have not been touched in a year', IDLE, 'divider'],
+      ['minikube', 'https://192.168.49.2:8443', 'config', '\u2014', 'client cert', 'stale 8 months', '\u2014', 'cold'],
+      ['kind-kind', 'https://127.0.0.1:52193', 'config', '\u2014', 'client cert', 'port closed', '\u2014', 'cold'],
+      ['docker-desktop', 'https://127.0.0.1:6443', 'config', '\u2014', 'client cert', 'port closed', '\u2014', 'cold'],
+      ['gke_old-corp_eu_prod', 'https://34.76.11.8', 'gcp-old.yaml', '\u2014', 'gke exec', 'stale 14 months', '\u2014', 'cold'],
+      ['gke_old-corp_eu_stg', 'https://34.76.11.9', 'gcp-old.yaml', '\u2014', 'gke exec', 'stale 14 months', '\u2014', 'cold'],
+      ['arn:aws:eks:eu-central-1:41…', 'https://api.legacy.eks.amazonaws.com', 'eks-old.yaml', '\u2014', 'aws exec', 'stale 11 months', '\u2014', 'cold']
+    ];
+
+    const S = {
+      on: ['\u25cf', OK], auth: ['\u25d0', WARN], down: ['\u25b2', BAD], off: ['\u25cb', IDLE], cold: ['\u25cb', '#3f4855']
+    };
+    const counts = {};
+    const rows = raw.map(r => {
+      if (r[7 + 1] === 'divider' || r[8] === 'divider') {
+        return { isDivider: true, isRow: false, name: r[5], note: r[6], tone: r[7] };
+      }
+      const g = r[7];
+      counts[g] = (counts[g] || 0) + 1;
+      const m = S[g];
+      const enabled = g === 'on' || g === 'auth' || g === 'down';
+      const sel = r[0] === 'prod-ap-south';
+      const cold = g === 'cold';
+      return {
+        isDivider: false, isRow: true,
+        name: r[0], sub: r[1], from: r[2], kind: r[3], auth: r[4], state: r[5], write: r[6],
+        glyph: m[0], tone: sel ? WARN : m[1],
+        check: enabled ? '\u2713' : '',
+        boxLine: enabled ? (g === 'on' ? '#22503c' : '#5a4520') : cold ? '#1e242d' : '#2c3542',
+        boxBg: g === 'on' ? 'rgba(62,207,142,.16)' : g === 'auth' ? 'rgba(240,180,41,.16)' : g === 'down' ? 'rgba(255,95,95,.14)' : 'transparent',
+        boxInk: g === 'on' ? OK : g === 'down' ? BAD : WARN,
+        nameInk: sel ? '#fff' : enabled ? INK : cold ? '#3f4855' : '#c8d1dd',
+        weight: enabled ? '500' : '400',
+        subInk: cold ? '#2f3742' : INK3,
+        kindInk: r[3] === '\u2014' ? INK3 : r[3].indexOf('OCP') === 0 ? '#ff8a5c' : INK2,
+        authInk: cold ? '#3f4855' : r[4] === 'oauth' ? '#ff8a5c' : r[4].indexOf('exec') > 0 ? '#8ac6ff' : INK3,
+        wLine: g === 'on' ? '#22503c' : 'transparent',
+        wBg: g === 'on' ? 'rgba(62,207,142,.08)' : 'transparent',
+        wInk: g === 'on' ? '#a8e6c8' : cold ? '#2f3742' : INK3,
+        bg: sel ? 'rgba(240,180,41,.10)' : g === 'down' ? 'rgba(255,95,95,.05)' : g === 'auth' ? 'rgba(240,180,41,.05)' : cold ? 'rgba(255,255,255,.008)' : 'transparent'
+      };
+    });
+
+    const enabledN = (counts.on || 0) + (counts.auth || 0) + (counts.down || 0);
+    const readyN = counts.on || 0;
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    return {
+      facts: [
+        { k: 'CONTEXTS FOUND', v: '41', tone: INK },
+        { k: 'CONTACTED BEFORE YOU ASKED', v: '0', tone: OK },
+        { k: 'WRITABLE', v: '0', tone: OK },
+        { k: 'CLICKS TO A USEFUL SCREEN', v: '2', tone: INFO }
+      ],
+      headerLine: '41 contexts · ' + enabledN + ' enabled · ' + readyN + ' answering',
+      verdictLine: 'Forty-one contexts, and about nine of them are yours.',
+      kpis: [
+        { label: 'ENABLED', v: '' + enabledN, tone: INK, sub: 'of 41' },
+        { label: 'ANSWERING', v: '' + readyN, tone: OK, sub: 'usable now' },
+        { label: 'NEED YOU', v: '2', tone: WARN, sub: 'auth' },
+        { label: 'UNREACHABLE', v: '1', tone: BAD, sub: 'edge-01' }
+      ],
+      rail,
+      selectors: [
+        { t: 'the 9 we suggest', ink: '#8ac6ff', line: '#1e4a6e', bg: 'rgba(74,168,255,.10)' },
+        { t: 'everything in eks-prod.yaml', ink: INK2, line: LINE, bg: 'transparent' },
+        { t: 'answered in the last month', ink: INK2, line: LINE, bg: 'transparent' },
+        { t: 'none', ink: INK3, line: LINE, bg: 'transparent' },
+        { t: 'all 41', ink: '#8a5f62', line: '#3a2428', bg: 'transparent' }
+      ],
+      rows,
+      buckets: [
+        { t: readyN + ' answering', ink: OK },
+        { t: '2 waiting on auth', ink: WARN },
+        { t: '1 unreachable', ink: BAD },
+        { t: '32 left alone', ink: INK3 }
+      ],
+      bucketSum: 'a context you do not enable is never contacted, never watched, and never appears in the rail',
+      actions: [
+        { key: '\u21b5', label: 'enable', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'A', label: 'run the auth command', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'W', label: 'allow writes…', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'H', label: 'hide it for good', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      steps: [
+        { n: '1', tone: INFO, ink: INK, t: 'Run whatever the context says its auth is.', note: 'exec plugin, client cert, token or an OAuth round trip — the same command your kubectl would run' },
+        { n: '2', tone: INFO, ink: INK, t: 'Ask the API server three questions.', note: 'version, is this OpenShift, and the CRD list · CONN-06 · one request, no watches' },
+        { n: '3', tone: OK, ink: INK, t: 'Mark it read-only and remember that you enabled it.', note: 'CONN-08 · writing is a separate, deliberate switch per cluster' },
+        { n: '4', tone: INFO, ink: INK, t: 'Give it a two-letter code and a slot in the rail.', note: 'the code is derived from the name and stays fixed — it is how panes say where they came from' }
+      ],
+      bar: [OK, OK, OK, OK, OK, OK, WARN, WARN, BAD].map(x => ({ bg: x })),
+      probing: [
+        { glyph: '\u25cf', tone: OK, name: 'staging-eu', msg: 'k8s 1.30 · 14 CRDs', rtt: '22ms', nameInk: INK, msgInk: INK2, rttInk: OK },
+        { glyph: '\u25cf', tone: OK, name: 'staging-us', msg: 'k8s 1.30 · 14 CRDs', rtt: '26ms', nameInk: INK, msgInk: INK2, rttInk: OK },
+        { glyph: '\u25cf', tone: OK, name: 'ci-runners', msg: 'k8s 1.28 · 4 CRDs', rtt: '14ms', nameInk: INK, msgInk: INK2, rttInk: OK },
+        { glyph: '\u25cf', tone: OK, name: 'prod-eu-west', msg: 'k8s 1.29 · 61 CRDs', rtt: '41ms', nameInk: INK, msgInk: INK2, rttInk: OK },
+        { glyph: '\u25cf', tone: OK, name: 'prod-us-east', msg: 'k8s 1.29 · 61 CRDs', rtt: '88ms', nameInk: INK, msgInk: INK2, rttInk: OK },
+        { glyph: '\u25cf', tone: OK, name: 'analytics', msg: 'k8s 1.29 · 9 CRDs · slow', rtt: '210ms', nameInk: INK, msgInk: '#f3d08a', rttInk: WARN },
+        { glyph: '\u25d0', tone: WARN, name: 'prod-ap-south', msg: 'aws sso session expired', rtt: '—', nameInk: '#f3d08a', msgInk: '#f3d08a', rttInk: INK3 },
+        { glyph: '\u25d0', tone: WARN, name: 'ocp-prod', msg: 'waiting for your browser', rtt: '18s', nameInk: '#f3d08a', msgInk: '#f3d08a', rttInk: INK3 },
+        { glyph: '\u25b2', tone: BAD, name: 'edge-01', msg: 'no route to host · vpn?', rtt: '—', nameInk: '#ffd7d7', msgInk: '#ffd7d7', rttInk: INK3 }
+      ],
+      blocked: [
+        {
+          name: 'prod-ap-south', cap: 'CONN-04', edge: WARN, line: '#5a4520',
+          err: 'aws eks get-token → exit 1: "the SSO session has expired"',
+          note: 'We show the command and its real stderr rather than “authentication failed”, because the fix is a different command and only you can run it.',
+          buttons: [
+            { t: 'run aws sso login', ink: WARN, line: '#5a4520', bg: 'rgba(240,180,41,.12)', weight: '600' },
+            { t: 'copy the command', ink: INK2, line: LINE, bg: 'transparent', weight: '400' }
+          ]
+        },
+        {
+          name: 'ocp-prod', cap: 'CONN-05', edge: ORANGE, line: '#5a3524',
+          err: 'oauth · browser opened 18s ago · waiting for the callback',
+          note: 'OpenShift needs a browser round trip. The app does not block on it: the other clusters finished while this one waits, and it will pick the token up whenever it arrives.',
+          buttons: [
+            { t: 'open the page again', ink: '#ffb08a', line: '#5a3524', bg: 'rgba(255,138,92,.10)', weight: '600' },
+            { t: 'paste a token instead', ink: INK2, line: LINE, bg: 'transparent', weight: '400' }
+          ]
+        }
+      ],
+      endShape: [
+        { gc: '1 / span 4', gr: '1 / span 2', edge: INFO, kind: 'FLEET' },
+        { gc: '1 / span 2', gr: '3 / span 2', edge: PURPLE, kind: 'CERTS' },
+        { gc: '3 / span 2', gr: '3 / span 2', edge: OK, kind: 'CHANGES' }
+      ],
+      endNotes: [
+        { glyph: '\u25c6', tone: INFO, t: 'The tab is a normal tab from the first second: splittable, renameable, and already autosaved. There is no “setup mode” to leave.' },
+        { glyph: '\u25c6', tone: OK, t: 'The second launch skips all of this and restores the tabs — about 200ms to a drawn screen, with probes filling in behind it.' },
+        { glyph: '\u25cb', tone: IDLE, t: 'This pane never appears again on its own. It is the kubeconfig pane with a different lead sentence, and ⌘K reaches it whenever a new cluster shows up.' }
+      ],
+      variants: [
+        {
+          title: 'No kubeconfig at all', cap: 'CONN-01', edge: IDLE, scope: 'nothing to read', scopeTone: IDLE, state: '○ 0 contexts', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'The harder empty state: a fresh laptop, and we have nothing to offer.',
+          cols: '1fr',
+          rows: [
+            vr([c('We looked in four places', { ink: INK, font: SANS, size: '11.5px' })]),
+            vr([c('~/.kube/config', { ink: INK3, size: '10px' })]),
+            vr([c('$KUBECONFIG (not set)', { ink: INK3, size: '10px' })]),
+            vr([c('~/.kube/*.yaml', { ink: INK3, size: '10px' })]),
+            vr([c('the OpenShift CLI cache', { ink: INK3, size: '10px' })]),
+            vr([c('', {})]),
+            vr([c('[ point at a file… ]', { ink: '#8ac6ff' })], 'rgba(74,168,255,.07)'),
+            vr([c('[ paste a kubeconfig ]', { ink: '#8ac6ff' })], 'rgba(74,168,255,.07)'),
+            vr([c('[ log in to an OpenShift cluster ]', { ink: '#ffb08a' })], 'rgba(255,138,92,.06)'),
+            vr([c('', {})]),
+            vr([c('and one honest line about what', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('this app cannot do: create a cluster.', { ink: INK2, font: SANS, size: '11px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'Three ways in and a statement of the boundary. No illustration, no “welcome to KubeScope”, no product tour.',
+          note: 'The state everyone forgets to design. It has to say where we looked, because nine times out of ten the file exists somewhere we did not check, and naming the paths is the fastest fix.'
+        },
+        {
+          title: 'Auth, three ways', cap: 'CONN-04 · CONN-05', edge: WARN, scope: 'what a row looks like mid-auth', scopeTone: WARN, state: '◐ in flight', stateTone: WARN,
+          leadBg: 'rgba(240,180,41,.07)', leadInk: '#f3d08a',
+          lead: 'Auth is the first thing that goes wrong, so it gets real words.',
+          cols: '92px 1fr',
+          rows: [
+            vr([c('exec plugin', { ink: INK }), c('aws eks get-token · 0.4s', { ink: '#a8e6c8' })], 'rgba(62,207,142,.06)'),
+            vr([c('', {}), c('the command runs, we show it by name', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('exec, failed', { ink: INK }), c('exit 1 · sso session expired', { ink: '#f3d08a' })], 'rgba(240,180,41,.08)'),
+            vr([c('', {}), c('stderr verbatim + the command to fix it', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('oauth', { ink: INK }), c('browser opened · waiting 18s', { ink: '#ffb08a' })], 'rgba(255,138,92,.07)'),
+            vr([c('', {}), c('never blocks the other clusters', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('token', { ink: INK }), c('used as given · no round trip', { ink: INK2 })]),
+            vr([c('', {}), c('and we say when it expires, if it says', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('', {}), c('', {})]),
+            vr([c('never', { ink: '#8a5f62' }), c('a password field. We are not an identity provider.', { ink: '#f0b5b0', font: SANS, size: '10.5px' })], 'rgba(255,95,95,.05)')
+          ],
+          footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Every failure names the command that failed and offers the command that fixes it. “Authentication failed” is not a message this product is allowed to print.',
+          note: 'Nine clusters, four auth mechanisms, and two of them failing is the normal case, not the edge case. The design assumes partial success throughout — the fleet pane opens with six.'
+        },
+        {
+          title: 'The second launch', cap: 'APP-04 · APP-06', edge: OK, scope: 'every day after the first', scopeTone: OK, state: '● 200ms', stateTone: OK,
+          leadBg: 'rgba(62,207,142,.07)', leadInk: '#a8e6c8',
+          lead: 'First run happens once. This is the screen that matters 500 times.',
+          cols: '74px 1fr',
+          rows: [
+            vr([c('0ms', { ink: INK3 }), c('window, frame, rail, tab bar', { ink: INK, font: SANS, size: '11px' })]),
+            vr([c('~40ms', { ink: INK3 }), c('tabs.json read — the panes draw, empty', { font: SANS, size: '11px' })]),
+            vr([c('~200ms', { ink: INK3 }), c('layout complete, cursor in the right pane', { ink: '#a8e6c8', font: SANS, size: '11px' })], 'rgba(62,207,142,.06)'),
+            vr([c('', {}), c('you can already type a filter', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('~1.2s', { ink: INK3 }), c('auth and probes answer, rows arrive', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('per pane, as each cluster comes back', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('~4s', { ink: INK3 }), c('ap-south still silent · that pane says so', { ink: '#f3d08a', font: SANS, size: '11px' })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('', {})]),
+            vr([c('never', { ink: '#8a5f62' }), c('a splash screen, a spinner over the whole', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('window, or a modal about what changed', { ink: INK2, font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(62,207,142,.06)', footInk: '#a8e6c8',
+          foot: 'The frame draws before the data exists, and each pane fills itself. A single global loading state would make the whole app as slow as its slowest cluster.',
+          note: 'Worth drawing next to first run, because it is the argument for the whole persistence design: the reward for tabs saving themselves is that the app is usable a fifth of a second after launch.'
+        }
+      ],
+      closing: [
+        { tone: INFO, k: 'THE APP, NOT A WIZARD', t: 'First run is the ordinary frame with one pane open — same header, same right-click, same ⌘K. A wizard would teach a shape that never appears again, and would have to be escaped before the first useful thing could happen. The cost is that the empty state has to carry its own explanation, which is why the lead sentence does the work a wizard step would have done.' },
+        { tone: OK, k: 'NOTHING IS CONTACTED UNTIL YOU ASK', t: 'Forty-one contexts read from disk, zero requests sent. Probing on launch would leak to a former employer’s cluster, hang on VPN-only endpoints, and prompt for SSO before the person has seen the product. Enabling is the consent, and it is per context.' },
+        { tone: OK, k: 'EVERY CLUSTER ARRIVES READ-ONLY', t: 'CONN-08 as a default rather than a setting. Nine clusters are enabled and none of them can be written to; allowing writes is a separate switch per cluster, and the prod-named ones will ask for the name to be typed. The first minute of use is the one where a person is least able to judge which cluster they are on.' },
+        { tone: WARN, k: 'PARTIAL IS THE NORMAL OUTCOME', t: 'Two of nine need auth and one is behind a VPN — so the screen is built around finishing anyway. “Work with these 6” is the primary button, the two stragglers keep their place in the rail as unreachable rather than disappearing, and the fleet pane opens with a header that says six of nine.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

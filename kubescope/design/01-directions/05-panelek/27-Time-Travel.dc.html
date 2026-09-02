@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · SCREEN 27 / 30 · THE FRAME · TIME-01…06 · TIME-09</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Time travel</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The scope document left this open: a global mode, or a panel inside a view. Neither. <span style="color:var(--ks-ink)">The tab is the unit of time.</span> One clock per tab, so four panes across three clusters agree about what minute it is — which is the entire point — while the tab next door stays live. And the past is drawn by <span style="color:var(--ks-ink)">taking the interaction colour away</span>, not by adding a new one.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="time travel · tab 3 rewound to 09:12" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-3);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+          <span style="font-family:var(--ks-mono);font-size:9px;color:{{ t.metaInk }}">{{ t.meta }}</span>
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="color:#c9a9ff">tab 3 is 3h 47m behind · tabs 1, 2 and 4 are live</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-3)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 452px;grid-template-rows:1fr 84px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;position:relative"><div style="position:absolute;left:50%;top:25%;width:3px;height:20px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:50%;top:75%;width:3px;height:20px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:25%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div><div style="position:absolute;left:75%;top:50%;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4;pointer-events:none"></div>
+        <sc-for list="{{ panes }}" as="p" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+            <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+              <span style="color:{{ p.clTone }};font-weight:600;flex:none">{{ p.cluster }}</span>
+              <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink);flex:none">{{ p.kind }}</span>
+              <span style="color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.scope }}</span>
+              <div style="flex:1"></div>
+              <span style="color:{{ p.stampTone }};flex:none">{{ p.stamp }}</span>
+              <span style="color:var(--ks-ink-3);padding:0 2px;flex:none">⋮</span>
+            </div>
+            <sc-if value="{{ p.hasCols }}" hint-placeholder-val="{{ true }}">
+              <div style="height:19px;display:grid;grid-template-columns:{{ p.cols }};align-items:center;padding:0 10px;gap:9px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.07em;color:var(--ks-ink-3)">
+                <sc-for list="{{ p.heads }}" as="h" hint-placeholder-count="4">
+                  <div style="text-align:{{ h.align }}">{{ h.t }}</div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+              <sc-if value="{{ p.hasRows }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="8">
+                  <div style="height:24px;display:grid;grid-template-columns:{{ p.cols }};align-items:center;padding:0 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                      <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                        <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </sc-if>
+              <sc-if value="{{ p.hasChart }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1;display:flex;flex-direction:column;gap:6px;padding:12px 10px 8px">
+                  <div style="display:flex;align-items:baseline;gap:8px;font-family:var(--ks-mono);font-size:10px">
+                    <span style="color:var(--ks-ink-2)">container_memory_working_set</span>
+                    <div style="flex:1"></div>
+                    <span style="color:#f3d08a">at 09:12 · 498Mi of 512Mi</span>
+                  </div>
+                  <div style="flex:1;display:flex;align-items:flex-end;gap:1px;min-height:0;border-bottom:1px solid var(--ks-line);border-left:1px solid var(--ks-line);padding-left:2px">
+                    <sc-for list="{{ chart }}" as="b" hint-placeholder-count="60">
+                      <div style="flex:1;height:{{ b.h }};background:{{ b.bg }};box-shadow:{{ b.shadow }}"></div>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+                    <span>06:00</span><div style="flex:1"></div>
+                    <span style="color:#c9a9ff">▲ you are here</span>
+                    <div style="flex:1"></div><span>now</span>
+                  </div>
+                  <div style="font-size:10.5px;line-height:1.4;color:var(--ks-ink-3);text-wrap:pretty">Prometheus keeps its own history, so a metric pane is the one that could always do this. The bars past the marker are dimmed, not hidden — the future of this moment is information too.</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ p.hasTomb }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:11px;padding:16px 18px">
+                  <div style="display:flex;align-items:center;gap:9px">
+                    <span style="font-size:11px;color:var(--ks-idle)">◻</span>
+                    <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">THIS PANE HAS NO PAST</span>
+                  </div>
+                  <div style="font-size:14px;font-weight:600;line-height:1.4;color:var(--ks-ink-2);text-wrap:pretty">Log bytes are never written to disk, so there is nothing to rewind to.</div>
+                  <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">The pane keeps its place and its scope. It is not an error and not empty — it is a pane whose kind cannot answer the question the tab is currently asking.</div>
+                  <div style="display:flex;gap:8px;padding-top:2px">
+                    <span style="padding:6px 11px;border:1px solid var(--ks-line-strong);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">show the events instead</span>
+                    <span style="padding:6px 11px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">leave it live</span>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ p.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 10px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:{{ p.footInk }}">{{ p.foot }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="color:#c9a9ff;font-weight:600">◈ the past</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">09:12:40</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">reads only</span>
+          <span style="color:var(--ks-ink-3);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+
+          <div style="padding:13px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <div style="font-size:17px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">{{ verdictLine }}</div>
+            <div style="font-size:12px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">You arrived here from a change-stream row: <span style="font-family:var(--ks-mono);color:#c9a9ff">ledger-worker scaled 4 → 12</span>. The whole tab moved with it, so the events pane and the pods pane are describing the same minute.</div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT CHANGED SINCE THIS MOMENT</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:#c9a9ff">then ⇄ now</span>
+            </div>
+            <sc-for list="{{ diffs }}" as="d" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:14px 1fr 96px 96px;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px">
+                <span style="font-size:7px;color:{{ d.tone }}">{{ d.glyph }}</span>
+                <span style="color:{{ d.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.what }}</span>
+                <span style="color:#c9a9ff;text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.then }}</span>
+                <span style="color:{{ d.nowInk }};text-align:right;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.now }}</span>
+              </div>
+            </sc-for>
+            <div style="font-size:10.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">Field-level, from the same store the panes are reading. This is TIME-03 and XC-03 meeting: one is a diff across clusters, the other a diff across time, and they are the same widget.</div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line);background:rgba(255,95,95,.05)">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-bad)">WHAT YOU CANNOT DO FROM HERE</div>
+            <sc-for list="{{ inert }}" as="i" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:7px;color:{{ i.tone }};flex:none;padding-top:5px">{{ i.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-ink)">{{ i.k }}</span> — {{ i.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px;border-bottom:1px solid var(--ks-line)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">HOW FAR BACK EACH CLUSTER GOES</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">TIME-01 · TIME-06</span>
+            </div>
+            <sc-for list="{{ coverage }}" as="c" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:104px 1fr 52px;align-items:center;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+                <div style="height:9px;background:var(--ks-field);border:1px solid var(--ks-line);display:flex">
+                  <div style="width:{{ c.w }};background:{{ c.bg }}"></div>
+                </div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ c.sizeInk }};text-align:right">{{ c.size }}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex;align-items:center;gap:9px;padding-top:2px;font-family:var(--ks-mono);font-size:10px">
+              <span style="color:var(--ks-ink-3)">2.4 GB of a 4 GB budget</span>
+              <div style="flex:1"></div>
+              <span style="color:#8ac6ff">manage what we keep…</span>
+            </div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:9px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ok)">TAKE THIS WINDOW WITH YOU</div>
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">08:55 → 09:40 across three clusters: every object state, every event, the two YAML revisions and the metric range. One file, Secrets masked.</div>
+            <sc-for list="{{ exportRows }}" as="e" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10.5px">
+                <span style="color:{{ e.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ e.t }}</span>
+                <span style="color:{{ e.noteInk }};flex:none">{{ e.note }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="padding:11px 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:9px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">TIME-05</span>
+            <span style="font-size:10.5px;color:var(--ks-ink-3)">≈ 14 MB · masked</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Copy a permalink</span>
+          <span style="padding:6px 11px;border:1px solid #4a3a6e;background:rgba(180,140,255,.12);font-size:11.5px;color:#c9a9ff;font-weight:600">Export this window…</span>
+        </div>
+      </div>
+
+      <div style="grid-column:1/-1;background:var(--ks-panel-hi);border-top:1px solid #4a3a6e;display:flex;align-items:stretch">
+        <div style="width:190px;flex:none;display:flex;flex-direction:column;justify-content:center;gap:3px;padding:0 16px;border-right:1px solid var(--ks-line)">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="font-family:var(--ks-mono);font-size:21px;font-weight:600;letter-spacing:-.01em;color:#c9a9ff">09:12:40</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">CEST</span>
+          </div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">3h 47m ago · Tue 2 Sep</div>
+        </div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 16px">
+          <div style="display:flex;align-items:flex-end;gap:1px;height:26px;position:relative">
+            <sc-for list="{{ ticks }}" as="t" hint-placeholder-count="90">
+              <div style="flex:1;height:{{ t.h }};background:{{ t.bg }};opacity:{{ t.op }}"></div>
+            </sc-for>
+            <div style="position:absolute;left:0;top:0;bottom:0;width:59%;background:rgba(255,255,255,.02);border-right:2px solid #c9a9ff"></div>
+            <div style="position:absolute;left:59%;top:-3px;width:9px;height:9px;background:#c9a9ff;transform:translateX(-5px) rotate(45deg)"></div>
+          </div>
+          <div style="height:1px;background:var(--ks-line)"></div>
+          <div style="display:flex;align-items:center;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+            <sc-for list="{{ scale }}" as="s" hint-placeholder-count="7">
+              <span style="flex:1;text-align:{{ s.align }};color:{{ s.ink }}">{{ s.t }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="flex:none;display:flex;align-items:center;gap:9px;padding:0 16px;border-left:1px solid var(--ks-line)">
+          <sc-for list="{{ barActions }}" as="b" hint-placeholder-count="4">
+            <span style="display:flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid {{ b.line }};background:{{ b.bg }};font-family:var(--ks-mono);font-size:11px;color:{{ b.ink }};font-weight:{{ b.weight }}">
+              <span style="font-size:9px;color:{{ b.gtone }}">{{ b.glyph }}</span>{{ b.t }}
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">The bar in three states, the colour rule, and what the store actually holds</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+              <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+            </div>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', VIOLET = '#c9a9ff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO], ['prod-us-east', 'UE', PURPLE], ['prod-ap-south', 'AS', WARN],
+      ['staging-eu', 'SE', OK], ['staging-us', 'SU', '#5ad2c4'], ['dev-sandbox', 'DS', '#8a94a6'],
+      ['edge-01', 'E1', BAD], ['edge-02', 'E2', ORANGE], ['ci-runners', 'CI', '#9ad04a'], ['analytics', 'AN', '#c9a227']];
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+    const row = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    // deterministic tick field for the time bar
+    const ticks = [];
+    for (let i = 0; i < 96; i++) {
+      const past = i < 57;
+      let h = 5, bg = '#2c3542', op = past ? '1' : '.32';
+      const n = (i * 37) % 11;
+      if (n === 0) h = 11;
+      if (n === 3) h = 8;
+      if (i >= 52 && i <= 58) { h = 20; bg = BAD; }
+      if (i >= 44 && i <= 51) { h = 14; bg = WARN; }
+      if (i >= 59 && i <= 66) { h = 12; bg = WARN; }
+      if (i === 57) { h = 26; bg = VIOLET; op = '1'; }
+      if (i >= 78 && i <= 82) { h = 9; bg = '#3a4756'; }
+      ticks.push({ h: h + 'px', bg, op });
+    }
+
+    const chart = [];
+    for (let i = 0; i < 64; i++) {
+      const base = 26 + Math.round(22 * Math.sin(i / 5)) + (i > 30 ? Math.round((i - 30) * 1.5) : 0);
+      const past = i <= 37;
+      const at = i === 37;
+      chart.push({
+        h: Math.max(6, Math.min(72, base)) + 'px',
+        bg: at ? VIOLET : past ? (base > 58 ? '#8a5f62' : '#3f5a7a') : (base > 58 ? '#4a3236' : '#26313d'),
+        shadow: at ? '0 0 0 1px rgba(201,169,255,.45)' : 'none'
+      });
+    }
+
+    const panes = [
+      {
+        edge: INFO, cluster: 'prod-eu-west', clTone: INFO, kind: 'Pods', scope: 'ns payments · as of 09:12',
+        stamp: '◧ 09:12:40', stampTone: VIOLET, hasCols: true, hasRows: true, hasChart: false, hasTomb: false,
+        cols: '16px 1fr 62px 46px 62px', hasFoot: true, footInk: INK3,
+        foot: '15 pods then · 14 now · 5 of these no longer exist',
+        heads: [{ t: '', align: 'left' }, { t: 'NAME', align: 'left' }, { t: 'PHASE', align: 'left' }, { t: 'RST', align: 'right' }, { t: 'AGE', align: 'right' }],
+        rows: [
+          row([c('\u25b2', { glyph: '', ink: BAD }), c('ledger-worker-…-2wq7t', { ink: '#ffd7d7', size: '11px', font: SANS }), c('CrashLoop', { ink: BAD }), c('3', { justify: 'flex-end', ink: '#ffb3b3' }), c('41m', { justify: 'flex-end', ink: INK3 })], 'rgba(255,95,95,.09)'),
+          row([c('\u25b2', { ink: BAD }), c('ledger-worker-…-h4k9x', { ink: '#ffd7d7', size: '11px', font: SANS }), c('CrashLoop', { ink: BAD }), c('3', { justify: 'flex-end', ink: '#ffb3b3' }), c('41m', { justify: 'flex-end', ink: INK3 })], 'rgba(255,95,95,.09)'),
+          row([c('\u25d0', { ink: WARN }), c('ledger-worker-…-p1r7m', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('2m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          row([c('\u25d0', { ink: WARN }), c('ledger-worker-…-v8n2c', { ink: '#f3d08a', size: '11px', font: SANS }), c('Pending', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('2m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          row([c('\u25d0', { ink: WARN }), c('ledger-worker-…-t3x9d', { ink: '#f3d08a', size: '11px', font: SANS }), c('Creating', { ink: WARN }), c('0', { justify: 'flex-end', ink: INK3 }), c('2m', { justify: 'flex-end', ink: INK3 })], 'rgba(240,180,41,.07)'),
+          row([c('\u25cf', { ink: OK }), c('ledger-worker-…-m6q1w', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('1', { justify: 'flex-end', ink: '#f3d08a' }), c('38m', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('ledger-worker-…-b2k7s', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('41m', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('checkout-api-…-k8n1p', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('6d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('checkout-api-…-x2m4q', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('6d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('checkout-api-…-z0mq4', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('6d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('payout-batcher-…-f5flv', { ink: INK, size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('3d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('envoy-gateway-…-9dd21', { ink: '#c8d1dd', size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('12d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('envoy-gateway-…-4c8tt', { ink: '#c8d1dd', size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('12d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cf', { ink: OK }), c('redis-cache-0', { ink: '#c8d1dd', size: '11px', font: SANS }), c('Running', { ink: INK2 }), c('0', { justify: 'flex-end', ink: INK3 }), c('21d', { justify: 'flex-end', ink: INK3 })]),
+          row([c('\u25cb', { ink: IDLE }), c('nightly-export-28471', { ink: INK3, size: '11px', font: SANS }), c('Succeeded', { ink: INK3 }), c('0', { justify: 'flex-end', ink: INK3 }), c('7h', { justify: 'flex-end', ink: INK3 })])
+        ]
+      },
+      {
+        edge: WARN, cluster: 'prod-ap-south', clTone: WARN, kind: 'Events', scope: 'all namespaces · 09:04 → 09:12',
+        stamp: '◧ 09:12:40', stampTone: VIOLET, hasCols: true, hasRows: true, hasChart: false, hasTomb: false,
+        cols: '46px 16px 1fr 92px', hasFoot: true, footInk: '#c9a9ff',
+        foot: 'kept past the API server’s 1h window · TIME-04',
+        heads: [{ t: 'TIME', align: 'left' }, { t: '', align: 'left' }, { t: 'MESSAGE', align: 'left' }, { t: 'OBJECT', align: 'right' }],
+        rows: [
+          row([c('09:12', { ink: VIOLET }), c('\u25b2', { ink: BAD }), c('Back-off restarting failed container', { ink: '#ffd7d7', size: '11px', font: SANS }), c('ledger-…2wq7t', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(255,95,95,.09)'),
+          row([c('09:11', { ink: INK3 }), c('\u25b2', { ink: BAD }), c('OOMKilled · memory limit 512Mi', { ink: '#ffd7d7', size: '11px', font: SANS }), c('ledger-…h4k9x', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(255,95,95,.07)'),
+          row([c('09:10', { ink: INK3 }), c('\u25d0', { ink: WARN }), c('FailedScheduling · insufficient memory', { ink: '#f3d08a', size: '11px', font: SANS }), c('ledger-…p1r7m', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(240,180,41,.07)'),
+          row([c('09:09', { ink: INK3 }), c('\u25cf', { ink: INFO }), c('Scaled up replica set 4 → 12', { ink: INK, size: '11px', font: SANS, weight: '600' }), c('ledger-worker', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(74,168,255,.10)'),
+          row([c('09:09', { ink: INK3 }), c('\u25cf', { ink: INFO }), c('Started container worker', { size: '11px', font: SANS }), c('ledger-…2wq7t', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:08', { ink: INK3 }), c('\u25cf', { ink: OK }), c('Pulled image ledger:2.14.1', { size: '11px', font: SANS }), c('ledger-…h4k9x', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:08', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('Scheduled onto ip-10-0-4-8', { ink: INK3, size: '11px', font: SANS }), c('ledger-…p1r7m', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:07', { ink: INK3 }), c('\u25d0', { ink: WARN }), c('Node under MemoryPressure', { ink: '#f3d08a', size: '11px', font: SANS }), c('ip-10-0-4-8', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(240,180,41,.05)'),
+          row([c('09:07', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('Created container worker', { ink: INK3, size: '11px', font: SANS }), c('ledger-…m6q1w', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:06', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('SuccessfulCreate · added 8 pods', { ink: INK3, size: '11px', font: SANS }), c('ledger-…-7c9', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:06', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('Pulling image ledger:2.14.1', { ink: INK3, size: '11px', font: SANS }), c('ledger-…v8n2c', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:05', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('ScalingReplicaSet by hpa', { ink: INK3, size: '11px', font: SANS }), c('ledger-worker', { justify: 'flex-end', ink: INK3, size: '9.5px' })]),
+          row([c('09:05', { ink: INK3 }), c('\u25d0', { ink: WARN }), c('Readiness probe failed · 503', { ink: '#f3d08a', size: '11px', font: SANS }), c('checkout-…z0mq4', { justify: 'flex-end', ink: INK3, size: '9.5px' })], 'rgba(240,180,41,.05)'),
+          row([c('09:04', { ink: INK3 }), c('\u25cb', { ink: IDLE }), c('Killing container · liveness failed', { ink: INK3, size: '11px', font: SANS }), c('ledger-…b2k7s', { justify: 'flex-end', ink: INK3, size: '9.5px' })])
+        ]
+      },
+      {
+        edge: IDLE, cluster: 'prod-us-east', clTone: '#7a6a94', kind: 'Log', scope: 'ledger-worker · worker',
+        stamp: '◻ no past', stampTone: IDLE, hasCols: false, hasRows: false, hasChart: false, hasTomb: true,
+        cols: '1fr', heads: [], rows: [], hasFoot: false, foot: '', footInk: INK3
+      },
+      {
+        edge: PURPLE, cluster: 'prod-us-east', clTone: PURPLE, kind: 'Metrics', scope: 'ledger-worker · memory',
+        stamp: '◧ 09:12:40', stampTone: VIOLET, hasCols: false, hasRows: false, hasChart: true, hasTomb: false,
+        cols: '1fr', heads: [], rows: [], hasFoot: true, footInk: INK3,
+        foot: 'range query · Prometheus, not our store'
+      }
+    ];
+
+    return {
+      facts: [
+        { k: 'UNIT OF TIME', v: 'the tab', tone: VIOLET },
+        { k: 'PANES IN AGREEMENT', v: '4', tone: INK },
+        { k: 'WRITES POSSIBLE', v: 'none', tone: BAD },
+        { k: 'ON DISK', v: '2.4 GB', tone: INK2 }
+      ],
+      verdictLine: 'Four panes, three clusters, one minute — 09:12:40.',
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 #c9a9ff', ink: INK, numInk: VIOLET, meta: '◧ 09:12', metaInk: VIOLET },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, meta: '', metaInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1],
+        ink: i < 3 ? '#7a6a94' : '#39414d', bg: i < 3 ? 'rgba(180,140,255,.05)' : 'transparent',
+        bar: i < 3 ? '#4a3a6e' : 'transparent',
+        glyph: i < 3 ? '\u25e7' : '\u25cb', tone: i < 3 ? VIOLET : '#2f3742'
+      })),
+      panes, chart, ticks,
+      scale: [
+        { t: '06:00', align: 'left', ink: INK3 }, { t: '07:00', align: 'center', ink: INK3 },
+        { t: '08:00', align: 'center', ink: INK3 }, { t: '09:12', align: 'center', ink: VIOLET },
+        { t: '10:00', align: 'center', ink: '#39414d' }, { t: '11:00', align: 'center', ink: '#39414d' },
+        { t: 'now 13:00', align: 'right', ink: INK2 }
+      ],
+      barActions: [
+        { t: 'compare with now', glyph: '\u21c4', ink: INK, line: '#4a3a6e', bg: 'rgba(180,140,255,.10)', gtone: VIOLET, weight: '400' },
+        { t: '⌘[  ⌘]', glyph: '', ink: INK3, line: LINE, bg: 'transparent', gtone: INK3, weight: '400' },
+        { t: 'return to now', glyph: '\u25cf', ink: '#a8e6c8', line: '#22503c', bg: 'rgba(62,207,142,.12)', gtone: OK, weight: '600' }
+      ],
+      diffs: [
+        { glyph: '\u25b2', tone: BAD, what: 'ledger-worker replicas', then: '12', now: '4', ink: INK, nowInk: INK2 },
+        { glyph: '\u25b2', tone: BAD, what: 'memory limit', then: '512Mi', now: '1Gi', ink: INK, nowInk: '#a8e6c8' },
+        { glyph: '\u25c6', tone: WARN, what: 'image tag', then: '2.14.1', now: '2.14.2', ink: INK, nowInk: '#a8e6c8' },
+        { glyph: '\u25c6', tone: WARN, what: 'pods in CrashLoop', then: '2', now: '0', ink: INK2, nowInk: '#a8e6c8' },
+        { glyph: '\u25cb', tone: IDLE, what: 'node ip-10-0-4-8', then: 'Ready', now: 'drained', ink: INK2, nowInk: INK2 },
+        { glyph: '\u25cb', tone: IDLE, what: 'cm/checkout-config', then: '4 keys', now: '4 keys', ink: INK3, nowInk: INK3 }
+      ],
+      inert: [
+        { glyph: '\u25b2', tone: BAD, k: 'nothing can be written', t: 'restart, scale, apply, delete and the terminal are all inert while the tab is behind. There is no confirmation dialog to get wrong, because the buttons do not offer themselves.' },
+        { glyph: '\u25b2', tone: BAD, k: 'no shell, no port-forward', t: 'both need a live connection to a running pod, and the pod in question stopped existing at 09:41.' },
+        { glyph: '\u25c6', tone: WARN, k: 'no logs', t: 'we store what objects looked like, not what they said. The change stream and the events are the record of this window.' },
+        { glyph: '\u25c6', tone: WARN, k: 'no full spec, mostly', t: 'watches are metadata-only by default, so the past holds status, labels, owners and events. Full YAML exists only where a detail pane had it open — two revisions here.' }
+      ],
+      coverage: [
+        { name: 'prod-eu-west', w: '100%', bg: '#4a3a6e', size: '840MB', nameInk: INK, sizeInk: INK2 },
+        { name: 'prod-us-east', w: '100%', bg: '#4a3a6e', size: '710MB', nameInk: INK, sizeInk: INK2 },
+        { name: 'prod-ap-south', w: '82%', bg: '#4a3a6e', size: '520MB', nameInk: INK, sizeInk: INK2 },
+        { name: 'ci-runners', w: '34%', bg: '#2f3a52', size: '210MB', nameInk: INK2, sizeInk: INK3 },
+        { name: 'staging-eu', w: '18%', bg: '#2f3a52', size: '96MB', nameInk: INK2, sizeInk: INK3 },
+        { name: 'analytics', w: '4%', bg: '#39414d', size: 'off', nameInk: INK3, sizeInk: INK3 }
+      ],
+      exportRows: [
+        { t: '3 clusters · 08:55 → 09:40', note: '45m', ink: INK2, noteInk: INK3 },
+        { t: '1,204 object states · 318 events', note: '11 MB', ink: INK2, noteInk: INK3 },
+        { t: '2 YAML revisions · 1 metric range', note: '3 MB', ink: INK2, noteInk: INK3 },
+        { t: 'Secret values and tokens', note: 'masked', ink: '#a8e6c8', noteInk: OK }
+      ],
+      variants: [
+        {
+          title: 'The bar, in three states', cap: 'TIME-02', edge: VIOLET, scope: 'the only new chrome', scopeTone: VIOLET, state: '◧ 84px when shown', stateTone: VIOLET,
+          leadBg: 'rgba(180,140,255,.07)', leadInk: '#c9a9ff',
+          lead: 'It does not exist until you leave now, and it leaves when you come back.',
+          cols: '78px 1fr',
+          rows: [
+            vr([c('live', { ink: INK }), c('no bar at all · 0px', { ink: '#a8e6c8' })], 'rgba(62,207,142,.06)'),
+            vr([c('', {}), c('the 40-row budget is untouched while you work', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('scrubbing', { ink: INK }), c('84px · panes redraw as you drag', { ink: '#c9a9ff' })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('coarse while moving, exact when you let go', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('parked', { ink: INK }), c('84px · timestamp, diff, return', { ink: '#c9a9ff' })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('every pane header carries the same stamp', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('', {}), c('', {})]),
+            vr([c('ticks', { ink: INK3 }), c('one per event in the window, by severity', { font: SANS, size: '11px' })]),
+            vr([c('entering', { ink: INK3 }), c('a change-stream row, an event, ⌘[ or “3h ago”', { font: SANS, size: '11px' })]),
+            vr([c('leaving', { ink: INK3 }), c('one button, Esc, or switching tabs and back', { font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(180,140,255,.06)', footInk: '#c9a9ff',
+          foot: 'The bar is tab-scoped chrome, so it costs nothing on the three tabs that are live. That is the practical reason the tab won over a global mode.',
+          note: 'The brief’s 144px frame budget survives because the only permanent addition is a four-character stamp in each pane header. The 84px bar is rented, not owned.'
+        },
+        {
+          title: 'Taking the colour away', cap: 'BRIEF §6.5', edge: IDLE, scope: 'how the past reads', scopeTone: IDLE, state: '○ no new hue', stateTone: IDLE,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'No colour was free, so the past is signalled by subtraction.',
+          cols: '92px 1fr',
+          rows: [
+            vr([c('cyan', { ink: '#3f5a7a' }), c('withdrawn — nothing is actionable', { ink: INK, font: SANS, size: '11px' })], 'rgba(74,168,255,.05)'),
+            vr([c('', {}), c('links, buttons and hover all go grey', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('statuses', { ink: OK }), c('kept — they are the data you came for', { ink: INK, font: SANS, size: '11px' })], 'rgba(62,207,142,.05)'),
+            vr([c('', {}), c('red at 09:12 means red at 09:12', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('cluster hues', { ink: '#7a6a94' }), c('desaturated in the rail, not removed', { font: SANS, size: '11px' })]),
+            vr([c('violet', { ink: VIOLET }), c('the timestamp, the tick, the tab meta', { ink: INK, font: SANS, size: '11px' })], 'rgba(180,140,255,.07)'),
+            vr([c('', {}), c('an accent of the structure hue, not a new one', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('', {}), c('', {})]),
+            vr([c('the test', { ink: INK3 }), c('glance at the screen with no bar visible', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('and you can still tell it is not live', { ink: INK2, font: SANS, size: '11px' })])
+          ],
+          footBg: 'transparent', footInk: INK3,
+          foot: 'A dead interface reads as dead. Withdrawing the interaction colour makes the inertness of every control the same fact as the timestamp, rather than two things to notice.',
+          note: 'The design system said no hue was left for a new global state. Subtraction turned out to be the better answer anyway — a past that looked louder than the present would be exactly backwards.'
+        },
+        {
+          title: 'What the store actually holds', cap: 'TIME-01 · TIME-06', edge: INFO, scope: 'sqlite, on this machine', scopeTone: INFO, state: '● 2.4 of 4 GB', stateTone: INFO,
+          leadBg: 'transparent', leadInk: INK,
+          lead: 'Not a recording. A change log of metadata, and it is honest about the gaps.',
+          cols: '104px 1fr',
+          rows: [
+            vr([c('kept', { ink: OK }), c('every watch event we received', { ink: INK, font: SANS, size: '11px' })], 'rgba(62,207,142,.05)'),
+            vr([c('', {}), c('phase, conditions, labels, owners, counts', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('', {}), c('all k8s Events, past their 1h expiry', { ink: INK3, font: SANS, size: '10.5px' })]),
+            vr([c('sometimes', { ink: WARN }), c('full YAML, where a pane held it open', { font: SANS, size: '11px' })], 'rgba(240,180,41,.05)'),
+            vr([c('never', { ink: BAD }), c('log bytes, Secret values, terminal output', { ink: '#ffd7d7', font: SANS, size: '11px' })], 'rgba(255,95,95,.06)'),
+            vr([c('', {}), c('', {})]),
+            vr([c('per cluster', { ink: INK3 }), c('retention is set per cluster, default 24h', { font: SANS, size: '11px' })]),
+            vr([c('paused', { ink: INK3 }), c('a paused cluster leaves a visible gap, and', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('the bar draws it as a hole, not as calm', { ink: '#f3d08a', font: SANS, size: '11px' })], 'rgba(240,180,41,.05)'),
+            vr([c('budget', { ink: INK3 }), c('a size, not a duration — you choose 4 GB', { font: SANS, size: '11px' })])
+          ],
+          footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'The gap is the feature. A timeline that renders a paused cluster as quiet would let someone conclude that nothing happened, which is the worst thing this store could do.',
+          note: 'Framing retention as disk budget rather than hours matches how people actually decide: nobody knows if they want 18 or 36 hours, everybody knows whether 4 GB is fine.'
+        }
+      ],
+      closing: [
+        { tone: VIOLET, k: 'THE TAB IS THE CLOCK', t: 'Not global, not per pane. Global would rewind tabs you cannot see and make “what time is it” a property of the whole application; per pane would let two panes in one tab disagree about the minute, which destroys the only reason to have four panes open. A tab is already the unit of a question, so it is the right unit of a moment — and the other three tabs stay live while this one is in the past.' },
+        { tone: IDLE, k: 'THE PAST IS THE PRESENT MINUS THE INTERACTION COLOUR', t: 'The brief said no hue was free for a new global state. Rather than borrowing one, the past withdraws cyan: nothing reads as clickable because nothing is. Status hues stay, because they are the data. The only violet is the timestamp itself — an accent of the structure hue, not a fourth channel.' },
+        { tone: BAD, k: 'READ-ONLY IS STRUCTURAL, NOT A WARNING', t: 'Every write affordance is absent rather than disabled-with-a-tooltip, and the shell and port-forward panes say why in words. A confirmation dialog that has to explain you are three hours in the past is a dialog that will eventually be clicked through at 3am.' },
+        { tone: INFO, k: 'THE GAPS ARE DRAWN', t: 'Coverage is per cluster and visible: three clusters go back a full day, two go back hours, one is off. A paused or unreachable cluster leaves a hole in the bar instead of a calm stretch, because the dangerous failure of a timeline is not missing data — it is missing data that looks like nothing happening.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

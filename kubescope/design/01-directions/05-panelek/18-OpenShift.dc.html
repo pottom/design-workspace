@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 18 / 30 · QUESTION PANE · OCP-07…13</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">OpenShift</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Three OpenShift-only questions that have no Kubernetes equivalent: <span style="color:var(--ks-ink)">is the cluster upgrade stuck</span>, <span style="color:var(--ks-ink)">which operator is lying about being healthy</span>, and <span style="color:var(--ks-ink)">whose quota is about to stop a deploy</span>. Same panes, same grammar — the kinds are different, the reading is not.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="openshift · a stuck cluster upgrade" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>ocp 4.15.9 → 4.16.4 · started 09:12 · 5h12m elapsed</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 500px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid #ff8a5c">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:#ff8a5c;font-weight:600"><span style="font-size:7px">●</span>edge-02</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Cluster update</span>
+          <span style="color:var(--ks-ink-3)">4.15.9 → 4.16.4</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">stuck at 62%</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+          <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+          <div style="display:flex;flex-direction:column;gap:10px;flex:1;min-width:0">
+            <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">The upgrade has not moved in <span style="font-family:var(--ks-mono);font-size:17px;color:#f3d08a">2h41m</span>. One operator is waiting for a node that will never come back.</div>
+            <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty"><span style="font-family:var(--ks-mono);color:#f3d08a">machine-config</span> is Progressing and has been since 11:43. Its pool is stuck on <span style="font-family:var(--ks-mono);color:var(--ks-ink)">worker-2</span>, which is cordoned and NotReady — the drain cannot finish, so the pool cannot advance, so the update cannot complete.</div>
+            <div style="display:flex;flex-direction:column;gap:5px;padding-top:2px">
+              <div style="display:flex;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+                <span>4.15.9</span>
+                <div style="flex:1;height:12px;background:var(--ks-line-soft);position:relative">
+                  <div style="position:absolute;left:0;top:0;bottom:0;width:62%;background:rgba(62,207,142,.4)"></div>
+                  <div style="position:absolute;left:62%;top:0;bottom:0;width:6%;background:rgba(240,180,41,.5)"></div>
+                  <sc-for list="{{ updateTicks }}" as="t" hint-placeholder-count="3">
+                    <div title="{{ t.title }}" style="position:absolute;left:{{ t.x }};top:-3px;bottom:-3px;width:1px;background:{{ t.tone }}"></div>
+                  </sc-for>
+                </div>
+                <span>4.16.4</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:14px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+                <span><span style="color:var(--ks-ok)">21 operators updated</span></span>
+                <span><span style="color:var(--ks-warn)">1 progressing</span></span>
+                <span><span style="color:var(--ks-ink-2)">11 waiting</span></span>
+                <div style="flex:1"></div>
+                <span>nodes 2 of 3 rebooted</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px;flex:none;width:284px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">TO UNSTICK IT</div>
+            <sc-for list="{{ unstick }}" as="u" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border:1px solid {{ u.line }};background:{{ u.bg }}">
+                <span style="font-size:8px;color:{{ u.tone }};flex:none">{{ u.glyph }}</span>
+                <span style="font-size:11.5px;line-height:1.4;color:{{ u.ink }};text-wrap:pretty">{{ u.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:20px;display:grid;grid-template-columns:196px 108px 92px 1fr 78px;align-items:center;padding:0 12px;gap:11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div>CLUSTER OPERATOR</div><div style="color:var(--ks-ink-2)">STATE ↓</div><div>VERSION</div><div>WHAT IT SAYS</div><div style="text-align:right">SINCE</div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ operators }}" as="o" hint-placeholder-count="16">
+            <div style="min-height:26px;display:grid;grid-template-columns:196px 108px 92px 1fr 78px;align-items:center;padding:3px 12px;gap:11px;background:{{ o.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+              <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                <span style="width:2px;height:13px;background:{{ o.tone }};flex:none"></span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ o.nameInk }};font-weight:{{ o.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.name }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10.5px;color:{{ o.tone }};font-weight:600"><span style="font-size:8px">{{ o.glyph }}</span>{{ o.state }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ o.verInk }}">{{ o.ver }}</div>
+              <div style="font-size:11px;color:{{ o.saysInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.says }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);text-align:right">{{ o.since }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:#ff8a5c;font-weight:600"><span style="font-size:7px">●</span>edge-02</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Machine config pools</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">1 stuck</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <sc-for list="{{ pools }}" as="p" hint-placeholder-count="2">
+          <div style="padding:11px 12px;border-bottom:1px solid var(--ks-line);background:{{ p.bg }};display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-size:8px;color:{{ p.tone }}">{{ p.glyph }}</span>
+              <span style="font-family:var(--ks-mono);font-size:12px;color:{{ p.nameInk }};font-weight:600">{{ p.name }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:{{ p.tone }}">{{ p.state }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ p.count }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:3px;height:12px">
+              <sc-for list="{{ p.nodes }}" as="n" hint-placeholder-count="3">
+                <div title="{{ n.title }}" style="flex:1;height:12px;background:{{ n.bg }}"></div>
+              </sc-for>
+            </div>
+            <div style="font-size:11.5px;line-height:1.45;color:{{ p.noteInk }};text-wrap:pretty">{{ p.note }}</div>
+            <sc-if value="{{ p.hasAction }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:7px">
+                <sc-for list="{{ p.actions }}" as="a" hint-placeholder-count="2">
+                  <span style="padding:4px 9px;border:1px solid {{ a.line }};background:{{ a.bg }};font-family:var(--ks-mono);font-size:10px;color:{{ a.ink }}">{{ a.t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;background:var(--ks-field)">
+          <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-ink)">Operator subscriptions</span>
+            <span style="color:var(--ks-ink-3)">OLM · what is waiting on you</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-warn)">2 need approval</span>
+          </div>
+          <div style="height:18px;display:grid;grid-template-columns:1fr 88px 96px 74px;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.07em;color:var(--ks-ink-3)">
+            <div>SUBSCRIPTION</div><div>CHANNEL</div><div>STATE</div><div style="text-align:right">ACTION</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ subs }}" as="s" hint-placeholder-count="8">
+              <div style="min-height:32px;display:grid;grid-template-columns:1fr 88px 96px 74px;align-items:center;gap:10px;padding:4px 12px;background:{{ s.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ s.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span>
+                  <span style="font-size:10px;color:{{ s.noteInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.note }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ s.channel }}</div>
+                <div style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10px;color:{{ s.tone }};font-weight:600"><span style="font-size:7px">{{ s.glyph }}</span>{{ s.state }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ s.actionInk }};text-align:right">{{ s.action }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Quotas, the fleet upgrade state, and the OpenShift kinds</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:306px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:10px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.leadBg }}">
+                <div style="font-size:12.5px;line-height:1.45;color:{{ v.leadInk }};font-weight:600;text-wrap:pretty">{{ v.lead }}</div>
+              </div>
+            </sc-if>
+            <div style="flex:1 0 auto">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="8">
+                <div style="min-height:26px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 10px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ r.hasBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.barW }};background:{{ r.barTone }}"></div>
+                      <div style="position:absolute;left:{{ r.barMark }};top:-2px;bottom:-2px;width:1px;background:rgba(240,180,41,.8)"></div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:9px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ORANGE = '#ff8a5c', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', ORANGE, OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    // name, state, version, says, since, kind
+    const opRaw = [
+      ['machine-config', 'progressing', '4.15.9', 'pool worker cannot drain worker-2 \u2014 node NotReady since 11:41', '2h41m', 'bad'],
+      ['ingress', 'degraded', '4.16.4', 'router-default has 1 of 2 replicas \u2014 waiting on the same node', '2h38m', 'warn'],
+      ['authentication', 'available', '4.16.4', 'updated', '3h04m', 'ok'],
+      ['etcd', 'available', '4.16.4', 'updated \u00b7 3 members healthy', '4h51m', 'ok'],
+      ['kube-apiserver', 'available', '4.16.4', 'updated \u00b7 revision 12', '4h32m', 'ok'],
+      ['kube-controller-manager', 'available', '4.16.4', 'updated', '4h28m', 'ok'],
+      ['kube-scheduler', 'available', '4.16.4', 'updated', '4h26m', 'ok'],
+      ['network', 'available', '4.16.4', 'updated \u00b7 ovn-kubernetes', '4h11m', 'ok'],
+      ['dns', 'available', '4.16.4', 'updated', '4h02m', 'ok'],
+      ['image-registry', 'available', '4.16.4', 'updated', '3h58m', 'ok'],
+      ['monitoring', 'available', '4.16.4', 'updated \u00b7 prometheus restarted twice', '3h41m', 'ok'],
+      ['storage', 'available', '4.16.4', 'updated', '3h30m', 'ok'],
+      ['console', 'waiting', '4.15.9', 'not started \u2014 waits for machine-config', '\u2014', 'idle'],
+      ['operator-lifecycle-manager', 'waiting', '4.15.9', 'not started \u2014 waits for machine-config', '\u2014', 'idle'],
+      ['insights', 'available', '4.16.4', 'updated', '3h12m', 'ok'],
+      ['node-tuning', 'waiting', '4.15.9', 'not started', '\u2014', 'idle']
+    ];
+    const sMeta = {
+      progressing: ['\u25d0', WARN, 'Progressing'], degraded: ['\u25b2', BAD, 'Degraded'],
+      available: ['\u25cf', OK, 'Available'], waiting: ['\u25cb', IDLE, 'waiting']
+    };
+    const operators = opRaw.map(o => {
+      const m = sMeta[o[1]];
+      const k = o[5];
+      return {
+        name: o[0], state: m[2], glyph: m[0], tone: m[1], ver: o[2], says: o[3], since: o[4],
+        nameInk: k === 'bad' || k === 'warn' ? INK : k === 'idle' ? INK3 : '#c8d1dd',
+        weight: k === 'bad' ? '600' : '400',
+        verInk: o[2] === '4.15.9' ? (k === 'idle' ? INK3 : '#f3d08a') : INK2,
+        saysInk: k === 'bad' ? '#ffd7d7' : k === 'warn' ? '#f3d08a' : k === 'idle' ? INK3 : INK2,
+        bg: k === 'bad' ? 'rgba(255,95,95,.10)' : k === 'warn' ? 'rgba(240,180,41,.06)' : 'transparent'
+      };
+    });
+
+    const nodeCell = (title, kind) => ({
+      title, bg: kind === 'done' ? 'rgba(62,207,142,.42)' : kind === 'stuck' ? BAD : kind === 'going' ? 'rgba(240,180,41,.5)' : '#2c3542'
+    });
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg, bar) => Object.assign({ cells, bg: bg || 'transparent', hasBar: false, barW: '0%', barMark: '100%', barTone: OK }, bar || {});
+
+    const sub = (name, note, channel, state, action, kind) => {
+      const m = { pending: ['\u25c6', WARN, 'pending'], ok: ['\u25cf', OK, 'up to date'], failed: ['\u25b2', BAD, 'failed'], manual: ['\u25a0', IDLE, 'manual' ] }[kind];
+      return {
+        name, note, channel, state: m[2], glyph: m[0], tone: m[1], action,
+        nameInk: kind === 'pending' || kind === 'failed' ? INK : '#c8d1dd',
+        noteInk: kind === 'pending' ? '#f3d08a' : kind === 'failed' ? '#f0b5b0' : INK3,
+        actionInk: kind === 'pending' ? WARN : kind === 'failed' ? BAD : INK3,
+        bg: kind === 'failed' ? 'rgba(255,95,95,.09)' : kind === 'pending' ? 'rgba(240,180,41,.06)' : 'transparent'
+      };
+    };
+
+    return {
+      facts: [
+        { k: 'UPGRADE', v: 'stuck 2h41m', tone: WARN },
+        { k: 'OPERATORS', v: '21 of 33 done', tone: INK },
+        { k: 'THE CAUSE', v: 'one node', tone: BAD },
+        { k: 'NEED APPROVAL', v: '2 operators', tone: WARN }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'edge', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + ORANGE, ink: INK, numInk: ORANGE }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 7 ? INK : INK3, bg: i === 7 ? '#161a21' : 'transparent',
+        bar: i === 7 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      updateTicks: [
+        { x: '18%', tone: 'rgba(74,168,255,.8)', title: '09:12 started' },
+        { x: '41%', tone: 'rgba(74,168,255,.8)', title: '10:28 worker-0 rebooted' },
+        { x: '62%', tone: 'rgba(240,180,41,.9)', title: '11:41 worker-2 went NotReady — nothing since' }
+      ],
+      unstick: [
+        { glyph: '\u25b2', tone: BAD, ink: '#f0b5b0', line: '#54262b', bg: 'rgba(255,95,95,.08)', t: 'recover worker-2, or delete it from the API so the pool can move on' },
+        { glyph: '\u25c6', tone: WARN, ink: '#f3d08a', line: '#4a3a12', bg: 'rgba(240,180,41,.07)', t: 'pause the worker pool — stops the churn, does not finish the upgrade' },
+        { glyph: '\u25cb', tone: IDLE, ink: INK2, line: LINE, bg: 'transparent', t: 'nothing: the upgrade is safe to sit here, it is just not progressing' }
+      ],
+      operators,
+      pools: [
+        {
+          name: 'master', state: 'updated', glyph: '\u25cf', tone: OK, count: '3 of 3', nameInk: INK,
+          nodes: [nodeCell('master-0 · 4.16.4', 'done'), nodeCell('master-1 · 4.16.4', 'done'), nodeCell('master-2 · 4.16.4', 'done')],
+          note: 'All three control-plane nodes rebooted and rejoined between 09:40 and 10:20.',
+          noteInk: INK2, bg: 'transparent', hasAction: false, actions: []
+        },
+        {
+          name: 'worker', state: 'updating · stuck', glyph: '\u25d0', tone: WARN, count: '2 of 3', nameInk: INK,
+          nodes: [nodeCell('worker-0 · 4.16.4 · done', 'done'), nodeCell('worker-1 · 4.16.4 · done', 'done'), nodeCell('worker-2 · NotReady · cannot drain', 'stuck')],
+          note: 'worker-2 is cordoned and NotReady. maxUnavailable is 1, so the pool will not touch another node until this one finishes — and it cannot.',
+          noteInk: '#f3d08a', bg: 'rgba(240,180,41,.06)', hasAction: true,
+          actions: [
+            { t: 'go to worker-2', line: LINE, bg: 'transparent', ink: INK },
+            { t: 'pause this pool…', line: '#4a3a12', bg: 'rgba(240,180,41,.10)', ink: WARN },
+            { t: 'why is it NotReady? ▸', line: LINE, bg: 'transparent', ink: INFO }
+          ]
+        }
+      ],
+      subs: [
+        sub('advanced-cluster-security', 'InstallPlan waiting for approval since Aug 30 \u2014 4.5.2', 'stable', 'pending', 'approve', 'pending'),
+        sub('openshift-pipelines', 'InstallPlan waiting for approval since 11:04 \u2014 1.16.0', 'latest', 'pending', 'approve', 'pending'),
+        sub('cert-manager', 'install failed: the CRD it wants already exists, owned by helm', 'stable-v1', 'failed', 'logs', 'failed'),
+        sub('elasticsearch-operator', 'manual approval \u00b7 nothing pending', 'stable-5.8', 'manual', '\u2014', 'manual'),
+        sub('local-storage-operator', 'up to date \u00b7 4.16.0-202408', 'stable', 'ok', '\u2014', 'ok'),
+        sub('nfd', 'up to date \u00b7 4.16.0-202408', 'stable', 'ok', '\u2014', 'ok'),
+        sub('kubevirt-hyperconverged', 'up to date \u00b7 4.16.1', 'stable', 'ok', '\u2014', 'ok'),
+        sub('gitops-operator', 'up to date \u00b7 1.13.2', 'latest', 'ok', '\u2014', 'ok')
+      ],
+      variants: [
+        {
+          title: 'Quotas', cap: 'OCP-11 · DIAG-09', edge: WARN, scope: 'edge-02 · 6 projects', scopeTone: ORANGE, state: '◆ 2 near the limit', stateTone: WARN,
+          hasLead: true, leadBg: 'rgba(240,180,41,.07)', leadInk: '#f3d08a',
+          lead: 'Two projects will refuse the next deploy: payments has 2 pods of headroom, ci has none.',
+          cols: '104px 1fr 78px',
+          rows: [
+            vr([c('payments', { ink: INK }), c('', {}), c('44 of 50', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.06)', { hasBar: true, barW: '88%', barMark: '100%', barTone: WARN }),
+            vr([c('  memory', { ink: INK3, size: '10px' }), c('', {}), c('142 of 160Gi', { justify: 'flex-end', ink: '#f3d08a' })], 'rgba(240,180,41,.06)', { hasBar: true, barW: '89%', barMark: '100%', barTone: WARN }),
+            vr([c('ci', { ink: INK }), c('', {}), c('30 of 30', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.09)', { hasBar: true, barW: '100%', barMark: '100%', barTone: BAD }),
+            vr([c('  4 pods rejected today', { ink: '#f0b5b0', size: '10px', font: SANS }), c('', {}), c('', {})], 'rgba(255,95,95,.09)'),
+            vr([c('observability', { ink: '#c8d1dd' }), c('', {}), c('19 of 40', { justify: 'flex-end' })], 'transparent', { hasBar: true, barW: '47%', barMark: '100%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('platform', { ink: '#c8d1dd' }), c('', {}), c('11 of 40', { justify: 'flex-end' })], 'transparent', { hasBar: true, barW: '27%', barMark: '100%', barTone: 'rgba(62,207,142,.45)' }),
+            vr([c('default', { ink: INK3 }), c('', {}), c('no quota', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('kube-system', { ink: INK3 }), c('', {}), c('exempt', { justify: 'flex-end', ink: INK3 })])
+          ],
+          hasFoot: true, footBg: 'rgba(255,95,95,.07)', footInk: '#f0b5b0',
+          foot: 'The row that matters is the one under ci: four pods were rejected today and nobody was told. A quota failure looks like a pod that simply never appears.',
+          note: 'Quota use with the limit as a tick, and the consumed count beside it. Projects without a quota are listed too — an unbounded project is a finding, not an absence.'
+        },
+        {
+          title: 'The fleet’s versions', caption: '', cap: 'OCP-07 · XC-07', edge: INFO, scope: '4 openshift clusters', scopeTone: INFO, state: '● live', stateTone: OK,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'Two clusters are mid-upgrade, and one of them has been for five hours.',
+          cols: '96px 96px 1fr',
+          rows: [
+            vr([c('edge-02', { ink: INK }), c('4.15.9 →', { ink: '#f3d08a' }), c('stuck 2h41m', { ink: '#f3d08a' })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('4.16.4', { ink: INK3, size: '10px' }), c('machine-config \u00b7 worker-2', { ink: INK3, size: '10px' })], 'rgba(240,180,41,.06)'),
+            vr([c('edge-01', { ink: '#8a5f62' }), c('4.15.9', { ink: '#8a5f62' }), c('unreachable \u2014 state unknown', { ink: '#8a5f62' })], 'rgba(255,95,95,.06)'),
+            vr([c('ocp-prod-a', { ink: INK }), c('4.16.4', { ink: INK2 }), c('updated Aug 29 \u00b7 clean', { ink: OK })]),
+            vr([c('ocp-prod-b', { ink: INK }), c('4.16.2 →', { ink: '#8ac6ff' }), c('progressing 22m \u00b7 normal', { ink: '#8ac6ff' })]),
+            vr([c('', {}), c('4.16.4', { ink: INK3, size: '10px' }), c('etcd \u00b7 2 of 3 members', { ink: INK3, size: '10px' })]),
+            vr([c('', {}), c('', {}), c('', {})], 'transparent'),
+            vr([c('channel', { ink: INK3, size: '10px' }), c('stable-4.16', { ink: INK2, size: '10px' }), c('all four \u00b7 no channel drift', { ink: INK3, size: '10px', font: SANS })])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'An upgrade in progress is blue; an upgrade that stopped moving is amber. The difference is elapsed time against the operator that is progressing, not a state the cluster reports.',
+          note: 'The only place you can see whether an upgrade campaign is actually finished. OpenShift itself has no fleet view — this is four apiservers read in parallel.'
+        },
+        {
+          title: 'Where OpenShift differs', cap: 'OCP-08…13', edge: ORANGE, scope: 'the kinds a k8s tool misses', scopeTone: ORANGE, state: '7 kinds', stateTone: INK2,
+          hasLead: true, leadBg: 'transparent', leadInk: INK,
+          lead: 'Seven kinds get their own treatment, because reading their YAML answers nothing.',
+          cols: '128px 1fr',
+          rows: [
+            vr([c('Route', { ink: INK }), c('host, TLS mode and the router that serves it', { font: SANS, size: '11px' })]),
+            vr([c('Build', { ink: INK }), c('the log is the primary action, not the object', { font: SANS, size: '11px' })]),
+            vr([c('ImageStream', { ink: INK }), c('tags with digests, and who runs each tag', { font: SANS, size: '11px' })]),
+            vr([c('ClusterOperator', { ink: INK }), c('conditions rendered as one sentence', { font: SANS, size: '11px' })]),
+            vr([c('MachineConfigPool', { ink: INK }), c('per-node update state as a strip', { font: SANS, size: '11px' })]),
+            vr([c('InstallPlan', { ink: INK }), c('approval is the primary \u2014 and it is a write', { font: SANS, size: '11px' })]),
+            vr([c('Project', { ink: INK }), c('quota use first, labels second', { font: SANS, size: '11px' })]),
+            vr([c('', {}), c('', {})], 'transparent'),
+            vr([c('everything else', { ink: INK3 }), c('is a Kubernetes kind and behaves like one', { ink: INK3, font: SANS, size: '11px' })])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'The app does not have an “OpenShift mode”. These kinds appear when the cluster has them and are absent when it does not — same panes, same actions, same keys.',
+          note: 'The scope asked for OpenShift parity, not an OpenShift edition. Seven kinds with a real reading, and a DeploymentConfig that behaves like a Deployment.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'A STUCK UPGRADE IS ONE SENTENCE', t: 'OpenShift reports thirty-three operators, each with four conditions, and the console shows you all of them. The finding is always smaller than that: one operator is Progressing, and it is waiting on one node. The pane leads with that sentence, puts the elapsed time in it, and only then lists the operators — worst first, with the waiting ones dimmed at the bottom because “not started” is not a problem.' },
+        { tone: BAD, k: 'THE THINGS THAT SILENTLY STOP WORK', t: 'Two features here exist because their failure mode is silence. An unapproved InstallPlan does not warn anybody — the operator simply never updates. A full quota does not warn anybody — the pod simply never appears, and four of them did not today. Both get a permanent count in the pane header rather than an event you would have to be watching for.' },
+        { tone: INFO, k: 'WHAT WE GIVE UP', t: 'We do not start cluster upgrades and we do not change channels — that is a change-managed decision with a maintenance window, and a keystroke away from it is the wrong shape. We read the update status, name the blocker, and offer the two things that actually unstick it. We also do not model MachineSets or scale nodes; on OpenShift that is the machine API’s job and getting it wrong costs money.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

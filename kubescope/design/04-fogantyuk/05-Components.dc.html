@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:38px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 5 / 5 · COMPONENTS · SVELTE 5 + TYPESCRIPT</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The components to build</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Every drawing in this round, resolved into files. <span style="color:var(--ks-ink)">{{ componentCount }} components and four stores</span>, with the rule that decides the whole shape: no component owns layout, selection or drag state — four stores do, and components are pure functions of them. Build order is the last column, and it is not the reading order.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">COMPOSITION</div>
+        <div style="font-size:17px;font-weight:600">What contains what</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:14px 16px;display:flex;flex-direction:column">
+        <sc-for list="{{ tree }}" as="t" hint-placeholder-count="20">
+          <div style="min-height:21px;display:flex;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:11px;background:{{ t.bg }}">
+            <span style="color:var(--ks-ink-3);white-space:pre">{{ t.indent }}</span>
+            <span style="color:{{ t.ink }};font-weight:{{ t.weight }}">{{ t.name }}</span>
+            <div style="flex:1"></div>
+            <span style="font-size:10px;color:{{ t.noteInk }}">{{ t.note }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">Recursion is in one place only. <span style="font-family:var(--ks-mono);color:var(--ks-ink-2)">SplitNode</span> renders either two children and a handle, or one <span style="font-family:var(--ks-mono);color:var(--ks-ink-2)">PaneSlot</span> — so the depth limit, the minimum sizes and the resize arithmetic exist once and every pane kind inherits them for free.</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">STATE</div>
+        <div style="font-size:17px;font-weight:600">Four stores, and nothing else holds state</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ stores }}" as="s" hint-placeholder-count="4">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ s.tone }};padding:12px 14px;display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:12px;font-weight:600;color:{{ s.tone }}">{{ s.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.life }}</span>
+            </div>
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.t }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <sc-for list="{{ s.keys }}" as="k" hint-placeholder-count="4">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;padding:2px 6px;border:1px solid var(--ks-line);color:var(--ks-ink-3)">{{ k.t }}</span>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">INVENTORY</div>
+      <div style="font-size:19px;font-weight:600">{{ componentCount }} files</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">phase = build order · a component is only built once every phase below it exists</div>
+    </div>
+
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+      <div style="height:24px;display:grid;grid-template-columns:210px 66px 1fr 300px 240px 54px;align-items:center;gap:14px;padding:0 16px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div>FILE</div><div>LINES</div><div>WHAT IT IS</div><div>PROPS IN</div><div>EVENTS OUT</div><div style="text-align:right">PHASE</div>
+      </div>
+      <sc-for list="{{ inventory }}" as="c" hint-placeholder-count="26">
+        <sc-if value="{{ c.isDivider }}" hint-placeholder-val="{{ false }}">
+          <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 16px;background:var(--ks-panel-hi);box-shadow:inset 0 1px 0 var(--ks-line),inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.1em;color:var(--ks-ink-3)">
+            <span style="color:{{ c.tone }}">{{ c.name }}</span><div style="flex:1"></div><span>{{ c.note }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ c.isRow }}" hint-placeholder-val="{{ true }}">
+          <div style="min-height:34px;display:grid;grid-template-columns:210px 66px 1fr 300px 240px 54px;align-items:center;gap:14px;padding:6px 16px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ c.nameInk }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:{{ c.sizeInk }}">{{ c.size }}</div>
+            <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ c.what }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:{{ c.propsInk }};text-wrap:pretty">{{ c.props }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:{{ c.evInk }};text-wrap:pretty">{{ c.events }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.phaseInk }};text-align:right;font-weight:600">{{ c.phase }}</div>
+          </div>
+        </sc-if>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">SPECIMENS</div>
+      <div style="font-size:19px;font-weight:600">Every component with a visual form, at 1:1, with its props</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">App · PaneBody · DragLayer have no drawing — they are wiring</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start">
+      <sc-for list="{{ specs }}" as="s" hint-placeholder-count="22">
+        <sc-if value="{{ s.isSection }}" hint-placeholder-val="{{ false }}">
+          <div style="grid-column:1/-1;display:flex;align-items:center;gap:12px;padding-top:8px">
+            <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.14em;color:{{ s.tone }}">{{ s.name }}</div>
+            <div style="height:1px;flex:1;background:var(--ks-line)"></div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ s.cap }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ s.isCard }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:12.5px;font-weight:600;color:var(--ks-cy)">{{ s.name }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.cap }}</span>
+          </div>
+
+          <div style="height:132px;background:var(--ks-bg);border:1px solid var(--ks-line);display:flex;align-items:center;justify-content:center;padding:12px;overflow:hidden">
+
+            <sc-if value="{{ s.isHandle }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;height:100%;display:flex;background:var(--ks-panel)">
+                <div style="flex:1"></div>
+                <div style="width:1px;background:var(--ks-line);position:relative">
+                  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:3px;height:20px;background:var(--ks-line-strong)"></div>
+                </div>
+                <div style="flex:1"></div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isHeader }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;display:flex;flex-direction:column;gap:9px">
+                <div style="height:28px;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-panel);border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+                  <span style="color:var(--ks-ink-2);background:rgba(255,255,255,.04);padding:2px 4px">prod-eu-west▾</span>
+                  <span style="flex:1;min-width:0;background:repeating-linear-gradient(135deg,rgba(63,224,208,.16) 0 3px,transparent 3px 7px);padding:3px 4px;color:var(--ks-cy)">Pods · payments</span>
+                  <span style="color:var(--ks-ink-3);background:rgba(255,255,255,.04);padding:2px 4px">⊞ ⋯ ✕</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:9.5px">
+                  <span style="width:9px;height:9px;background:repeating-linear-gradient(135deg,rgba(63,224,208,.16) 0 3px,transparent 3px 7px);flex:none"></span>
+                  <span style="color:var(--ks-cy)">grab zone</span>
+                  <span style="width:9px;height:9px;background:rgba(255,255,255,.04);flex:none"></span>
+                  <span style="color:var(--ks-ink-3)">controls · click only</span>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isTabs }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;background:var(--ks-panel);border:1px solid var(--ks-line)">
+                <div style="height:22px;display:flex;align-items:stretch;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 7px;background:var(--ks-panel-hi);box-shadow:inset 0 -2px 0 var(--ks-cy);color:var(--ks-ink)"><span style="font-size:8px;color:var(--ks-cy)">▤</span>pods</div>
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 7px;color:var(--ks-ink-3);border-right:1px solid var(--ks-line-soft)"><span style="font-size:8px">≡</span>coredns-…7fjvd</div>
+                  <div style="display:flex;align-items:center;gap:5px;padding:0 7px;color:var(--ks-ink-2)"><span style="font-size:8px">⌗</span>yaml<span style="color:var(--ks-ink-3)">✕</span></div>
+                </div>
+                <div style="height:56px;display:flex;flex-direction:column;justify-content:center;gap:5px;padding:0 9px;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+                  <div>1 tab → the strip is absent</div>
+                  <div>min 40px, then it scrolls</div>
+                  <div>✕ on hover, ≥64px only</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isRow }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column">
+                <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="5">
+                  <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;position:relative;background:{{ r.bg }};box-shadow:{{ r.shadow }}">
+                    <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                    <span style="font-size:11px;color:{{ r.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:9px;color:{{ r.stInk }};flex:none">{{ r.st }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isRehearsal }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line)">
+                <div style="grid-row:1 / span 2;background:var(--ks-panel);opacity:.45;display:flex;flex-direction:column">
+                  <div style="height:14px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line-soft)"></div>
+                </div>
+                <div style="background:var(--ks-panel);opacity:.45;display:flex;flex-direction:column">
+                  <div style="height:14px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line-soft)"></div>
+                </div>
+                <div style="background:rgba(63,224,208,.10);border:1px solid var(--ks-cy);display:flex;flex-direction:column">
+                  <div style="height:14px;display:flex;align-items:center;padding:0 5px;background:rgba(63,224,208,.16);font-family:var(--ks-mono);font-size:8px;color:var(--ks-cy)">logs · here</div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isChip }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+                <sc-for list="{{ s.chips }}" as="x" hint-placeholder-count="4">
+                  <span style="padding:2px 7px;border:1px solid {{ x.line }};background:{{ x.bg }};font-family:var(--ks-mono);font-size:9.5px;color:{{ x.ink }};white-space:nowrap">{{ x.t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isBars }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;background:{{ s.barsBg }};border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+                <sc-for list="{{ s.bars }}" as="b" hint-placeholder-count="6">
+                  <div style="height:{{ b.h }};display:flex;align-items:center;gap:{{ b.gap }};padding:0 {{ b.pad }};position:relative;background:{{ b.bg }};box-shadow:{{ b.shadow }}">
+                    <sc-if value="{{ b.hasMark }}" hint-placeholder-val="{{ false }}">
+                      <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ b.mark }}"></span>
+                    </sc-if>
+                    <sc-for list="{{ b.cells }}" as="c" hint-placeholder-count="3">
+                      <span style="flex:{{ c.flex }};width:{{ c.w }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:{{ c.align }};font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};background:{{ c.bg }};padding:{{ c.cpad }};text-decoration:{{ c.strike }}">{{ c.t }}</span>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ s.isFrame }}" hint-placeholder-val="{{ false }}">
+              <div style="width:100%;height:100%;position:relative;background:var(--ks-bg);overflow:hidden">
+                <sc-for list="{{ s.boxes }}" as="b" hint-placeholder-count="4">
+                  <div style="position:absolute;left:{{ b.l }};top:{{ b.t }};width:{{ b.w }};height:{{ b.h }};background:{{ b.bg }};border:1px {{ b.style }} {{ b.line }};opacity:{{ b.op }};display:flex;flex-direction:column">
+                    <sc-if value="{{ b.hasLabel }}" hint-placeholder-val="{{ true }}">
+                      <div style="height:13px;flex:none;display:flex;align-items:center;padding:0 4px;background:{{ b.headBg }};font-family:var(--ks-mono);font-size:8px;color:{{ b.ink }};white-space:nowrap;overflow:hidden">{{ b.label }}</div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <sc-for list="{{ s.notes }}" as="n" hint-placeholder-count="2">
+                  <div style="position:absolute;left:{{ n.l }};top:{{ n.t }};font-family:var(--ks-mono);font-size:8.5px;color:{{ n.ink }};white-space:nowrap">{{ n.t2 }}</div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.body }}</div>
+
+          <div style="border:1px solid var(--ks-line);background:var(--ks-panel);overflow:hidden">
+            <div style="height:20px;display:grid;grid-template-columns:1fr 96px 78px;align-items:center;gap:8px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+              <div>PROP</div><div>TYPE</div><div>DEFAULT</div>
+            </div>
+            <sc-for list="{{ s.props }}" as="p" hint-placeholder-count="6">
+              <div style="min-height:22px;display:grid;grid-template-columns:1fr 96px 78px;align-items:center;gap:8px;padding:3px 10px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="font-family:var(--ks-mono);font-size:10px;color:{{ p.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</div>
+                <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.type }}</div>
+                <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ p.defInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.def }}</div>
+              </div>
+            </sc-for>
+            <div style="padding:8px 10px;background:rgba(255,77,109,.05);border-top:1px solid var(--ks-line);font-size:10.5px;line-height:1.45;color:#ffc4cf;text-wrap:pretty"><span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-bad)">MUST NOT </span>{{ s.mustNot }}</div>
+          </div>
+        </div>
+        </sc-if>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">CONVENTIONS</div>
+      <div style="font-size:19px;font-weight:600">Eight rules that keep every file consistent</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ conventions }}" as="c" hint-placeholder-count="8">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ c.tone }}">{{ c.k }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace";
+
+class Component extends DCLogic {
+  renderVals() {
+    const T = (depth, name, note, kind) => ({
+      indent: '  '.repeat(depth) + (depth ? '└ ' : ''),
+      name, note,
+      ink: kind === 'store' ? WARN : kind === 'reuse' ? INK3 : kind === 'root' ? CY : INK,
+      weight: depth === 0 ? '600' : '400',
+      noteInk: kind === 'reuse' ? INK3 : INK3,
+      bg: kind === 'recur' ? 'rgba(63,224,208,.05)' : 'transparent'
+    });
+
+    const tree = [
+      T(0, 'App.svelte', 'mounts the stores, nothing else', 'root'),
+      T(1, 'TabBar.svelte', 'workspaces 1…9 · TroubleChip'),
+      T(1, 'Rail.svelte', 'three widths · RailRow ×N'),
+      T(1, 'SplitNode.svelte', 'recursive — the only recursion', 'recur'),
+      T(2, 'SplitHandle.svelte', 'between two children'),
+      T(2, 'SplitNode.svelte', '↻ or a PaneSlot', 'recur'),
+      T(2, 'PaneSlot.svelte', 'one slot, N tabs'),
+      T(3, 'TabStrip.svelte', 'absent at 1 tab'),
+      T(4, 'Tab.svelte', ''),
+      T(3, 'PaneMenu.svelte', 'on ⋯ or right-click'),
+      T(3, 'Pane.svelte', 'the shell, kind-agnostic'),
+      T(4, 'PaneHeader.svelte', 'the drag handle lives here'),
+      T(4, 'ControlBar.svelte', 'filter · count · stream'),
+      T(4, 'EmptySlot.svelte', 'when the slot is empty'),
+      T(4, 'PaneBody.svelte', 'switch on kind → one of:'),
+      T(5, 'DataTable.svelte', 'pods · nodes · events · fleet'),
+      T(6, 'DataRow.svelte', 'mark · selection · focus'),
+      T(6, 'Tombstone.svelte', 'row and pane variants'),
+      T(5, 'LogView.svelte', 'text body'),
+      T(6, 'Gutter.svelte', 'shared with YamlView'),
+      T(5, 'YamlView.svelte', 'text body'),
+      T(6, 'Gutter.svelte', '↑ same file'),
+      T(5, 'TerminalView.svelte', 'owns its own keys'),
+      T(5, 'MetricView.svelte', 'range drag = scope'),
+      T(5, 'DetailView.svelte', 'facts, nothing selectable'),
+      T(4, 'SelectionBar.svelte', 'appears at ≥2 selected'),
+      T(1, 'DragLayer.svelte', 'one instance, above everything'),
+      T(2, 'PlacementRehearsal.svelte', 'the live layout preview'),
+      T(2, 'DragLabel.svelte', 'follows the cursor'),
+      T(1, 'MenuLayer.svelte', 'row menu · pane menu · palette'),
+      T(1, 'StatusBar.svelte', '24px, bottom')
+    ];
+
+    const stores = [
+      {
+        name: 'layout.svelte.ts', tone: WARN, life: 'persisted per tab',
+        t: 'The split tree, the tab order, which slot has focus, and the rail width. Every resize and every drop is a function applied to this tree — components never mutate their own geometry, they read it.',
+        keys: [{ t: 'tree: SplitNode' }, { t: 'focusedSlot: id' }, { t: 'railWidth: 0|46|340' }, { t: 'resize(id, px)' }, { t: 'move(paneId, target)' }]
+      },
+      {
+        name: 'selection.svelte.ts', tone: CY, life: 'session, per pane',
+        t: 'Per pane: the selected key set, the anchor, the keyboard cursor, and the tombstones — keys that were selected and whose objects have gone. The count line and the SelectionBar are derived, never stored.',
+        keys: [{ t: 'byPane: Map<id, Set>' }, { t: 'anchor: key' }, { t: 'cursor: key' }, { t: 'tombstones: Set' }, { t: 'hiddenByFilter: n' }]
+      },
+      {
+        name: 'drag.svelte.ts', tone: CY, life: 'transient',
+        t: 'One drag at a time, so one store: what is being carried, the pointer, the resolved target and whether it is legal. PlacementRehearsal renders the tree that layout would produce, without committing it.',
+        keys: [{ t: 'carrying: paneId|tabId' }, { t: 'target: slot+edge|tab' }, { t: 'valid: boolean' }, { t: 'reason: string' }, { t: 'preview: SplitNode' }]
+      },
+      {
+        name: 'clusters.svelte.ts', tone: OK, life: 'app lifetime',
+        t: 'The enabled clusters with their code, hue, version, RTT and connection state — the one place a two-letter code or a hue is resolved, so a pane header, a rail row and a diff chip can never disagree about what EW means.',
+        keys: [{ t: 'byId: Map' }, { t: 'code(id)' }, { t: 'hue(id)' }, { t: 'trouble: id[]' }]
+      }
+    ];
+
+    const D = (name, note, tone) => ({ isDivider: true, isRow: false, name, note, tone });
+    const C = (name, size, what, props, events, phase, flag) => ({
+      isDivider: false, isRow: true, name, size, what, props, events, phase: 'P' + phase,
+      nameInk: flag === 'reuse' ? INK3 : INK,
+      sizeInk: INK3,
+      propsInk: INK2, evInk: events === '—' ? INK3 : INK2,
+      phaseInk: phase <= 2 ? CY : phase >= 5 ? INK3 : INK2,
+      bg: flag === 'reuse' ? 'rgba(255,255,255,.012)' : flag === 'hot' ? 'rgba(63,224,208,.04)' : 'transparent'
+    });
+
+    const inventory = [
+      D('THE FRAME', 'geometry only — none of these know what a pod is', CY),
+      C('App.svelte', '~60', 'Mounts the four stores and the three layers. Owns the window keymap and the terminal escape hatch.', 'none', 'none', 1),
+      C('SplitNode.svelte', '~140', 'The recursion. Two children plus a handle, or one PaneSlot. Enforces depth ≤ 4 and the 320 × 180 minimum.', 'node, depth, rect', 'none — calls layout', 1, 'hot'),
+      C('SplitHandle.svelte', '~120', 'The grip, the 9px band, live resize, the size chip, double-click to 50/50, the amber clamp.', 'orientation, ratio, minA, minB', 'resize, reset', 1, 'hot'),
+      C('PaneSlot.svelte', '~90', 'One position in the tree holding N tabs. Decides whether the strip exists at all.', 'slotId, tabs, activeTab', 'select, close, reorder', 2),
+      C('TabStrip.svelte', '~130', 'Compression to a 40px floor, then scroll with the active tab kept in view. Owns the overflow arrows.', 'tabs, activeId, width', 'select, close, reorder, detach', 2, 'hot'),
+      C('Tab.svelte', '~70', 'One tab: glyph, shortest unambiguous label, hover close above 64px. Draggable from anywhere on itself.', 'label, glyph, active, width', 'select, close, dragstart', 2),
+      C('StatusBar.svelte', '~50', '24px: the focused pane’s scope, the fleet chip, the layout name. Reads stores, renders nothing else.', 'none', 'none', 6),
+      D('THE PANE', 'the shell is kind-agnostic; the body switches once', CY),
+      C('Pane.svelte', '~90', 'Header + control bar + body. Applies the focused treatment: header tint and cyan hairline, no geometry change.', 'pane, focused', 'focus', 2, 'hot'),
+      C('PaneHeader.svelte', '~150', '28px. Cluster picker, type, scope picker, ⊞ ⋯ ✕ — and the hatched grab zone between them.', 'cluster, kind, scope, family', 'dragstart, repoint, split, menu, close', 2, 'hot'),
+      C('ControlBar.svelte', '~110', '26px. Filter field, live count, stream state, and the selection count when there is one.', 'filter, count, stream, selected', 'filter, clearSelection', 3),
+      C('PaneBody.svelte', '~40', 'One switch on pane.kind. The only place that knows the list of kinds.', 'pane', 'none', 3),
+      C('SelectionBar.svelte', '~120', '28px, appears at ≥2 selected. The three commonest verbs for the kind, plus ⋯, from the action registry.', 'selection, kind', 'run, clear', 4, 'hot'),
+      C('Tombstone.svelte', '~60', 'A row or a pane whose object has gone: struck through, hollow glyph, one offer. Used by both.', 'was, offer', 'act, dismiss', 4),
+      C('EmptySlot.svelte', '~80', 'An empty pane position: the four things you can open, by key.', 'slotId', 'open', 3),
+      C('PaneMenu.svelte', '~110', 'Split, duplicate, repoint, pause, close — the pane half of the action registry.', 'pane, at', 'run', 4),
+      D('THE BODIES', 'each takes a rect and a view-model, nothing more', INK2),
+      C('DataTable.svelte', '~260', 'Virtualised rows, sortable resizable columns, the only component that knows about scroll windows.', 'columns, rows, sort, selection, cursor', 'sort, select, activate, menu', 3, 'hot'),
+      C('DataRow.svelte', '~110', '22px. The 2px status mark, the selection fill and run outline, the keyboard focus ring.', 'row, selected, runEdge, focused', 'click, ctxmenu', 3, 'hot'),
+      C('Gutter.svelte', '~90', 'The timestamp or key column in LogView and YamlView. Line and block selection live here, so the body can keep text selection.', 'lines, selected', 'select, extend', 5, 'hot'),
+      C('LogView.svelte', '~180', 'Gutter + a text body with real text selection. Level colouring, wrap toggle, follow-tail.', 'lines, follow, level', 'follow, select', 5),
+      C('YamlView.svelte', '~160', 'Gutter + highlighted text. Clicking a key in the gutter selects the key and its subtree.', 'doc, collapsed', 'select, edit', 5),
+      C('TerminalView.svelte', '~120', 'A host for xterm. Owns every key while focused; the frame reaches it only through the escape hatch.', 'session', 'exit', 6),
+      C('MetricView.svelte', '~200', 'Plot with event annotations. A horizontal drag is a time range and therefore a scope change, not a selection.', 'series, events, window', 'window', 6),
+      C('DetailView.svelte', '~140', 'Sectioned facts about one object. Nothing selectable; copy is per field, on hover.', 'object', 'copyField, navigate', 5),
+      D('THE LAYERS', 'one instance each, above the tree', CY),
+      C('DragLayer.svelte', '~90', 'Pointer capture from the 4px threshold to release. Resolves the target and the legality, writes to drag.', 'none', 'none — commits to layout', 4, 'hot'),
+      C('PlacementRehearsal.svelte', '~150', 'Renders the tree layout would produce, chrome only, everything at 45% except the landing slot.', 'preview, landing', 'none', 4, 'hot'),
+      C('DragLabel.svelte', '~50', 'The mono label that follows the cursor: what you are carrying, offset 12px.', 'text, glyph', 'none', 4),
+      C('MenuLayer.svelte', '~130', 'One floating menu at a time, positioned to stay on screen. May overlap its own pane — allowed by rule.', 'items, at', 'run, dismiss', 4),
+      D('ALREADY IN THE DESIGN SYSTEM · REUSE, DO NOT REBUILD', 'these exist in the widget catalogue', IDLE),
+      C('Button · Field · Segmented · Dropdown · Chip', '—', 'The control set from round M-2. The size chip, the reason chip and the count chip are all Chip with a tone.', '—', '—', 1, 'reuse'),
+      C('StatusBadge · Meter · Sparkline · Skeleton · Toast', '—', 'The indicator set. StatusBadge is what resolves a Kubernetes phase into glyph + hue + label.', '—', '—', 1, 'reuse')
+    ];
+
+    const P = (name, type, def, hot) => ({ name, type, def, nameInk: hot ? CY : INK2, defInk: def === '—' ? INK3 : INK2 });
+
+    const cell = (t, o) => Object.assign({ t, flex: '0 0 auto', w: 'auto', align: 'left', font: MONO, size: '10px', ink: INK2, weight: '400', bg: 'transparent', cpad: '0', strike: 'none' }, o || {});
+    const grow = () => cell('', { flex: '1 1 auto' });
+    const bar = (h, cells, o) => Object.assign({ h: h + 'px', gap: '7px', pad: '8px', bg: 'transparent', shadow: 'inset 0 -1px 0 #1a2028', hasMark: false, mark: 'transparent', cells }, o || {});
+    const box = (l, t, w, h, o) => Object.assign({ l, t, w, h, bg: 'var(--ks-panel)', line: LINE, style: 'solid', op: '1', hasLabel: true, headBg: 'var(--ks-field)', ink: INK3, label: '' }, o || {});
+    const sect = (name, cap, tone) => ({ isSection: true, isCard: false, name, cap, tone });
+    const card = (name, cap, kind, extra) => {
+      const base = {
+        isCard: true, isSection: false, isHandle: false, isHeader: false, isTabs: false, isRow: false,
+        isRehearsal: false, isChip: false, isBars: false, isFrame: false,
+        name, cap, barsBg: 'var(--ks-panel)', bars: [], boxes: [], notes: [], chips: [], rows: [], props: [], body: '', mustNot: ''
+      };
+      base[kind] = true;
+      return Object.assign(base, extra);
+    };
+
+    let componentCount = 0;
+    (() => {
+      let last = null, n = 0;
+      const flush = () => { if (last && last.name.indexOf('CATALOGUE') < 0) last.name = last.name + ' · ' + n + (n === 1 ? ' FILE' : ' FILES'); };
+      for (const r of inventory) {
+        if (r.isDivider) { flush(); last = r; n = 0; }
+        else if (r.isRow) { n++; if (last && last.name.indexOf('CATALOGUE') < 0) componentCount++; }
+      }
+      flush();
+    })();
+
+    const P = (name, type, def, hot) => ({ name, type, def, nameInk: hot ? CY : INK2, defInk: def === '\u2014' ? INK3 : INK2 });
+    const hdr = (cells) => bar(19, cells, { bg: 'var(--ks-field)', shadow: 'inset 0 -1px 0 ' + LINE });
+
+    const specs = [
+      sect('THE FRAME', 'geometry only — none of these know what a pod is', CY),
+
+      card('SplitNode.svelte', 'the only recursion', 'isFrame', {
+        boxes: [
+          box('0', '0', '46%', '100%', { label: 'PaneSlot', ink: INK2 }),
+          box('calc(46% + 1px)', '0', '2px', '100%', { bg: LINE, hasLabel: false, line: 'transparent' }),
+          box('calc(46% + 3px)', '0', 'calc(54% - 3px)', '52%', { label: 'PaneSlot', ink: INK2 }),
+          box('calc(46% + 3px)', 'calc(52% + 2px)', 'calc(54% - 3px)', 'calc(48% - 2px)', { label: 'SplitNode ↻', ink: CY, line: CY, bg: 'rgba(63,224,208,.07)', headBg: 'rgba(63,224,208,.12)', style: 'dashed' })
+        ],
+        notes: [{ l: '4px', t: 'calc(100% - 14px)', ink: INK3, t2: 'depth 2 of 4' }],
+        body: 'Renders either two children with a handle between them, or one PaneSlot. Every tiling rule — depth ≤ 4, the 320 × 180 minimum, the resize arithmetic — is written here once.',
+        props: [P('node', 'SplitNode', '\u2014', true), P('depth', 'number', '0', true), P('dir', "'row' | 'col'", "'row'"), P('maxDepth', 'number', '4'), P('minPane', '{w,h}', '{320,180}')],
+        mustNot: 'be duplicated for a special case. A second recursion site is a second set of tiling rules, and they will diverge within a month.'
+      }),
+
+      card('SplitHandle.svelte', '1px + 3×20 grip', 'isHandle', {
+        body: 'Owns nothing but its own hover state. Resize calls the layout store with a pixel delta; the store clamps against both minimums and returns what it applied, which is what the chip prints — so the chip can never disagree with the layout.',
+        props: [P('orientation', "'v' | 'h'", '\u2014', true), P('ratio', 'number', '0.5'), P('minA', 'number', '320'), P('minB', 'number', '320'), P('gripLength', 'number', '20'), P('showSizes', 'boolean', 'true')],
+        mustNot: 'set its own position or width. It is a flex child of SplitNode; if it computes geometry there are two sources of truth for one edge.'
+      }),
+
+      card('PaneSlot.svelte', 'one position, N tabs', 'isFrame', {
+        boxes: [
+          box('0', '0', '100%', '18px', { label: 'TabStrip · only when tabs > 1', ink: INK3, bg: 'var(--ks-field)', hasLabel: true, headBg: 'transparent' }),
+          box('0', '20px', '100%', 'calc(100% - 20px)', { label: 'Pane · the active tab', ink: CY, headBg: 'rgba(63,224,208,.06)' })
+        ],
+        notes: [{ l: '4px', t: 'calc(100% - 14px)', ink: INK3, t2: 'inactive tabs are unmounted, not hidden' }],
+        body: 'A position in the tree holding N tabs, of which exactly one is mounted. It is the component that decides whether a strip exists at all.',
+        props: [P('slotId', 'string', '\u2014', true), P('tabs', 'TabModel[]', '\u2014', true), P('activeId', 'string', '\u2014'), P('focused', 'boolean', 'false')],
+        mustNot: 'keep inactive tabs mounted. A background log pane holding a live stream is how six tabs become six watches nobody asked for.'
+      }),
+
+      card('TabStrip.svelte', '22px · absent at 1', 'isTabs', {
+        body: 'Given its own width it decides tab widths, whether close buttons are allowed, and whether to scroll. The label-shortening rule lives here, because only the strip can see that two labels would collide.',
+        props: [P('tabs', 'TabModel[]', '\u2014', true), P('activeId', 'string', '\u2014'), P('width', 'number', '\u2014', true), P('minTab', 'number', '40'), P('closeAbove', 'number', '64'), P('hideAtOne', 'boolean', 'true')],
+        mustNot: 'render at all when tabs.length === 1. Not zero-height, not empty — absent, so the body gets the 22px back.'
+      }),
+
+      card('Tab.svelte', 'four states, 22px', 'isBars', {
+        barsBg: 'var(--ks-field)',
+        bars: [
+          bar(22, [cell('▤', { ink: INK3, size: '8px' }), cell('pods', { ink: INK3 }), grow(), cell('rest', { ink: INK3, size: '8.5px' })]),
+          bar(22, [cell('▤', { ink: INK3, size: '8px' }), cell('pods', { ink: INK2 }), grow(), cell('✕', { ink: INK2, size: '9px' }), cell('hover', { ink: INK3, size: '8.5px' })], { bg: 'rgba(255,255,255,.035)' }),
+          bar(22, [cell('▤', { ink: CY, size: '8px' }), cell('pods', { ink: INK }), grow(), cell('active', { ink: INK3, size: '8.5px' })], { bg: 'var(--ks-panel-hi)', shadow: 'inset 0 -2px 0 ' + CY }),
+          bar(22, [cell('▤', { ink: CY, size: '8px' }), cell('pods', { ink: CY }), grow(), cell('dragging', { ink: CY, size: '8.5px' })], { bg: 'rgba(63,224,208,.12)', shadow: 'inset 0 -2px 0 ' + CY }),
+          bar(22, [cell('≡', { ink: INK3, size: '8px' }), cell('coredns-…7fjvd', { ink: INK3 }), grow(), cell('middle-truncated', { ink: INK3, size: '8.5px' })])
+        ],
+        body: 'Glyph plus the shortest unambiguous label, grabbable from anywhere on itself. Object panes are named by their object, truncated in the middle — the head and tail identify a pod, the replica-set hash does not.',
+        props: [P('label', 'string', '\u2014', true), P('glyph', 'string', '\u2014'), P('active', 'boolean', 'false'), P('width', 'number', '\u2014', true), P('canClose', 'boolean', 'true')],
+        mustNot: 'compute its own label from the pane. The strip shortens labels, because only the strip knows what the neighbours are called.'
+      }),
+
+      card('StatusBar.svelte', '24px, the window floor', 'isBars', {
+        bars: [
+          bar(24, [cell('EW', { ink: CY, weight: '600' }), cell('pods · payments · !running', { ink: INK2 }), grow(), cell('▲ 2 clusters need you', { ink: '#ffc4cf' }), cell('│', { ink: LINE }), cell('3 · incident', { ink: INK3 })], { bg: 'var(--ks-field)', shadow: 'none' })
+        ],
+        body: 'The focused pane’s scope on the left, the fleet chip and the layout name on the right. It reads the stores and renders nothing of its own.',
+        props: [P('focusedScope', 'string', '\u2014'), P('trouble', 'ClusterRef[]', '[]'), P('tabName', 'string', '\u2014')],
+        mustNot: 'become a second place to act. Nothing here is clickable except the trouble chip, which opens the fleet pane.'
+      }),
+
+      sect('THE PANE', 'the shell is kind-agnostic; the body switches once', CY),
+
+      card('Pane.svelte', 'the shell · focused', 'isFrame', {
+        boxes: [
+          box('0', '0', '100%', '20px', { label: 'PaneHeader · 28px', ink: CY, bg: 'rgba(63,224,208,.06)', headBg: 'transparent' }),
+          box('0', '20px', '100%', '18px', { label: 'ControlBar · 26px', ink: INK3, bg: 'var(--ks-field)', headBg: 'transparent' }),
+          box('0', '39px', '100%', 'calc(100% - 39px)', { label: 'PaneBody · switch on kind', ink: INK2, headBg: 'transparent' })
+        ],
+        notes: [{ l: '4px', t: 'calc(100% - 14px)', ink: CY, t2: 'focused = header tint + cyan hairline · no geometry change' }],
+        body: 'Header, control bar, body. Applies the focused treatment and nothing else — it does not know what kind of pane it is wrapping.',
+        props: [P('pane', 'PaneModel', '\u2014', true), P('focused', 'boolean', 'false', true)],
+        mustNot: 'branch on pane.kind. That switch belongs to PaneBody, in one place, so a new kind touches one file.'
+      }),
+
+      card('PaneHeader.svelte', '28px · hatched = grab', 'isHeader', {
+        body: 'The one component where hit-testing is the design. The type-and-scope label is the grab zone; the pickers and the three buttons stop the pointer. A 4px threshold separates a click from a drag.',
+        props: [P('cluster', 'ClusterRef', '\u2014', true), P('kind', 'PaneKind', '\u2014', true), P('scope', 'string', '\u2014'), P('family', "'question'|'object'", '\u2014', true), P('focused', 'boolean', 'false'), P('canSplit', 'boolean', 'true')],
+        mustNot: 'let the cluster picker open on an object pane. The family prop decides it: an object pane renders the cluster as static text that says why when hovered.'
+      }),
+
+      card('ControlBar.svelte', '26px', 'isBars', {
+        bars: [
+          bar(26, [cell('filter', { flex: '1 1 auto', ink: INK3, bg: 'var(--ks-bg)', cpad: '3px 7px' }), cell('6 of 41', { ink: INK3 }), cell('● 2s', { ink: OK })], { bg: 'var(--ks-field)' }),
+          bar(26, [cell('!running', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-bg)', cpad: '3px 7px' }), cell('6 of 41', { ink: INK2 }), cell('● 2s', { ink: OK })], { bg: 'var(--ks-field)' }),
+          bar(26, [cell('!running', { flex: '1 1 auto', ink: INK, bg: 'var(--ks-bg)', cpad: '3px 7px' }), cell('8 selected · 2 hidden', { ink: '#f3d08a' }), cell('◐ 47s old', { ink: WARN })], { bg: 'var(--ks-field)' })
+        ],
+        body: 'Filter, live count, stream state — and the selection count when there is one, which is where “8 selected · 2 hidden by the filter” is stated rather than silently applied.',
+        props: [P('filter', 'string', "''", true), P('count', '{shown,total}', '\u2014'), P('stream', 'StreamState', '\u2014'), P('selection', 'SelectionSummary|null', 'null', true)],
+        mustNot: 'hide the selection count when the selected rows are filtered out. That silence is exactly how the next action goes to the wrong number of objects.'
+      }),
+
+      card('SelectionBar.svelte', '28px · at ≥2 selected', 'isBars', {
+        bars: [
+          bar(28, [cell('8 selected', { ink: INK, weight: '600' }), cell('3 clusters', { ink: INK3 }), grow(), cell('restart', { ink: INK2, bg: 'rgba(255,255,255,.04)', cpad: '4px 8px' }), cell('delete', { ink: '#ffc4cf', bg: 'rgba(255,77,109,.12)', cpad: '4px 8px' }), cell('logs', { ink: INK2, bg: 'rgba(255,255,255,.04)', cpad: '4px 8px' }), cell('⋯', { ink: INK3 })], { bg: 'rgba(63,224,208,.06)' }),
+          bar(28, [cell('8 selected', { ink: INK, weight: '600' }), cell('· 3 gone', { ink: '#f3d08a' }), grow(), cell('acts on 5', { ink: '#f3d08a', bg: 'rgba(240,180,41,.14)', cpad: '4px 8px' }), cell('⋯', { ink: INK3 })], { bg: 'rgba(240,180,41,.07)' })
+        ],
+        body: 'Appears only at two or more selected. Three verbs from the action registry plus ⋯, and when part of the selection has died it says what the next action would actually touch.',
+        props: [P('count', 'number', '\u2014', true), P('gone', 'number', '0', true), P('kind', 'PaneKind', '\u2014'), P('verbs', 'Action[]', '\u2014')],
+        mustNot: 'invent its own verb list. It takes the top three from the same registry the row menu and the palette read, so the three are never a different three.'
+      }),
+
+      card('Tombstone.svelte', 'row and pane variants', 'isBars', {
+        bars: [
+          bar(22, [cell('ledger-worker-…-2wq7t', { ink: '#8a5f62', strike: 'line-through' }), grow(), cell('gone 14:02', { ink: '#8a5f62', size: '9px' })], { hasMark: true, mark: '#54262b', bg: 'rgba(255,77,109,.04)' }),
+          bar(22, [cell('find its replacement', { ink: CY, size: '9.5px' }), grow(), cell('↵', { ink: CY, size: '9px' })], { bg: 'rgba(63,224,208,.05)' }),
+          bar(22, [cell('◻ no past', { ink: INK3, size: '9.5px' }), grow()], { bg: 'transparent' }),
+          bar(22, [cell('logs have no stored history', { ink: INK3, size: '9.5px' }), grow()], { bg: 'transparent', shadow: 'none' })
+        ],
+        body: 'One component for both cases: a row whose object has gone, and a pane whose kind cannot answer the current question. Struck through, hollow mark, and exactly one offer.',
+        props: [P('was', 'string', '\u2014', true), P('when', 'string|null', 'null'), P('offer', 'Action|null', 'null', true), P('variant', "'row'|'pane'", "'row'")],
+        mustNot: 'disappear on its own after a timeout. It goes when the selection is cleared or the pane is re-queried — never while somebody may still be reading it.'
+      }),
+
+      card('EmptySlot.svelte', 'a position with nothing in it', 'isBars', {
+        bars: [
+          hdr([cell('EMPTY', { ink: INK3, size: '8.5px' }), grow(), cell('⋯ ✕', { ink: INK3, size: '9px' })]),
+          bar(24, [cell('P', { ink: CY, bg: 'rgba(63,224,208,.10)', cpad: '2px 6px', size: '9px' }), cell('Pods', { ink: INK }), grow(), cell('this cluster', { ink: INK3, size: '9px' })]),
+          bar(24, [cell('N', { ink: CY, bg: 'rgba(63,224,208,.10)', cpad: '2px 6px', size: '9px' }), cell('Nodes', { ink: INK }), grow(), cell('this cluster', { ink: INK3, size: '9px' })]),
+          bar(24, [cell('V', { ink: CY, bg: 'rgba(63,224,208,.10)', cpad: '2px 6px', size: '9px' }), cell('Events', { ink: INK }), grow(), cell('this cluster', { ink: INK3, size: '9px' })]),
+          bar(24, [cell('F', { ink: CY, bg: 'rgba(63,224,208,.10)', cpad: '2px 6px', size: '9px' }), cell('Fleet', { ink: INK }), grow(), cell('all clusters', { ink: INK3, size: '9px' })], { shadow: 'none' })
+        ],
+        body: 'Four things you can open, each on one key. It is the only empty state in the frame that is a menu rather than a message.',
+        props: [P('slotId', 'string', '\u2014', true), P('offers', 'Action[]', '4 kinds'), P('inheritCluster', 'ClusterRef|null', 'null')],
+        mustNot: 'offer every pane kind. Four keys are learnable; the palette is where the other thirty live.'
+      }),
+
+      card('PaneMenu.svelte', 'right-click or ⋯', 'isBars', {
+        barsBg: 'var(--ks-panel-hi)',
+        bars: [
+          hdr([cell('PODS · prod-eu-west', { ink: INK3, size: '8.5px' }), grow()]),
+          bar(22, [cell('⊞', { ink: INK3, size: '9px' }), cell('Split right', { ink: INK }), grow(), cell('⌘⇧→', { ink: INK3, size: '9px' })]),
+          bar(22, [cell('⊟', { ink: INK3, size: '9px' }), cell('Split down', { ink: INK }), grow(), cell('⌘⇧↓', { ink: INK3, size: '9px' })]),
+          bar(22, [cell('◉', { ink: INK3, size: '9px' }), cell('Change cluster…', { ink: INK }), grow(), cell('▸', { ink: INK3, size: '9px' })]),
+          bar(22, [cell('⏸', { ink: INK3, size: '9px' }), cell('Pause watch', { ink: INK }), grow()]),
+          bar(22, [cell('✕', { ink: '#ffc4cf', size: '9px' }), cell('Close', { ink: '#ffc4cf' }), grow(), cell('⌘W', { ink: '#8a5f62', size: '9px' })], { shadow: 'none' })
+        ],
+        body: 'The pane half of the action registry, titled with what you right-clicked. Split, duplicate, repoint, pause, close — and the entries a family cannot do are absent, not disabled.',
+        props: [P('pane', 'PaneModel', '\u2014', true), P('at', '{x,y}', '\u2014'), P('items', 'Action[]', 'from registry', true)],
+        mustNot: 'grey out items that do not apply. An object pane has no “change cluster”; showing it disabled teaches the wrong model of the product.'
+      }),
+
+      sect('THE BODIES', 'each takes a rect and a view-model, nothing more', INK2),
+
+      card('DataTable.svelte', 'virtualised · the only scroll owner', 'isBars', {
+        bars: [
+          hdr([cell('NAME', { flex: '1 1 auto', ink: INK3, size: '8.5px' }), cell('PHASE', { w: '48px', ink: INK3, size: '8.5px' }), cell('RST', { w: '24px', align: 'right', ink: INK2, size: '8.5px' }), cell('AGE', { w: '30px', align: 'right', ink: INK3, size: '8.5px' })]),
+          bar(20, [cell('ledger-worker-…-2wq7t', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' }), cell('CrashLoop', { w: '48px', ink: BAD, size: '9px' }), cell('7', { w: '24px', align: 'right', ink: '#ffc4cf', size: '9px' }), cell('41m', { w: '30px', align: 'right', ink: INK3, size: '9px' })], { hasMark: true, mark: BAD, bg: 'rgba(255,77,109,.05)' }),
+          bar(20, [cell('ledger-worker-…-p1r7m', { flex: '1 1 auto', ink: '#f3d08a', size: '9.5px' }), cell('Pending', { w: '48px', ink: WARN, size: '9px' }), cell('0', { w: '24px', align: 'right', ink: INK3, size: '9px' }), cell('2m', { w: '30px', align: 'right', ink: INK3, size: '9px' })], { hasMark: true, mark: WARN, bg: 'rgba(240,180,41,.05)' }),
+          bar(20, [cell('checkout-api-…-k8n1p', { flex: '1 1 auto', ink: INK, size: '9.5px' }), cell('Running', { w: '48px', ink: INK3, size: '9px' }), cell('0', { w: '24px', align: 'right', ink: INK3, size: '9px' }), cell('6d', { w: '30px', align: 'right', ink: INK3, size: '9px' })], { hasMark: true, mark: OK }),
+          bar(20, [cell('checkout-api-…-x2m4q', { flex: '1 1 auto', ink: INK, size: '9.5px' }), cell('Running', { w: '48px', ink: INK3, size: '9px' }), cell('0', { w: '24px', align: 'right', ink: INK3, size: '9px' }), cell('6d', { w: '30px', align: 'right', ink: INK3, size: '9px' })], { hasMark: true, mark: OK }),
+          bar(20, [cell('rows 5–19 of 41 rendered', { flex: '1 1 auto', ink: INK3, size: '8.5px' })], { bg: 'var(--ks-field)', shadow: 'none' })
+        ],
+        body: 'Windowed rows, sortable and resizable columns, and the only component in the codebase that knows about scroll offsets and row recycling.',
+        props: [P('columns', 'Column[]', '\u2014', true), P('rows', 'RowModel[]', '\u2014', true), P('sort', '{key,dir}', '\u2014'), P('selection', 'Set<string>', 'empty', true), P('cursor', 'string|null', 'null'), P('rowHeight', 'number', '22')],
+        mustNot: 'iterate the full row list per frame. Forty-one rows is the demo; ten thousand is the case, and the windowing helper is shared with LogView.'
+      }),
+
+      card('DataRow.svelte', '22px · four channels', 'isRow', {
+        rows: [
+          { name: 'ledger-worker-…-2wq7t', st: 'CrashLoop', ink: '#ffc4cf', stInk: BAD, mark: BAD, bg: 'rgba(255,77,109,.05)', shadow: 'inset 0 -1px 0 #1a2028' },
+          { name: 'ledger-worker-…-h4k9x', st: 'CrashLoop', ink: '#fff', stInk: '#ffc4cf', mark: BAD, bg: 'rgba(63,224,208,.10)', shadow: 'inset 1px 1px 0 ' + CY + ', inset -1px 0 0 ' + CY },
+          { name: 'checkout-api-…-k8n1p', st: 'Running', ink: '#fff', stInk: INK2, mark: OK, bg: 'rgba(63,224,208,.08)', shadow: 'inset -1px 0 0 ' + CY + ', inset 1px 0 0 ' + CY },
+          { name: 'checkout-api-…-x2m4q', st: 'Running', ink: '#fff', stInk: INK2, mark: OK, bg: 'rgba(63,224,208,.08)', shadow: 'inset -1px -1px 0 ' + CY + ', inset 1px 0 0 ' + CY },
+          { name: 'payout-batcher-…-f5flv', st: 'Running', ink: INK, stInk: INK3, mark: OK, bg: 'transparent', shadow: 'inset 0 -1px 0 #1a2028' }
+        ],
+        body: 'Four independent channels in 22px: the 2px status mark, the selection fill, a 1px outline drawn around a contiguous run rather than each row, and the keyboard focus ring. All four can be true at once, so none may reuse another’s pixels.',
+        props: [P('row', 'RowModel', '\u2014', true), P('selected', 'boolean', 'false', true), P('runEdge', "'top'|'mid'|'bottom'|'solo'", "'solo'", true), P('focused', 'boolean', 'false'), P('dimmed', 'boolean', 'false'), P('tombstone', 'boolean', 'false')],
+        mustNot: 'use the 2px left edge for selection. That channel belongs to status; selection is fill plus the run outline.'
+      }),
+
+      card('Gutter.svelte', 'where line selection lives', 'isBars', {
+        bars: [
+          bar(20, [cell('14:22:07', { w: '54px', ink: INK3, size: '9px', bg: 'var(--ks-field)' }), cell('starting, config sha 4bd91c', { flex: '1 1 auto', ink: INK2, size: '9.5px' })]),
+          bar(20, [cell('14:22:08', { w: '54px', ink: CY, size: '9px', bg: 'rgba(63,224,208,.14)' }), cell('readiness failed — 503', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' })], { bg: 'rgba(63,224,208,.08)' }),
+          bar(20, [cell('14:22:09', { w: '54px', ink: CY, size: '9px', bg: 'rgba(63,224,208,.14)' }), cell('retry budget 82% consumed', { flex: '1 1 auto', ink: '#f3d08a', size: '9.5px' })], { bg: 'rgba(63,224,208,.08)' }),
+          bar(20, [cell('14:22:10', { w: '54px', ink: INK3, size: '9px', bg: 'var(--ks-field)' }), cell('heap 511Mi of 512Mi', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' })]),
+          bar(20, [cell('cursor', { w: '54px', ink: INK3, size: '8.5px' }), cell('default here · text in the body', { flex: '1 1 auto', ink: INK3, size: '8.5px' })], { bg: 'var(--ks-field)', shadow: 'none' })
+        ],
+        body: 'The resolution of the selection conflict, and it is physical rather than modal: dragging in the body selects characters, dragging in the gutter selects lines. Shared by LogView and YamlView.',
+        props: [P('lines', 'GutterLine[]', '\u2014', true), P('selected', 'Set<number>', 'empty', true), P('mode', "'time'|'key'", "'time'", true), P('width', 'number', '54')],
+        mustNot: 'appear in DataTable. A table row is already an object; a gutter there would be a second way to select the same thing.'
+      }),
+
+      card('LogView.svelte', 'gutter + real text selection', 'isBars', {
+        barsBg: 'var(--ks-bg)',
+        bars: [
+          hdr([cell('ledger-worker · worker', { flex: '1 1 auto', ink: INK2, size: '8.5px' }), cell('214/s', { ink: OK, size: '8.5px' }), cell('follow', { ink: CY, size: '8.5px' })]),
+          bar(18, [cell('08', { w: '18px', ink: INK3, size: '8.5px' }), cell('INFO', { w: '32px', ink: INK3, size: '8.5px' }), cell('queue depth 6109, under soft limit', { flex: '1 1 auto', ink: INK2, size: '9px' })]),
+          bar(18, [cell('09', { w: '18px', ink: INK3, size: '8.5px' }), cell('WARN', { w: '32px', ink: WARN, size: '8.5px' }), cell('retry budget 82% consumed', { flex: '1 1 auto', ink: '#e9dcc0', size: '9px' })]),
+          bar(18, [cell('10', { w: '18px', ink: INK3, size: '8.5px' }), cell('ERROR', { w: '32px', ink: BAD, size: '8.5px' }), cell('heap 511Mi of 512Mi — alloc failed', { flex: '1 1 auto', ink: '#ffc4cf', size: '9px' })], { bg: 'rgba(255,77,109,.05)' }),
+          bar(18, [cell('11', { w: '18px', ink: INK3, size: '8.5px' }), cell('INFO', { w: '32px', ink: INK3, size: '8.5px' }), cell('back-off 40s restarting container', { flex: '1 1 auto', ink: INK2, size: '9px' })]),
+          bar(18, [cell('', { w: '18px' }), cell('', { w: '32px' }), cell('wrap off · level ≥ info · 12 400 lines held', { flex: '1 1 auto', ink: INK3, size: '8.5px' })], { bg: 'var(--ks-field)', shadow: 'none' })
+        ],
+        body: 'A gutter and a text body. Level colouring, wrap toggle, follow-tail — and no stored history, which is why a log pane has nothing to show in the past.',
+        props: [P('lines', 'LogLine[]', '\u2014', true), P('follow', 'boolean', 'true', true), P('minLevel', 'Level', "'info'"), P('wrap', 'boolean', 'false'), P('highlight', 'RegExp|null', 'null')],
+        mustNot: 'keep an unbounded buffer. It holds a fixed line count and drops the oldest; nothing here is written to disk, by rule.'
+      }),
+
+      card('YamlView.svelte', 'gutter selects a subtree', 'isBars', {
+        barsBg: 'var(--ks-bg)',
+        bars: [
+          hdr([cell('deploy/checkout-api', { flex: '1 1 auto', ink: INK2, size: '8.5px' }), cell('managed fields hidden', { ink: INK3, size: '8.5px' })]),
+          bar(18, [cell('12', { w: '18px', ink: INK3, size: '8.5px' }), cell('spec:', { flex: '1 1 auto', ink: INK, size: '9px' })]),
+          bar(18, [cell('13', { w: '18px', ink: CY, size: '8.5px', bg: 'rgba(63,224,208,.14)' }), cell('  template:', { flex: '1 1 auto', ink: INK, size: '9px' })], { bg: 'rgba(63,224,208,.08)' }),
+          bar(18, [cell('14', { w: '18px', ink: CY, size: '8.5px', bg: 'rgba(63,224,208,.14)' }), cell('    containers:', { flex: '1 1 auto', ink: INK2, size: '9px' })], { bg: 'rgba(63,224,208,.08)' }),
+          bar(18, [cell('15', { w: '18px', ink: CY, size: '8.5px', bg: 'rgba(63,224,208,.14)' }), cell('      - image: checkout:2.14.2', { flex: '1 1 auto', ink: INK2, size: '9px' })], { bg: 'rgba(63,224,208,.08)' }),
+          bar(18, [cell('', { w: '18px' }), cell('one gutter click = the key and its subtree', { flex: '1 1 auto', ink: INK3, size: '8.5px' })], { bg: 'var(--ks-field)', shadow: 'none' })
+        ],
+        body: 'Highlighted text with the same gutter rule: clicking a key selects that key and everything under it, because that is what copying a YAML block means.',
+        props: [P('doc', 'string', '\u2014', true), P('collapsed', 'Set<string>', 'empty'), P('editable', 'boolean', 'false', true), P('hideManaged', 'boolean', 'true')],
+        mustNot: 'apply an edit. It emits a change and the write goes through the diff and the confirmation, always.'
+      }),
+
+      card('TerminalView.svelte', 'a sovereign border', 'isBars', {
+        barsBg: '#080a0d',
+        bars: [
+          hdr([cell('ledger-worker · worker · sh', { flex: '1 1 auto', ink: INK2, size: '8.5px' }), cell('● attached', { ink: OK, size: '8.5px' })]),
+          bar(18, [cell('$ ps aux | head -3', { flex: '1 1 auto', ink: INK, size: '9px' })], { shadow: 'none' }),
+          bar(18, [cell('PID  USER  COMMAND', { flex: '1 1 auto', ink: INK3, size: '9px' })], { shadow: 'none' }),
+          bar(18, [cell('1    app   /bin/worker', { flex: '1 1 auto', ink: INK2, size: '9px' })], { shadow: 'none' }),
+          bar(18, [cell('$ ▊', { flex: '1 1 auto', ink: CY, size: '9px' })], { shadow: 'none' }),
+          bar(18, [cell('owns Tab · arrows · Esc · ⌘A while focused', { flex: '1 1 auto', ink: '#f3d08a', size: '8.5px' })], { bg: 'rgba(240,180,41,.07)', shadow: 'none' })
+        ],
+        body: 'A host for xterm and nothing more. While focused it owns every key, and the frame’s own commands reach the user only through the documented escape hatch.',
+        props: [P('session', 'ExecSession', '\u2014', true), P('fontSize', 'number', '12'), P('escapeHatch', 'string', "'⌘⎋'", true)],
+        mustNot: 'have its selection styled by the frame. The terminal draws its own; a frame selection layer over it would produce two highlights for one drag.'
+      }),
+
+      card('MetricView.svelte', 'a drag is a scope change', 'isFrame', {
+        boxes: [
+          box('0', '0', '100%', '13px', { label: 'container_memory · 512Mi limit', ink: INK3, bg: 'var(--ks-field)', headBg: 'transparent' }),
+          box('4%', '46px', '4%', '46px', { bg: '#26313d', hasLabel: false, line: 'transparent' }),
+          box('12%', '34px', '4%', '58px', { bg: '#26313d', hasLabel: false, line: 'transparent' }),
+          box('20%', '40px', '4%', '52px', { bg: '#26313d', hasLabel: false, line: 'transparent' }),
+          box('28%', '28px', '4%', '64px', { bg: '#3f5a7a', hasLabel: false, line: 'transparent' }),
+          box('36%', '22px', '4%', '70px', { bg: '#3f5a7a', hasLabel: false, line: 'transparent' }),
+          box('44%', '18px', '30%', '74px', { bg: 'rgba(63,224,208,.10)', line: CY, hasLabel: false, style: 'dashed' }),
+          box('50%', '24px', '4%', '68px', { bg: '#8a5f62', hasLabel: false, line: 'transparent' }),
+          box('58%', '20px', '4%', '72px', { bg: '#8a5f62', hasLabel: false, line: 'transparent' }),
+          box('66%', '26px', '4%', '66px', { bg: '#8a5f62', hasLabel: false, line: 'transparent' })
+        ],
+        notes: [{ l: '46%', t: '20px', ink: CY, t2: '09:04 → 09:19' }, { l: '4px', t: 'calc(100% - 14px)', ink: INK3, t2: 'a range drag retunes the window — it is not a selection' }],
+        body: 'Plot with the pod’s lifecycle events on the curve. A horizontal drag sets the time window, which is a scope change and therefore persists with the pane rather than with the session.',
+        props: [P('series', 'Series[]', '\u2014', true), P('events', 'Annotation[]', '[]', true), P('window', '{from,to}', '\u2014', true), P('syncGroup', 'string|null', 'null')],
+        mustNot: 'treat the range as a selection. Nothing in the selection store may hold a time range; a window is layout, and it is persisted with the pane.'
+      }),
+
+      card('DetailView.svelte', 'facts, nothing selectable', 'isBars', {
+        bars: [
+          hdr([cell('SECTION', { flex: '1 1 auto', ink: INK3, size: '8.5px' }), cell('copy on hover', { ink: INK3, size: '8.5px' })]),
+          bar(21, [cell('phase', { w: '72px', ink: INK3, size: '9px' }), cell('CrashLoopBackOff', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' }), cell('⧉', { ink: INK3, size: '9px' })]),
+          bar(21, [cell('node', { w: '72px', ink: INK3, size: '9px' }), cell('ip-10-0-4-8', { flex: '1 1 auto', ink: CY, size: '9.5px' }), cell('▸', { ink: INK3, size: '9px' })]),
+          bar(21, [cell('owner', { w: '72px', ink: INK3, size: '9px' }), cell('rs/ledger-worker-7c9', { flex: '1 1 auto', ink: CY, size: '9.5px' }), cell('▸', { ink: INK3, size: '9px' })]),
+          bar(21, [cell('restarts', { w: '72px', ink: INK3, size: '9px' }), cell('7 · last OOMKilled 09:11', { flex: '1 1 auto', ink: INK2, size: '9.5px' }), cell('⧉', { ink: INK3, size: '9px' })]),
+          bar(21, [cell('limits', { w: '72px', ink: INK3, size: '9px' }), cell('512Mi · 500m', { flex: '1 1 auto', ink: INK2, size: '9.5px' }), cell('⧉', { ink: INK3, size: '9px' })], { shadow: 'none' })
+        ],
+        body: 'Sectioned facts about one object. Nothing is selectable because nothing here is an object you could act on in bulk — copy is per field, on hover, and a reference navigates.',
+        props: [P('object', 'ObjectRef', '\u2014', true), P('sections', 'Section[]', 'by kind'), P('onNavigate', '(ref) => void', '\u2014', true)],
+        mustNot: 'register with the selection store. A pane with no selectable content must not appear in a selection count or a bulk action.'
+      }),
+
+      sect('THE LAYERS', 'one instance each, above the tree', CY),
+
+      card('PlacementRehearsal.svelte', 'chrome only, 45%', 'isRehearsal', {
+        body: 'Renders the tree the layout store would produce if the drop happened, content suppressed to flat fills, everything at 45% except the landing slot. It is why the preview cannot lie about a collapsing split — it is the same tree function, uncommitted.',
+        props: [P('preview', 'SplitNode', '\u2014', true), P('landingId', 'string', '\u2014', true), P('valid', 'boolean', 'true'), P('reason', 'string|null', 'null'), P('dim', 'number', '0.45')],
+        mustNot: 're-query anything. It draws chrome and titles from models it already has — a rehearsal that fetched rows would make a drag as slow as the slowest cluster.'
+      }),
+
+      card('DragLabel.svelte', 'follows the cursor, +12px', 'isBars', {
+        barsBg: 'transparent',
+        bars: [
+          bar(22, [cell('▤', { ink: CY, size: '9px' }), cell('Pods · prod-eu-west', { flex: '1 1 auto', ink: INK, size: '9.5px' })], { bg: 'var(--ks-panel-hi)', shadow: 'none' }),
+          bar(22, [cell('≡', { ink: CY, size: '9px' }), cell('Logs · ledger-worker', { flex: '1 1 auto', ink: INK, size: '9.5px' })], { bg: 'var(--ks-panel-hi)', shadow: 'none' }),
+          bar(22, [cell('▲', { ink: BAD, size: '9px' }), cell('depth limit 4', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' })], { bg: 'rgba(255,77,109,.14)', shadow: 'none' }),
+          bar(22, [cell('▲', { ink: BAD, size: '9px' }), cell('already here', { flex: '1 1 auto', ink: '#ffc4cf', size: '9.5px' })], { bg: 'rgba(255,77,109,.14)', shadow: 'none' })
+        ],
+        body: 'What you are carrying, in mono, offset from the pointer — and when the target refuses, the same label states the reason instead of the cargo.',
+        props: [P('text', 'string', '\u2014', true), P('glyph', 'string', '\u2014'), P('tone', "'cy'|'bad'", "'cy'", true), P('offset', '{x,y}', '{12,12}')],
+        mustNot: 'be a scaled screenshot of the pane. A ghost plus a live rehearsal is two things moving; the label is the one that stays legible at any size.'
+      }),
+
+      card('MenuLayer.svelte', 'may leave its pane', 'isFrame', {
+        boxes: [
+          box('0', '0', '54%', '100%', { label: 'pane · 320 × 180', ink: INK3, headBg: 'transparent' }),
+          box('calc(54% + 1px)', '0', 'calc(46% - 1px)', '100%', { label: 'pane', ink: INK3, headBg: 'transparent' }),
+          box('30%', '22px', '52%', '84px', { bg: 'var(--ks-panel-hi)', line: LINE_H, label: 'PaneMenu · 19 items', ink: INK2, headBg: 'var(--ks-field)' })
+        ],
+        notes: [{ l: '4px', t: 'calc(100% - 14px)', ink: WARN, t2: 'accepted by rule: a 300px menu cannot fit a 180px pane' }],
+        body: 'One floating menu at a time, positioned to stay on screen and allowed to overlap neighbouring panes — a nineteen-item menu is 300px tall and a pane may be 180.',
+        props: [P('items', 'Action[]', '\u2014', true), P('at', '{x,y}', '\u2014', true), P('title', 'string|null', 'null'), P('flip', "'auto'", "'auto'")],
+        mustNot: 'clip to the pane that opened it. Clipping a menu to its own pane is how a pane menu becomes unusable at the minimum size.'
+      }),
+
+      sect('ALREADY IN THE CATALOGUE', 'reuse — listed for the new job this round gives them', IDLE),
+
+      card('Chip.svelte', 'reuse · four tones', 'isChip', {
+        chips: [
+          { t: '412 ⇿ 203', ink: '#0a0c10', bg: CY, line: CY },
+          { t: '320 min', ink: '#0a0c10', bg: WARN, line: WARN },
+          { t: 'depth limit 4', ink: '#ffc4cf', bg: 'rgba(255,77,109,.14)', line: '#54262b' },
+          { t: '8 selected · 3 gone', ink: '#f3d08a', bg: 'rgba(240,180,41,.14)', line: '#5a4520' },
+          { t: '50 / 50', ink: INK2, bg: 'rgba(255,255,255,.04)', line: LINE }
+        ],
+        body: 'Already built, listed here because this round gives it a new job: every refusal and every live measurement in the frame is a Chip. One component means the 320px clamp, the depth limit and the selection count cannot drift apart in tone or size.',
+        props: [P('tone', "'cy'|'warn'|'bad'|'neutral'", "'neutral'", true), P('solid', 'boolean', 'false'), P('text', 'string', '\u2014'), P('at', '{x,y}|null', 'null'), P('ttl', 'number|null', 'null')],
+        mustNot: 'animate in. A chip that fades up during a drag arrives after the decision it was meant to inform; it appears on the same frame as the state it describes.'
+      })
+    ];
+
+    return {
+      facts: [
+        { k: 'COMPONENTS', v: '' + componentCount, tone: INK },
+        { k: 'STORES', v: '4', tone: WARN },
+        { k: 'RECURSION SITES', v: '1', tone: CY },
+        { k: 'BUILD PHASES', v: '6', tone: INK2 }
+      ],
+      tree, stores, inventory, specs, componentCount,
+      conventions: [
+        { tone: CY, k: 'NO COMPONENT OWNS LAYOUT', t: 'Geometry, selection and drag live in the four stores. A component reads them and calls a mutation; it never resizes, reorders or reparents itself. This is what makes the persistence table on the layouts page implementable — the thing to serialise is one tree, not twenty-six components’ private state.' },
+        { tone: CY, k: 'ONE RECURSION, ONE MINIMUM CHECK', t: 'SplitNode is the only self-referencing component, so the depth limit, the 320 × 180 minimum and the resize arithmetic are written once. A new pane kind inherits all of it and cannot get the tiling rules subtly wrong.' },
+        { tone: OK, k: 'EVERY COMPONENT TAKES ITS SIZE FROM ITS PARENT', t: 'No min-width, no intrinsic height, no viewport units anywhere below App. A pane can be 320px or 1400px wide and the same components fill it — which is also how the 1280 × 800 degradation is achieved without a second set of files.' },
+        { tone: OK, k: 'TOKENS ARE CSS CUSTOM PROPERTIES, NEVER IMPORTS', t: 'Components read var(--ks-*) and never import a colour. The theme is one stylesheet on the root, so a light theme, a density change or a per-pane zoom is a variable swap rather than a rebuild.' },
+        { tone: INK2, k: 'THE ACTION REGISTRY IS DATA', t: 'The row menu, the pane menu, the selection bar, the palette and the key map are four renderers over one table. A capability appears in all of them by being added once, which is the rule the action map from round 03 already established.' },
+        { tone: INK2, k: 'VIRTUALISATION LIVES IN ONE FILE', t: 'Only DataTable knows about scroll windows and row recycling. LogView reuses the same windowing helper rather than reimplementing it, and nothing else is allowed to iterate a ten-thousand-row list per frame.' },
+        { tone: WARN, k: 'POINTER CAPTURE IS THE LAYER’S, NOT THE HANDLE’S', t: 'DragLayer captures the pointer from the 4px threshold to release. Handles and headers only report “a drag started here”, so a drag that leaves the source pane — which is every interesting drag — does not depend on the source still being under the cursor.' },
+        { tone: BAD, k: 'TERMINALVIEW IS A SOVEREIGN BORDER', t: 'It owns every key while focused, including Tab, the arrows and Escape. Nothing in the frame may register a global handler that would intercept them; the frame’s own commands reach the user through the one documented escape hatch, and that is the only exception in the codebase.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

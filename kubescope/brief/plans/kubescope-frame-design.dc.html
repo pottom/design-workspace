@@ -1,0 +1,2211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; background: #04090C; }
+  a { color: #3FE0D0; text-decoration: none; border-bottom: 1px solid rgba(63,224,208,.3); }
+  a:hover { color: #8FF5EA; border-bottom-color: #8FF5EA; }
+</style>
+<template id="__bundler_thumbnail" data-bg-color="#070D11">
+<svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="800" fill="#070D11" />
+  <rect x="200" y="180" width="800" height="60" fill="#0F1D24" stroke="#14333B" stroke-width="4" />
+  <path d="M200 280 H620 L660 320 V520 H200 Z" fill="#0F1D24" stroke="#14333B" stroke-width="4" />
+  <path d="M700 280 H1000 V440 H740 L700 400 Z" fill="#0F1D24" stroke="#3FE0D0" stroke-width="4" />
+  <path d="M200 560 H1000 V620 H240 L200 580 Z" fill="#0F1D24" stroke="#14333B" stroke-width="4" />
+  <rect x="700" y="480" width="300" height="140" fill="#0F1D24" stroke="#A06BFF" stroke-width="4" />
+  <rect x="230" y="320" width="300" height="12" fill="#14333B" />
+  <rect x="230" y="352" width="240" height="12" fill="#14333B" />
+  <rect x="230" y="384" width="280" height="12" fill="#FF4D6D" />
+  <rect x="230" y="416" width="200" height="12" fill="#14333B" />
+  <rect x="726" y="306" width="180" height="12" fill="#3FE0D0" />
+  <rect x="726" y="338" width="140" height="12" fill="#14333B" />
+</svg>
+</template>
+</helmet>
+
+<div style="min-height:100vh;background:#04090C;color:#E4FAFF;font-family:'Rajdhani',ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased">
+
+  <div style="border-bottom:1px solid #14333B;background:#070D11;padding:34px 48px 26px">
+    <div style="display:flex;align-items:flex-start;gap:40px;flex-wrap:wrap">
+      <div style="flex:1;min-width:520px">
+        <div style="display:flex;align-items:center;gap:12px;padding-bottom:10px">
+          <div style="width:2px;height:16px;background:#3FE0D0"></div>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:#3FE0D0">KUBESCOPE · KERET-TERV
+          </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3B565E">válasz a 00-keret-brief.md-re
+        </span></div>
+        <div style="font-size:32px;font-weight:700;letter-spacing:.02em;line-height:1.15;padding-bottom:12px">A képernyő, amit a felhasználó rak össze</div>
+        <div style="font-size:15px;line-height:23px;color:#A9C4CB;max-width:820px;text-wrap:pretty">Nem widgetek — azok megvannak. Ez a <span style="color:#E4FAFF">téglalapok rendszere</span>: régiók, panelmodell, keletkezés, tájékozódás, billentyűzet, perzisztencia. A mostani héjat eldobjuk, ahogy a brief kéri. A mérce nem szépség, hanem az, hogy ránézve egyértelmű legyen, hova kerül a következő képesség.</div>
+      </div>
+      <div style="width:320px;border:1px solid #14333B;background:#0F1D24;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+        <div style="padding:10px 14px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A06BFF">A HÁROM SZÁM, AMI MINDENT ELDÖNT</div>
+        <div style="padding:12px 14px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:19px;color:#3FE0D0">60</span><span style="font-size:12.5px;line-height:16px;color:#A9C4CB">px állandó keret összesen — a mai ~140 helyett</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:19px;color:#3FE0D0">42</span><span style="font-size:12.5px;line-height:16px;color:#A9C4CB">sor 1080p-n, a táblázat oszlopfejlécével együtt — a költségvetés 40 volt, azonos alapon</span></div>
+          <div style="display:flex;align-items:baseline;gap:10px"><span style="font-family:'JetBrains Mono',monospace;font-size:19px;color:#3FE0D0">0</span><span style="font-size:12.5px;line-height:16px;color:#A9C4CB">pixel üresség — osztott fában szerkezetileg lehetetlen</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:7px;padding-top:22px">
+      <sc-for list="{{ navChips }}" as="c" hint-placeholder-count="10">
+        <a href="{{ c.1 }}" style="font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:#A9C4CB;border:1px solid #14333B;border-bottom-color:#14333B;padding:4px 10px;background:#0F1D24" style-hover="color:#8FF5EA;border-color:#2FB9AC">{{ c.0 }}</a>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="dontesek" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§0
+      </span><span style="font-size:20px;font-weight:600">A kilenc döntés
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">mindegyik: döntés · indok · mit vetettem el
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:900px;padding-bottom:22px">A brief §6 kilenc kérdése, sorrendben. A hatókör-kérdés az első, mert tényleg az határozza meg a többit. Ahol elvetettem utat, ott az áll, <span style="color:#E4FAFF">mit adok fel vele — nem az, hogy az a másik út rossz.</span></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="9">
+        <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+          <div style="background:{{ d.bar }}"></div>
+          <div>
+            <div style="padding:11px 18px 9px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ d.bar }}">{{ d.n }}
+              </span><span style="font-size:15px;font-weight:600">{{ d.q }}
+              </span><span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:{{ d.bar }};padding:2px 8px">{{ d.verdict }}
+            </span></div>
+            <div style="padding:13px 18px 15px;display:grid;grid-template-columns:1fr 340px;gap:22px">
+              <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">{{ d.a }}</div>
+              <div style="border-left:1px solid #14333B;padding-left:16px;display:flex;flex-direction:column;gap:9px">
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#FF4D6D;padding-bottom:4px">ELVETVE</div>
+                  <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ d.rejected }}</div>
+                </div>
+                <div>
+                  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#7EE08A;padding-bottom:4px">KÖVETKEZMÉNY</div>
+                  <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ d.consequence }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="modell" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§1
+      </span><span style="font-size:20px;font-weight:600">A panelmodell
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">osztott fa, füles levelekkel
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">Négy út volt. A választás <span style="color:#E4FAFF">az osztott fa</span>: a képernyő rekurzívan oszlik vízszintesen vagy függőlegesen, a fa levelein ül egy-egy panel, és egy levél tarthat több panelt fülként. Alább mind a négy modell, azzal, hogy mit ad és mit kér.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ models }}" as="m" hint-placeholder-count="4">
+        <div style="border:1px solid {{ m.bd }};background:#0F1D24;display:flex;flex-direction:column">
+          <div style="padding:10px 13px;border-bottom:1px solid {{ m.bd }};display:flex;align-items:center;gap:8px">
+            <span style="font-size:13.5px;font-weight:600;color:{{ m.titleColor }}">{{ m.name }}
+            </span><span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;color:{{ m.tagColor }};border:1px solid {{ m.tagColor }};padding:1px 6px">{{ m.tag }}
+          </span></div>
+          <div style="padding:13px;background:#04090C;display:flex;justify-content:center">{{ m.diagram }}</div>
+          <div style="padding:12px 13px;display:flex;flex-direction:column;gap:10px;flex:1">
+            <div style="font-size:12.5px;line-height:17.5px;color:#C9E3E8">{{ m.gives }}</div>
+            <div style="margin-top:auto;padding-top:10px;border-top:1px solid #12242C;font-size:12px;line-height:17px;color:#8FA9B2"><span style="color:#FFB454">Ára: {{ m.costs }}</span></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:20px">
+      <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.05);padding:15px 18px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#3FE0D0;padding-bottom:8px">MIÉRT AZ OSZTOTT FA</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">Három ok, sorrendben. <span style="color:#E4FAFF">Egy:</span> a mai kép legrosszabb tulajdonsága — kilenc pod alatt hétszáz pixel üresség — osztott fában nem áll elő, mert a levelek definíció szerint kitöltik a szülőt. <span style="color:#E4FAFF">Kettő:</span> a billentyűzetes fókuszmozgás determinisztikus. „Fókusz jobbra" egy fában egyértelmű művelet; lebegő ablakok között térbeli találgatás. <span style="color:#E4FAFF">Három:</span> az elrendezés kicsi, olvasható adat — egy bináris fa arányokkal —, tehát menteni, elnevezni, verziózni és hibajelentésbe másolni is triviális. Ez az `APP-04` előfeltétele.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24;padding:15px 18px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#FFB454;padding-bottom:8px">AMIT FELADOK VELE — KIMONDVA</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">Nem lehet két panel egymáson, tehát nincs „félig eltakart napló, amit odébb tolok". Nem lehet szabad méret: a panel mérete a szomszédjai méretéből következik, egy panel növelése egy másikat szűkít. És a fa mélysége korlátozott — négy szint fölött a felhasználó maga sem tudja, mit hova osztott. <span style="color:#E4FAFF">A füles levél ennek a szelepe:</span> ha nem akarsz több helyet osztani, a panel a meglévő levélre kerül fülként, és nulla pixelt kér.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="regiok" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§2
+      </span><span style="font-size:20px;font-weight:600">Régiótérkép
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">pixelben · három méret · ugyanaz a kép
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">Három állandó régió van, és semmi más: <span style="color:#E4FAFF">fejsáv 34 px, </span><span style="color:#E4FAFF">panelmező, </span><span style="color:#E4FAFF">állapotsor 26 px. A mai bal oldali cluster-oszlop megszűnik — az indoklás a </span><a href="#dontesek">§0</a> Q4-ben van. A két keretmagasság méretfüggetlen: ugyanaz 1280×800-on, mint ultrawide-on.</div>
+
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <sc-for list="{{ regionMaps }}" as="r" hint-placeholder-count="3">
+        <div style="border:1px solid #14333B;background:#0F1D24">
+          <div style="padding:10px 16px;border-bottom:1px solid #14333B;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#3FE0D0">{{ r.res }}
+            </span><span style="font-size:13px;color:#E4FAFF">{{ r.label }}
+            </span><span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#5E7F88">{{ r.note }}
+          </span></div>
+          <div style="padding:16px;display:grid;grid-template-columns:1fr 300px;gap:20px;align-items:start">
+            <div>{{ r.diagram }}</div>
+            <div style="display:flex;flex-direction:column">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#4C6B74;display:grid;grid-template-columns:1fr 74px;padding-bottom:5px;border-bottom:1px solid #12242C">
+                <div>RÉGIÓ</div><div style="text-align:right">PX</div>
+              </div>
+              <sc-for list="{{ r.rows }}" as="row" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1fr 74px;padding:5px 0;border-bottom:1px solid #0E1E24">
+                  <span style="font-size:12.5px;color:{{ row.color }}">{{ row.k }}
+                  </span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ row.color }};text-align:right">{{ row.v }}
+                </span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:20px">
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 16px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A06BFF">FÜGGŐLEGES KÖLTSÉGVETÉS · 1080p · COMPACT</div>
+        <sc-for list="{{ budget }}" as="b" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:1fr 84px;padding:6px 16px;border-bottom:1px solid #0E1E24;align-items:baseline">
+            <span style="font-size:12.5px;color:{{ b.color }}">{{ b.k }}
+            </span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ b.color }};text-align:right">{{ b.v }}
+          </span></div>
+        </sc-for>
+        <div style="padding:11px 16px;font-size:12px;line-height:17px;color:#8FA9B2">A design system 40 soros költségvetése tartható, sőt <span style="color:#7EE08A">három sorral több: a keret 144 px-ből 60-ra fogyott. A 26 px oszlopfejléc benne van, ahogy az eredeti 40 soros költségvetésben is — </span><span style="color:#7EE08A">most azonos alapon hasonlítunk. A szűrő nem állandó sor: a panelfejléc ⌕ gombjába költözik, és csak akkor kap 22 px csíkot, amikor tényleg szűr. Két panel egymás alatt persze feleannyi sort ad — de az a felhasználó döntése, nem a keret adója.</span></div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 16px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;color:#A06BFF">MINIMUMOK ÉS FOKOZATOK</div>
+        <sc-for list="{{ minimums }}" as="m" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:150px 1fr;gap:12px;padding:8px 16px;border-bottom:1px solid #0E1E24">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FF5EA">{{ m.k }}
+            </span><span style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ m.v }}
+          </span></div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div id="anatomia" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§3
+      </span><span style="font-size:20px;font-weight:600">A panel anatómiája
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">28 px fejléc · minden panel ugyanez
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">Egyetlen fejléc-szerkezet, paneltípustól függetlenül. Ez az a felület, amin a tájékozódás eldől: <span style="color:#E4FAFF">mit nézek, honnan való, ki a fókusz. Alább 2× méretben, annotálva.</span></div>
+
+    <div style="border:1px solid #14333B;background:#0F1D24;padding:30px 34px 26px">
+      <div style="position:relative;max-width:1080px">
+        <div style="display:flex;align-items:stretch;height:56px;background:#0C1A20;border:1px solid #2FB9AC;border-bottom:none;position:relative">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:4px;background:#3FE0D0"></div>
+          <div style="display:flex;align-items:center;gap:14px;padding:0 20px 0 24px;flex:1;min-width:0">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:17px;color:#3FE0D0;flex:none">▤
+            </span><div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+              <div style="display:flex;align-items:baseline;gap:10px">
+                <span style="font-family:'Rajdhani';font-size:17px;font-weight:600;letter-spacing:.14em;color:#E4FAFF">PODOK
+                </span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">43 / 128
+              </span></div>
+              <div style="display:flex;align-items:center;gap:7px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.06em;color:#5E7F88;border:1px solid #1A414A;padding:0 5px">PE
+                </span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#5E7F88">prod-eu · payments
+              </span></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:0 16px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#7EE08A">● live
+            </span><div style="display:flex;gap:2px">
+              <div style="width:26px;height:26px;border:1px solid #1A414A;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">⌕</div>
+              <div style="width:26px;height:26px;border:1px solid #1A414A;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">⇱</div>
+              <div style="width:26px;height:26px;border:1px solid #1A414A;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">⊞</div>
+              <div style="width:26px;height:26px;border:1px solid #1A414A;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">⋯</div>
+              <div style="width:26px;height:26px;border:1px solid #1A414A;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8FA9B2">✕</div>
+            </div>
+          </div>
+        </div>
+        <div style="height:118px;border:1px solid #2FB9AC;border-top:1px solid #14333B;background:#0A1419;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.14em;color:#3B565E">A PANEL TARTALMA — KÉSZ WIDGET RAJZOL IDE</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-top:26px">
+        <sc-for list="{{ anatomy }}" as="a" hint-placeholder-count="9">
+          <div style="border-left:2px solid {{ a.color }};padding:2px 0 2px 13px">
+            <div style="display:flex;align-items:baseline;gap:9px;padding-bottom:3px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:{{ a.color }}">{{ a.glyph }}
+              </span><span style="font-size:13px;font-weight:600;color:#E4FAFF">{{ a.name }}
+            </span></div>
+            <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ a.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;padding-top:18px">
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#3FE0D0">FÓKUSZ — A KERET SZINTJÉN</div>
+        <div style="padding:13px 15px;font-size:12.5px;line-height:18px;color:#C9E3E8">A fókuszált panel <span style="color:#E4FAFF">2 px cián kerete + 4 px cián bal él</span>. A design system fókuszgyűrűje ugyanez a nyelv, egy szinttel feljebb alkalmazva. A panelen belüli elem fókusza a megszokott 2 px gyűrű — a kettő nem ütközik, mert a panelkeret a kereten van, a gyűrű a tartalomban.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">HONNAN VALÓ — EGY SZINT</div>
+        <div style="padding:13px 15px;font-size:12.5px;line-height:18px;color:#C9E3E8">Minden panel <span style="color:#E4FAFF">ugyanúgy</span> írja ki a hatókörét: sigil + cluster · namespace, teljes súllyal. Nincs két szint, mert nincs globális hatókör, amihez képest a panel eltérhetne — egy workspace-ben négy panel négy clusterből teljesen normális állapot (<a href="#visszajelzes03">§13/1</a>). A bal él így egyetlen dolgot jelent: <span style="color:#3FE0D0">fókusz</span>. A zárolást a cím előtti <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FA9B2">⊡</span> jelöli, élt az sem kap.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FFB454">ZÁRÁS ÉS ELVESZTÉS</div>
+        <div style="padding:13px 15px;font-size:12.5px;line-height:18px;color:#C9E3E8">Az ✕ bezár, a hely a szomszédra száll. Terminál- és szerkesztő-panel <span style="color:#FFB454">megerősítést kér</span> (élő menet / mentetlen manifeszt), minden más nem. <span style="color:#E4FAFF">Workspace-váltás viszont soha nem zárja le a terminált</span> — egy exec-menet nem szüneteltethető és nem folytatható, ezért csak a panel bezárása vet véget neki (<a href="#visszajelzes02">§12</a>). A bezárt panel 30 másodpercig visszahozható (<span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">⌘⇧T</span>).</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="keletkezes" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§4
+      </span><span style="font-size:20px;font-weight:600">Hogyan keletkezik egy panel
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">négy bejárat · egy elhelyezési szabály
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">A jobbklikk csak az egyik bejárat. A <span style="color:#E4FAFF">rendszer az, hogy minden panel </span><span style="color:#E4FAFF">egy forrásból születik (egy sor, egy cluster, egy meglévő panel), és </span><span style="color:#E4FAFF">egyetlen szabály dönti el, hova kerül — nem a felhasználó, hacsak nem akarja.</span></div>
+
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:20px">
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 16px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">NÉGY BEJÁRAT</div>
+        <sc-for list="{{ entrances }}" as="e" hint-placeholder-count="4">
+          <div style="padding:12px 16px;border-bottom:1px solid #0E1E24;display:grid;grid-template-columns:26px 1fr;gap:12px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;color:#3FE0D0">{{ e.glyph }}
+            </span><div>
+              <div style="display:flex;align-items:baseline;gap:10px;padding-bottom:3px">
+                <span style="font-size:13.5px;font-weight:600;color:#E4FAFF">{{ e.name }}
+                </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FF5EA">{{ e.key }}
+              </span></div>
+              <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ e.desc }}</div>
+            </div>
+          </div>
+        </sc-for>
+        <div style="padding:13px 16px;font-size:12.5px;line-height:18px;color:#8FA9B2">Mind a négy ugyanabba a hívásba fut: <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#C9E3E8">open_pane(kind, source, scope, placement)</span>. A <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#C9E3E8">placement</span> alapértéke <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8FF5EA">Auto</span> — és ez a lényeg: <span style="color:#E4FAFF">a felhasználónak nem kell elhelyezést választania ahhoz, hogy elkezdjen dolgozni.</span></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.05);clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+          <div style="padding:10px 16px;border-bottom:1px solid #1E4C57;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#3FE0D0">AZ ELHELYEZÉSI SZABÁLY · AUTO</div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ placement }}" as="p" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:20px 1fr;gap:11px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#A06BFF">{{ p.n }}
+                </span><div style="font-size:12.5px;line-height:18px;color:#C9E3E8">{{ p.rule }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="border:1px solid #14333B;background:#0F1D24">
+          <div style="padding:10px 16px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FFB454">FELÜLÍRÁS — HA MÉGIS Ő AKAR DÖNTENI</div>
+          <sc-for list="{{ overrides }}" as="o" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:112px 1fr;gap:12px;padding:8px 16px;border-bottom:1px solid #0E1E24">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FF5EA">{{ o.k }}
+              </span><span style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ o.v }}
+            </span></div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:20px;padding-top:20px;align-items:start">
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF;padding-bottom:10px">A HIÁNYZÓ WIDGET · JOBBKLIKK-MENÜ</div>
+        <div style="border:1px solid #2E3A48;background:#12242C;border-radius:6px;box-shadow:0 4px 18px rgba(4,9,12,.7);padding:5px 0;width:262px">
+          <div style="padding:4px 13px 6px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#5E7F88">api-core-5cfd88f5cf-tl58z</div>
+          <sc-for list="{{ ctxMenu }}" as="i" hint-placeholder-count="9">
+            <sc-if value="{{ i.sep }}" hint-placeholder-val="{{ false }}">
+              <div style="height:1px;background:#1A414A;margin:5px 0"></div>
+            </sc-if>
+            <sc-if value="{{ i.item }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;align-items:center;gap:10px;padding:5px 13px;background:{{ i.bg }}">
+                <span style="font-size:13px;color:{{ i.color }};flex:1">{{ i.label }}
+                </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">{{ i.key }}
+              </span></div>
+            </sc-if>
+          </sc-for>
+        </div>
+        <div style="padding-top:11px;font-size:12px;line-height:17px;color:#8FA9B2;width:262px">A helyzetjelentés §2/3. nyitott döntése: <span style="color:#E4FAFF">lekerekített, árnyékos</span> — a paletta rokona, mert lebeg és Escape-re elvész. Nincs fátyol mögötte, mert nem modális. Ez a javaslat életbe lép.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 16px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">PANELTÍPUSOK · MIND EGY TÉGLALAPBA RAJZOL</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr">
+          <sc-for list="{{ paneKinds }}" as="k" hint-placeholder-count="12">
+            <div style="display:grid;grid-template-columns:22px 1fr 68px;gap:10px;align-items:baseline;padding:7px 16px;border-bottom:1px solid #0E1E24">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#3FE0D0">{{ k.glyph }}
+              </span><span style="font-size:12.5px;color:#E4FAFF">{{ k.name }}
+              </span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#5E7F88;text-align:right">{{ k.id }}
+            </span></div>
+          </sc-for>
+        </div>
+        <div style="padding:12px 16px;font-size:12.5px;line-height:18px;color:#8FA9B2">Tizenkét típus, és mindegyik ugyanazt a szerződést teljesíti: <span style="color:#C9E3E8">kap egy téglalapot, egy hatókört és egy forrást. Ez az a szűrő, amin minden új képességnek át kell mennie — ha egy funkció csak egy adott képernyő közepén működik, ebbe a termékbe nem illik.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tajekozodas" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§5
+      </span><span style="font-size:20px;font-weight:600">Tájékozódás
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">hat panel, három cluster, nulla új szín
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">A design system szabálya: cián = interakció, lila = szerkezet, a státuszszínek foglaltak. <span style="color:#E4FAFF">Cluster-azonosításra nem maradt szabad szín — és nem is kérek egyet.</span> Három nem-színes csatorna oldja meg: a panelenkénti sigil, a workspace-fül hibapontja, és az állapotsor flotta-jelzője.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">1 · SIGIL
+          </span><span style="font-size:12px;color:#5E7F88">betű, nem szín
+        </span></div>
+        <div style="padding:15px;display:flex;flex-wrap:wrap;gap:7px">
+          <sc-for list="{{ sigils }}" as="s" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:7px;border:1px solid #14333B;background:#0A1419;padding:4px 8px">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#C9E3E8;border:1px solid #1A414A;padding:0 4px">{{ s.sig }}
+              </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">{{ s.name }}
+            </span></div>
+          </sc-for>
+        </div>
+        <div style="padding:0 15px 15px;font-size:12.5px;line-height:18px;color:#A9C4CB">Két karakter, a cluster nevéből származtatva, ütközés esetén kézzel felülírható. Minden panelfejlécben, minden flotta-sorban, és a cluster-oszlop fejében ugyanez. <span style="color:#E4FAFF">Skálázódik 40 clusterre — színnel hét fölött már nem lehet.</span></div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">2 · HATÓKÖR ÉS ZÁROLÁS
+          </span><span style="font-size:12px;color:#5E7F88">a hatókör mindig látszik
+        </span></div>
+        <div style="padding:15px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:stretch;border:1px solid #14333B;background:#0A1419;height:38px">
+            <div style="width:2px;background:#12242C"></div>
+            <div style="padding:0 11px;display:flex;flex-direction:column;justify-content:center;gap:1px">
+              <span style="font-family:'Rajdhani';font-size:11px;font-weight:600;letter-spacing:.14em;color:#E4FAFF">PODOK</span>
+              <div style="display:flex;align-items:center;gap:5px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#A9C4CB;border:1px solid #14333B;padding:0 3px">PE</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#C9E3E8">prod-eu · payments</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid #14333B;background:#0A1419;height:38px">
+            <div style="width:2px;background:#12242C"></div>
+            <div style="padding:0 11px;display:flex;flex-direction:column;justify-content:center;gap:1px">
+              <span style="font-family:'Rajdhani';font-size:11px;font-weight:600;letter-spacing:.14em;color:#E4FAFF">PODOK</span>
+              <div style="display:flex;align-items:center;gap:5px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#A9C4CB;border:1px solid #14333B;padding:0 3px">PU</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#C9E3E8">prod-us · payments</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:stretch;border:1px solid #14333B;background:#0A1419;height:38px">
+            <div style="width:2px;background:#12242C"></div>
+            <div style="padding:0 11px;display:flex;flex-direction:column;justify-content:center;gap:1px">
+              <div style="display:flex;align-items:baseline;gap:5px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#8FA9B2">⊡</span>
+                <span style="font-family:'Rajdhani';font-size:11px;font-weight:600;letter-spacing:.14em;color:#E4FAFF">NAPLÓ</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#A9C4CB;border:1px solid #14333B;padding:0 3px">PE</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#C9E3E8">prod-eu · payments</span>
+              </div>
+            </div>
+            <span style="margin-left:auto;align-self:center;padding-right:11px;font-family:'JetBrains Mono',monospace;font-size:9px;color:#8FA9B2">ZÁROLT</span>
+          </div>
+        </div>
+        <div style="padding:0 15px 15px;font-size:12.5px;line-height:18px;color:#A9C4CB">Három panel, három egyenrangú hatókör — kettő különböző clusterből, egy workspace-ben. <span style="color:#E4FAFF">Ez a normális állapot, nem kivétel.</span> Nincs halvány és nincs hangsúlyos eredetsor, mert nincs globális, amitől el kellene térni. A harmadik panel <span style="color:#E4FAFF">zárolt</span> (<span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FA9B2">⊡</span>): a tartalmát nem hasznosítja újra semmi — így tehetsz két naplót egymás mellé ugyanabból a clusterből. A zárolás megőrzésről szól, nem hatókörről, ezért él nem jár hozzá.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24">
+        <div style="padding:10px 15px;border-bottom:1px solid #14333B;display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#A06BFF">3 · FLOTTA-JELZŐ
+          </span><span style="font-size:12px;color:#5E7F88">egy cella az állapotsorban
+        </span></div>
+        <div style="padding:15px">
+          <div style="display:flex;align-items:center;gap:9px;height:20px;border:1px solid #14333B;background:#070D11;padding:0 8px;margin-bottom:12px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#5E7F88">4 panel · prod-eu ×3, staging ×1</span>
+            <div style="flex:1"></div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#FF4D6D">2 riasztás</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:8.5px;color:#FF4D6D;border:1px solid #FF4D6D;padding:0 5px">◆ 10/12</span>
+          </div>
+          <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Egyetlen cella az állapotsor jobb szélén: <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#C9E3E8">◆ 10/12</span> — hány cluster egészséges, a legsúlyosabb státusz színével. A fejsáv közepét most a workspace-ek kérik, tehát a 12 cellás csík onnan kikerült; a <a href="#dontesek">Q4</a> érve viszont nem 12 cellát követelt, hanem <span style="color:#E4FAFF">egy periférián működő csatornát</span> — arra egy cella is elég.</div>
+        </div>
+        <div style="margin:0 15px 15px;border-top:1px solid #12242C;padding-top:11px;font-size:12.5px;line-height:18px;color:#8FA9B2">Kattintásra <span style="color:#C9E3E8">flotta-panelt nyit az aktuális workspace-be</span> — a részletes flotta-nézet panel, ahogy a modell megköveteli, nem állandó króm. A workspace-fül hibapontja külön csatorna: az a <span style="color:#C9E3E8">te paneljeidről</span> szól egy másik workspace-ben, nem a flottáról (<a href="#visszajelzes03">§13/2</a>).</div>
+      </div>
+    </div>
+
+    <div style="border:1px solid #5A2038;background:#0F1D24;margin-top:18px;display:grid;grid-template-columns:3px 1fr">
+      <div style="background:#FF4D6D"></div>
+      <div style="padding:14px 18px">
+        <div style="display:flex;align-items:baseline;gap:12px;padding-bottom:7px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FF4D6D">HONNAN TUDJA, HOGY A KÉPERNYŐN KÍVÜL BAJ VAN
+        </span></div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;max-width:1100px;text-wrap:pretty">Három szint, súly szerint. <span style="color:#E4FAFF">Egy: az állapotsor flotta-jelzője átvált — passzív, mindig ott van, nem szakít félbe, és kattintásra flotta-panelt nyit. </span><span style="color:#E4FAFF">Kettő: a workspace-fül hibapontja, ha máshol lévő paneled státusza rosszabb lett — </span><span style="font-family:'JetBrains Mono',monospace;font-size:12px">2 cluster leromlott</span>, kattintásra a flotta-panelre visz. <span style="color:#E4FAFF">Három: toast </span><span style="color:#8FA9B2">csak akkor, ha egy cluster elveszik, vagy ha egy általad megnyitott panel forrása hal meg — nem minden pod-hibára, mert az incidens közben másodpercenként jönne, és a toast akkor zaj, nem jelzés. A `MET-07` riasztások szintén a számlálóba folynak, nem toastba.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="elrendezesek" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§6
+      </span><span style="font-size:20px;font-weight:600">Négy elrendezés, valódi tartalommal
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">1920×1080 · arányhelyes, a típus 0,61-re kicsinyítve
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:22px">A négy rajz <span style="color:#E4FAFF">régióarányban méretarányos</span>, a betűméret viszont a rajz kedvéért kicsinyített — nagyítsd fel a részletekhez. A pixelértékek a rajzok fölött, teljes méretben értendők.</div>
+
+    <div style="display:flex;flex-direction:column;gap:28px">
+      <sc-for list="{{ layouts }}" as="L" hint-placeholder-count="4">
+        <div>
+          <div style="display:flex;align-items:baseline;gap:13px;padding-bottom:4px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3FE0D0">{{ L.n }}
+            </span><span style="font-size:17px;font-weight:600">{{ L.title }}
+            </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A06BFF">{{ L.tree }}
+          </span></div>
+          <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1080px;padding-bottom:12px">{{ L.desc }}</div>
+          <div style="border:1px solid #14333B;background:#04090C;padding:14px;display:inline-block">{{ L.render }}</div>
+          <div style="display:flex;gap:14px;padding-top:11px;flex-wrap:wrap;max-width:1180px">
+            <sc-for list="{{ L.notes }}" as="nt" hint-placeholder-count="3">
+              <div style="flex:1;min-width:230px;border-left:2px solid {{ nt.color }};padding-left:12px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:{{ nt.color }};padding-bottom:3px">{{ nt.k }}</div>
+                <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ nt.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="billentyu" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§7
+      </span><span style="font-size:20px;font-weight:600">Billentyűtérkép
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">a terminál-ütközéssel megoldva
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1000px;padding-bottom:20px">A csapda ismert: a terminál elveszi a <span style="font-family:'JetBrains Mono',monospace;font-size:12px">Tab</span>-ot, a nyilakat és az <span style="font-family:'JetBrains Mono',monospace;font-size:12px">Esc</span>-et. A megoldás nem trükk, hanem <span style="color:#E4FAFF">egy platformfüggő keret-módosító plusz </span><span style="color:#E4FAFF">egy univerzális kiút, amit a shell nem tud előállítani.</span></div>
+
+    <div style="border:1px solid #5A4520;background:rgba(255,180,84,.05);margin-bottom:20px;display:grid;grid-template-columns:3px 1fr">
+      <div style="background:#FFB454"></div>
+      <div style="padding:15px 18px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FFB454;padding-bottom:8px">A KERET-MÓDOSÍTÓ ÉS A KIÚT · JAVÍTVA A VISSZAJELZÉS 01 UTÁN</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty"><span style="color:#E4FAFF">macOS-en </span><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">⌘</span>, Linuxon és Windowson <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">Alt</span>. macOS-en ez ingyen van: a <span style="font-family:'JetBrains Mono',monospace;font-size:12px">⌘</span> kombinációk soha nem érik el a shellt. Linuxon az <span style="font-family:'JetBrains Mono',monospace;font-size:12px">Alt</span> a meta-prefix, ezért kimondjuk: <span style="color:#E4FAFF">amíg terminál a fókusz, az Alt-kombinációkat a keret fogyasztja el, és nem továbbítja.</span> A meta-bevitel így is elérhető marad az <span style="font-family:'JetBrains Mono',monospace;font-size:12px">Esc</span>-prefix úton, ami minden terminálban szabványos.</div>
+          <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty"><span style="color:#E4FAFF">A kiút: <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">⌘Esc</span> / <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">Alt+Esc</span></span> — nincs időzített kombináció, és <span style="color:#E4FAFF">az Escape mindkét nyomása a shellé marad</span>. A korábbi kiadás dupla Escape-et írt 300 ms-en belül; ez hibás volt, mert a dupla Escape <span style="color:#E4FAFF">tanított vim-viselkedés</span>, nem idegesség — insert módból kilépéskor reflex, naponta többször, pont annál a felhasználónál, aki a terminált a legtöbbet használja. A panelfejléc <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#FFB454">TERM ⌨</span> jelzésére kattintva is elengedi a fókuszt. Indoklás: <a href="#visszajelzes">§11/2</a>.</div>
+        </div>
+        <div style="padding-top:11px;font-size:12.5px;line-height:18px;color:#8FA9B2;border-top:1px solid #5A4520;margin-top:12px"><span style="color:#FFB454">Eltérés a scope-tól: az </span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">APP-01 </span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">Ctrl+K</span>-t ír a palettára. Ez readline-ban <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">kill-line</span>, tehát terminál-fókuszban használhatatlan. A paletta </span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#E4FAFF">⌘K / Alt+K</span> lesz — kérem a scope módosítását.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ keyGroups }}" as="g" hint-placeholder-count="6">
+        <div style="border:1px solid #14333B;background:#0F1D24">
+          <div style="padding:10px 15px;border-bottom:1px solid #14333B;display:flex;align-items:center;gap:9px">
+            <div style="width:2px;height:11px;background:{{ g.color }}"></div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:{{ g.color }}">{{ g.name }}
+            </span><span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:#3B565E">{{ g.termNote }}
+          </span></div>
+          <sc-for list="{{ g.keys }}" as="k" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:96px 1fr;gap:11px;padding:6px 15px;border-bottom:1px solid #0E1E24;align-items:baseline">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8FF5EA">{{ k.0 }}
+              </span><span style="font-size:12.5px;line-height:17px;color:#A9C4CB">{{ k.1 }}
+            </span></div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="perzisztencia" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§8
+      </span><span style="font-size:20px;font-weight:600">Mi perzisztál
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">mezőnként · újraindítás / munkamenet / semmi
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">Az elrendezés első osztályú állapot (<span style="font-family:'JetBrains Mono',monospace;font-size:12px">APP-04</span>), a tartalom nem. A vezérelv: <span style="color:#E4FAFF">a szerkezet és a szándék túléli az újraindítást, az adat és a jogosultsághoz kötött dolgok nem.</span></div>
+    <div style="border:1px solid #14333B;background:#0F1D24">
+      <div style="display:grid;grid-template-columns:250px 108px 1fr;padding:8px 18px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#4C6B74">
+        <div>MEZŐ</div><div>MEDDIG</div><div>MIÉRT</div>
+      </div>
+      <sc-for list="{{ persistence }}" as="p" hint-placeholder-count="16">
+        <div style="display:grid;grid-template-columns:250px 108px 1fr;padding:7px 18px;border-bottom:1px solid #0E1E24;align-items:baseline">
+          <span style="font-size:12.5px;color:#E4FAFF">{{ p.field }}
+          </span><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:{{ p.color }};border:1px solid {{ p.color }};padding:1px 6px;justify-self:start">{{ p.scope }}
+          </span><span style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ p.why }}
+        </span></div>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:18px">
+      <div style="border:1px solid #14333B;background:#0F1D24;padding:14px 17px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#3FE0D0;padding-bottom:8px">A MENTETLEN VÁLTOZTATÁS — NINCS DIALÓGUS</div>
+        <div style="font-size:12.5px;line-height:18px;color:#C9E3E8;text-wrap:pretty">Minden elnevezett elrendezésnek van egy <span style="color:#E4FAFF">piszkozata. Ha módosítod, a név mellett </span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#A06BFF">•</span> jelenik meg, és a piszkozat azonnal mentődik. Elrendezést váltani így soha nem kérdez semmit, és soha nem veszít el semmit — visszatérve ott találod, ahol hagytad. A </span><span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">VISSZAÁLLÍT</span> eldobja a piszkozatot; a <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">MENTÉS</span> beírja a névbe. Incidens közben egy „elveti a változtatásokat?" párbeszéd a legrosszabb pillanatban jön.</span></div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24;padding:14px 17px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FF4D6D;padding-bottom:8px">AMI SOHA NEM PERZISZTÁL</div>
+        <div style="font-size:12.5px;line-height:18px;color:#C9E3E8;text-wrap:pretty">Naplótartalom, terminál-scrollback, felfedett Secret-érték, exec-credential token, és <span style="color:#E4FAFF">a részleges eredmény ténye</span>. Az utolsó szándékos: ha újraindításkor 10-ből 2 cluster elérhetetlen, azt frissen kell megállapítani, nem a lemezről felolvasni — a mentett „minden rendben" incidens közben hazugság. A <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">TIME-01</span> hatóköréből a Secret amúgy is kizárt.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="widgetek" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§9
+      </span><span style="font-size:20px;font-weight:600">Amit a keret hozzátesz a katalógushoz
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">a meglévők nyelvén · 11 új elem
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:960px;padding-bottom:20px">Egyik sem új vizuális nyelv — mind a kész tokenekből, a sarokvágásból és a fókuszgyűrűből áll össze. A geometriai hovatartozás minden elemnél kimondva, mert a design system szabálya szerint <span style="color:#E4FAFF">árnyékot csak lekerekített kap.</span></div>
+    <div style="border:1px solid #14333B;background:#0F1D24">
+      <div style="display:grid;grid-template-columns:172px 120px 1fr 88px;padding:8px 18px;border-bottom:1px solid #14333B;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#4C6B74">
+        <div>WIDGET</div><div>GEOMETRIA</div><div>MIT CSINÁL</div><div style="text-align:right">MÉRET</div>
+      </div>
+      <sc-for list="{{ newWidgets }}" as="w" hint-placeholder-count="11">
+        <div style="display:grid;grid-template-columns:172px 120px 1fr 88px;padding:8px 18px;border-bottom:1px solid #0E1E24;align-items:baseline">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8FF5EA">{{ w.name }}
+          </span><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ w.geoColor }}">{{ w.geo }}
+          </span><span style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ w.what }}
+          </span><span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ w.sizeColor }};text-align:right">{{ w.size }}
+        </span></div>
+      </sc-for>
+    </div>
+    <div style="display:flex;gap:18px;padding-top:16px;flex-wrap:wrap">
+      <div style="flex:1;min-width:340px;border-left:2px solid #7EE08A;padding-left:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#7EE08A;padding-bottom:4px">KÖNYVTÁRI RÉTEG · kubescope-ui</div>
+        <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Tíz a tizenegyből <span style="color:#E4FAFF">nulla Kubernetes-függőséggel</span> megépíthető: a fa, a fejléc, az osztásfogó, a fülcsík, az elhelyezés-előnézet, a menü, a levél üres állapota. Egy <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">PaneKind</span> enum és egy <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">PaneOrigin { sigil, scope, pinned }</span> view-model az egész szerződés.</span></div>
+      </div>
+      <div style="flex:1;min-width:340px;border-left:2px solid #FFB454;padding-left:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#FFB454;padding-bottom:4px">ALKALMAZÁSI RÉTEG</div>
+        <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Csak a <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">FleetIndicator</span> tud clusterről — az is csak annyit, hogy <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">(sigil, worst_status)</span> párokat kap. A sigil-származtatás és a hatókör-öröklés szintén itt lakik, nem a könyvtárban.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="visszajelzes" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§11</span>
+      <span style="font-size:20px;font-weight:600">Válaszok a visszajelzésre 01</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">visszajelzes/01-keret.md · négy pont</span>
+    </div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1000px;padding-bottom:22px">Két javítás, egy szétválasztás, egy új döntés. Ahol a terv szövege változott, ott a fenti szakaszok is át vannak írva — ez a szekció az indoklás, nem külön igazság. A negyedik pont a megrendelő új követelménye, és <span style="color:#E4FAFF">nemet mondok rá</span>, a §1 formájában megadott indoklással.</div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#FFB454"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFB454">1</span>
+            <span style="font-size:15px;font-weight:600">A 43 sor — a hiba a miénk, a szám 42</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#FFB454;padding:2px 8px">ELFOGADVA · JAVÍTVA</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 300px;gap:22px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">Igaz a kifogás: az eredeti 40 soros költségvetés tartalmazta a táblázat 26 px-es oszlopfejlécét, az én számításom nem. Nem egyenlő alapon hasonlítottam. A <span style="color:#E4FAFF">javított szám 42</span>, és a szűrő kérdésére is választ adok, mert az volt a második hiányzó tétel.
+              <br /><br /><span style="color:#E4FAFF">A szűrő a panelfejléc ⌕ gombjába költözik</span> — a fejléc rajza már tartalmazza, tehát ez nem új elem, csak kimondás. Nem állandó sor. Egy megkötéssel viszont: <span style="color:#E4FAFF">amíg van aktív szűrő, 22 px csík jelenik meg</span>, ami mutatja, mire szűrsz, és egy ✕-szel elengedi. Rejtett aktív szűrő incidens közben veszélyes: azt hiszed, mindent látsz.
+              <br /><br />Így a szám nem egy, hanem kettő, és mindkettő ki van írva a rajzokon: 42 szűrés nélkül, 41 szűrés közben. A 02-es elrendezés az elsőt mutatja, a 03-as és 04-es a másodikat.</div>
+            <div style="border-left:1px solid #14333B;padding-left:16px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#A06BFF;padding-bottom:7px">AZ ÚJ SZÁMÍTÁS</div>
+              <sc-for list="{{ recount }}" as="r" hint-placeholder-count="9">
+                <div style="display:grid;grid-template-columns:1fr 52px;padding:3px 0;border-bottom:1px solid #0E1E24">
+                  <span style="font-size:12px;color:{{ r.color }}">{{ r.k }}</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px;color:{{ r.color }};text-align:right">{{ r.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#FFB454"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFB454">2</span>
+            <span style="font-size:15px;font-weight:600">A kiút ⌘Esc lesz, nem dupla Escape</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#FFB454;padding:2px 8px">ELFOGADVA · JAVÍTVA</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 300px;gap:22px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A kifogás pontos, és a régi szövegem lekezelő volt: „aki idegesen kettőt nyom" — a dupla Escape nem idegesség, hanem <span style="color:#E4FAFF">tanított vi-viselkedés</span>. Egy időzített gesztus, ami egy betanult reflexszel ütközik, nem tanulási görbe, hanem hiba, és pont annál a felhasználónál sül el naponta, aki a terminál-panelt a legtöbbet használja.
+              <br /><br />A három felajánlott irány közül a <span style="color:#E4FAFF">másodikat választom: a kiút a keret-módosítóra kerül</span> — <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">⌘Esc</span> macOS-en, <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">Alt+Esc</span> Linuxon. Nincs időzítés, és <span style="color:#E4FAFF">az Escape mindkét nyomása a shellé marad</span>. Nem kell új mechanizmus: a Linux-oldal már benne van az „amíg terminál a fókusz, az Alt-kombinációkat a keret fogyasztja" szabályban, macOS-en pedig a ⌘ eleve nem éri el a shellt.</div>
+            <div style="border-left:1px solid #14333B;padding-left:16px;display:flex;flex-direction:column;gap:11px">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#FF4D6D;padding-bottom:4px">ELVETVE</div>
+                <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB"><span style="color:#E4FAFF">Hármas Escape:</span> ugyanabban a reflex-családban van — aki kettőt nyom biztonságból, néha hármat nyom. Ritkábbá teszi a hibát, nem szünteti meg. <span style="color:#E4FAFF">Konfigurálható, dupla alapértékkel:</span> egy alapérték, ami naponta elsül a fő felhasználónál, nem alapérték.</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;color:#FFB454;padding-bottom:4px">AMIT FELADOK</div>
+                <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">Kétujjas akkord egy egyujjas gesztus helyett, tehát kevésbé felfedezhető. Ellensúly: az állapotsor kiírja, amíg a capture aktív, és a <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFB454">TERM ⌨</span> jelzésre kattintva egérrel is van kiút.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#A06BFF"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A06BFF">3</span>
+            <span style="font-size:15px;font-weight:600">Kitűzés és zárolás: két kapcsoló, két jelölés</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#A06BFF;padding:2px 8px">ELFOGADVA · SZÉTVÁLASZTVA</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 1fr;gap:22px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A példa dönti el a kérdést: <span style="color:#E4FAFF">két napló ugyanabból a clusterből, egymás mellett</span>. A hatókör azonos, tehát nincs mit kitűzni — de kitűzés nélkül a második megnyitás felülírja az elsőt. Egy hatókör-fogalommal kellett volna megőrzési problémát megoldani, és a panel utána hazudott volna: lila élt visel egy hatókörre, ami ugyanaz, mint a munkaterületé.
+              <br /><br />A javaslatot elfogadom, ahogy megfogalmaztad. <span style="color:#E4FAFF"><span style="color:#FFB454">Ez a döntés a §13/4-ben felülíródott: a kitűzés fogalma megszűnt, a zárolás megmaradt.</span> Az akkori indoklás: a kitűzés implikálja a zárolást</span> — más hatókörre kitűzött panelt felülírni amúgy is értelmetlen —, <span style="color:#E4FAFF">fordítva nem</span>. A zárolás jelölése szándékosan halkabb: nem kap élt, csak egy glifet a címben, mert nem hatókör-állítás. Így az él továbbra is egyetlen dolgot jelent, és a lila = szerkezet szabály sértetlen.</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ pinLock }}" as="p" hint-placeholder-count="2">
+                <div style="border:1px solid {{ p.bd }};background:#0A1419">
+                  <div style="display:flex;align-items:stretch;height:40px;border-bottom:1px solid #12242C">
+                    <div style="width:2px;background:{{ p.edge }}"></div>
+                    <div style="padding:0 11px;display:flex;flex-direction:column;justify-content:center;gap:1px">
+                      <div style="display:flex;align-items:baseline;gap:6px">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:{{ p.glyphColor }}">{{ p.glyph }}</span>
+                        <span style="font-family:'Rajdhani';font-size:11px;font-weight:600;letter-spacing:.14em;color:#E4FAFF">NAPLÓ</span>
+                      </div>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:{{ p.originColor }}">{{ p.origin }}</span>
+                    </div>
+                    <span style="margin-left:auto;align-self:center;padding-right:11px;font-family:'JetBrains Mono',monospace;font-size:9px;color:{{ p.glyphColor }}">{{ p.mark }}</span>
+                  </div>
+                  <div style="padding:9px 12px">
+                    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:{{ p.glyphColor }};padding-bottom:4px">{{ p.field }}</div>
+                    <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ p.desc }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.04);display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#3FE0D0"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #1E4C57;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3FE0D0">4</span>
+            <span style="font-size:15px;font-weight:600">A vászon-kérdés: a nagyítás igen, a látómezőn túlnyúló fa nem</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#3FE0D0;padding:2px 8px">DÖNTÉS</span>
+          </div>
+          <div style="padding:14px 18px 16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:16px">
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#7EE08A;padding-bottom:6px">4A · NAGYÍTÁS — BEÉPÍTVE</div>
+                <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">Bekerült a §7 billentyűtérképbe és a §8 perzisztencia-táblába. A <span style="color:#E4FAFF">sűrűség-kapcsoló megmarad</span>, mert a kettő nem ugyanaz a tengely, és ezt ki kell mondani: <span style="color:#E4FAFF">a nagyítás mindent skáláz</span> — krómot, betűt, térközt egyszerre, tehát látásra és képernyőtávolságra vonatkozik. <span style="color:#E4FAFF">A sűrűség csak a levegőt veszi el</span>: a sormagasság 30-ról 23-ra megy, a betűméret nem változik.
+                  <br /><br />Ezért nem cserélhetők: 80%-os nagyítás <span style="color:#E4FAFF">olvashatatlanná</span> teszi a 11 px-es címkét, a compact sűrűség viszont nem nyúl hozzá. Ebből következik a korlát: <span style="color:#E4FAFF">a nagyítás 80–160% közé szorítva</span>, mert 80% alatt a design system identitása — 11 px mért betűközzel — megszűnik olvasható lenni.</div>
+              </div>
+              <div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.16em;color:#FF4D6D;padding-bottom:6px">4B · A FA NEM NYÚLIK TÚL A LÁTÓMEZŐN</div>
+                <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A három ellenérved elfogadom, és teszek hozzá egy negyediket, ami szerintem a döntő. <span style="color:#E4FAFF">A képernyőn kívüli panel kétértelműséget vezet be abba, hogy mi friss.</span> Ez a termék egy dolgot ígér: megmondja az igazat arról, ami most van. Ha egy panel létezhet nem látott állapotban, akkor minden panelre rá kell írni, hogy él-e, szünetel-e, mikori — és az „élő" jelzés elveszíti az egyértelműségét ott, ahol a legdrágább.
+                  <br /><br />A fában ez a kérdés fel sem tehető: <span style="color:#E4FAFF">ami nyitva van, az látszik, tehát él</span>. Ez nem kényelmi tulajdonság, hanem a napló-, terminál- és watch-panelek életciklus-szabálya, ingyen.</div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+              <div style="border:1px solid #5A2038;background:#0F1D24;padding:12px 15px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#FF4D6D;padding-bottom:5px">AMIT FELADUNK VELE</div>
+                <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Nem lehet tizenkét panelt nyitva tartani és térben odapillantani; helyette elrendezést váltasz, ami ugrás, nem panorámázás. Nagy monitoron nincs „félretolom oldalra" mozdulat. És a megrendelő rajzasztal-metaforája nem valósul meg — <span style="color:#E4FAFF">ezt nem szépítem</span>.</div>
+              </div>
+              <div style="border:1px solid #1E4C57;background:#0F1D24;padding:12px 15px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#3FE0D0;padding-bottom:5px">AMI HELYETTE TELJESÍTI AZ IGÉNYT</div>
+                <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Igen, a kettő ugyanazt az igényt fedi, és most kimondom: <span style="color:#E4FAFF">a nevesített elrendezés a „több terület, mint a képernyő"</span>, csak darabosan. Ezért <span style="color:#E4FAFF">kilenc rekeszre nyílik</span>, <span style="font-family:'JetBrains Mono',monospace;font-size:11px">⌘⇧1…9</span>-cel. Kilenc képernyő terület, számmal címezve — és hajnali háromkor <span style="color:#E4FAFF">a szám jobb, mint a hely</span>, mert nem kell emlékezni rá, hova tetted.</div>
+              </div>
+              <div style="border:1px solid #14333B;background:#0F1D24;padding:12px 15px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#A06BFF;padding-bottom:5px">A STREAMEK A NEM AKTÍV REKESZBEN</div>
+                <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">A kérdésed a nem látható levelekről itt kap választ. Workspace-váltásnál az elhagyott workspace <span style="color:#E4FAFF">streamjei</span> 30 másodperc után szünetelnek, és visszatéréskor <span style="font-family:'JetBrains Mono',monospace;font-size:11px">sinceTime</span>-mal, lyuk nélkül folytatódnak. <span style="color:#E4FAFF">A terminál kivétel</span>: egy exec-menet nem szüneteltethető, ezért nem is szünetel — §12. A panel kiírja, ha szünetel vagy ha a folytatás mégis lyukas lett.</div>
+              </div>
+            </div>
+
+            <div style="padding-top:14px;font-size:12.5px;line-height:18px;color:#8FA9B2;border-top:1px solid #1E4C57;margin-top:14px">A <a href="#atmenet">§10</a> kockázati része érvényben marad, és most még inkább áll: a paneltípusok, a fejléc, a hatókör-öröklés és a billentyűzet nem függ a fa szabadságától. <span style="color:#C9E3E8">Ha a megrendelő később mégis a vásznat választja, az egy darab cseréje, nem a terv újraírása</span> — és akkor a fenti négy ellenérvre kell választ adni, nem erre a dokumentumra.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="visszajelzes02" style="padding:36px 48px;border-bottom:1px solid #14333B">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§12</span>
+      <span style="font-size:20px;font-weight:600">Válasz a visszajelzésre 02</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">egy pont · a szünetelés három dolgot csinált</span>
+    </div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1000px;padding-bottom:20px">A kifogás helyes, és a hibát én követtem el: a §11/4 egyetlen szabályt adott három paneltípusra, amelyek <span style="color:#E4FAFF">visszatéréskor különbözőképpen viselkednek</span>. A szabály mostantól a streamekre vonatkozik, a terminál pedig saját életciklust kap — <span style="color:#E4FAFF">az általad javasolt elsőt választom</span>.</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+      <sc-for list="{{ lifecycle }}" as="l" hint-placeholder-count="3">
+        <div style="border:1px solid {{ l.bd }};background:#0F1D24;display:flex;flex-direction:column">
+          <div style="padding:11px 15px;border-bottom:1px solid {{ l.bd }};display:flex;align-items:center;gap:9px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:{{ l.color }}">{{ l.glyph }}</span>
+            <span style="font-size:14px;font-weight:600">{{ l.name }}</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.1em;color:{{ l.color }};border:1px solid {{ l.color }};padding:1px 6px">{{ l.rule }}</span>
+          </div>
+          <div style="padding:13px 15px;font-size:12.5px;line-height:18px;color:#C9E3E8;flex:1">{{ l.body }}</div>
+          <div style="padding:10px 15px;border-top:1px solid #12242C;font-size:12px;line-height:17px;color:#8FA9B2">{{ l.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding-top:18px">
+      <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.05);padding:15px 18px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#3FE0D0;padding-bottom:8px">MIÉRT AZ ELSŐ IRÁNY</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">Mert a második iránynak <span style="color:#E4FAFF">nincs jó változata</span>. „Ha mégis záródik, azt kimondottan és megerősítéssel" azt jelenti, hogy a workspace-váltás — a termék leggyakoribb mozdulata, amit másodpercenként is megtehetsz — párbeszédet nyit. Az érved a költségről meggyőző: <span style="color:#E4FAFF">egy tétlen exec egy nyitott socket adat nélkül</span>, és a memória-költségvetést a naplók viszik el, nem ez. Így a menetnek pontosan egy vége van: a panel bezárása.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24;padding:15px 18px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FFB454;padding-bottom:8px">AMIT EZ A KERETBEN MEGVÁLTOZTAT</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">Három mondat. A <a href="#anatomia">§3</a> zárás-szakasza kimondja, hogy a workspace-váltás nem zárja le a terminált. A <a href="#visszajelzes">§11/4</a> szabálya kifejezetten a streamekre szól. A <a href="#perzisztencia">§8</a> terminál-sora megjegyzi, hogy a menet a folyamatot nem éli túl, de a workspace-váltást igen. <span style="color:#8FA9B2">A lyukmentes folytatás és a lyuk bevallása a napló-panel dolga — a keret csak annyit kér, hogy legyen hol kiírni, és a panelfejlécben van.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="visszajelzes03" style="padding:36px 48px;border-bottom:1px solid #14333B;background:#070D11">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§13</span>
+      <span style="font-size:20px;font-weight:600">Válaszok a visszajelzésre 03 — a workspace-modell</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFB454">premissza-váltás · §0 Q1, Q4, Q6 átírva</span>
+    </div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1040px;padding-bottom:22px">A brief Q1-e nem volt nyitott kérdés, csak úgy nézett ki — és én a feltett kérdésre válaszoltam, nem a valódira. A termék modellje <span style="color:#E4FAFF">i3-szerű workspace</span>: a fejsávban nem clusterek vannak, hanem workspace-ek, és abba azt teszel, amit akarsz — akár két cluster node-listáját egymás mellé. A §0 három döntése ezzel át van írva, nem toldozva: <a href="#dontesek">Q1</a>, <a href="#dontesek">Q4</a>, <a href="#dontesek">Q6</a>.</div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.04);display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#3FE0D0"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #1E4C57;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#3FE0D0">1</span>
+            <span style="font-size:15px;font-weight:600">Hogyan kap egy panel hatókört, ha nincs globális</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#3FE0D0;padding:2px 8px">SZÜLETÉSKORI, HÁROM ÚTON</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 380px;gap:22px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A kérdés jó, és a válasz nem „a workspace adja" és nem „kérdezzük meg", hanem <span style="color:#E4FAFF">a forrás adja</span>. Ez a domináns út, és ingyen van: egy panel majdnem mindig egy sorból, egy kártyából vagy egy másik panelből születik, és annak <span style="color:#E4FAFF">van</span> hatóköre. Jobbklikk egy prod-eu pod sorára → a napló prod-eu, mert a sor az. Nulla döntés, és a <a href="#dontesek">Q3</a> feltétele sértetlen.
+              <br /><br />A workspace <span style="font-family:'JetBrains Mono',monospace;font-size:12px">default_scope</span>-ja csak a <span style="color:#E4FAFF">hideg</span> nyitásokra kell: paletta, üres levél. És kritikus, hogy ez <span style="color:#E4FAFF">születési alapérték, nem élő követés</span> — ha átállítod, a meglévő panelek nem mozdulnak. Ez a különbség a globális hatókörtől: ott a panel követett, itt csak megszületik.
+              <br /><br />Utána a panel hatóköre a panelé, és csak ott állítható (<span style="font-family:'JetBrains Mono',monospace;font-size:12px">⌘P</span>). <span style="color:#E4FAFF">Semmi nem mozdítja el a hátad mögött</span> — ez az egész modell értelme.</div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ scopeSources }}" as="sc" hint-placeholder-count="3">
+                <div style="border:1px solid #14333B;background:#0A1419;padding:11px 13px">
+                  <div style="display:flex;align-items:baseline;gap:9px;padding-bottom:4px">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ sc.color }}">{{ sc.n }}</span>
+                    <span style="font-size:13px;font-weight:600;color:#E4FAFF">{{ sc.name }}</span>
+                    <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:{{ sc.color }}">{{ sc.freq }}</span>
+                  </div>
+                  <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ sc.desc }}</div>
+                </div>
+              </sc-for>
+              <div style="border-left:2px solid #FF4D6D;padding-left:12px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#FF4D6D;padding-bottom:3px">ELVETVE</div>
+                <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB"><span style="color:#E4FAFF">Élő workspace-hatókör:</span> ez a globális átnevezve, és pont a két-cluster ígéretet öli meg. <span style="color:#E4FAFF">Kérdezzük meg minden nyitásnál:</span> két döntés minden panelnél, incidens közben harminc.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#FFB454"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#FFB454">2</span>
+            <span style="font-size:15px;font-weight:600">A flotta egészsége: egy cella + egy panel</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#FFB454;padding:2px 8px">MINDKETTŐ, MUNKA SZERINT</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A két irány nem alternatíva, hanem <span style="color:#E4FAFF">két különböző munka</span>. „Mindig látszik" és „részletes" nem ugyanaz az igény, és eddig egyetlen elem próbálta mindkettőt.
+              <br /><br />Az <span style="color:#E4FAFF">állandó csatorna egy cella</span> az állapotsorban: <span style="font-family:'JetBrains Mono',monospace;font-size:12px">◆ 10/12</span>. A <a href="#dontesek">Q4</a> érve nem 12 cellát követelt, hanem valamit, ami a periférián működik — arra egy is elég, és a szín végzi a munkát.</div>
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">A <span style="color:#E4FAFF">részletes nézet panel</span>, ahogy a modell megköveteli: beteszed egy workspace-be, ha érdekel. A cellára kattintva pontosan ez történik — flotta-panel az aktuális workspace-ben, az Auto-szabály szerint elhelyezve.
+              <br /><br />Így a modell következetes marad (<span style="color:#8FA9B2">minden tartalom panel</span>), és mégis van, ami mindig látszik.</div>
+            <div style="border-left:1px solid #14333B;padding-left:16px">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;color:#A06BFF;padding-bottom:5px">EGY HARMADIK CSATORNA — ÚJ</div>
+              <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">A workspace-fül <span style="color:#E4FAFF">hibapontot</span> kap, ha bármelyik paneljében hibás státusz van. Ez nem a flottáról szól, hanem <span style="color:#E4FAFF">a te paneljeidről egy másik workspace-ben</span> — és incidens közben ez a pontosabb kérdés: nem „dől-e valahol egy cluster", hanem „az, amit figyelek, rosszabb lett-e, míg máshol jártam".
+                <br /><br /><span style="color:#8FA9B2">A régi flottacsík ezt nem tudta, mert nem tudott a paneljeidről.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#A06BFF"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#A06BFF">3</span>
+            <span style="font-size:15px;font-weight:600">A fejsáv workspace-ekkel</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#A06BFF;padding:2px 8px">34 PX · SZÁM + NÉV</span>
+          </div>
+          <div style="padding:16px 18px 16px">
+            <div style="border:1px solid #14333B;background:#070D11;display:flex;align-items:center;gap:9px;height:34px;padding:0 12px;margin-bottom:6px">
+              <span style="font-family:'Rajdhani';font-size:14px;font-weight:700;letter-spacing:.14em;color:#E4FAFF">KUBESCOPE</span>
+              <div style="width:1px;height:16px;background:#14333B"></div>
+              <div style="display:flex;gap:4px;align-items:center">
+                <sc-for list="{{ wsTabs }}" as="w" hint-placeholder-count="7">
+                  <div style="display:flex;align-items:center;gap:7px;height:24px;padding:0 10px;border:1px solid {{ w.bd }};background:{{ w.bg }};box-sizing:border-box">
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:{{ w.numColor }}">{{ w.n }}</span>
+                    <span style="font-family:'Rajdhani';font-size:13px;font-weight:600;letter-spacing:.06em;color:{{ w.nameColor }}">{{ w.name }}</span>
+                    <sc-if value="{{ w.dot }}" hint-placeholder-val="{{ false }}">
+                      <span style="width:5px;height:5px;border-radius:50%;background:#FF4D6D"></span>
+                    </sc-if>
+                  </div>
+                </sc-for>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#5E7F88;border:1px solid #14333B;padding:1px 7px">+</span>
+              </div>
+              <div style="flex:1"></div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#3B565E;border:1px solid #14333B;padding:2px 6px">⌘K</span>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#3B565E;padding-bottom:16px">1:1 · 34 px · hét workspace, a 7-es üres és névtelen</div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+              <sc-for list="{{ wsOps }}" as="o" hint-placeholder-count="4">
+                <div style="border-left:2px solid {{ o.color }};padding-left:13px">
+                  <div style="display:flex;align-items:baseline;gap:9px;padding-bottom:3px">
+                    <span style="font-size:13px;font-weight:600;color:#E4FAFF">{{ o.name }}</span>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:10.5px;color:{{ o.color }}">{{ o.key }}</span>
+                  </div>
+                  <div style="font-size:12.5px;line-height:17.5px;color:#A9C4CB">{{ o.desc }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="padding-top:14px;margin-top:14px;border-top:1px solid #12242C;font-size:12.5px;line-height:18px;color:#8FA9B2"><span style="color:#C9E3E8">Hét workspace-szel</span> a fülek változó szélességűek, a név 12 karakternél elliptálódik. <span style="color:#C9E3E8">Nyolctól, vagy 1440 px alatt a nevek eltűnnek, csak a számok maradnak</span> — az aktív fül a nevét megtartja. Ugyanaz a fokozatos leépülés, amit a régi flottacsík összesítője használt. A <span style="font-family:'JetBrains Mono',monospace;font-size:11px">⌘⇧1…9</span> marad, és mivel a szám a fülön van, <span style="color:#C9E3E8">a billentyűparancs egyben a felirat</span> — nem kell külön legenda.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #14333B;background:#0F1D24;display:grid;grid-template-columns:3px 1fr">
+        <div style="background:#7EE08A"></div>
+        <div>
+          <div style="padding:12px 18px 10px;border-bottom:1px solid #12242C;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#7EE08A">4</span>
+            <span style="font-size:15px;font-weight:600">A kitűzés megszűnik, a zárolás marad</span>
+            <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#04090C;background:#7EE08A;padding:2px 8px">KIMONDVA</span>
+          </div>
+          <div style="padding:14px 18px 16px;display:grid;grid-template-columns:1fr 1fr;gap:22px">
+            <div style="font-size:13.5px;line-height:20px;color:#C9E3E8;text-wrap:pretty">Igen: <span style="color:#E4FAFF">a <span style="font-family:'JetBrains Mono',monospace;font-size:12px">pinned_scope</span> fogalom megszűnik, vele a 2 px lila él és a ⊙ jel.</span> A kitűzés azt jelentette, hogy a panel eltér a globálistól — globális nélkül nincs mit jelentenie. A §11/3-ban elfogadott szétválasztás így visszamenőleg is helyes döntés volt: a <span style="font-family:'JetBrains Mono',monospace;font-size:12px">locked</span> azért él túl egy premissza-váltást, mert nem a hatókörről szólt.
+              <br /><br />A hatókört <span style="color:#E4FAFF">a sigil és az eredetsor</span> jelöli, minden panelen egyformán. A sigil ezzel tartóelem lett: globális hatókör nélkül ez a panel egyetlen kompakt cluster-azonosítója, és pont ezért volt jó, hogy nem színt kértünk rá — negyven clusterre skálázódik.</div>
+            <div style="display:flex;flex-direction:column;gap:11px">
+              <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.05);padding:12px 15px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#3FE0D0;padding-bottom:5px">A FELSZABADULT LILA ÉLLEL NEM CSINÁLOK SEMMIT</div>
+                <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">Kísértés lenne új jelentést adni neki. Nem adok: <span style="color:#E4FAFF">a bal él mostantól egyetlen dolgot jelent, a fókuszt</span>, és cián. Egy él, egy jelentés — ez az, amiért a §11/3-ban a zárolás nem kapott élt, és most sem kap.</div>
+              </div>
+              <div style="border:1px solid #14333B;background:#0A1419;padding:12px 15px">
+                <div style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;color:#A06BFF;padding-bottom:5px">AMI MEGMARAD A LILÁBÓL</div>
+                <div style="font-size:12.5px;line-height:18px;color:#A9C4CB">A szerkezet: szekciószámok, idővonal-binek, sarok-tickek, a részletpanel szekció-fejlécei, a workspace-menü. A szabály sértetlen — <span style="color:#E4FAFF">a lila soha nem volt interaktív, és most sem lesz</span>.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="border:1px solid #5A4520;background:rgba(255,180,84,.05);margin-top:18px;display:grid;grid-template-columns:3px 1fr">
+      <div style="background:#FFB454"></div>
+      <div style="padding:15px 18px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FFB454;padding-bottom:8px">A MUNKAMÓDSZERRŐL — ELFOGADVA</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;max-width:1100px;text-wrap:pretty">A tanulság a tiéd, és igaz: <span style="color:#E4FAFF">ahol a brief rám hagy egy döntést, ott vissza kell kérdezni, hogy az valóban nyitott-e, vagy csak nincs leírva.</span> A Q1 három választ kínált fel, és mindhárom ugyanabból a feltevésből indult — hogy van egy globális hatókör, aminek a panel vagy engedelmeskedik, vagy nem. Egy kérdés, ami maga hordozza a feltevést, nem tűnik hiányosnak. Amit a magam részéről levonok: <span style="color:#E4FAFF">a felkínált opciók közös feltevését is ki kell írni</span>, mert ha mindhárom út ugyanonnan indul, akkor nem három út, hanem egy — és pont az látszik nyitottnak, ami nem az.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="atmenet" style="padding:36px 48px 46px">
+    <div style="display:flex;align-items:center;gap:14px;padding-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.18em;color:#A06BFF">§10
+      </span><span style="font-size:20px;font-weight:600">Az átmenet
+      </span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5E7F88">a legkisebb lépés, ami már a végleges keret
+    </span></div>
+    <div style="font-size:13px;line-height:19px;color:#A9C4CB;max-width:1000px;padding-bottom:20px">A kérdés nem az, mennyi munka az egész, hanem hogy <span style="color:#E4FAFF">mi az a legkisebb lépés, ami nem újabb állvány. A válasz: </span><span style="color:#E4FAFF">az egyleveles fa</span>. Egy levéllel a fa pontosan úgy néz ki, mint a mai egypaneles nézet — de minden későbbi képesség már beleér.</div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+        <div style="border:1px solid {{ s.bd }};background:#0F1D24;display:flex;flex-direction:column">
+          <div style="padding:11px 15px;border-bottom:1px solid {{ s.bd }};display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;color:{{ s.color }}">{{ s.n }}
+            </span><span style="font-size:13.5px;font-weight:600;color:#E4FAFF">{{ s.title }}
+          </span></div>
+          <div style="padding:13px 15px;font-size:12.5px;line-height:18px;color:#C9E3E8;flex:1">{{ s.body }}</div>
+          <div style="padding:10px 15px;border-top:1px solid #12242C;display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;color:#5E7F88">HASZNÁLHATÓ ÁLLAPOT
+            </span><span style="font-size:12px;color:{{ s.color }};line-height:16px">{{ s.usable }}
+          </span></div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:18px;padding-top:20px">
+      <div style="border:1px solid #1E4C57;background:rgba(63,224,208,.05);padding:16px 19px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#3FE0D0;padding-bottom:9px">AZ ELSŐ LÉPÉS PONTOS TARTALMA</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">A mag kulcsolása (<span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">HashMap&lt;PaneId, …&gt;</span> a három foglalat helyén, <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">WatchLogs { pane, … }</span>), a <span style="font-family:'JetBrains Mono',monospace;font-size:11.5px">PaneFrame</span> és az egyleveles fa, a fejsáv 34-re és az állapotsor 26-ra fogyasztása, </span><span style="color:#E4FAFF">a bal oldali cluster-oszlop törlése, és a mai fülsáv átkötése levél-fülekre. </span><span style="color:#8FA9B2">Nincs benne: osztás, drag, több workspace, flotta-jelző. A helyzetjelentés §0.6 pont ezt a kulcsolást nevezte meg elkerülhetetlennek — </span><span style="color:#E4FAFF">ez az a menet</span>, és most van itt az ideje, mert innentől tudjuk, hány paneltípus van: tizenkettő.</div>
+      </div>
+      <div style="border:1px solid #14333B;background:#0F1D24;padding:16px 19px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:#FF4D6D;padding-bottom:9px">A LEGNAGYOBB KOCKÁZAT ENNEK A TERVNEK</div>
+        <div style="font-size:13px;line-height:19.5px;color:#C9E3E8;text-wrap:pretty">Az osztott fa <span style="color:#E4FAFF">megtanulható, de nem magától értetődő</span>. Aki nem használt tmux-ot vagy VS Code-ot, az első héten nem fogja tudni, miért lett keskeny a táblázata. Ezért kötelező a három beépített elrendezés, és ezért nem üres képernyővel indul a termék. <span style="color:#8FA9B2">Visszavonulás, ha mégsem működik: a fát rögzített, három sávos vázra cseréljük (bal 60% / jobb 40%, jobb alul osztható) — a paneltípusok, a fejléc, a hatókör-öröklés és a billentyűzet </span><span style="color:#E4FAFF">változatlanul állnak</span>, mert egyik sem függ a fa szabadságától. Ez a terv legdrágább darabja, és külön cserélhető.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1420,&quot;height&quot;:900}}">
+const C = {
+  bg: '#04090C', panel: '#0F1D24', deep: '#070D11', ink: '#0A1419',
+  bd: '#14333B', bd2: '#12242C', hair: '#0E1E24',
+  t1: '#E4FAFF', t2: '#A9C4CB', t3: '#5E7F88', t4: '#3B565E',
+  cy: '#3FE0D0', cyL: '#8FF5EA', vi: '#A06BFF',
+  ok: '#7EE08A', warn: '#FFC24D', err: '#FF4D6D', amb: '#FFB454'
+};
+
+class Component extends DCLogic {
+  // ---- small drawing helpers (returned as React nodes, exposed by name) ----
+  box(style, children) { return React.createElement('div', { style }, children); }
+  txt(t, style) { return React.createElement('span', { style }, t); }
+
+  mono(size, color, extra) {
+    return Object.assign({ fontFamily: "'JetBrains Mono', monospace", fontSize: size + 'px', color: color }, extra || {});
+  }
+  raj(size, color, extra) {
+    return Object.assign({ fontFamily: "'Rajdhani', sans-serif", fontSize: size + 'px', color: color }, extra || {});
+  }
+
+  // model diagrams: 132x86
+  modelDiagram(kind) {
+    const W = 132, H = 86, gap = 3;
+    const cell = (l, t, w, h, bd, bg, label) => React.createElement('div', {
+      key: l + '' + t + w + h,
+      style: {
+        position: 'absolute', left: l + 'px', top: t + 'px', width: w + 'px', height: h + 'px',
+        border: '1px solid ' + bd, background: bg, boxSizing: 'border-box',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: "'JetBrains Mono', monospace", fontSize: '7px', color: bd === C.cy ? C.cy : C.t4
+      }
+    }, label || '');
+    let kids = [];
+    if (kind === 'tree') {
+      kids = [
+        cell(0, 0, 78, 48, C.cy, 'rgba(63,224,208,.07)', 'A'),
+        cell(81, 0, 51, 48, C.bd, C.panel, 'B'),
+        cell(0, 51, 78, 35, C.bd, C.panel, 'C'),
+        cell(81, 51, 51, 35, C.bd, C.panel, 'D')
+      ];
+    } else if (kind === 'grid') {
+      for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
+        kids.push(cell(c * 45, r * 29, 42, 26, C.bd, C.panel, ''));
+      }
+    } else if (kind === 'float') {
+      kids = [
+        cell(4, 6, 70, 44, C.bd, C.panel, ''),
+        cell(36, 24, 74, 46, C.cy, 'rgba(63,224,208,.07)', ''),
+        cell(18, 44, 60, 38, C.bd, C.ink, '')
+      ];
+    } else {
+      kids = [
+        cell(0, 0, 132, 11, C.bd, C.ink, ''),
+        cell(0, 14, 132, 72, C.cy, 'rgba(63,224,208,.07)', '1 / 4')
+      ];
+    }
+    return React.createElement('div', { style: { position: 'relative', width: W + 'px', height: H + 'px' } }, kids);
+  }
+
+  // region map diagram
+  regionDiagram(spec) {
+    const s = spec.scale, W = Math.round(spec.w * s), H = Math.round(spec.h * s);
+    const bar = (h, bg, bd, label, color) => React.createElement('div', {
+      key: label,
+      style: {
+        height: Math.max(Math.round(h * s), 9) + 'px', background: bg, borderBottom: bd ? '1px solid ' + C.bd : 'none',
+        display: 'flex', alignItems: 'center', padding: '0 7px', gap: '7px',
+        fontFamily: "'JetBrains Mono', monospace", fontSize: '8px', letterSpacing: '.1em', color: color, flex: 'none'
+      }
+    }, label);
+    const field = React.createElement('div', {
+      key: 'field',
+      style: {
+        flex: 1, background: C.bg, display: 'flex', gap: '3px', padding: '3px', boxSizing: 'border-box'
+      }
+    }, spec.panes.map((p, i) => React.createElement('div', {
+      key: i,
+      style: {
+        flex: p.flex, display: 'flex', flexDirection: 'column', gap: '3px'
+      }
+    }, p.stack.map((q, j) => React.createElement('div', {
+      key: j,
+      style: {
+        flex: q.flex, border: '1px solid ' + (q.focus ? C.cy : C.bd), background: q.focus ? 'rgba(63,224,208,.05)' : C.panel,
+        display: 'flex', flexDirection: 'column', boxSizing: 'border-box', minHeight: 0
+      }
+    }, [
+      React.createElement('div', {
+        key: 'h',
+        style: {
+          height: Math.max(Math.round(28 * s), 8) + 'px', borderBottom: '1px solid ' + C.bd2, flex: 'none',
+          display: 'flex', alignItems: 'center', padding: '0 5px', gap: '5px',
+          fontFamily: "'JetBrains Mono', monospace", fontSize: '7.5px', letterSpacing: '.08em',
+          color: q.focus ? C.cy : C.t3, background: q.focus ? 'rgba(63,224,208,.05)' : 'transparent'
+        }
+      }, q.label),
+      React.createElement('div', {
+        key: 'b', style: {
+          flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: "'JetBrains Mono', monospace", fontSize: '7px', color: C.t4, minHeight: 0
+        }
+      }, q.px)
+    ]))))); 
+    return React.createElement('div', {
+      style: {
+        width: W + 'px', height: H + 'px', border: '1px solid ' + C.bd, background: C.deep,
+        display: 'flex', flexDirection: 'column', boxSizing: 'border-box'
+      }
+    }, [
+      bar(34, C.deep, true, spec.top, C.cy),
+      field,
+      bar(26, C.deep, false, spec.status, C.t3)
+    ]);
+  }
+
+  // ---------- full layout mockups ----------
+  // scale: 1180 / 1920 = 0.6146
+  layoutFrame(children, opts) {
+    const S = 0.6146, W = Math.round(1920 * S), H = Math.round(1080 * S);
+    const o = opts || {};
+    return React.createElement('div', {
+      style: {
+        width: W + 'px', height: H + 'px', background: C.bg, border: '1px solid ' + C.bd,
+        display: 'flex', flexDirection: 'column', boxSizing: 'border-box', overflow: 'hidden',
+        fontFamily: "'Rajdhani', sans-serif"
+      }
+    }, [
+      this.topBar(o),
+      React.createElement('div', { key: 'f', style: { flex: 1, display: 'flex', gap: '3px', padding: '3px', minHeight: 0, boxSizing: 'border-box' } }, children),
+      this.statusBar(o)
+    ]);
+  }
+
+  // i3-szerű workspace-sáv: a fejsáv a workspace-eké, nem a clustereké
+  topBar(o) {
+    const tabs = (o.workspaces || []).map((w, i) => React.createElement('div', {
+      key: i,
+      style: {
+        display: 'flex', alignItems: 'center', gap: '5px', padding: '0 7px', height: '15px', flex: 'none',
+        border: '1px solid ' + (w.active ? '#2FB9AC' : C.bd),
+        background: w.active ? 'rgba(63,224,208,.10)' : C.ink, boxSizing: 'border-box'
+      }
+    }, [
+      React.createElement('span', { key: 'n', style: this.mono(7, w.active ? C.cy : C.t4, { flex: 'none' }) }, w.n),
+      w.name ? React.createElement('span', {
+        key: 'l', style: this.raj(9, w.active ? C.t1 : C.t2, { fontWeight: 600, letterSpacing: '.06em', flex: 'none' })
+      }, w.name) : null,
+      w.dot ? React.createElement('span', {
+        key: 'd', style: { width: '4px', height: '4px', borderRadius: '50%', background: w.dot, flex: 'none' }
+      }) : null
+    ]));
+    return React.createElement('div', {
+      key: 'top',
+      style: {
+        height: '21px', flex: 'none', background: C.deep, borderBottom: '1px solid ' + C.bd,
+        display: 'flex', alignItems: 'center', gap: '7px', padding: '0 9px', boxSizing: 'border-box'
+      }
+    }, [
+      React.createElement('span', { key: 'a', style: this.raj(9.5, C.t1, { fontWeight: 700, letterSpacing: '.14em', flex: 'none' }) }, 'KUBESCOPE'),
+      React.createElement('div', { key: 'b', style: { width: '1px', height: '11px', background: C.bd, flex: 'none' } }),
+      React.createElement('div', { key: 'c', style: { display: 'flex', gap: '3px', alignItems: 'center', flex: 'none' } }, tabs),
+      React.createElement('span', {
+        key: 'plus', style: this.mono(9, C.t3, { border: '1px solid ' + C.bd, padding: '0 5px', flex: 'none' })
+      }, '+'),
+      React.createElement('div', { key: 'g', style: { flex: 1 } }),
+      o.hint ? React.createElement('span', { key: 'hh', style: this.mono(7, C.t4, { flex: 'none' }) }, o.hint) : null,
+      React.createElement('span', { key: 'l', style: this.mono(7.5, C.t4, { border: '1px solid ' + C.bd, padding: '0 4px', flex: 'none' }) }, '⌘K')
+    ]);
+  }
+
+  statusBar(o) {
+    const f = o.fleetIndicator;
+    return React.createElement('div', {
+      key: 'st',
+      style: {
+        height: '16px', flex: 'none', background: C.deep, borderTop: '1px solid ' + C.bd,
+        display: 'flex', alignItems: 'center', gap: '11px', padding: '0 9px', boxSizing: 'border-box'
+      }
+    }, [
+      React.createElement('span', { key: 'a', style: this.mono(7.5, C.t3) }, o.statusLeft || ''),
+      React.createElement('div', { key: 'b', style: { flex: 1 } }),
+      o.statusAlert ? React.createElement('span', { key: 'c', style: this.mono(7.5, C.err) }, o.statusAlert) : null,
+      React.createElement('span', { key: 'd', style: this.mono(7.5, C.t4) }, o.statusRight || ''),
+      f ? React.createElement('span', {
+        key: 'f',
+        style: this.mono(7.5, f[1], { border: '1px solid ' + f[1], padding: '0 5px', flex: 'none' })
+      }, '◆ ' + f[0]) : null
+    ]);
+  }
+
+  pane(o) {
+    const kids = [];
+    kids.push(React.createElement('div', {
+      key: 'h',
+      style: {
+        height: '17px', flex: 'none', borderBottom: '1px solid ' + C.bd2,
+        display: 'flex', alignItems: 'center', gap: '7px', padding: '0 7px', boxSizing: 'border-box',
+        background: o.focus ? 'rgba(63,224,208,.06)' : 'transparent'
+      }
+    }, [
+      React.createElement('span', { key: 'g', style: this.mono(9, o.focus ? C.cy : C.t3, { flex: 'none' }) }, o.glyph),
+      React.createElement('span', { key: 't', style: this.raj(9.5, C.t1, { fontWeight: 600, letterSpacing: '.13em', flex: 'none' }) }, o.title),
+      o.count ? React.createElement('span', { key: 'c', style: this.mono(7.5, C.t3, { flex: 'none' }) }, o.count) : null,
+      React.createElement('div', { key: 'sp', style: { flex: 1 } }),
+      o.sigil ? React.createElement('span', {
+        key: 's', style: this.mono(7, o.pinned ? '#C9BBFF' : C.t4, { border: '1px solid ' + (o.pinned ? '#34275C' : C.bd), padding: '0 3px', flex: 'none' })
+      }, o.sigil) : null,
+      React.createElement('span', { key: 'o', style: this.mono(7.5, o.pinned ? C.t2 : C.t4, { flex: 'none' }) }, o.origin),
+      o.pinned ? React.createElement('span', { key: 'p', style: this.mono(8, C.vi, { flex: 'none' }) }, '⊙') : null,
+      o.badge ? React.createElement('span', { key: 'b', style: this.mono(7, o.badgeColor, { border: '1px solid ' + o.badgeColor, padding: '0 3px', flex: 'none' }) }, o.badge) : null,
+      React.createElement('span', { key: 'x', style: this.mono(8, C.t4, { flex: 'none' }) }, '✕')
+    ]));
+    if (o.tabs) {
+      kids.push(React.createElement('div', {
+        key: 'tb',
+        style: { height: '14px', flex: 'none', borderBottom: '1px solid ' + C.bd2, display: 'flex', boxSizing: 'border-box' }
+      }, o.tabs.map((t, i) => React.createElement('div', {
+        key: i,
+        style: {
+          padding: '0 8px', display: 'flex', alignItems: 'center',
+          borderRight: '1px solid ' + C.bd2,
+          background: t[1] ? C.ink : 'transparent',
+          borderBottom: t[1] ? '1px solid ' + C.cy : 'none',
+          fontFamily: "'JetBrains Mono', monospace", fontSize: '7px', letterSpacing: '.1em',
+          color: t[1] ? C.cyL : C.t3
+        }
+      }, t[0]))));
+    }
+    kids.push(React.createElement('div', {
+      key: 'b',
+      style: { flex: 1, minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', background: o.bodyBg || 'transparent' }
+    }, o.body));
+    return React.createElement('div', {
+      key: o.key,
+      style: {
+        flex: o.flex, minWidth: 0, minHeight: 0, boxSizing: 'border-box',
+        border: '1px solid ' + (o.focus ? '#2FB9AC' : C.bd),
+        borderLeft: (o.pinned ? '2px solid ' + C.vi : (o.focus ? '2px solid ' + C.cy : '1px solid ' + C.bd)),
+        background: C.panel, display: 'flex', flexDirection: 'column'
+      }
+    }, kids);
+  }
+
+  // table body
+  tableBody(cols, rows, opts) {
+    const o = opts || {};
+    const gt = cols.map(c => c.w).join(' ');
+    const head = React.createElement('div', {
+      key: 'h',
+      style: {
+        display: 'grid', gridTemplateColumns: gt, gap: '6px', padding: '3px 7px',
+        borderBottom: '1px solid ' + C.bd2, flex: 'none',
+        fontFamily: "'JetBrains Mono', monospace", fontSize: '6.5px', letterSpacing: '.14em', color: '#4C6B74'
+      }
+    }, cols.map((c, i) => React.createElement('div', { key: i, style: { textAlign: c.a || 'left' } }, c.k)));
+    const body = rows.map((r, i) => React.createElement('div', {
+      key: i,
+      style: {
+        display: 'grid', gridTemplateColumns: gt, gap: '6px', padding: '0 7px',
+        height: o.stretch ? 'auto' : '14px', minHeight: 0, alignItems: 'center',
+        flex: o.stretch ? '1 1 0' : 'none', boxSizing: 'border-box',
+        borderLeft: r.mark ? '2px solid ' + r.mark : '2px solid transparent',
+        background: r.sel ? 'rgba(63,224,208,.07)' : (r.bad ? 'rgba(255,77,109,.05)' : 'transparent')
+      }
+    }, cols.map((c, j) => React.createElement('div', {
+      key: j,
+      style: Object.assign(this.mono(8, r.colors && r.colors[j] ? r.colors[j] : (j === 1 ? C.t1 : C.t2)), {
+        textAlign: c.a || 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+      })
+    }, r.cells[j]))));
+    const kids = [head].concat(body);
+    if (o.filter) {
+      // aktív szűrő-csík: 22 px, CSAK amikor tényleg szűrünk. Üres szűrőnél nincs sor.
+      kids.unshift(React.createElement('div', {
+        key: 'f',
+        style: { display: 'flex', alignItems: 'center', gap: '6px', padding: '3px 7px', flex: 'none', borderBottom: '1px solid ' + C.hair, background: 'rgba(63,224,208,.05)' }
+      }, [
+        React.createElement('span', {
+          key: 'a', style: this.mono(7, C.cyL, { border: '1px solid #1E4C57', padding: '0 5px' })
+        }, '⌕ ' + o.filter + '  ✕'),
+        o.filter2 ? React.createElement('span', {
+          key: 'b', style: this.mono(7, C.warn, { border: '1px solid #5A4520', padding: '0 5px' })
+        }, o.filter2 + '  ✕') : null,
+        React.createElement('div', { key: 'c', style: { flex: 1 } }),
+        React.createElement('span', { key: 'd', style: this.mono(7, C.t4) }, 'a szűrő a fejléc ⌕ gombjából')
+      ]));
+    }
+    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 } }, kids);
+  }
+
+  logBody(lines, opts) {
+    const o = opts || {};
+    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 } }, [
+      React.createElement('div', {
+        key: 'h',
+        style: { display: 'flex', alignItems: 'center', gap: '6px', padding: '3px 7px', borderBottom: '1px solid ' + C.hair, flex: 'none' }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7, C.cyL, { border: '1px solid #1E4C57', padding: '0 4px' }) }, 'ELŐZŐ'),
+        React.createElement('span', { key: 'b', style: this.mono(7, C.t3, { border: '1px solid ' + C.bd, padding: '0 4px' }) }, 'SZŰRŐ  ' + (o.filter || 'error|panic')),
+        React.createElement('span', { key: 'c', style: this.mono(7, C.t3, { border: '1px solid ' + C.bd, padding: '0 4px' }) }, '⏸'),
+        React.createElement('div', { key: 'd', style: { flex: 1 } }),
+        React.createElement('span', { key: 'e', style: this.mono(7, C.t4) }, o.right || '2 konténer')
+      ]),
+      React.createElement('div', {
+        key: 'b',
+        style: { flex: 1, minHeight: 0, overflow: 'hidden', padding: '2px 0', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }
+      },
+        lines.map((l, i) => React.createElement('div', {
+          key: i,
+          style: { display: 'flex', gap: '6px', padding: '0 7px', height: '11px', alignItems: 'center', flex: 'none' }
+        }, [
+          React.createElement('span', { key: 't', style: this.mono(7, '#3B565E', { flex: 'none' }) }, l[0]),
+          React.createElement('span', { key: 's', style: this.mono(7, l[3], { flex: 'none', width: '26px' }) }, l[1]),
+          React.createElement('span', { key: 'm', style: this.mono(7.5, l[2].indexOf('panic') >= 0 || l[1] === 'ERR' ? '#FF89A3' : C.t2, { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }) }, l[2])
+        ])))
+    ]);
+  }
+
+  termBody(lines) {
+    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0, background: '#070D11' } },
+      React.createElement('div', {
+        style: { flex: 1, minHeight: 0, overflow: 'hidden', padding: '4px 0', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }
+      },
+        lines.map((l, i) => React.createElement('div', {
+          key: i, style: { padding: '0 7px', height: '11px', display: 'flex', alignItems: 'center', flex: 'none' }
+        }, React.createElement('span', { style: this.mono(7.5, l[1]) }, l[0])))));
+  }
+
+  detailBody() {
+    const sec = (name, count, rows) => React.createElement('div', { key: name, style: { flex: 'none' } }, [
+      React.createElement('div', {
+        key: 'h', style: {
+          display: 'flex', alignItems: 'center', gap: '6px', padding: '4px 8px',
+          borderBottom: '1px solid ' + C.hair, background: 'rgba(160,107,255,.04)'
+        }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7, C.vi) }, '▾'),
+        React.createElement('span', { key: 'b', style: this.mono(7, C.t2, { letterSpacing: '.14em' }) }, name),
+        React.createElement('div', { key: 'c', style: { flex: 1 } }),
+        React.createElement('span', { key: 'd', style: this.mono(7, C.t4) }, count)
+      ]),
+      React.createElement('div', { key: 'b' }, rows.map((r, i) => React.createElement('div', {
+        key: i, style: { display: 'grid', gridTemplateColumns: '92px 1fr', gap: '8px', padding: '0 8px', height: '13px', alignItems: 'center' }
+      }, [
+        React.createElement('span', { key: 'k', style: this.mono(7.5, C.t3) }, r[0]),
+        React.createElement('span', { key: 'v', style: this.mono(7.5, r[2] || C.t1, { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }) }, r[1])
+      ])))
+    ]);
+    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 } }, [
+      React.createElement('div', {
+        key: 'st', style: { display: 'flex', alignItems: 'center', gap: '7px', padding: '5px 8px', flex: 'none', borderBottom: '1px solid ' + C.hair }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7.5, C.err, { border: '1px solid ' + C.err, padding: '1px 5px' }) }, '✕ CRASHLOOP'),
+        React.createElement('span', { key: 'b', style: this.mono(7.5, C.t3) }, 'restart 42 · 8h')
+      ]),
+      sec('FELTÉTELEK', '4 / 5', [
+        ['Initialized', 'True', C.ok], ['Ready', 'False', C.err],
+        ['ContainersReady', 'False', C.err], ['PodScheduled', 'True', C.ok]
+      ]),
+      sec('KONTÉNEREK', '1', [
+        ['api', 'ghcr.io/acme/api:2.31.0'], ['állapot', 'CrashLoopBackOff', C.err],
+        ['utolsó kilépés', 'Error (137) · OOMKilled', C.err], ['requests', '250m / 512Mi']
+      ]),
+      sec('PROBE-OK', '2 hibás', [
+        ['liveness', 'GET :8080/healthz · 3× fail', C.err],
+        ['readiness', 'GET :8080/ready · 3× fail', C.err],
+        ['startup', 'nincs beállítva', C.t3],
+        ['utolsó ok', 'connection refused', C.err]
+      ]),
+      sec('ÜTEMEZÉS', '', [
+        ['node', 'ip-10-4-21-88'], ['zóna', 'eu-west-1b'],
+        ['QoS', 'Burstable'], ['tolerations', '2 (spot, dedicated)'],
+        ['affinity', 'app=ledger anti-affinity']
+      ]),
+      sec('KÖTETEK', '3', [
+        ['config', 'ConfigMap ledger-config'],
+        ['secret', 'Secret ledger-db-creds', C.t2],
+        ['cache', 'emptyDir 1Gi · 84% tele', C.warn],
+        ['mount hiba', 'nincs', C.ok]
+      ]),
+      sec('HÁLÓZAT', '', [
+        ['pod IP', '10.4.21.94'],
+        ['service', 'ledger (ClusterIP 10.4.88.9)'],
+        ['upstream', 'settlement 0/2 healthy', C.err],
+        ['policy', 'NetworkPolicy ledger-egress']
+      ]),
+      sec('TULAJDONOS', '', [
+        ['Deployment', 'ledger'],
+        ['ReplicaSet', 'ledger-7d9f4b6c8'],
+        ['revízió', '214 · deploy 14:02', C.vi],
+        ['előző rev.', '213 · stabil volt', C.t3]
+      ]),
+      sec('CÍMKÉK', '6', [
+        ['app', 'ledger'], ['team', 'payments-core'],
+        ['version', '2.31.0'], ['managed-by', 'argocd']
+      ])
+    ]);
+  }
+
+  metricBody() {
+    const bars = [];
+    const vals = [22, 26, 31, 28, 34, 40, 38, 44, 52, 61, 58, 72, 88, 96, 61, 34, 30, 44, 52, 49, 55, 62, 58, 66, 71, 68, 74, 92, 97, 55, 32, 28];
+    for (let i = 0; i < vals.length; i++) {
+      const bad = i >= 12 && i <= 14 || i >= 27 && i <= 28;
+      bars.push(React.createElement('div', {
+        key: i,
+        style: {
+          flex: 1, height: vals[i] + '%', background: bad ? C.err : '#1E4C57', alignSelf: 'flex-end',
+          borderTop: '1px solid ' + (bad ? '#FF89A3' : C.cy)
+        }
+      }));
+    }
+    return React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 } }, [
+      React.createElement('div', {
+        key: 'h', style: { display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 8px', flex: 'none', borderBottom: '1px solid ' + C.hair }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7.5, C.t1) }, 'container_memory_working_set_bytes'),
+        React.createElement('div', { key: 'b', style: { flex: 1 } }),
+        React.createElement('span', { key: 'c', style: this.mono(7.5, C.cy) }, '−30m'),
+        React.createElement('span', { key: 'd', style: this.mono(7.5, C.t4) }, 'limit 512Mi')
+      ]),
+      React.createElement('div', {
+        key: 'c', style: { flex: 1, minHeight: 0, display: 'flex', alignItems: 'flex-end', gap: '1px', padding: '8px 8px 4px' }
+      }, bars),
+      React.createElement('div', {
+        key: 'f', style: { flex: 'none', display: 'flex', alignItems: 'center', gap: '6px', padding: '3px 8px', borderTop: '1px solid ' + C.hair }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7, C.err) }, '▲ OOMKill ×2'),
+        React.createElement('span', { key: 'b', style: this.mono(7, C.vi) }, '▲ deploy 14:02'),
+        React.createElement('div', { key: 'c', style: { flex: 1 } }),
+        React.createElement('span', { key: 'd', style: this.mono(7, C.t4) }, 'MET-04 annotáció')
+      ])
+    ]);
+  }
+
+  spark(seed, color, h) {
+    const bars = [];
+    let x = seed;
+    for (let i = 0; i < 26; i++) {
+      x = (x * 1103515245 + 12345) & 0x7fffffff;
+      const v = 24 + (x >> 16) % 70;
+      bars.push(React.createElement('div', {
+        key: i, style: { flex: 1, height: v + '%', background: color, alignSelf: 'flex-end', opacity: .55 }
+      }));
+    }
+    return React.createElement('div', {
+      style: { display: 'flex', alignItems: 'flex-end', gap: '1px', height: h + 'px', flex: 'none' }
+    }, bars);
+  }
+
+  kv(k, v, color) {
+    return React.createElement('div', {
+      key: k, style: { display: 'flex', gap: '6px', alignItems: 'baseline' }
+    }, [
+      React.createElement('span', { key: 'a', style: this.mono(6.5, '#4C6B74', { letterSpacing: '.08em', width: '44px', flex: 'none' }) }, k),
+      React.createElement('span', { key: 'b', style: this.mono(7, color || C.t2, { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }) }, v)
+    ]);
+  }
+
+  fleetTilesBody(tiles, cols, big) {
+    const seedOf = t => (t.sig.charCodeAt(0) * 733 + t.sig.charCodeAt(1) * 37);
+    return React.createElement('div', {
+      style: big
+        ? { flex: 'none', display: 'grid', gridTemplateColumns: 'repeat(' + cols + ', 1fr)', gridAutoRows: '81px', gap: '4px', padding: '5px' }
+        : { flex: 1, minHeight: 0, display: 'grid', gridTemplateColumns: 'repeat(' + cols + ', 1fr)', gridAutoRows: 'minmax(0, 1fr)', gap: '4px', padding: '5px' }
+    }, tiles.map((t, i) => React.createElement('div', {
+      key: i,
+      style: {
+        border: '1px solid ' + (t.state === 'down' ? '#5A2038' : t.state === 'warn' ? '#5A4520' : C.bd),
+        background: t.state === 'down' ? 'rgba(255,77,109,.06)' : C.ink,
+        padding: '6px 7px', display: 'flex', flexDirection: 'column', gap: '4px', minHeight: 0,
+        clipPath: 'polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px))'
+      }
+    }, [
+      React.createElement('div', { key: 'a', style: { display: 'flex', alignItems: 'center', gap: '5px', flex: 'none' } }, [
+        React.createElement('span', { key: 's', style: this.mono(7, C.t2, { border: '1px solid ' + C.bd, padding: '0 3px', flex: 'none' }) }, t.sig),
+        React.createElement('span', { key: 'n', style: this.raj(9.5, C.t1, { fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }) }, t.name),
+        React.createElement('div', { key: 'sp', style: { flex: 1 } }),
+        React.createElement('span', {
+          key: 'd', style: { width: '5px', height: '5px', borderRadius: '50%', background: t.state === 'down' ? C.err : t.state === 'warn' ? C.warn : C.ok, flex: 'none' }
+        })
+      ]),
+      React.createElement('div', {
+        key: 'kv', style: { display: 'flex', flexDirection: 'column', gap: '2px', flex: 'none' }
+      }, big
+        ? [
+          this.kv('VERZIÓ', t.ver + ' · ' + t.distro, C.t2),
+          this.kv('AUTH', t.auth, t.authWarn ? C.warn : C.t2),
+          this.kv('MÉRET', t.nodes + ' · ' + t.ns, C.t2)
+        ]
+        : [
+          this.kv('VERZIÓ', t.ver, C.t2),
+          this.kv('MÉRET', t.nodes + ' · ' + t.pods, t.state === 'down' ? C.err : C.t2),
+          this.kv('CPU', t.cpu + ' allokált', t.state === 'warn' ? C.warn : C.t2)
+        ]),
+      big
+        ? React.createElement('div', {
+          key: 'c', style: { display: 'flex', alignItems: 'center', gap: '5px', flex: 'none', paddingTop: '1px' }
+        }, [
+          React.createElement('span', { key: 'a', style: this.mono(7, C.cyL, { border: '1px solid #1E4C57', padding: '0 5px' }) }, 'ENGEDÉLYEZ'),
+          React.createElement('div', { key: 'c', style: { flex: 1 } }),
+          React.createElement('span', { key: 'd', style: this.mono(6.5, t.authWarn ? C.err : C.t4) }, t.reach)
+        ])
+        : React.createElement('div', { key: 'c', style: { flex: 'none' } },
+          this.spark(seedOf(t), t.state === 'down' ? C.err : t.state === 'warn' ? C.warn : C.cy, 14))
+    ])));
+  }
+
+  // first-launch: per-context discovery result — the real content that fills the leaf
+  discoveryBody(tiles) {
+    const cols = [
+      { k: '', w: '22px' }, { k: 'CONTEXT', w: '1.1fr' }, { k: 'API SZERVER', w: '1.9fr' },
+      { k: 'DISTRO', w: '62px' }, { k: 'AUTH MÓD', w: '1.2fr' }, { k: 'DISCOVERY', w: '82px', a: 'right' }, { k: 'EREDMÉNY', w: '1.15fr' }
+    ];
+    const rows = tiles.map(t => {
+      const bad = !!t.authWarn;
+      const slow = parseInt(t.reach, 10) > 200;
+      return {
+        cells: [t.sig, t.name, t.server, t.distro, t.auth, t.reach,
+          bad ? '✕ token lejárt · újra-hitelesítés' : slow ? '◐ lassú · proxy?' : '✓ 214 erőforrás-típus'],
+        colors: [C.t3, C.t1, C.t2, C.t2, bad ? C.warn : C.t2, bad ? C.err : slow ? C.warn : C.t2,
+          bad ? C.err : slow ? C.warn : C.ok],
+        mark: bad ? C.err : slow ? C.warn : null, bad: bad
+      };
+    });
+    return React.createElement('div', { style: { flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' } }, [
+      React.createElement('div', {
+        key: 'h', style: {
+          flex: 'none', display: 'flex', alignItems: 'center', gap: '9px', padding: '5px 8px',
+          borderTop: '1px solid ' + C.bd2, borderBottom: '1px solid ' + C.hair, background: 'rgba(160,107,255,.04)'
+        }
+      }, [
+        React.createElement('span', { key: 'a', style: this.mono(7, C.vi, { letterSpacing: '.14em' }) }, 'FELDERÍTÉS · CONN-06'),
+        React.createElement('span', { key: 'b', style: this.mono(7, C.t3) }, 'API discovery, verzió, CRD-szám, „ez OpenShift?" — hitelesítés nélkül nem tudjuk, mit tudunk'),
+        React.createElement('div', { key: 'c', style: { flex: 1 } }),
+        React.createElement('span', { key: 'd', style: this.mono(7, C.err) }, '1 hiba'),
+        React.createElement('span', { key: 'e', style: this.mono(7, C.warn) }, '1 lassú')
+      ]),
+      React.createElement('div', { key: 'b', style: { flex: 1, minHeight: 0 } }, this.tableBody(cols, rows, { stretch: true }))
+    ]);
+  }
+
+  // ---------- the four layouts ----------
+  buildLayouts() {
+    const podCols = [
+      { k: 'NAMESPACE', w: '1fr' }, { k: 'NÉV', w: '1.7fr' }, { k: 'READY', w: '38px', a: 'right' },
+      { k: 'RST', w: '28px', a: 'right' }, { k: 'AGE', w: '30px', a: 'right' }, { k: 'ÁLLAPOT', w: '76px' }
+    ];
+    const pods = [
+      { cells: ['payments', 'api-core-5cfd88f5cf-njz4r', '1/1', '0', '8h', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'api-core-5cfd88f5cf-tl58z', '1/1', '0', '8h', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'api-core-5cfd88f5cf-wmkhf', '1/1', '0', '8h', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'ledger-7d9f4b6c8-2xk9p', '0/1', '42', '8h', '✕ CRASHLOOP'], colors: [C.t2, C.t1, C.err, C.err, C.t2, C.err], mark: C.err, bad: true, sel: true },
+      { cells: ['payments', 'ledger-7d9f4b6c8-mv7qt', '0/1', '42', '8h', '✕ CRASHLOOP'], colors: [C.t2, C.t1, C.err, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['payments', 'settlement-844b7-h9x2n', '1/1', '3', '2d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.warn, C.t2, C.ok] },
+      { cells: ['checkout', 'web-6c8d9f-qp4kz', '1/1', '0', '5d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['checkout', 'web-6c8d9f-rt8mw', '1/1', '0', '5d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-consumer-0', '1/1', '1', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-consumer-1', '0/1', '0', '3m', '◐ PENDING'], colors: [C.t2, C.t1, C.warn, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['kube-system', 'coredns-64d64f99dd-7fjvd', '1/1', '1', '21d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['kube-system', 'cilium-agent-x7k2p', '1/1', '0', '21d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['kube-system', 'cilium-agent-m4n8q', '1/1', '0', '21d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['kube-system', 'cilium-operator-6b7d9-w2xk4', '1/1', '0', '21d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['kube-system', 'metrics-server-7f4c8d-9pl2m', '1/1', '2', '21d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingress', 'nginx-ingress-8d7f6c-x4k9p', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingress', 'nginx-ingress-8d7f6c-b2m7t', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingress', 'cert-manager-5c9b4f-h8n3w', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['observability', 'prometheus-k8s-0', '2/2', '0', '9d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['observability', 'prometheus-k8s-1', '2/2', '0', '9d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['observability', 'grafana-6f8d9c-k4m2p', '1/1', '1', '9d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['observability', 'loki-write-0', '1/1', '0', '9d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['observability', 'loki-write-1', '0/1', '6', '9d', '◐ NOT READY'], colors: [C.t2, C.t1, C.warn, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['payments', 'ledger-db-0', '1/1', '0', '31d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'ledger-db-1', '1/1', '0', '31d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'fx-rates-5d8c9f-p2k7n', '1/1', '0', '4d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'fx-rates-5d8c9f-t9m4x', '1/1', '0', '4d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['payments', 'reconcile-cron-28914-jx4k2', '0/1', '0', '11m', '✓ KÉSZ'], colors: [C.t2, C.t1, C.t3, C.t4, C.t2, C.t3] },
+      { cells: ['payments', 'reconcile-cron-28915-mp8w9', '1/1', '0', '1m', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['checkout', 'web-6c8d9f-vn3kt', '1/1', '0', '5d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['checkout', 'cart-api-7f9d4c-x8k2m', '1/1', '0', '5d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['checkout', 'cart-api-7f9d4c-q4n7p', '1/1', '0', '5d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-consumer-2', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-broker-0', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-broker-1', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'kafka-broker-2', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'schema-registry-9c4f8d-k2m7x', '1/1', '0', '11d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['ingest', 'debezium-connect-0', '1/1', '4', '6d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.warn, C.t2, C.ok] },
+      { cells: ['platform', 'argocd-server-7d8f9c-m4k2p', '1/1', '0', '44d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['platform', 'argocd-repo-server-6c9d4f-x7n2t', '1/1', '0', '44d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] },
+      { cells: ['platform', 'vault-0', '1/1', '0', '44d', '● FUT'], colors: [C.t2, C.t1, C.t2, C.t4, C.t2, C.ok] }
+    ];
+    const logs = [
+      ['14:02:18', 'ERR', '  ledger/settle.(*Batch).flush(0xc0001a2340)', C.err],
+      ['14:02:18', 'ERR', '  ledger/settle.worker(0xc0000b8060)', C.err],
+      ['14:02:19', 'INF', 'exit status 2 · restarting in 5m0s', C.t4],
+      ['14:07:19', 'INF', 'starting ledger v2.31.0 · commit 8f2a1c9', C.t4],
+      ['14:07:19', 'INF', 'config loaded from /etc/ledger/config.yaml', C.t4],
+      ['14:07:19', 'INF', 'feature flags: settle_v2=on batch_size=5000', C.t4],
+      ['14:07:20', 'INF', 'connecting to postgres://ledger-db:5432', C.t4],
+      ['14:07:20', 'INF', 'migrations up to date (schema 214)', C.t4],
+      ['14:07:21', 'INF', 'kafka consumer group ledger-settle joined', C.t4],
+      ['14:07:21', 'WRN', 'settlement client: no healthy upstream (0/2)', C.warn],
+      ['14:07:22', 'INF', 'http server listening on :8080', C.t4],
+      ['14:07:23', 'WRN', 'pool acquire slow: 3.1s (limit 1s)', C.warn],
+      ['14:07:24', 'INF', 'batch 88413 claimed · 5000 rows', C.t4],
+      ['14:07:26', 'WRN', 'heap 486Mi / limit 512Mi — GC pressure', C.warn],
+      ['14:07:28', 'ERR', 'settlement batch 88413: context deadline exceeded', C.err],
+      ['14:07:28', 'ERR', 'retry 1/3 failed: connection reset by peer', C.err],
+      ['14:07:29', 'ERR', 'retry 2/3 failed: connection reset by peer', C.err],
+      ['14:07:30', 'ERR', 'retry 3/3 failed: giving up', C.err],
+      ['14:07:30', 'WRN', 'closing settle channel with 3812 rows in flight', C.warn],
+      ['14:07:30', 'ERR', 'panic: send on closed channel', C.err],
+      ['14:07:30', 'ERR', 'goroutine 288 [running]:', C.err],
+      ['14:07:30', 'ERR', '  ledger/settle.(*Batch).flush(0xc0004b1180)', C.err],
+      ['14:07:30', 'ERR', '  ledger/settle.worker(0xc0000b8060)', C.err],
+      ['14:07:30', 'ERR', '  created by ledger/settle.Start in goroutine 1', C.err],
+      ['14:07:31', 'INF', 'exit status 2 · restarting in 5m0s', C.t4],
+      ['14:12:31', 'INF', 'starting ledger v2.31.0 · commit 8f2a1c9', C.t4],
+      ['14:12:32', 'WRN', 'settlement client: no healthy upstream (0/2)', C.warn],
+      ['14:12:34', 'ERR', 'settlement batch 88414: context deadline exceeded', C.err],
+      ['14:12:36', 'ERR', 'panic: send on closed channel', C.err]
+    ];
+    const term = [
+      ['$ kubectl exec -it api-core-5cfd88f5cf-tl58z -- sh', C.t3],
+      ['/app # nc -zv ledger-db 5432', C.t1],
+      ['ledger-db (10.4.88.21:5432) open', C.ok],
+      ['/app # nc -zv settlement 8080', C.t1],
+      ['settlement (10.4.88.44:8080): Connection refused', C.err],
+      ['/app # nslookup settlement', C.t1],
+      ['Name: settlement.payments.svc.cluster.local', C.t2],
+      ['Address: 10.4.88.44', C.t2],
+      ['/app # curl -s -m2 http://settlement:8080/healthz', C.t1],
+      ['curl: (28) Connection timed out after 2001 ms', C.err],
+      ['/app # nslookup ledger-db', C.t1],
+      ['Name: ledger-db.payments.svc.cluster.local', C.t2],
+      ['Address: 10.4.88.21', C.t2],
+      ['/app # cat /proc/net/tcp | wc -l', C.t1],
+      ['1046', C.t2],
+      ['/app # env | grep -i settle', C.t1],
+      ['SETTLEMENT_ADDR=settlement.payments.svc:8080', C.t2],
+      ['SETTLEMENT_TIMEOUT=2s', C.warn],
+      ['/app # traceroute -n -m3 10.4.88.44', C.t1],
+      ['1  10.4.21.1  0.412 ms', C.t2],
+      ['2  * * *', C.err],
+      ['/app # ip route get 10.4.88.44', C.t1],
+      ['10.4.88.44 via 10.4.21.1 dev eth0 src 10.4.21.94', C.t2],
+      ['/app # ▊', C.cy]
+    ];
+    const tiles12 = [
+      { sig: 'PE', name: 'prod-eu-west1', ver: 'v1.29.4', nodes: '24 node', pods: '412 pod', cpu: '68%', state: 'ok', note: '412 pod · stabil', server: 'eks.eu-west-1.amazonaws.com', distro: 'EKS', auth: 'aws eks get-token', ns: '18 ns', reach: '42 ms' },
+      { sig: 'PU', name: 'prod-us-east1', ver: 'v1.29.4', nodes: '31 node', pods: '588 pod', cpu: '74%', state: 'ok', note: '588 pod · stabil', server: 'eks.us-east-1.amazonaws.com', distro: 'EKS', auth: 'aws eks get-token', ns: '22 ns', reach: '118 ms' },
+      { sig: 'PA', name: 'prod-ap-south1', ver: 'v1.28.9', nodes: '12 node', pods: '196 pod', cpu: '41%', state: 'warn', note: '3 nem-ready', server: 'eks.ap-south-1.amazonaws.com', distro: 'EKS', auth: 'aws eks get-token', ns: '11 ns', reach: '284 ms' },
+      { sig: 'ST', name: 'staging-eu', ver: 'v1.30.1', nodes: '8 node', pods: '142 pod', cpu: '22%', state: 'ok', note: '142 pod · stabil', server: 'api.staging.acme.io', distro: 'kubeadm', auth: 'oidc-login', ns: '14 ns', reach: '38 ms' },
+      { sig: 'DV', name: 'dev-shared', ver: 'v1.30.1', nodes: '4 node', pods: '88 pod', cpu: '31%', state: 'ok', note: '88 pod · stabil', server: 'api.dev.acme.io', distro: 'kubeadm', auth: 'oidc-login', ns: '31 ns', reach: '35 ms' },
+      { sig: 'OP', name: 'ocp-prod-01', ver: '4.15.9', nodes: '18 node', pods: '344 pod', cpu: '81%', state: 'down', note: 'nem válaszol 4m', server: 'api.ocp-prod.acme.io:6443', distro: 'OpenShift', auth: 'OAuth token · lejárt', authWarn: true, ns: '46 proj', reach: 'időtúllépés' },
+      { sig: 'OS', name: 'ocp-stage-01', ver: '4.15.9', nodes: '6 node', pods: '104 pod', cpu: '38%', state: 'ok', note: '104 pod · stabil', server: 'api.ocp-stage.acme.io:6443', distro: 'OpenShift', auth: 'OAuth token', ns: '19 proj', reach: '51 ms' },
+      { sig: 'AD', name: 'aks-dev-we', ver: 'v1.29.2', nodes: '3 node', pods: '52 pod', cpu: '19%', state: 'ok', note: '52 pod · stabil', server: 'aks-dev-we.hcp.westeurope.azmk8s.io', distro: 'AKS', auth: 'azure kubelogin', ns: '8 ns', reach: '46 ms' },
+      { sig: 'GB', name: 'gke-batch-eu', ver: 'v1.29.6', nodes: '40 node', pods: '722 pod', cpu: '92%', state: 'warn', note: 'CPU 92% · szűk', server: '34.76.112.8', distro: 'GKE', auth: 'gke-gcloud-auth-plugin', ns: '9 ns', reach: '54 ms' },
+      { sig: 'ED', name: 'edge-fra-01', ver: 'v1.28.9', nodes: '2 node', pods: '18 pod', cpu: '12%', state: 'ok', note: '18 pod · stabil', server: 'edge-fra.acme.io:6443', distro: 'k3s', auth: 'kliens-tanúsítvány', ns: '4 ns', reach: '29 ms' },
+      { sig: 'EA', name: 'edge-ams-01', ver: 'v1.28.9', nodes: '2 node', pods: '18 pod', cpu: '14%', state: 'ok', note: '18 pod · stabil', server: 'edge-ams.acme.io:6443', distro: 'k3s', auth: 'kliens-tanúsítvány', ns: '4 ns', reach: '31 ms' },
+      { sig: 'SB', name: 'sandbox', ver: 'v1.30.1', nodes: '1 node', pods: '6 pod', cpu: '4%', state: 'ok', note: '6 pod · stabil', server: '127.0.0.1:6443', distro: 'kind', auth: 'kliens-tanúsítvány', ns: '3 ns', reach: '2 ms' }
+    ];
+    const fleetOk = [['PE', C.ok], ['PU', C.ok], ['PA', C.warn], ['ST', C.ok], ['DV', C.ok], ['OP', C.err, 'rgba(255,77,109,.15)'], ['OS', C.ok], ['AD', C.ok], ['GB', C.warn], ['ED', C.ok], ['EA', C.ok], ['SB', C.ok]];
+
+    // --- L1: first launch ---
+    const l1Tiles = tiles12.map(t => Object.assign({}, t, {
+      enable: true, state: t.authWarn ? 'warn' : 'ok'
+    }));
+    const L1 = this.layoutFrame([
+      this.pane({
+        key: 'a', flex: 1, focus: true, glyph: '◈', title: 'FLOTTA · KUBECONFIG FELDERÍTÉS', count: '12 context',
+        origin: '~/.kube/config', body: React.createElement('div', { style: { display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 } }, [
+          React.createElement('div', {
+            key: 'p', style: {
+              flex: 'none', padding: '8px 10px', borderBottom: '1px solid ' + C.hair, display: 'flex', alignItems: 'center', gap: '12px'
+            }
+          }, [
+            React.createElement('span', { key: 'a', style: this.raj(12, C.t1, { fontWeight: 600 }) }, 'Tizenkét context van a kubeconfigban. Engedélyezd, amit figyelni akarsz.'),
+            React.createElement('span', { key: 'b', style: this.mono(7.5, C.t3) }, 'A kikapcsolt clusterre nem indul watch, és nem fogyaszt memóriát.'),
+            React.createElement('div', { key: 'c', style: { flex: 1 } }),
+            React.createElement('span', { key: 'd', style: this.mono(7.5, C.cyL, { border: '1px solid #2FB9AC', padding: '2px 7px' }) }, 'MIND ENGEDÉLYEZ'),
+            React.createElement('span', { key: 'e', style: this.mono(7.5, C.t3, { border: '1px solid ' + C.bd, padding: '2px 7px' }) }, 'CSAK A PROD-OK')
+          ]),
+          this.fleetTilesBody(l1Tiles, 7, true),
+          this.discoveryBody(tiles12),
+          React.createElement('div', {
+            key: 'f', style: { flex: 'none', borderTop: '1px solid ' + C.bd2, padding: '8px 10px', display: 'flex', alignItems: 'center', gap: '10px' }
+          }, [
+            React.createElement('span', { key: 'a', style: this.mono(7.5, C.t3, { letterSpacing: '.12em' }) }, 'AZTÁN INDULJ EGY ELRENDEZÉSSEL'),
+            React.createElement('span', { key: 'b', style: this.mono(8, C.cy, { border: '1px solid #2FB9AC', padding: '2px 8px' }) }, 'TRIÁZS'),
+            React.createElement('span', { key: 'c', style: this.mono(8, C.t2, { border: '1px solid ' + C.bd, padding: '2px 8px' }) }, 'HIBAKERESÉS'),
+            React.createElement('span', { key: 'd', style: this.mono(8, C.t2, { border: '1px solid ' + C.bd, padding: '2px 8px' }) }, 'FLOTTA'),
+            React.createElement('div', { key: 'e', style: { flex: 1 } }),
+            React.createElement('span', { key: 'f', style: this.mono(7.5, C.t4) }, 'vagy ⌘K és írd be, mit akarsz látni')
+          ])
+        ])
+      })
+    ], {
+      workspaces: [{ n: '1', name: 'felderítés', active: true }],
+      hint: 'új workspace: + vagy ⌘T',
+      statusLeft: '12 context felderítve · 0 engedélyezve · nincs watch',
+      statusAlert: '1 hitelesítés lejárt',
+      statusRight: 'kubeconfig ~/.kube/config',
+      fleetIndicator: ['0/12', '#5E7F88']
+    });
+
+    // --- L2: debug, one cluster ---
+    const L2 = this.layoutFrame([
+      this.pane({
+        key: 'a', flex: 1.55, focus: true, glyph: '▤', title: 'PODOK', count: '128 / 128',
+        sigil: 'PE', origin: 'prod-eu · payments', badge: '● ÉLŐ', badgeColor: C.ok,
+        body: this.tableBody(podCols, pods)
+      }),
+      this.pane({
+        key: 'b', flex: 1, glyph: '◱', title: 'ledger-7d9f4b6c8-2xk9p',
+        sigil: 'PE', origin: 'prod-eu · payments',
+        tabs: [['ÁTTEKINTÉS', true], ['ESEMÉNYEK', false], ['NAPLÓ', false], ['YAML', false], ['TULAJDONOS', false]],
+        body: this.detailBody()
+      })
+    ], {
+      workspaces: [
+        { n: '1', name: 'triázs', active: false },
+        { n: '2', name: 'ledger', active: true },
+        { n: '3', name: 'flotta', active: false }
+      ],
+      statusLeft: '2 panel · mind prod-eu · fókusz: PODOK · frissítve 3s',
+      statusAlert: null,
+      statusRight: 'COMPACT · 42 sor · nagyítás 100%',
+      fleetIndicator: ['11/12', '#FFC24D']
+    });
+
+    // --- L3: incident ---
+    const L3 = this.layoutFrame([
+      React.createElement('div', { key: 'L', style: { flex: 1.62, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 } }, [
+        this.pane({
+          key: 'a', flex: 0.82, glyph: '▤', title: 'PODOK', count: '12 / 128',
+          sigil: 'PE', origin: 'prod-eu · payments',
+          body: this.tableBody(podCols, pods.slice(0, 13), { filter: 'ledger' })
+        }),
+        this.pane({
+          key: 'b', flex: 1.18, focus: true, glyph: '≣', title: 'NAPLÓ · ledger-7d9f4b6c8-2xk9p',
+          sigil: 'PE', origin: 'prod-eu · payments', badge: '● ÉLŐ', badgeColor: C.ok,
+          body: this.logBody(logs, { right: 'ledger + istio-proxy' })
+        })
+      ]),
+      React.createElement('div', { key: 'R', style: { flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 } }, [
+        this.pane({
+          key: 'c', flex: 1.05, glyph: '❯', title: 'SHELL · api-core-…-tl58z',
+          sigil: 'PE', origin: 'prod-eu · payments', badge: 'TERM ⌨', badgeColor: C.amb,
+          body: this.termBody(term)
+        }),
+        this.pane({
+          key: 'd', flex: 0.95, glyph: '◔', title: 'METRIKA · ledger',
+          sigil: 'ST', origin: 'staging · payments',
+          body: this.metricBody()
+        })
+      ])
+    ], {
+      workspaces: [
+        { n: '1', name: 'triázs', active: false },
+        { n: '2', name: 'incidens', active: true },
+        { n: '3', name: 'flotta', active: false, dot: '#FF4D6D' },
+        { n: '4', name: 'ocp', active: false }
+      ],
+      statusLeft: '4 panel · prod-eu ×3, staging ×1 · fókusz: NAPLÓ',
+      statusAlert: '2 riasztás',
+      statusRight: '⌘Esc = kilépés a terminálból',
+      fleetIndicator: ['10/12', '#FF4D6D']
+    });
+
+    // --- L4: fleet ---
+    const xcCols = [
+      { k: '', w: '20px' }, { k: 'CLUSTER', w: '1fr' }, { k: 'NAMESPACE', w: '1fr' },
+      { k: 'NÉV', w: '1.6fr' }, { k: 'RST', w: '30px', a: 'right' }, { k: 'KOR', w: '34px', a: 'right' }, { k: 'ÁLLAPOT', w: '80px' }
+    ];
+    const xc = [
+      { cells: ['OP', 'ocp-prod-01', 'payments', 'ledger-7d9f4b6c8-2xk9p', '42', '8h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['OP', 'ocp-prod-01', 'payments', 'ledger-7d9f4b6c8-mv7qt', '42', '8h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['GB', 'gke-batch-eu', 'ingest', 'spark-exec-88412-driver', '17', '3h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true, sel: true },
+      { cells: ['GB', 'gke-batch-eu', 'ingest', 'spark-exec-88413-driver', '17', '3h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['PA', 'prod-ap-south1', 'checkout', 'web-6c8d9f-k2m8p', '9', '14h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['PE', 'prod-eu-west1', 'payments', 'settlement-844b7-h9x2n', '3', '2d', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['PU', 'prod-us-east1', 'ingest', 'kafka-consumer-3', '2', '6h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['GB', 'gke-batch-eu', 'ingest', 'spark-exec-88414-driver', '0', '2m', '◐ PENDING'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['PA', 'prod-ap-south1', 'kube-system', 'cilium-agent-9x2kp', '5', '4h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['OP', 'ocp-prod-01', 'openshift-monitoring', 'prometheus-k8s-0', '1', '9h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['GB', 'gke-batch-eu', 'ingest', 'spark-exec-88415-driver', '0', '1m', '◐ PENDING'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['GB', 'gke-batch-eu', 'ingest', 'spark-exec-88416-driver', '0', '1m', '◐ PENDING'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['PU', 'prod-us-east1', 'checkout', 'cart-api-7f9d4c-w8k2n', '4', '11h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['PU', 'prod-us-east1', 'observability', 'loki-write-1', '6', '9d', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['PE', 'prod-eu-west1', 'observability', 'loki-write-1', '6', '9d', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['PA', 'prod-ap-south1', 'ingress', 'nginx-ingress-8d7f6c-p4k9m', '11', '14h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['PA', 'prod-ap-south1', 'ingress', 'cert-manager-5c9b4f-t2n8w', '0', '14h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['ST', 'staging-eu', 'payments', 'ledger-7d9f4b6c8-k4m2p', '38', '7h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['ST', 'staging-eu', 'payments', 'ledger-7d9f4b6c8-x9n4t', '38', '7h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['DV', 'dev-shared', 'sandbox-tim', 'jupyter-tim-0', '2', '3d', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['DV', 'dev-shared', 'sandbox-ana', 'jupyter-ana-0', '0', '19m', '◐ PENDING'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['AD', 'aks-dev-we', 'default', 'load-test-runner-9k2m4', '7', '2h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['OS', 'ocp-stage-01', 'openshift-image-registry', 'image-pruner-28914-x4k2p', '3', '5h', '✕ CRASHLOOP'], colors: [C.t3, C.t1, C.t2, C.t1, C.err, C.t2, C.err], mark: C.err, bad: true },
+      { cells: ['ED', 'edge-fra-01', 'edge-agent', 'telemetry-relay-0', '1', '4h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['EA', 'edge-ams-01', 'edge-agent', 'telemetry-relay-0', '1', '4h', '◐ NOT READY'], colors: [C.t3, C.t1, C.t2, C.t1, C.warn, C.t2, C.warn], mark: C.warn },
+      { cells: ['GB', 'gke-batch-eu', 'platform', 'node-exporter-4k2mp', '0', '38m', '◐ PENDING'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.warn], mark: C.warn },
+      { cells: ['OS', 'ocp-stage-01', 'payments', 'ledger-canary-77f-b4x9k', '0', '22m', '● FUT'], colors: [C.t3, C.t1, C.t2, C.t1, C.t4, C.t2, C.ok] }
+    ];
+    const L4 = this.layoutFrame([
+      React.createElement('div', { key: 'L', style: { flex: 1, display: 'flex', flexDirection: 'column', gap: '3px', minWidth: 0 } }, [
+        this.pane({
+          key: 'a', flex: 0.62, glyph: '◈', title: 'FLOTTA', count: '12 cluster · 2 690 pod',
+          origin: 'minden engedélyezett cluster',
+          body: this.fleetTilesBody(tiles12, 6)
+        }),
+
+        this.pane({
+          key: 'b', flex: 1.38, focus: true, glyph: '⌸', title: 'FLOTTA-KERESÉS · nem-ready podok', count: '38 találat',
+          origin: '12 cluster · 10 válaszolt', badge: '2 FORRÁS HIÁNYZIK', badgeColor: C.amb,
+          body: this.tableBody(xcCols, xc, { filter: 'status != Running', filter2: 'restarts > 0' })
+        })
+      ])
+    ], {
+      workspaces: [
+        { n: '1', name: 'triázs', active: false },
+        { n: '2', name: 'incidens', active: false, dot: '#FF4D6D' },
+        { n: '3', name: 'flotta', active: true },
+        { n: '4', name: 'ocp', active: false },
+        { n: '5', name: '', active: false },
+        { n: '6', name: '', active: false },
+        { n: '7', name: '', active: false }
+      ],
+      hint: '7 workspace · 8-tól csak számok',
+      statusLeft: '2 panel · mindkettő csoport-hatókörű · metadata-only watch',
+      statusAlert: 'ocp-prod-01 offline · gke-batch-eu lassú',
+      statusRight: '10 / 12 forrás válaszolt',
+      fleetIndicator: ['10/12', '#FF4D6D']
+    });
+
+    return [
+      {
+        n: '01', title: 'Első indítás', tree: 'egyleveles fa',
+        desc: 'Nincs kiválasztott cluster, nincs elrendezés, a kubeconfig most lett beolvasva. Egyetlen panel a teljes képernyőn: a felderített contextek, engedélyező kapcsolóval. Az első dolog, amit a felhasználó tesz, nem elrendezés-építés, hanem egy döntés arról, mit figyelünk — és a képernyő pontosan ezt kérdezi.',
+        render: L1,
+        notes: [
+          { k: 'MIÉRT NEM ÜRES RÁCS', v: 'Üres képernyő azt kérdezi, „mit akarsz?" — a válaszhoz viszont ismerni kell a terméket. Ez a panel viszont fel is mutat 12 clustert, tehát a kérdés megválaszolható.', color: C.cy },
+          { k: 'KÁRTYA + FELDERÍTÉS-TÁBLA', v: 'A kártya 248×132 a design system Tile-spec szerint — tizenkettő két sorban. A panel maradékát a `CONN-06` felderítés eredménye tölti: API szerver, auth mód, discovery-idő, és mi ment félre. Enélkül nem lehet dönteni, mit engedélyezz.', color: C.vi },
+          { k: 'MIÉRT VAN HÁROM GOMB LENT', v: 'A három beépített elrendezés (Triázs / Hibakeresés / Flotta) az osztott fa megtanulásának első lépése: kész fát kapsz, nem üres vásznat.', color: C.vi },
+          { k: 'A NULLA WATCH', v: 'Az állapotsor kimondja, hogy nincs watch. A memória-költségvetés (10 cluster < 500 MB) itt kezdődik: amit nem engedélyeztél, arra nem indul reflector.', color: C.ok }
+        ]
+      },
+      {
+        n: '02', title: 'Egy cluster, hibakeresés', tree: 'V-osztás 62 / 38',
+        desc: 'A leggyakoribb munkakép: táblázat balra, részlet jobbra, füles levéllel. A részlet öt fület tart egyetlen levélen — Áttekintés, Események, Napló, YAML, Tulajdonos —, tehát nulla további pixelt kér a képernyőből. Ez a mai héj közvetlen utódja, csak most a fa egy állapota, nem beépített szerkezet.',
+        render: L2,
+        notes: [
+          { k: 'A FÜLES LEVÉL SZEREPE', v: 'Aki nem akar osztani, az fület kap. A helyzetjelentés fülsávja nem eltűnik, hanem a levél szintjére kerül — ott már nem a keret szerkezete, hanem a felhasználó választása.', color: C.cy },
+          { k: 'AZ ÖRÖKÖLT HATÓKÖR', v: 'Mindkét panel eredetsora halvány: a munkaterület hatókörét használják. Nincs kitűzés, nincs lila él — a képernyő egy clusterről szól, és ez látszik.', color: C.t3 },
+          { k: '42 SOR, SZŰRŐSÁV NÉLKÜL', v: '1080 − 34 − 26 − 28 panelfejléc − 26 oszlopfejléc = 966 px, 23 px-es sorral 42 sor. Szűrő itt nincs, tehát nincs 22 px csík sem — a szűrő a fejléc ⌕ gombjában lakik, és csak aktív szűrésnél kap sort (lásd a 03-as rajzot). Az utolsó sor félbevágva látszik: így néz ki egy virtualizált táblázat.', color: C.ok }
+        ]
+      },
+      {
+        n: '03', title: 'Incidens: táblázat + napló + terminál egyszerre', tree: 'V 62/38, mindkét oldal H-osztva',
+        desc: 'A brief §4 helyzete, egy képernyőn: haldokló pod táblázata, alatta annak a naplója, mellette shell egy másik podban, és egy metrika-panel, ami a staging ugyanezen deploymentjét mutatja összehasonlításként. Négy panel, két cluster. A terminál fókuszban van, a keret ezt kimondja, és megmutatja a kiutat.',
+        render: L3,
+        notes: [
+          { k: 'KÉT CLUSTER EGY WORKSPACE-BEN', v: 'A metrika-panel eredetsora staging, a másik háromé prod-eu — és ez nem kivétel, hanem a lényeg (§13/1). Nincs globális hatókör, amitől el kellene térni, ezért nincs lila él és nincs ⊙ sem: minden panel egyszerűen kiírja, honnan való.', color: C.vi },
+          { k: 'TERM ⌨ ÉS A ⌘ESC', v: 'A shell-panel fejlécében a capture-jelzés, az állapotsor jobb szélén pedig a kiút, amíg a capture aktív. A felhasználónak nem kell emlékeznie rá, és a jelzésre kattintva egérrel is elengedi.', color: C.amb },
+          { k: 'A PISZKOZAT-PONT', v: 'A fejsávban az „incidens" mellett egy lila •: ez az elrendezés módosítva van, és a piszkozat már mentve. Nem kell rá kattintani, nem kérdez semmit.', color: C.vi }
+        ]
+      },
+      {
+        n: '04', title: 'Flotta-áttekintés több clusterrel', tree: 'H-osztás 31 / 69',
+        desc: 'Csoport-hatókör: MIND (12). Felül a cluster-kártyák, alatta egy flotta-keresés, ami mind a tizenkét clusterből hozza a nem-ready podokat. A cluster-oszlop itt rögzített első oszlop, a sigillel — pontosan ahogy a scope §5 előírja —, és a fejléc kimondja, hogy 12-ből 10 forrás válaszolt.',
+        render: L4,
+        notes: [
+          { k: 'A RÉSZLEGES EREDMÉNY', v: 'Két cluster nem válaszolt, és ez a panel fejlécében látszik, nem toastban. „Csendben hiányos lista incidens közben veszélyes" — ezért a hiány a lista mellett áll, nem eltűnő értesítésben.', color: C.amb },
+          { k: 'SIGIL, NEM SZÍN', v: 'A cluster-oszlop két karakter. Tizenkét clusterhez tizenkét szín nem létezik a palettában — tizenkét sigil viszont olvasható, és negyvenhez is skálázódik.', color: C.cy },
+          { k: 'INNEN NYÍLIK A KÖVETKEZŐ', v: 'Egy soron jobbklikk → Napló, és a szabály szerint a fókuszált panel hosszabb tengelye mentén osztódik. Az elrendezés innen épül tovább, nem előre megtervezve.', color: C.ok }
+        ]
+      }
+    ];
+  }
+
+  renderVals() {
+    const T = (k, v, color) => ({ k: k, v: v, color: color || C.t2 });
+    return {
+      navChips: [
+        ['§0 Döntések', '#dontesek'], ['§1 Panelmodell', '#modell'], ['§2 Régiók', '#regiok'],
+        ['§3 Anatómia', '#anatomia'], ['§4 Keletkezés', '#keletkezes'], ['§5 Tájékozódás', '#tajekozodas'],
+        ['§6 Elrendezések', '#elrendezesek'], ['§7 Billentyűzet', '#billentyu'],
+        ['§8 Perzisztencia', '#perzisztencia'], ['§9 Widgetek', '#widgetek'],
+        ['§10 Átmenet', '#atmenet'], ['§11 Visszajelzés 01', '#visszajelzes'],
+        ['§12 Visszajelzés 02', '#visszajelzes02'], ['§13 Workspace-modell', '#visszajelzes03']
+      ],
+
+      lifecycle: [
+        {
+          glyph: '≣', name: 'Napló', rule: 'SZÜNETEL', color: C.ok, bd: C.bd,
+          body: 'Szünetel workspace-váltás után 30 másodperccel, és `sinceTime`-mal folytatódik — a szünet pillanatától, lyuk nélkül. Ez a szabály eredeti szándéka, és a napló az egyetlen típus, amire pontosan illik.',
+          note: 'Ha a folytatás mégis lyukas (a szünet hosszabb, mint a szerver megőrzési ideje), a panel kiírja, ahogy ma az eldobott sorokat is. Egy naplónézet, ami csendben elveszti a közepét, rosszabb, mint az, amelyik bevallja.'
+        },
+        {
+          glyph: '▤', name: 'Watch', rule: 'ÚJRALISTÁZ', color: C.cy, bd: C.bd,
+          body: 'Nincs mit megoldani, ahogy írtad: egy pod-lista újralistázással folytatódik. Nincs „lyuk" fogalom — a lista vagy friss, vagy nem, és ezt a `Stream` állapot ma is kimondja.',
+          note: 'A keretnek ehhez semmit nem kell adnia. Egyedül azt, hogy a panelfejlécben legyen hol megjelenni a nem-friss állapotnak — és van.'
+        },
+        {
+          glyph: '❯', name: 'Terminál', rule: 'NEM SZÜNETEL', color: C.amb, bd: '#5A4520',
+          body: 'Kivétel, saját szabállyal: a terminál-menet nem szünetel és nem záródik workspace-váltásra. Egy exec-menet nem adatfolyam, hanem munkamenet — a túloldalon processz fut, és nem olvasni azt, amit ír, mindkét kimenetében rossz.',
+          note: 'A menetnek egyetlen vége van: a panel bezárása (az megerősítést kér). Az újracsatlakozás nem létezik — egy lezárt shell után új processz indul, üres előzménnyel és elveszett `cd`-vel, tehát a szünetelés itt nem optimalizáció, hanem adatvesztés.'
+        }
+      ],
+
+      scopeSources: [
+        { n: '1', name: 'A forrásból', freq: 'DOMINÁNS', color: C.ok, desc: 'Sor, kártya, meglévő panel. Van hatóköre, tehát a gyerek is megkapja. Nulla döntés, nulla kérdés — ez a napi 90%.' },
+        { n: '2', name: 'A workspace default_scope-jából', freq: 'HIDEG NYITÁS', color: C.cy, desc: 'Paletta, üres levél. Születési alapérték, nem élő követés: átállítása meglévő panelt nem mozdít el.' },
+        { n: '3', name: 'Explicit választásból', freq: 'RITKA', color: C.t3, desc: 'A paletta parancsa megadhatja („podok prod-us-ban"). Ilyenkor a felhasználó szándéka felülír mindent.' }
+      ],
+
+      wsTabs: [
+        { n: '1', name: 'triázs', bd: C.bd, bg: C.ink, numColor: C.t4, nameColor: C.t2, dot: false },
+        { n: '2', name: 'incidens', bd: '#2FB9AC', bg: 'rgba(63,224,208,.10)', numColor: C.cy, nameColor: C.t1, dot: false },
+        { n: '3', name: 'flotta', bd: C.bd, bg: C.ink, numColor: C.t4, nameColor: C.t2, dot: true },
+        { n: '4', name: 'ocp-upgrade', bd: C.bd, bg: C.ink, numColor: C.t4, nameColor: C.t2, dot: false },
+        { n: '5', name: 'rightsizing', bd: C.bd, bg: C.ink, numColor: C.t4, nameColor: C.t2, dot: false },
+        { n: '6', name: 'certek', bd: C.bd, bg: C.ink, numColor: C.t4, nameColor: C.t2, dot: false },
+        { n: '7', name: '', bd: C.bd, bg: 'transparent', numColor: C.t4, nameColor: C.t3, dot: false }
+      ],
+
+      wsOps: [
+        { name: 'Létrehozás', key: '+ · ⌘T', color: C.ok, desc: 'Új, névtelen workspace egy üres levéllel. A név később, ha kell — névtelenül is használható.' },
+        { name: 'Átnevezés', key: 'dupla katt · ⌘R', color: C.cy, desc: 'A fül helyben szerkeszthetővé válik. Nincs dialógus.' },
+        { name: 'Bezárás', key: '⌘⇧W', color: C.amb, desc: 'Megerősítés csak akkor, ha élő terminál- vagy mentetlen szerkesztő-panel van benne.' },
+        { name: 'Átrendezés', key: 'húzás', color: C.vi, desc: 'A számok követik a sorrendet, tehát a ⌘⇧n is. Jobbklikkre duplikálás és áthelyezés.' }
+      ],
+
+      recount: [
+        { k: 'Képernyőmagasság', v: '1080', color: C.t1 },
+        { k: '− Fejsáv', v: '34', color: C.t2 },
+        { k: '− Állapotsor', v: '26', color: C.t2 },
+        { k: '− Panelfejléc', v: '28', color: C.t2 },
+        { k: '− Oszlopfejléc', v: '26', color: C.amb },
+        { k: '= Soroknak', v: '966', color: C.t1 },
+        { k: 'Sormagasság', v: '23', color: C.cy },
+        { k: 'Sorok', v: '42', color: C.ok },
+        { k: 'aktív szűrő-csíkkal', v: '41', color: C.t2 }
+      ],
+
+      pinLock: [
+        {
+          bd: '#34275C', edge: '#A06BFF', glyph: '⊙', mark: '⊙', glyphColor: C.vi,
+          origin: 'staging · payments', originColor: '#C9E3E8',
+          field: 'pinned_scope: Option<Scope>',
+          desc: 'A panel nem követi a munkaterület hatókörét. 2 px lila él, ⊙ jel, hangsúlyos eredetsor. Hatókör-állítás — ezért kap élt.'
+        },
+        {
+          bd: C.bd, edge: '#12242C', glyph: '⊡', mark: 'ZÁROLT', glyphColor: '#8FA9B2',
+          origin: 'prod-eu · payments', originColor: '#3B565E',
+          field: 'locked: bool',
+          desc: 'A tartalmát nem hasznosítja újra semmi. Nincs él, csak egy ⊡ glif a cím előtt — nem hatókör-állítás, tehát nem kaphat élt. Ez a két-napló-egy-clusterből eset megoldása.'
+        }
+      ],
+
+      decisions: [
+        {
+          n: 'Q1 · 6.1', q: 'A cluster és a namespace globális vagy panelenkénti?', verdict: 'A HATÓKÖR A PANELÉ · WORKSPACE-EK', bar: C.cy,
+          a: 'A hatókör a panelé, és nincs globális hatókör. Egy workspace-ben állhat egymás mellett prod-eu node-listája és prod-us node-listája, és ez nem kivétel, hanem a modell lényege. A panel a hatókörét születéskor kapja, három úton, prioritási sorrendben: (1) a forrásból, ha van — egy prod-eu pod sorára jobbklikkelve a napló prod-eu lesz, mert a sor az; (2) a workspace default_scope-jából, ha hideg nyitás (paletta, üres levél); (3) explicit választásból, ha a paletta parancsa megadja. Utána a panel hatóköre fix: csak azon a panelen, kézzel változtatható (⌘P). A default_scope nem élő követés, hanem születési alapérték — ha átállítod, meglévő panel nem mozdul.',
+          rejected: 'Élő workspace-hatókör, amit minden panel követ: ez a globális hatókör átnevezve, és pontosan a két-cluster-egymás-mellett ígéretet öli meg. Kérdezzük meg minden nyitásnál: két döntéssel kezdene minden panelnyitás, amit a Q3 kifejezetten el akart kerülni. Öröklés + kitűzés (az első kiadás válasza): a Q1 akkori megfogalmazására helyes volt, de a kérdés volt rossz — ha nincs globális, nincs mihez képest kitűzni.',
+          consequence: 'Minden panelfejléc kiírja a hatókörét, mindig, teljes súllyal — nincs többé halvány-mert-örökölt és hangsúlyos-mert-kitűzött. A pinned_scope fogalom megszűnik, vele a lila él és a ⊙ jel (§13/4). A sigil viszont tartóelem lett: globális hatókör nélkül az a panel egyetlen kompakt cluster-azonosítója.'
+        },
+        {
+          n: 'Q2 · 6.2', q: 'Milyen a panelmodell?', verdict: 'OSZTOTT FA, FÜLES LEVELEKKEL', bar: C.cy,
+          a: 'A képernyő rekurzívan oszlik vízszintesen vagy függőlegesen; a fa levelein panel ül; egy levél tarthat több panelt fülként. Négy ok: a levelek definíció szerint kitöltik a szülőt, tehát a mai kép hétszáz pixeles ürességét szerkezetileg lehetetlenné teszi; a billentyűzetes fókuszmozgás determinisztikus; az elrendezés kicsi, menthető, elnevezhető adat, tehát az `APP-04` majdnem ingyen van; és 1280×800-on ugyanaz a modell kevesebb szinttel működik — nem esik szét, csak sekélyebb.',
+          rejected: 'Rács (Grafana): egységes sor- és oszlopméretet kényszerít, márpedig a napló magasságot, a táblázat szélességet akar. Lebegő ablakok: átfedés, elveszett panelek, és a fókuszmozgás térbeli találgatássá válik — plusz rendezni kell, mielőtt dolgozhatnál. Csak füles régiók: ez a mai állapot, és pont ez az, ami nem áll össze.',
+          consequence: 'Nincs átfedés és nincs szabad méret: egy panel növelése a szomszédját szűkíti. A fa mélysége négy szintre korlátozott, fölötte a felhasználó maga sem tájékozódik. A füles levél a szelep: nulla pixelért ad új panelt.'
+        },
+        {
+          n: 'Q3 · 6.3', q: 'Hogyan keletkezik egy panel, és hova kerül?', verdict: 'NÉGY BEJÁRAT · EGY AUTO-SZABÁLY', bar: C.vi,
+          a: 'Minden panel egy forrásból születik — egy sorból, egy clusterből, egy meglévő panelből —, és négy bejárata van: jobbklikk-menü a soron, parancspaletta, a panelfejléc ⊞ gombja, és billentyűkombináció. Mind a négy ugyanabba a hívásba fut. Az elhelyezést alapesetben a rendszer dönti el, egy szabállyal: a fókuszált panel a hosszabb tengelye mentén osztódik, és az új panel 40%-ot kap. Kiszámítható, mindig ugyanaz, és nem kér döntést a felhasználótól ahhoz, hogy elkezdhessen dolgozni.',
+          rejected: 'Mindig kérdezzük meg, hova: egy plusz döntés minden nyitásnál, ami incidens közben harminc döntés. Okos heurisztika („a legritkábban használt hasonló panel helyére"): kiszámíthatatlan, és a felhasználó nem tudja megjósolni, hova ugrik a napló.',
+          consequence: 'Ugyanabból a panelből ugyanaz a típus újrahasznosul, nem sokszorozódik: a hetedik sorra kattintva a napló-panel tartalma cserélődik. Kivéve, ha a panel zárolt — a zárolás önálló kapcsoló, nem a kitűzés melléktermék (§11/3). '
+        },
+        {
+          n: 'Q4 · 6.4', q: 'Mi van állandóan a képernyőn?', verdict: 'WORKSPACE-SÁV 34 + ÁLLAPOTSOR 26', bar: C.cy,
+          a: 'Két sáv, összesen 60 px, méretfüggetlenül — de a fejsáv tartalma megváltozott: a workspace-eké. i3-szerű fülek, szám + név, az aktív kiemelve, a végén egy plusz. A cluster-váltás megszűnik globális műveletnek lenni, tehát a flottacsíknak nincs többé mit váltania. A mai bal oldali cluster-oszlop ugyanúgy megszűnik: összecsukva is 56 px × 1080 = 60 480 pixelt foglalt egy napi néhányszori műveletre. A flotta egészsége egyetlen cellába költözik az állapotsor jobb szélén: ◆ 10/12, a legsúlyosabb státusz színével, kattintásra flotta-panelt nyit.',
+          rejected: 'A bal sáv megtartása mert-kell-a-navigáció: a navigáció a paletta dolga, nem egy állandó oszlopé. A 12 cellás flottacsík a fejsávban (az első kiadás válasza): a fejsáv közepét most a workspace-ek kérik, és a Q4 érve amúgy sem 12 cellát követelt, hanem egy periférián működő csatornát — arra egy cella is elég. Csak flotta-panel, semmi állandó: akkor nincs, ami mindig látszik, és a brief §6.5 pont ezt kérte.',
+          consequence: '1080p-n egy teljes magasságú táblázat 42 sort ad: 1080 − 34 fejsáv − 26 állapotsor − 28 panelfejléc − 26 táblázat-oszlopfejléc = 966, 23 px-es sorral 42. Az első kiadásból kimaradt az oszlopfejléc, ezért állt itt 43 — javítva, lásd §11/1. A 40 soros költségvetés így is teljesül, két sorral, és most azonos alapon: az eredeti 40 is tartalmazta az oszlopfejlécet. '
+        },
+        {
+          n: 'Q5 · 6.5', q: 'Honnan tudja az ember, mit néz — és hogy a képernyőn kívül baj van?', verdict: 'SIGIL + WORKSPACE-PONT + FLOTTA-JELZŐ', bar: C.vi,
+          a: 'Nem kérek új színt. Három nem-színes csatorna: (1) kétkarakteres sigil a cluster nevéből, minden panelfejlécben és minden cluster-oszlopban — negyven clusterre is skálázódik, amire szín soha nem tudna, és globális hatókör nélkül ez a panel egyetlen kompakt cluster-azonosítója; (2) a workspace-fül hibapontja, ami akkor jelenik meg, ha egy másik workspace-ben lévő paneled státusza rosszabb lett — ez a te paneljeidről szól, nem a flottáról, és incidens közben ez a pontosabb kérdés; (3) az állapotsor jobb szélén a flotta-jelző, ◆ 10/12, a legsúlyosabb flotta-státusz színével, kattintásra flotta-panelt nyit. A státuszszínek maradnak, ahogy voltak.',
+          rejected: 'Cluster-szín: hét fölött nem működik, és a paletta amúgy is foglalt. Csak fejléc-szöveg: hat panelnél az ember nem olvas hat eredetsort — kell egy periférián is működő csatorna. A 12 cellás flottacsík a fejsávban (az első kiadás válasza): a fejsáv a workspace-eké, és a periférikus csatornához egy cella is elég. Lila él a kitűzésre: a kitűzés fogalma megszűnt a globális hatókörrel együtt (§13/4).',
+          consequence: 'A képernyőn kívüli baj három szinten jelenik meg: a flotta-jelző passzívan átvált, a workspace-fül pontot kap, ha a te paneljeid rosszabbodtak máshol, és toast csak cluster-elvesztésnél vagy egy nyitott panel forrásának halálakor van. Pod-hibára nincs toast — incidens közben az másodpercenként szólna. A MET-07 riasztások a flotta-jelzőbe folynak, nem toastba.', q: 'Az elrendezés mint első osztályú állapot — hol lakik, mi lesz a mentetlennel?', verdict: 'A WORKSPACE AZ ELRENDEZÉS', bar: C.ok,
+          a: 'A workspace az elrendezés. Nincs külön layout-fogalom, nincs mentés, nincs piszkozat: a workspace mindig önmaga, ahogy egy i3 workspace is. Létrehozás a plusszal vagy ⌘T, átnevezés dupla kattintással vagy ⌘R, bezárás ⌘⇧W, átrendezés húzással, ugrás ⌘⇧1…9 — és a szám a fülön látszik, tehát a billentyűparancs egyben a felirat. Három beépítettel indul a termék (triázs, hibakeresés, flotta), így senki nem áll üres vászon előtt.',
+          rejected: 'Nevesített elrendezések külön legördülőben, piszkozat-mechanikával (az első kiadás válasza): két fogalom egy dologra. A §11/4-ben már majdnem ez a válasz állt — a nevesített elrendezés a több terület, csak darabosan, kilenc rekeszre nyílik —, csak nem hívtuk workspace-nek, és mellette megmaradt egy globális hatókör meg egy cluster-csík, ami ellene dolgozott. Az elveti-a-változtatásokat párbeszéd fel sem merül, ha nincs mentés-fogalom.',
+          consequence: 'A workspace kis, olvasható adat — fa + arányok + panelenkénti hatókör és paraméterek —, tehát megosztható és hibajelentésbe másolható. Küldd át az incidens-workspace-edet: működő mondat. És mivel a hatókör panelenkénti, egy átküldött workspace pontosan azt mutatja a másik gépen is, amit nálad — nincs rejtett globális állapot, ami ott mást jelentene.'
+        },
+        {
+          n: 'Q7 · 6.7', q: 'Billentyűzet végig, egér nélkül — a terminállal együtt?', verdict: '⌘ / ALT MÓDOSÍTÓ + ⌘ESC', bar: C.amb,
+          a: 'A keret-módosító macOS-en ⌘, Linuxon és Windowson Alt. macOS-en az ütközés eleve nem létezik: a ⌘ soha nem érik el a shellt. Linuxon kimondjuk, hogy amíg terminál a fókusz, az Alt-kombinációkat a keret fogyasztja és nem továbbítja — a meta-bevitel az Esc-prefix úton szabványosan elérhető marad. A kiút ⌘Esc (macOS) / Alt+Esc (Linux): visszaadja a fókuszt a keretnek, időzítés nélkül, és az Escape mindkét nyomása a shellé marad. A panel fejléce TERM ⌨ jelzést visel, amíg a capture aktív, és arra kattintva egérrel is elengedi a fókuszt.',
+          rejected: 'tmux-féle prefix (Ctrl+B, Ctrl+G): egy harmadik billentyűnyelvet tanít, és minden választás ütközik valamivel a readline-ban. „A terminál kapjon mindent, a keret csak egérrel": ez feladja a brief `APP-02` követelményét. Dupla Escape 300 ms-en belül: ez volt az első kiadás döntése, és elvetettük — a dupla Escape tanított vi-viselkedés, nem idegesség, tehát naponta sülne el a fő terminál-használónál. Hármas Escape: ugyanaz a reflex-család, csak ritkábban.',
+          consequence: 'Eltérés a scope-tól, kimondva: az `APP-01` Ctrl+K-t ír a palettára, de az readline-ban kill-line. A paletta ⌘K / Alt+K lesz — kérem a scope módosítását. A ⌘Esc ára: kétujjas akkord egy egyujjas gesztus helyett, tehát kevésbé felfedezhető — ezért írja ki az állapotsor, amíg a capture aktív. Részletes indoklás: §11/2.'
+        },
+        {
+          n: 'Q8 · 6.8', q: 'Mi a parancspaletta szerepe?', verdict: 'TELJESSÉG-GARANCIA, NEM ELSŐDLEGES ÚT', bar: C.vi,
+          a: 'Két szabály, együtt. Egy: a palettában minden művelet benne van, kivétel nélkül — ez a teljesség garanciája, és ez az, ami megengedi, hogy a keret sovány maradjon. Kettő: minden művelet elérhető legfeljebb két látható kattintással is. A kettő nem ellentmondás: a látható vezérlők a kontextus öt leggyakoribb műveletét viselik, a paletta a hosszú farkat. Így a tudó felhasználó gyorsabb, az új felhasználó pedig nem akad el.',
+          rejected: '„A paletta az elsődleges út": akkor a felület megtanulhatatlan — nem lehet felfedezni, mit tud a termék. „A paletta csak gyorsítás": akkor minden új képességhez egy látható vezérlőt kell találni, és a keret két év alatt visszahízik a mai 140 pixelre.',
+          consequence: 'A ⌘K a fejsáv jobb szélén mindig látszik — nem rejtett gyorsítás, hanem a felület egy megnevezett része. A jobbklikk-menü a paletta ugyanazon műveletlistájának kontextusra szűrt kivágata, nem külön kódút.'
+        },
+        {
+          n: 'Q9 · 6.9', q: 'Első indítás: nincs cluster, nincs elrendezés', verdict: 'FELDERÍTÉS-PANEL, TELJES KÉPERNYŐN', bar: C.ok,
+          a: 'Egyetlen panel az egyleveles fán: a kubeconfigból felderített contextek kártyaként, mindegyiken egy ENGEDÉLYEZ kapcsoló (`CONN-01`), a fejlécben a darabszám, a lábban a három beépített elrendezés. Az első dolog, amit a felhasználó tesz, nem elrendezés-építés, hanem egy döntés arról, mit figyelünk — és a képernyő pontosan ezt kérdezi. Az állapotsor közben kimondja, hogy nulla watch fut: a memória-költségvetés itt kezdődik.',
+          rejected: 'Üres rács „adj hozzá panelt" felirattal: a kérdés megválaszolásához ismerni kellene a terméket. Automatikus belépés az első contextbe: tizenkét cluster közül az első ábécésorrendben lehet a prod — csendben watchot indítani rá nem barátságos.',
+          consequence: 'A választás után a Triázs elrendezés nyílik: pod-táblázat + részlet, ugyanaz, mint a 02-es kép. Senki nem áll üres vászon előtt, és ez az osztott fa megtanulásának első lépése is: kész fát kapsz, amit utána szétszedhetsz.'
+        }
+      ],
+
+      models: [
+        {
+          name: 'Osztott fa', tag: 'VÁLASZTVA', tagColor: C.cy, titleColor: C.cy, bd: '#1E4C57',
+          diagram: this.modelDiagram('tree'),
+          gives: 'Rekurzív V/H osztás, a levelek kitöltik a szülőt. Determinisztikus fókuszmozgás, nulla üresség, kicsi és menthető állapot, füles levél mint szelep.',
+          costs: 'nincs átfedés és nincs szabad méret; egy panel növelése a szomszédját szűkíti; négy szint fölött a felhasználó elveszik'
+        },
+        {
+          name: 'Rács', tag: 'ELVETVE', tagColor: C.t3, titleColor: C.t1, bd: C.bd,
+          diagram: this.modelDiagram('grid'),
+          gives: 'Grafana-modell: egységes cellák, drag-and-drop, könnyen tanulható, és a mentett elrendezés triviálisan sorosítható.',
+          costs: 'egységes sor- és oszlopméretet kényszerít — a napló magasságot akar, a táblázat szélességet; a 12 oszlopos rács maradékai üresen állnak'
+        },
+        {
+          name: 'Lebegő ablakok', tag: 'ELVETVE', tagColor: C.t3, titleColor: C.t1, bd: C.bd,
+          diagram: this.modelDiagram('float'),
+          gives: 'Teljes szabadság, ismerős desktop-metafora, egy panel bárhol bármilyen méretben állhat.',
+          costs: 'átfedés, elveszett panelek, a fókuszmozgás térbeli találgatás — és rendezni kell, mielőtt dolgozhatnál; ez a brief kifejezett kizárása'
+        },
+        {
+          name: 'Füles régiók', tag: 'A MAI ÁLLAPOT', tagColor: C.err, titleColor: C.t2, bd: '#5A2038',
+          diagram: this.modelDiagram('tabs'),
+          gives: 'Egyszerű, kevés kód, minden panel a teljes helyet kapja, és egy fülsáv olcsóbb, mint egy fa.',
+          costs: 'egy nézet egyszerre — ez a k9s modellje; a napló és a shell nem lehet egyidejűleg a képen, tehát a termék megkülönböztető jegye elveszik'
+        }
+      ],
+
+      regionMaps: [
+        {
+          res: '1920 × 1080', label: 'alapeset · a költségvetés erre készült', note: 'compact sűrűség · 42 sor',
+          diagram: this.regionDiagram({
+            w: 1920, h: 1080, scale: 0.31,
+            top: 'FEJSÁV · 34 px', status: 'ÁLLAPOTSOR · 26 px',
+            panes: [
+              { flex: 1.62, stack: [{ flex: 0.82, label: 'PODOK', px: '1189 × 484' }, { flex: 1.18, label: 'NAPLÓ', px: '1189 × 690' }] },
+              { flex: 1, stack: [{ flex: 1.05, label: 'SHELL', px: '731 × 617', focus: true }, { flex: 0.95, label: 'METRIKA', px: '731 × 557' }] }
+            ]
+          }),
+          rows: [
+            T('Fejsáv', '34', C.cy), T('Panelmező', '1020', C.t1), T('Állapotsor', '26', C.cy),
+            T('Panelfejléc / panel', '28', C.t2), T('Osztásfogó (rajz / kattintás)', '3 / 9', C.t2),
+            T('Panel min. méret', '320 × 180', C.t2), T('Flottacsík cella', '20 × 26', C.t3)
+          ]
+        },
+        {
+          res: '1280 × 800', label: 'alsó határ · ugyanaz a modell, sekélyebb fával', note: 'a fa 2 szintre korlátozódik',
+          diagram: this.regionDiagram({
+            w: 1280, h: 800, scale: 0.31,
+            top: 'FEJSÁV · 34 px · a workspace-nevek eltűnnek, a számok maradnak', status: 'ÁLLAPOTSOR · 26 px',
+            panes: [
+              { flex: 1.5, stack: [{ flex: 1, label: 'PODOK', px: '762 × 740', focus: true }] },
+              { flex: 1, stack: [{ flex: 1, label: 'RÉSZLET · 5 fül', px: '509 × 740' }] }
+            ]
+          }),
+          rows: [
+            T('Fejsáv', '34', C.cy), T('Panelmező', '740', C.t1), T('Állapotsor', '26', C.cy),
+            T('Ajánlott max. fa-mélység', '2', C.amb), T('Flottacsík', 'összesítő', C.amb),
+            T('Táblázat sorai (compact)', '30', C.t2), T('Panel min. méret', '320 × 180', C.t2)
+          ]
+        },
+        {
+          res: '3440 × 1440', label: 'ultrawide · ugyanaz a kép, nem másik felület', note: 'a keret magassága nem változik',
+          diagram: this.regionDiagram({
+            w: 3440, h: 1440, scale: 0.185,
+            top: 'FEJSÁV · 34 px · a workspace-fülek teljes névvel', status: 'ÁLLAPOTSOR · 26 px',
+            panes: [
+              { flex: 1, stack: [{ flex: 1, label: 'PODOK · prod-eu', px: '1146 × 1380' }] },
+              { flex: 1, stack: [{ flex: 1.2, label: 'NAPLÓ', px: '1146 × 754', focus: true }, { flex: 0.8, label: 'SHELL', px: '1146 × 626' }] },
+              { flex: 1, stack: [{ flex: 1, label: 'PODOK · staging ⊙', px: '1146 × 690' }, { flex: 1, label: 'METRIKA', px: '1146 × 690' }] }
+            ]
+          }),
+          rows: [
+            T('Fejsáv', '34', C.cy), T('Panelmező', '1380', C.t1), T('Állapotsor', '26', C.cy),
+            T('Táblázat sorai (compact)', '58', C.ok), T('Természetes hasáb-szám', '3', C.t2),
+            T('Panel max. szélesség', 'nincs', C.t3), T('Új régió ultrawide-on', 'nincs', C.ok)
+          ]
+        }
+      ],
+
+      budget: [
+        T('Képernyőmagasság', '1080', C.t1),
+        T('− Fejsáv', '34', C.t2),
+        T('− Állapotsor', '26', C.t2),
+        T('= Panelmező', '1020', C.t1),
+        T('− Panelfejléc', '28', C.t2),
+        T('− Táblázat oszlopfejléc', '26', C.amb),
+        T('= Soroknak marad', '966', C.t1),
+        T('Sormagasság · compact', '23', C.cy),
+        T('Sorok', '42', C.ok),
+        T('− Aktív szűrő-csík, ha van', '22', C.t3),
+        T('Sorok szűrés közben', '41', C.t2)
+      ],
+
+      minimums: [
+        { k: 'panel min.', v: '320 × 180 px. Ez alá nem osztható — a keret nem engedi, nem a felhasználó fegyelmezi magát.' },
+        { k: 'fa max. mélység', v: '4 szint 1080p-n és fölötte, 2 szint 1280×800-on. A fölötte lévő osztás-kísérlet fület nyit helyette.' },
+        { k: 'osztásfogó', v: '3 px rajz, 9 px kattintási sáv. Kettős kattintás visszaállítja az 50/50 arányt.' },
+        { k: 'workspace-sáv', v: 'Fülenként szám + név. 8 workspace fölött vagy 1440 px alatt a nevek eltűnnek, csak a számok maradnak — az aktív fül a nevét megtartja.' },
+        { k: 'flotta-jelző', v: 'Egyetlen cella az állapotsor jobb szélén: ◆ 10/12. Ez az egyetlen mindig látható flotta-csatorna (§13/2).' },
+        { k: 'panelfejléc', v: '28 px, sose rejtett. Ez az egyetlen hely, ahol a panel megmondja, honnan való — elrejteni a tájékozódást szüntetné meg.' },
+        { k: 'ami nincs', v: 'nincs menüsor, nincs eszköztár, nincs oldalsáv, nincs breadcrumb. Amit ezek adnának, azt a paletta és a panelfejléc adja.' }
+      ],
+
+      anatomy: [
+        { glyph: '▤', name: 'Típusglif', color: C.cy, desc: 'Tizenkét paneltípus, tizenkét geometriai glif a Painter-készletből. Nem ikonfont, nem SVG — a design system §7 szabálya.' },
+        { glyph: 'Aa', name: 'Cím', color: C.t1, desc: 'Rajdhani 600, +.14em, nagybetűs. Táblázatnál a típus („PODOK"), egyedi objektumnál a név — akkor mono, mert a név adat.' },
+        { glyph: '43', name: 'Számláló', color: C.t2, desc: 'Szűrt / összes. Mindig két szám, mert incidens közben a „43 pod" félrevezető, ha 128-ból szűrtél.' },
+        { glyph: 'PE', name: 'Sigil', color: C.t2, desc: 'Két karakter, a cluster nevéből. Ez a cluster-azonosítás, szín helyett — negyven clusterre is olvasható.' },
+        { glyph: '·', name: 'Eredetsor', color: C.t3, desc: 'cluster · namespace, 11 px mono, mindig teljes súllyal — nincs globális hatókör, amitől el kellene térni, tehát nincs halvány és hangsúlyos változat (§13/4). Kattintásra átállítható (⌘P).' },
+        { glyph: '⊡', name: 'Zárolás-glif', color: C.t2, desc: 'A cím előtt, ha a panel `locked` — nem hasznosítja újra semmi. Szándékosan halkabb a kitűzésnél: nincs él, mert nem hatókör-állítás. §11/3.' },
+        { glyph: '●', name: 'Élő jelzés', color: C.ok, desc: 'Csak adatfolyamos panelen (napló, terminál, watch). A pulzálás 2400 ms, és csak amíg valóban él — a mozgás itt információ.' },
+        { glyph: '⌕⇱⊞', name: 'Vezérlők', color: C.t2, desc: 'Keresés, kitűzés, új panel innen, ⋯ menü, ✕ zárás. Öt gomb, 26 px. A hosszú farok a ⋯-ban és a palettában.' },
+        { glyph: '⌨', name: 'Capture-jelzés', color: C.amb, desc: 'Csak terminál- és szerkesztő-panelen: TERM ⌨ jelzi, hogy a billentyűzet a tartalomé. Az állapotsor közben kiírja a kiutat.' },
+        { glyph: '│', name: 'Fókuszkeret', color: C.cy, desc: '2 px cián keret + 4 px cián bal él. A design system fókuszgyűrűje, egy szinttel feljebb alkalmazva — nem új nyelv.' }
+      ],
+
+      entrances: [
+        { glyph: '⌥', name: 'Jobbklikk a soron', key: 'kontextus', desc: 'A sorból nyíló panelek: Áttekintés, Napló, YAML, Események, Shell, Metrika. A menü a paletta ugyanazon listájának kontextusra szűrt kivágata — nem külön kódút.' },
+        { glyph: '⌘', name: 'Parancspaletta', key: '⌘K / Alt+K', desc: 'Minden művelet, kivétel nélkül. Beírod, mit akarsz látni; a hatókör az aktuális, hacsak nem írod át. Ez a teljesség garanciája.' },
+        { glyph: '⊞', name: 'A panelfejléc ⊞ gombja', key: 'kattintás', desc: 'Ebből a panelből nyílik a következő, és ez a leggyakoribb út a második panelhez. A típusválasztó ugyanaz a menü, mint jobbklikkre.' },
+        { glyph: '⏎', name: 'Billentyűzet', key: '⌘⏎ / ⌘L / ⌘Y', desc: 'A kijelölt sorból: ⌘⏎ részlet, ⌘L napló, ⌘Y YAML, ⌘⇧⏎ shell. Ugyanaz a művelet, mint a menüben, egér nélkül.' }
+      ],
+
+      placement: [
+        { n: '1.', rule: 'Ha a forrás-panelből ugyanaz a típus már nyitva van és nincs ZÁROLVA — a tartalma cserélődik. Nem születik új panel.' },
+        { n: '2.', rule: 'Különben a fókuszált panel osztódik a hosszabb tengelye mentén, és az új panel 40%-ot kap. Széles panel vízszintesen, magas panel függőlegesen oszlik.' },
+        { n: '3.', rule: 'Ha az osztás után bármelyik fél 320×180 alá esne, vagy a fa mélyebb lenne a megengedettnél — az új panel fülként kerül a fókuszált levélre.' },
+        { n: '4.', rule: 'Az első panel a teljes képernyőt kapja. Ez az egyleveles fa, és ugyanúgy néz ki, mint a mai egypaneles nézet.' }
+      ],
+
+      overrides: [
+        { k: '⇧ + nyitás', v: 'fülként a fókuszált levélre, osztás nélkül' },
+        { k: '⌥ + nyitás', v: 'a fókuszált panel helyére, azt bezárva' },
+        { k: 'menü ▸ Hova', v: 'négy él + „fülként" — a menüpont alszintje, nem külön dialógus' },
+        { k: 'sor húzása', v: 'a rávitt panel élei kiemelkednek, a cél előnézetben látszik' }
+      ],
+
+      ctxMenu: [
+        { item: true, label: 'Áttekintés', key: '⌘⏎', color: '#E4FAFF', bg: 'rgba(63,224,208,.08)' },
+        { item: true, label: 'Napló', key: '⌘L', color: '#E4FAFF', bg: 'transparent' },
+        { item: true, label: 'Események', key: '⌘E', color: '#E4FAFF', bg: 'transparent' },
+        { item: true, label: 'YAML', key: '⌘Y', color: '#E4FAFF', bg: 'transparent' },
+        { item: true, label: 'Metrika', key: '⌘M', color: '#E4FAFF', bg: 'transparent' },
+        { item: true, label: 'Shell megnyitása', key: '⌘⇧⏎', color: '#E4FAFF', bg: 'transparent' },
+        { sep: true },
+        { item: true, label: 'Hova…', key: '▸', color: '#A9C4CB', bg: 'transparent' },
+        { item: true, label: 'Név másolása', key: '⌘C', color: '#A9C4CB', bg: 'transparent' }
+      ],
+
+      paneKinds: [
+        { glyph: '▤', name: 'Erőforrás-táblázat', id: 'RES-02' },
+        { glyph: '◱', name: 'Erőforrás-részlet', id: 'RES-04' },
+        { glyph: '≣', name: 'Napló', id: 'LOG-01' },
+        { glyph: '❯', name: 'Terminál', id: 'ACT-05' },
+        { glyph: '◔', name: 'Metrika', id: 'MET-02' },
+        { glyph: '◈', name: 'Flotta-áttekintés', id: 'XC-02' },
+        { glyph: '⌸', name: 'Flotta-keresés', id: 'XC-01' },
+        { glyph: '⧉', name: 'Diff', id: 'XC-03' },
+        { glyph: '⌥', name: 'YAML / szerkesztő', id: 'RES-06' },
+        { glyph: '⟲', name: 'Idővonal', id: 'TIME-02' },
+        { glyph: '⚿', name: 'RBAC / tanúsítvány', id: 'SEC-01' },
+        { glyph: '⚠', name: 'Diagnosztika', id: 'DIAG-01' }
+      ],
+
+      sigils: [
+        { sig: 'PE', name: 'prod-eu-west1' }, { sig: 'PU', name: 'prod-us-east1' },
+        { sig: 'PA', name: 'prod-ap-south1' }, { sig: 'ST', name: 'staging-eu' },
+        { sig: 'OP', name: 'ocp-prod-01' }, { sig: 'GB', name: 'gke-batch-eu' }
+      ],
+
+      fleetStrip: [
+        { sig: 'PE', bd: '#3C7A5E', bg: C.ink, fg: C.ok }, { sig: 'PU', bd: '#3C7A5E', bg: C.ink, fg: C.ok },
+        { sig: 'PA', bd: '#5A4520', bg: 'rgba(255,194,77,.08)', fg: C.warn }, { sig: 'ST', bd: '#3C7A5E', bg: C.ink, fg: C.ok },
+        { sig: 'DV', bd: C.bd, bg: C.ink, fg: C.t3 }, { sig: 'OP', bd: '#5A2038', bg: 'rgba(255,77,109,.15)', fg: C.err },
+        { sig: 'OS', bd: '#3C7A5E', bg: C.ink, fg: C.ok }, { sig: 'AD', bd: C.bd, bg: C.ink, fg: C.t3 },
+        { sig: 'GB', bd: '#5A4520', bg: 'rgba(255,194,77,.08)', fg: C.warn }, { sig: 'ED', bd: '#3C7A5E', bg: C.ink, fg: C.ok },
+        { sig: 'EA', bd: '#3C7A5E', bg: C.ink, fg: C.ok }, { sig: 'SB', bd: C.bd, bg: C.ink, fg: C.t3 }
+      ],
+
+      layouts: this.buildLayouts(),
+
+      keyGroups: [
+        {
+          name: 'FÓKUSZ ÉS MOZGÁS', color: C.cy, termNote: 'terminálban is működik',
+          keys: [['⌘ ← ↑ ↓ →', 'fókusz a szomszédos panelre, irány szerint'], ['⌘ 1…9', 'ugrás a n-edik panelre (a fejléc mutatja a számot ⌘ lenyomva)'], ['⌘ [ ]', 'előző / következő fül a levélen'], ['⌘ ⇥', 'utolsó két panel között váltás'], ['⌘Esc / Alt+Esc', 'kilépés a terminál-capture-ből, fókusz a keretnek'], ['⌘ .', 'fókusz a panel tartalmára (capture be)']]
+        },
+        {
+          name: 'PANEL NYITÁS ÉS ZÁRÁS', color: C.vi, termNote: 'terminálban is működik',
+          keys: [['⌘ ⏎', 'részlet a kijelölt sorból'], ['⌘ L / Y / E / M', 'napló / YAML / események / metrika'], ['⌘ ⇧ ⏎', 'shell a kijelölt podban'], ['⌘ W', 'panel bezárása'], ['⌘ ⇧ T', 'utolsó bezárt panel visszahozása (30 s)'], ['⌘ ⇧ P', 'kitűzés más hatókörre (pinned_scope)'], ['⌘ ⇧ K', 'zárolás — ez a panel nem hasznosítható újra (locked)']]
+        },
+        {
+          name: 'WORKSPACE ÉS OSZTÁS', color: C.ok, termNote: 'terminálban is működik',
+          keys: [['⌘ D / ⌘ ⇧ D', 'osztás vízszintesen / függőlegesen'], ['⌘ ⌥ ← →', 'a fókuszált panel arányának állítása'], ['⌘ ⇧ 1…9', 'ugrás a n-edik workspace-re'], ['⌘ T / ⌘ ⇧ W', 'új workspace / a jelenlegi bezárása'], ['⌘ R', 'workspace átnevezése'], ['⌘ + − 0', 'nagyítás 80–160% — minden skálázódik, a sűrűség nem']]
+        },
+        {
+          name: 'HATÓKÖR — PANELENKÉNT', color: C.cy, termNote: 'terminálban is működik',
+          keys: [['⌘ K', 'parancspaletta — minden művelet'], ['⌘ P', 'a fókuszált panel clusterének átállítása'], ['⌘ ⇧ N', 'a fókuszált panel namespace-e'], ['⌘ G', 'a fókuszált panel csoport-hatókörre (MIND)'], ['⌘ F', 'szűrő a fókuszált panelben'], ['⌘ ⇧ F', 'flotta-keresés minden clusterben']]
+        },
+        {
+          name: 'TARTALOM', color: C.t2, termNote: 'a panel kapja meg',
+          keys: [['↑ ↓ · j k', 'sorválasztás (vim-mód opcionális)'], ['⏎', 'a sor elsődleges művelete'], ['Space', 'napló szünet / folytatás'], ['/', 'keresés a panelen belül'], ['⌘ C', 'a kijelölt sor / kijelölés másolása'], ['Tab', 'a panelen belüli következő elem']]
+        },
+        {
+          name: 'AMIT A KERET SOHA NEM VESZ EL', color: C.err, termNote: 'terminál-fókuszban',
+          keys: [['Ctrl + bármi', 'mind a shellé — Ctrl+C, Ctrl+D, Ctrl+K, Ctrl+R'], ['Tab', 'shell-kiegészítés'], ['↑ ↓ ← →', 'shell-előzmény és kurzor'], ['Esc és Esc Esc', 'vim, readline — a dupla Escape is a shellé'], ['⌥ + betű (macOS)', 'meta-bevitel, ha a shell kéri'], ['Alt + betű (Linux)', 'a keret elveszi — Esc-prefix a kiváltó']]
+        }
+      ],
+
+      persistence: [
+        { field: 'A fa szerkezete és arányai', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Workspace-enként. Kicsi adat, és a felhasználó munkája van benne.' },
+        { field: 'Panelek típusa és forrása', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Ami a paneleket újranyithatóvá teszi: kind + source + scope. A stream újraindul, a tartalom nem tér vissza.' },
+        { field: 'Panelenkénti hatókör', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Minden panel sajátja, nincs globális. „Ez a panel a stagingről szól" holnap is igaz — §13/1.' },
+        { field: 'locked · nem hasznosítható újra', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Szintén szándék, és a kitűzéstől független — lásd §11/3. „Ez a két napló maradjon egymás mellett" holnap is igaz.' },
+        { field: 'Nagyítás · 80–160%', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Látásra és képernyőtávolságra vonatkozik, nem a munkára. Globális, egy érték, nem panelenkénti.' },
+        { field: 'Aktív workspace', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Ahol abbahagytad, ott folytatod. Nincs piszkozat-fogalom: a workspace mindig önmaga, mentés nélkül.' },
+        { field: 'Workspace: név, sorrend, fa', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'A workspace az elrendezés — ez az APP-04 maga, workspace-enként.' },
+        { field: 'Workspace default_scope', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: 'Csak új panelek születési hatóköre, nem élő követés. Meglévő panelt soha nem mozdít el — §13/1.' },
+        { field: 'Engedélyezett clusterek, csoportok, sigil-felülírások', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: '`CONN-01` / `CONN-02`. Konfiguráció, nem munkamenet.' },
+        { field: 'Oszloprend, -szélesség, rendezés, mentett nézetek', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: '`RES-08`. Paneltípusonként, nem panelenként — különben minden új napló-panel újratanulná.' },
+        { field: 'Sűrűség, téma, vim-mód', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: '`APP-05`. Globális, egy helyen. A sűrűség és a nagyítás két külön tengely — §11/4a.' },
+        { field: 'Mentett szűrők', scope: 'ÚJRAINDÍTÁS', color: C.ok, why: '`RES-07`. Az elnevezett szűrő munka; az ad-hoc szűrő nem.' },
+        { field: 'Ad-hoc szűrőszöveg a panelben', scope: 'MUNKAMENET', color: C.amb, why: 'Az elrendezéssel együtt él, de nem éri meg a lemezt: két nap múlva a „ledger" szűrő félrevezető.' },
+        { field: 'Kijelölt sor, görgetés, nyitott szekciók', scope: 'MUNKAMENET', color: C.amb, why: 'A kijelölés egy objektumra mutat, ami közben megszűnhetett. Visszatöltve hamis folytonosságot ígér.' },
+        { field: 'Aktív fül a levélen', scope: 'MUNKAMENET', color: C.amb, why: 'Határeset. Munkamenet, mert a napló-fül újraindításkor üresen nyílna, és az rosszabb, mint az Áttekintés.' },
+        { field: 'Metrika-időablak', scope: 'MUNKAMENET', color: C.amb, why: 'A relatív ablak („−30m") megmarad, az absztolút nem: egy tegnapi időablak ma zavaró.' },
+        { field: 'Napló-tartalom és scrollback', scope: 'SEMMI', color: C.err, why: 'Nem mi tároljuk. Amit meg kell őrizni, azt a `TIME-05` incidens-export viszi el fájlba.' },
+        { field: 'Terminál-session és scrollback', scope: 'SEMMI', color: C.err, why: 'Az exec-menet nem éli túl a folyamatot, és nem is folytatható. A panel visszanyílik, de üresen és lecsatlakozva — és ezt kiírja. Workspace-váltás viszont nem zárja le: §12.' },
+        { field: 'Felfedett Secret-érték, exec-token', scope: 'SEMMI', color: C.err, why: '`RES-09` / `SEC-06`. A `TIME-01` hatóköréből is kizárt — nem kerül lemezre, egyetlen úton sem.' },
+        { field: 'A részleges eredmény ténye', scope: 'SEMMI', color: C.err, why: 'Szándékos. Ha 10-ből 2 cluster elérhetetlen, azt frissen kell megállapítani — mentett „minden rendben" incidens közben hazugság.' }
+      ],
+
+      newWidgets: [
+        { name: 'PaneTree', geo: 'nem rajzol', geoColor: C.t3, what: 'A fa maga: osztás, arányok, fókusz-szomszédság, minimum-méret kikényszerítése, sorosítás. Ez a keret motorja, nem widget.', size: 'NAGY', sizeColor: C.err },
+        { name: 'PaneFrame', geo: 'sarokvágás 10', geoColor: C.cy, what: 'A 28 px fejléc: glif, cím, számláló, sigil, eredetsor, élő jelzés, capture-jelzés, öt vezérlő, fókuszkeret. Minden panel ezt viseli.', size: 'KÖZEPES', sizeColor: C.amb },
+        { name: 'SplitHandle', geo: '3 px vonal', geoColor: C.cy, what: '3 px rajz, 9 px kattintási sáv, húzás közben 2 px cián, dupla kattintásra 50/50. A design system 1/1/2 px vonalkészletéből.', size: 'KICSI', sizeColor: C.ok },
+        { name: 'PaneTabStrip', geo: 'sarokvágás 0', geoColor: C.t2, what: 'Fülcsík a levél tetején, 22 px. Az aktív fül alsó éle 2 px cián — ugyanaz, mint a Segmented aktív állapota, csak élen.', size: 'KICSI', sizeColor: C.ok },
+        { name: 'ContextMenu', geo: 'lekerekített + árnyék', geoColor: C.vi, what: 'A hiányzó lebegő menü. A paletta rokona: lebeg, Escape-re elvész, nincs mögötte fátyol, mert nem modális. Alszintekkel („Hova…").', size: 'KÖZEPES', sizeColor: C.amb },
+        { name: 'PlacementPreview', geo: 'sarokvágás 0', geoColor: C.cy, what: 'Húzás vagy „Hova…" közben: a cél-panel négy éle kiemelkedik, a leendő hely 10% cián kitöltést kap. Egyetlen alfás téglalap.', size: 'KICSI', sizeColor: C.ok },
+        { name: 'WorkspaceBar', geo: '15 px fül', geoColor: C.amb, what: 'i3-szerű workspace-fülek: szám + név, aktív kiemelve, hibapont, +, húzható átrendezés, dupla kattintásra átnevezés. Ez a fejsáv fő tartalma (§13/3).', size: 'KÖZEPES', sizeColor: C.amb },
+        { name: 'FleetIndicator', geo: '1 px keret', geoColor: C.amb, what: 'Egyetlen cella az állapotsor jobb szélén: ◆ 10/12, a legsúlyosabb flotta-státusz színével. Kattintásra flotta-panelt nyit az aktuális workspace-be (§13/2).', size: 'TRIVIÁLIS', sizeColor: C.ok },
+        { name: 'WorkspaceMenu', geo: 'lekerekített + árnyék', geoColor: C.vi, what: 'Jobbklikk a workspace-fülön: átnevezés, duplikálás, bezárás, áthelyezés. A ContextMenu egy példánya. Nincs külön „layout" fogalom — a workspace az elrendezés (§13/3).', size: 'KICSI', sizeColor: C.ok },
+        { name: 'ClusterSigil', geo: '1 px keret', geoColor: C.t2, what: 'Két karakter mono, 1 px kerettel. Globális hatókör nélkül ez a panel egyetlen kompakt cluster-azonosítója, tehát tartóelem lett. Egy függvény és egy stílus — a legkisebb elem a listában, és a legtöbbet használt.', size: 'TRIVIÁLIS', sizeColor: C.ok },
+        { name: 'PaneEmptyState', geo: 'sarokvágás 0', geoColor: C.t2, what: 'Levél tartalom nélkül: „nyiss ide panelt" + a négy bejárat felsorolása. A DataStateCard nyelvén, panel méretre húzva.', size: 'KICSI', sizeColor: C.ok },
+        { name: 'KeymapCard', geo: 'lekerekített + árnyék', geoColor: C.vi, what: 'A billentyűtérkép overlayként (⌘/). Nem díszítés: az osztott fa megtanulhatóságának feltétele, és a capture-kiutat is ez tanítja.', size: 'KICSI', sizeColor: C.ok }
+      ],
+
+      steps: [
+        {
+          n: '01', title: 'Az egyleveles fa', color: C.cy, bd: '#1E4C57',
+          body: 'A mag kulcsolása (`HashMap<PaneId, …>`), `PaneFrame`, `PaneTree` egy levéllel, a fejsáv 34-re és az állapotsor 26-ra fogyasztása, a bal oldali cluster-oszlop törlése, a mai fülsáv átkötése levél-fülekre.',
+          usable: 'Ugyanaz, mint ma, de 80 pixellel több tartalom és tiszta mag.'
+        },
+        {
+          n: '02', title: 'Osztás', color: C.cy, bd: C.bd,
+          body: '`SplitHandle`, `PaneTabStrip`, az Auto elhelyezési szabály, `ContextMenu` a soron, a billentyűzet fókusz- és nyitás-csoportja. Innentől van napló és shell egyszerre a képen.',
+          usable: 'A megkülönböztető jegy működik: a felhasználó összerakja a képernyőt.'
+        },
+        {
+          n: '03', title: 'Workspace-ek', color: C.vi, bd: C.bd,
+          body: 'A fa sorosítása, `WorkspaceBar` + `WorkspaceMenu`, több workspace, ⌘⇧1…9, három beépített kezdő-workspace, a perzisztencia-táblázat újraindítás-sora. Plusz `PaneEmptyState` és `KeymapCard`.',
+          usable: '`APP-04` kész. „Küldd át az incidens-workspace-edet" működő mondat.'
+        },
+        {
+          n: '04', title: 'Flotta és kitűzés', color: C.ok, bd: C.bd,
+          body: '`FleetIndicator`, `ClusterSigil` mindenhol, panelenkénti hatókör-átállítás, csoport-hatókör, a részleges eredmény jelzése a panelfejlécben. Az első indítás felderítés-panelje.',
+          usable: 'Két cluster egymás mellett. Az első ék (`XC`) keretes otthona készen áll.'
+        }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

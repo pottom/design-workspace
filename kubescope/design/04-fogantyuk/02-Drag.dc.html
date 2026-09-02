@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 2 / 6 · THE DRAG · BRIEF §5.2</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Moving a pane</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Ten frames from grab to release. The plan asked for a single alpha rectangle over the target; <span style="color:var(--ks-ink)">the live rehearsal wins instead</span>, and frame 4 is the argument — take a pane out and the split it lived in collapses, so the target grows. One rectangle cannot draw that, which means it would be lying at the exact moment you are deciding.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:start">
+    <sc-for list="{{ frames }}" as="f" hint-placeholder-count="10">
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <span style="font-family:var(--ks-mono);font-size:10px;color:{{ f.numInk }};font-weight:600">{{ f.n }}</span>
+          <span style="font-size:12.5px;font-weight:600;color:{{ f.titleInk }}">{{ f.title }}</span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:9px;color:{{ f.curInk }}">{{ f.cursor }}</span>
+        </div>
+
+        <div style="height:190px;position:relative;background:var(--ks-bg);border:1px solid var(--ks-line);overflow:hidden">
+          <sc-for list="{{ f.boxes }}" as="b" hint-placeholder-count="4">
+            <div style="position:absolute;left:{{ b.l }};top:{{ b.t }};width:{{ b.w }};height:{{ b.h }};background:{{ b.bg }};border:1px {{ b.style }} {{ b.line }};opacity:{{ b.op }};display:flex;flex-direction:column;overflow:hidden">
+              <div style="height:14px;flex:none;display:flex;align-items:center;gap:4px;padding:0 5px;background:{{ b.headBg }};font-family:var(--ks-mono);font-size:8px;color:{{ b.ink }};white-space:nowrap">
+                <span style="color:{{ b.clInk }}">{{ b.cl }}</span>{{ b.label }}
+              </div>
+              <sc-for list="{{ b.ghost }}" as="g" hint-placeholder-count="3">
+                <div style="height:11px;display:flex;align-items:center;gap:4px;padding:0 5px">
+                  <span style="width:{{ g.w1 }};height:3px;background:{{ g.c1 }};flex:none"></span>
+                  <div style="flex:1"></div>
+                  <span style="width:{{ g.w2 }};height:3px;background:{{ g.c2 }};flex:none"></span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+          <sc-if value="{{ f.hasHatch }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:{{ f.hatchL }};top:{{ f.hatchT }};width:{{ f.hatchW }};height:14px;background:repeating-linear-gradient(135deg,rgba(63,224,208,.20) 0 3px,transparent 3px 7px);border:1px solid rgba(63,224,208,.45)"></div>
+          </sc-if>
+          <sc-if value="{{ f.hasLabel }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:{{ f.labelL }};top:{{ f.labelT }};display:flex;align-items:center;gap:5px;padding:2px 7px;background:{{ f.labelBg }};border:1px solid {{ f.labelLine }};font-family:var(--ks-mono);font-size:8.5px;color:{{ f.labelInk }};white-space:nowrap">
+              <span style="font-size:7px">{{ f.labelGlyph }}</span>{{ f.labelText }}
+            </div>
+          </sc-if>
+          <sc-if value="{{ f.hasPointer }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;left:{{ f.ptrL }};top:{{ f.ptrT }};width:7px;height:7px;background:var(--ks-cy);transform:rotate(45deg)"></div>
+          </sc-if>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ f.body }}</div>
+          <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:{{ f.specInk }}">{{ f.spec }}</div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace";
+
+class Component extends DCLogic {
+  renderVals() {
+    const gh = (n, seed) => {
+      const out = [], pal = [['#5a2530', '#3a1c22'], ['#4a4520', '#332f18'], ['#2c3542', '#212932'], ['#242b35', '#1c222b'], ['#1e242d', '#191f26']];
+      for (let i = 0; i < n; i++) { const p = pal[(i + seed) % pal.length]; out.push({ w1: (46 - (i % 4) * 7) + 'px', w2: (16 + (i % 3) * 4) + 'px', c1: p[0], c2: p[1] }); }
+      return out;
+    };
+    const box = (l, t, w, h, o) => Object.assign({
+      l, t, w, h, bg: 'var(--ks-panel)', line: LINE, style: 'solid', op: '1',
+      headBg: 'var(--ks-field)', ink: INK3, clInk: INK3, cl: '', label: '', ghost: gh(3, 0)
+    }, o || {});
+
+    // A = pods (left, full height) · B = events (top right) · C = logs (bottom right, the one being moved)
+    const A = o => box('0', '0', '52%', '100%', Object.assign({ cl: 'EW ', label: 'pods', ink: INK2, ghost: gh(11, 0) }, o || {}));
+    const B = o => box('calc(52% + 1px)', '0', 'calc(48% - 1px)', '50%', Object.assign({ cl: 'AS ', label: 'events', ink: INK2, ghost: gh(5, 1) }, o || {}));
+    const C = o => box('calc(52% + 1px)', 'calc(50% + 1px)', 'calc(48% - 1px)', 'calc(50% - 1px)', Object.assign({ cl: 'UE ', label: 'logs', ink: INK2, ghost: gh(5, 2) }, o || {}));
+    const Bfull = o => box('calc(52% + 1px)', '0', 'calc(48% - 1px)', '100%', Object.assign({ cl: 'AS ', label: 'events', ink: INK2, ghost: gh(11, 1) }, o || {}));
+    const dim = { op: '.45' };
+    const land = { bg: 'rgba(63,224,208,.10)', line: CY, headBg: 'rgba(63,224,208,.16)', ink: CY, clInk: CY, cl: 'UE ', label: 'logs', ghost: gh(4, 2) };
+
+    const F = (n, title, o) => Object.assign({
+      n, title, titleInk: INK, numInk: INK3, cursor: '', curInk: INK3, boxes: [],
+      hasHatch: false, hatchL: '0', hatchT: '0', hatchW: '0',
+      hasLabel: false, labelL: '0', labelT: '0', labelText: '', labelGlyph: '', labelBg: 'var(--ks-panel-hi)', labelLine: LINE_H, labelInk: INK,
+      hasPointer: false, ptrL: '0', ptrT: '0', body: '', spec: '', specInk: INK3
+    }, o);
+
+    const frames = [
+      F('01', 'Rest', {
+        cursor: 'default', boxes: [A(), B(), C()],
+        body: 'Three panes, nothing held. The pane you are about to move is the log in the bottom right, and the split it shares with the events pane is the thing everyone forgets about.',
+        spec: 'no chrome added · nothing announces the drag yet'
+      }),
+      F('02', 'The grab zone', {
+        cursor: 'grab', curInk: CY,
+        boxes: [A(), B(), C()], hasHatch: true, hatchL: 'calc(52% + 30px)', hatchT: 'calc(50% + 1px)', hatchW: 'calc(48% - 60px)',
+        body: 'Hatched: the type-and-scope label and the space around it. The cluster picker on its left and ⊞ ⋯ ✕ on its right are click targets and stop the pointer — the handle is the one part of the header that is not a control.',
+        spec: 'grab zone = header minus its controls · cursor grab',
+        specInk: CY
+      }),
+      F('03', 'Threshold · 4px', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [A(), B(), C({ op: '.45', style: 'dashed', line: LINE_H })],
+        hasLabel: true, labelL: 'calc(52% + 22px)', labelT: 'calc(50% + 22px)', labelText: 'Logs · prod-us-east', labelGlyph: '≡', labelInk: INK, labelBg: 'var(--ks-panel-hi)', labelLine: LINE_H,
+        hasPointer: true, ptrL: 'calc(52% + 14px)', ptrT: 'calc(50% + 16px)',
+        body: 'Under 4px it is a click, which focuses the pane. At 4px the source goes to 45% with a dashed border, the cursor commits, and a mono label picks up what you are carrying — no scaled ghost, because the rehearsal is already a second thing moving.',
+        spec: '4px · source 45% + dashed · label offset 12px',
+        specInk: CY
+      }),
+      F('04', 'Left edge of pods', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [
+          box('0', '0', '21%', '100%', land),
+          box('calc(21% + 1px)', '0', 'calc(31% - 1px)', '100%', A(dim)),
+          Bfull(dim)
+        ],
+        hasPointer: true, ptrL: '8%', ptrT: '46%',
+        body: 'Here is why a rectangle cannot do this job. The log leaves the right column, so that split collapses and the events pane grows to full height — a change on the far side of the screen from the pointer. The rehearsal shows it; an overlay on the target could not.',
+        spec: 'new pane 40% of pods · everything else at 45% · B gained 50% of the column',
+        specInk: CY
+      }),
+      F('05', 'Right edge of pods', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [
+          A(Object.assign({ l: '0', w: '31%' }, dim)),
+          box('calc(31% + 1px)', '0', 'calc(21% - 1px)', '100%', land),
+          Bfull(dim)
+        ],
+        hasPointer: true, ptrL: '46%', ptrT: '46%',
+        body: 'The same drop on the other side. The four edges are the outer quarter of the target’s width or height, so the whole outer ring of a pane is a directional target and the middle half is not.',
+        spec: 'hit zone = outer 25% · new pane always gets 40%',
+        specInk: CY
+      }),
+      F('06', 'Top of pods', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [
+          box('0', '0', '52%', '40%', land),
+          A(Object.assign({ t: '41%', h: '59%' }, dim)),
+          Bfull(dim)
+        ],
+        hasPointer: true, ptrL: '24%', ptrT: '8%',
+        body: 'A horizontal split instead. The 40% rule is directional in the same way: the pane arriving takes the smaller share, so the pane you were already reading keeps the majority of the space.',
+        spec: 'split direction from the edge · arriving pane 40%',
+        specInk: CY
+      }),
+      F('07', 'Bottom of pods', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [
+          A(Object.assign({ t: '0', h: '59%' }, dim)),
+          box('0', '60%', '52%', '40%', land),
+          Bfull(dim)
+        ],
+        hasPointer: true, ptrL: '24%', ptrT: '86%',
+        body: 'The fourth edge, and the commonest drop in this product: a log under the pod list it came from. It is also the layout the incident template stamps, which is not a coincidence.',
+        spec: 'four edges · one rule · no snapping to a grid',
+        specInk: CY
+      }),
+      F('08', 'The centre — as a tab', {
+        cursor: 'grabbing', curInk: CY, titleInk: CY,
+        boxes: [
+          box('0', '0', '52%', '16px', { bg: 'var(--ks-field)', line: LINE, headBg: 'transparent', ink: INK3, label: 'pods  ▸ logs', clInk: CY, cl: '', ghost: [] }),
+          A(Object.assign({ t: '17px', h: 'calc(100% - 17px)', bg: 'rgba(63,224,208,.06)', line: CY }, {})),
+          Bfull(dim)
+        ],
+        hasPointer: true, ptrL: '26%', ptrT: '54%',
+        body: 'The fifth target, and it looks nothing like the other four: no split, no geometry change — a tab strip appears at the top of the target and the pane joins it. The middle 50% × 50% of any pane is this target.',
+        spec: 'centre 50% × 50% · strip appears · 22px comes off the body',
+        specInk: CY
+      }),
+      F('09', 'Refused', {
+        cursor: 'not-allowed', curInk: BAD, titleInk: BAD,
+        boxes: [A(dim), Bfull(dim), C({ op: '.45', style: 'dashed', line: LINE_H })],
+        hasLabel: true, labelL: 'calc(52% + 16px)', labelT: 'calc(50% + 30px)', labelText: 'already here', labelGlyph: '▲', labelInk: '#ffc4cf', labelBg: 'rgba(255,77,109,.16)', labelLine: '#54262b',
+        hasPointer: true, ptrL: 'calc(52% + 8px)', ptrT: 'calc(50% + 24px)',
+        body: 'On its own slot, or past the depth limit. The rehearsal freezes at the last legal state rather than drawing the illegal one, and the label swaps its cargo for the reason — already here, depth limit 4, or 320 min.',
+        spec: 'cursor not-allowed · rehearsal frozen · reason in the label',
+        specInk: BAD
+      }),
+      F('10', 'Release', {
+        cursor: 'default', titleInk: OK,
+        boxes: [
+          A(Object.assign({ t: '0', h: '59%' }, {})),
+          box('0', '60%', '52%', '40%', { bg: 'var(--ks-panel)', line: LINE, headBg: 'rgba(63,224,208,.16)', ink: CY, clInk: CY, cl: 'UE ', label: 'logs', ghost: gh(4, 2) }),
+          Bfull()
+        ],
+        body: 'Nothing animates into place, because the layout already moved during the drag — the opacities go to 100% over 140ms and the landed pane’s header flashes cyan once for 300ms so the eye can find it. Then the tab writes itself to disk.',
+        spec: 'no layout motion · 140ms opacity · 300ms header flash · autosaved',
+        specInk: OK
+      })
+    ];
+
+    return {
+      facts: [
+        { k: 'FRAMES', v: '10', tone: INK },
+        { k: 'TARGETS', v: '5', tone: CY },
+        { k: 'THRESHOLD', v: '4px', tone: INK2 },
+        { k: 'GHOST OF THE PANE', v: 'none', tone: OK }
+      ],
+      frames,
+      closing: [
+        { tone: CY, k: 'THE REHEARSAL WINS OVER THE RECTANGLE', t: 'The plan specified one alpha rectangle on the target; frame 4 is why it cannot stay. Removing a pane collapses the split it lived in, so a pane on the other side of the screen grows — and an overlay drawn on the target has no way to say that. The rehearsal is the same tree function the drop will use, rendered uncommitted, so it is incapable of promising a layout the release will not produce. The cost is a busier screen mid-drag, bounded by drawing chrome only: borders, headers, titles, flat fills, no rows and no queries.' },
+        { tone: OK, k: 'FIVE TARGETS, AND ONE OF THEM IS NOT A SPLIT', t: 'Four edges from the outer 25% ring, plus the middle 50% × 50% for “as a tab”. Naming the fifth is what stops the frame from needing a separate gesture for tabs — and it is the honest answer to a pane too small to split, which is why ⊞ becomes “open as a tab” below 804px rather than greying out.' },
+        { tone: WARN, k: 'A REFUSAL FREEZES RATHER THAN FLICKERS', t: 'An illegal target is never drawn. The rehearsal holds the last legal state, the cursor becomes not-allowed and the carried label states the reason — already here, depth limit 4, 320 min. Drawing the invalid layout would make the screen flicker between two futures on every pixel of pointer movement, and the person would be reading a layout that cannot happen.' },
+        { tone: INK2, k: 'ONE LABEL, NOT A SCALED SCREENSHOT', t: 'What follows the cursor is a mono line naming what you are carrying, offset 12px. A shrunken image of the pane would be a third moving thing next to the pointer and the rehearsal, unreadable at any size that does not obscure the drop, and it would need re-rendering every frame of the drag.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

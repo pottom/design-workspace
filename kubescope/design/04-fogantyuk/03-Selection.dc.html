@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #3fe0d0; text-decoration: none; }
+  a:hover { color: #7ff0e4; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-cy:#3fe0d0;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff4d6d;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · 3 / 6 · SELECTION · BRIEF §6</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Selection</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The brief asked whether multi-selection exists. <span style="color:var(--ks-ink)">It does</span> — the product’s promise is doing one thing to eight pods, and a promise with no gesture is a feature request. What that costs is the rest of this page: a selection that spans clusters, survives a filter visibly, and refuses to shrink in silence when three of the eight die.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§6.3</div>
+      <div style="font-size:19px;font-weight:600">Six specimens, at 1:1, including the two the brief asked for by name</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start">
+      <sc-for list="{{ specimens }}" as="s" hint-placeholder-count="6">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:8px">
+            <span style="font-size:13px;font-weight:600;color:{{ s.titleInk }}">{{ s.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ s.capInk }}">{{ s.cap }}</span>
+          </div>
+
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:{{ s.headBg }};box-shadow:inset 0 -1px 0 {{ s.headLine }};font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ s.clInk }};font-weight:600">{{ s.cluster }}</span>
+              <span style="color:var(--ks-line-strong)">│</span>
+              <span style="color:var(--ks-ink)">Pods</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3)">⊞ ⋯ ✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="flex:1;min-width:0;padding:3px 7px;border:1px solid var(--ks-line);background:var(--ks-bg);color:{{ s.filterInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.filter }}</span>
+              <span style="color:{{ s.countInk }};flex:none">{{ s.count }}</span>
+            </div>
+            <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="9">
+              <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;position:relative;background:{{ r.bg }};box-shadow:{{ r.shadow }}">
+                <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                <span style="font-size:11px;color:{{ r.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-decoration:{{ r.strike }}">{{ r.name }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9px;color:{{ r.stInk }};flex:none">{{ r.st }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ s.hasBar }}" hint-placeholder-val="{{ false }}">
+              <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:{{ s.barBg }};border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px">
+                <span style="color:{{ s.barInk }};font-weight:600">{{ s.barText }}</span>
+                <div style="flex:1"></div>
+                <sc-for list="{{ s.verbs }}" as="v" hint-placeholder-count="3">
+                  <span style="padding:3px 7px;border:1px solid {{ v.line }};background:{{ v.bg }};color:{{ v.ink }}">{{ v.t }}</span>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.body }}</div>
+          <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:{{ s.specInk }}">{{ s.spec }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§6.1</div>
+        <div style="font-size:19px;font-weight:600">What is selectable, per pane</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <div style="height:22px;display:grid;grid-template-columns:104px 128px 1fr;align-items:center;gap:12px;padding:0 14px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3)">
+          <div>PANE</div><div>UNIT</div><div>HOW, AND WHAT WINS</div>
+        </div>
+        <sc-for list="{{ what }}" as="w" hint-placeholder-count="8">
+          <div style="min-height:30px;display:grid;grid-template-columns:104px 128px 1fr;align-items:center;gap:12px;padding:5px 14px;background:{{ w.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="font-family:var(--ks-mono);font-size:10px;color:{{ w.paneInk }};font-weight:600">{{ w.pane }}</div>
+            <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ w.unitInk }}">{{ w.unit }}</div>
+            <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ w.how }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <sc-for list="{{ gestures }}" as="g" hint-placeholder-count="2">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ g.tone }};padding:11px 13px;display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ g.tone }}">{{ g.k }}</div>
+            <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="5">
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;padding:1px 5px;border:1px solid var(--ks-line-strong);color:{{ r.keyInk }};flex:none">{{ r.key }}</span>
+                <span style="font-size:11px;line-height:1.4;color:var(--ks-ink-2);min-width:0;text-wrap:pretty">{{ r.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-cy)">§6.4</div>
+        <div style="font-size:19px;font-weight:600">Lifetime — what every event does to it</div>
+        <div style="flex:1"></div>
+        <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">session-level, per pane</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <div style="height:22px;display:grid;grid-template-columns:1fr 96px 1fr;align-items:center;gap:12px;padding:0 14px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3)">
+          <div>EVENT</div><div>SELECTION</div><div>WHY, AND WHAT IT SAYS</div>
+        </div>
+        <sc-for list="{{ lifetime }}" as="l" hint-placeholder-count="12">
+          <div style="min-height:30px;display:grid;grid-template-columns:1fr 96px 1fr;align-items:center;gap:12px;padding:5px 14px;background:{{ l.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="font-size:11px;line-height:1.4;color:{{ l.evInk }};text-wrap:pretty">{{ l.ev }}</div>
+            <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ l.outInk }};font-weight:600">{{ l.out }}</div>
+            <div style="font-size:11px;line-height:1.4;color:var(--ks-ink-3);text-wrap:pretty">{{ l.why }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const CY = '#3fe0d0', OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff4d6d', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    const SEL = 'rgba(63,224,208,.08)';
+    const SEL_TINT = 'rgba(63,224,208,.10)';
+    const HAIR = 'inset 0 -1px 0 ' + LINE_S;
+
+    // edge: 'top' | 'mid' | 'bottom' | 'solo' — the outline is drawn around a run, not per row
+    const runShadow = (edge, dim) => {
+      const c = dim ? 'rgba(63,224,208,.40)' : CY;
+      const side = 'inset 1px 0 0 ' + c + ', inset -1px 0 0 ' + c;
+      if (edge === 'top') return side + ', inset 0 1px 0 ' + c;
+      if (edge === 'bottom') return side + ', inset 0 -1px 0 ' + c;
+      if (edge === 'solo') return side + ', inset 0 1px 0 ' + c + ', inset 0 -1px 0 ' + c;
+      return side;
+    };
+    const r = (name, st, o) => Object.assign({
+      name, st, ink: INK, stInk: INK3, mark: OK, bg: 'transparent', shadow: HAIR, strike: 'none'
+    }, o || {});
+    const bad = o => Object.assign({ ink: '#ffc4cf', stInk: BAD, mark: BAD, bg: 'rgba(255,77,109,.05)' }, o || {});
+    const warn = o => Object.assign({ ink: '#f3d08a', stInk: WARN, mark: WARN, bg: 'rgba(240,180,41,.05)' }, o || {});
+
+    const base = [
+      r('ledger-worker-…-2wq7t', 'CrashLoop', bad()),
+      r('ledger-worker-…-h4k9x', 'CrashLoop', bad()),
+      r('ledger-worker-…-p1r7m', 'Pending', warn()),
+      r('checkout-api-…-k8n1p', 'Running'),
+      r('checkout-api-…-x2m4q', 'Running'),
+      r('checkout-api-…-z0mq4', 'Running'),
+      r('payout-batcher-…-f5flv', 'Running'),
+      r('envoy-gateway-…-9dd21', 'Running', { ink: '#c8d1dd' }),
+      r('nightly-export-28471', 'Succeeded', { ink: INK3, stInk: INK3, mark: IDLE })
+    ];
+    const clone = () => base.map(x => Object.assign({}, x));
+
+    const S = (title, cap, o) => Object.assign({
+      title, cap, titleInk: INK, capInk: INK3,
+      cluster: 'prod-eu-west', clInk: CY, headBg: 'rgba(63,224,208,.06)', headLine: CY,
+      filter: 'filter', filterInk: INK3, count: '9 of 41', countInk: INK3,
+      rows: clone(), hasBar: false, barBg: 'rgba(63,224,208,.06)', barInk: INK, barText: '', verbs: [],
+      body: '', spec: '', specInk: INK3
+    }, o);
+
+    const verb = (t, tone) => ({
+      t,
+      ink: tone === 'bad' ? '#ffc4cf' : tone === 'warn' ? '#f3d08a' : INK2,
+      bg: tone === 'bad' ? 'rgba(255,77,109,.12)' : tone === 'warn' ? 'rgba(240,180,41,.14)' : 'rgba(255,255,255,.04)',
+      line: tone === 'bad' ? '#54262b' : tone === 'warn' ? '#5a4520' : LINE_H
+    });
+
+    const one = clone();
+    one[3] = Object.assign(one[3], { bg: SEL, shadow: runShadow('solo'), ink: '#fff', stInk: INK2 });
+
+    const eight = clone();
+    [1, 2, 3, 4, 5, 6, 7].forEach((i, k) => {
+      const edge = k === 0 ? 'top' : k === 6 ? 'bottom' : 'mid';
+      const tinted = i <= 2;
+      eight[i] = Object.assign(eight[i], {
+        bg: tinted ? SEL_TINT : SEL, shadow: runShadow(edge), ink: '#fff',
+        stInk: i === 1 ? '#ffc4cf' : i === 2 ? '#f3d08a' : INK2
+      });
+    });
+
+    const errRow = clone();
+    errRow[0] = Object.assign(errRow[0], { bg: SEL_TINT, shadow: runShadow('top'), ink: '#fff', stInk: '#ffc4cf' });
+    errRow[1] = Object.assign(errRow[1], { bg: SEL_TINT, shadow: runShadow('bottom'), ink: '#fff', stInk: '#ffc4cf' });
+
+    const unfocused = clone();
+    [3, 4, 5].forEach((i, k) => {
+      unfocused[i] = Object.assign(unfocused[i], {
+        bg: 'rgba(63,224,208,.04)', shadow: runShadow(k === 0 ? 'top' : k === 2 ? 'bottom' : 'mid', true), ink: INK
+      });
+    });
+
+    const focusRing = clone();
+    focusRing[3] = Object.assign(focusRing[3], { bg: SEL, shadow: runShadow('top'), ink: '#fff', stInk: INK2 });
+    focusRing[4] = Object.assign(focusRing[4], { bg: SEL, shadow: runShadow('bottom'), ink: '#fff', stInk: INK2 });
+    focusRing[5] = Object.assign(focusRing[5], { bg: 'transparent', shadow: '0 0 0 2px rgba(63,224,208,.55)', ink: INK });
+
+    const tomb = clone();
+    [1, 2, 3, 4, 5, 6, 7].forEach((i, k) => {
+      const edge = k === 0 ? 'top' : k === 6 ? 'bottom' : 'mid';
+      tomb[i] = Object.assign(tomb[i], { bg: i <= 2 ? SEL_TINT : SEL, shadow: runShadow(edge), ink: '#fff', stInk: INK2 });
+    });
+    tomb[1] = Object.assign(tomb[1], { bg: 'rgba(255,77,109,.04)', ink: '#8a5f62', st: 'gone 14:02', stInk: '#8a5f62', mark: '#54262b', strike: 'line-through', shadow: runShadow('top') });
+    tomb[2] = Object.assign(tomb[2], { bg: 'rgba(255,77,109,.04)', ink: '#8a5f62', st: 'gone 14:02', stInk: '#8a5f62', mark: '#54262b', strike: 'line-through', shadow: runShadow('mid') });
+    tomb[3] = Object.assign(tomb[3], { bg: 'rgba(255,77,109,.04)', ink: '#8a5f62', st: 'gone 14:03', stInk: '#8a5f62', mark: '#54262b', strike: 'line-through', shadow: runShadow('mid') });
+
+    const specimens = [
+      S('One row', 'the ordinary case', {
+        rows: one, count: '9 of 41',
+        body: 'Fill at 8% and a 1px cyan outline. The 2px left channel stays with status — the code’s r.mark keeps it, so selection had to find a different geometry rather than a different opacity.',
+        spec: 'fill rgba(63,224,208,.08) · outline 1px · mark untouched'
+      }),
+      S('Eight rows', 'one run, one outline', {
+        rows: eight, hasBar: true, barText: '8 selected', barInk: INK,
+        verbs: [verb('restart', 'warn'), verb('delete', 'bad'), verb('logs'), verb('⋯')],
+        count: '9 of 41', countInk: CY,
+        body: 'The brief was right that the same 8% eight times reads differently. So a contiguous run is drawn as one block: the outline goes around the run, not each row, and only the run’s first and last rows get a horizontal edge.',
+        spec: 'runEdge: top | mid | bottom · SelectionBar appears at ≥2',
+        specInk: CY
+      }),
+      S('A selected failing row', 'the case named in §6.3', {
+        rows: errRow, hasBar: true, barText: '2 selected', barInk: INK,
+        verbs: [verb('restart', 'warn'), verb('logs'), verb('⋯')],
+        body: 'On a tinted row the fill does not stack — it is replaced by 10% cyan composited over the status tint, the text goes to full white, and the outline does the identifying. This is the row you care about during an incident, so it could not be the one that is nearly invisible.',
+        spec: 'tinted row: fill 10%, not 8% + 5% · outline carries it · status hue kept',
+        specInk: WARN, titleInk: WARN, cap: 'the case named in §6.3', capInk: WARN
+      }),
+      S('Selection on an unfocused pane', 'two panes, one active', {
+        rows: unfocused, cluster: 'prod-us-east', clInk: INK2, headBg: 'transparent', headLine: LINE_S,
+        count: '3 of 28',
+        body: 'It dims rather than clearing: fill to 4%, outline to 40%. Still legible from across the screen, unmistakably not the pane your keys are going to — which is the whole reason focus and selection are separate channels.',
+        spec: 'fill 4% · outline 40% · header tint and hairline gone',
+        specInk: INK2, titleInk: INK2
+      }),
+      S('Selection plus the keyboard cursor', 'why Space means something', {
+        rows: focusRing, hasBar: true, barText: '2 selected', barInk: INK,
+        verbs: [verb('restart', 'warn'), verb('logs'), verb('⋯')],
+        count: '9 of 41',
+        body: 'Arrows move the 2px focus ring and select nothing; Space toggles the row under it. A row can therefore be focused and unselected — the third row here — and moving through a list never destroys an eight-row selection.',
+        spec: '↑↓ move only · Space toggles · ⇧↑↓ extends · ⌘A takes the filtered set',
+        specInk: CY
+      }),
+      S('Three of the eight died', 'the dangerous one', {
+        rows: tomb, hasBar: true, barBg: 'rgba(240,180,41,.07)', barText: '8 selected · 3 gone', barInk: '#f3d08a',
+        verbs: [verb('acts on 5', 'warn'), verb('⋯')],
+        count: '6 of 38', countInk: WARN,
+        body: 'The selection does not silently become five. The dead rows stay in place as tombstones — struck through, hollow mark — the count says “8 selected · 3 gone”, and the next action’s button states what it would really touch.',
+        spec: 'tombstones held until you clear or re-query · confirmation names both numbers',
+        specInk: BAD, titleInk: BAD, cap: 'the dangerous one', capInk: BAD
+      })
+    ];
+
+    const W = (pane, unit, how, tone) => ({
+      pane, unit, how,
+      paneInk: tone === 'no' ? INK3 : INK,
+      unitInk: tone === 'no' ? INK3 : tone === 'odd' ? WARN : CY,
+      bg: tone === 'no' ? 'rgba(255,255,255,.012)' : tone === 'odd' ? 'rgba(240,180,41,.05)' : 'transparent'
+    });
+
+    const L = (ev, out, why, tone) => ({
+      ev, out, why,
+      evInk: INK,
+      outInk: tone === 'keep' ? OK : tone === 'clear' ? INK3 : tone === 'mark' ? WARN : INK2,
+      bg: tone === 'mark' ? 'rgba(240,180,41,.05)' : tone === 'keep' ? 'rgba(62,207,142,.04)' : 'transparent'
+    });
+
+    return {
+      facts: [
+        { k: 'MULTI-SELECT', v: 'yes', tone: CY },
+        { k: 'SELECTION CHANNELS', v: '2', tone: INK },
+        { k: 'SILENT SHRINK', v: 'never', tone: BAD },
+        { k: 'LIFETIME', v: 'session', tone: INK2 }
+      ],
+      specimens,
+      what: [
+        W('pods · nodes', 'a row', 'Click selects one, ⌘-click adds, ⇧-click extends from the anchor. The unit is the object, so the row is the whole target — there is no cell selection.'),
+        W('events', 'a row', 'Same as a list, but an event is not actionable: selecting is for copying and for jumping the tab’s clock to that moment.'),
+        W('fleet', 'a cluster row', 'Multi-select is how a group is built: select six rows, save as a group. This is where CONN-02 actually lives.'),
+        W('log', 'a line, a range', 'Text selection wins in the body — the cursor is a caret there. Line selection is a separate physical place: click the timestamp gutter, ⇧-click for a range.', 'odd'),
+        W('yaml', 'a key, a subtree', 'Same split. Text in the body; clicking a key in the gutter takes the key and everything under it, because that is what copying a block means.', 'odd'),
+        W('metrics', 'a time range', 'A horizontal drag sets the window. This is the one drag in the product that is not a selection — it is a scope change, so it persists with the pane rather than with the session.', 'odd'),
+        W('shell', 'the terminal’s', 'The terminal owns it entirely. The frame draws no selection layer, intercepts no ⌘A, and stays out of the way — stated so nobody adds one later.', 'no'),
+        W('detail', 'nothing', 'Its rows are facts about one object, not objects. Copy is per field on hover, and this pane never appears in a selection count.', 'no')
+      ],
+      gestures: [
+        {
+          k: 'MOUSE', tone: CY,
+          rows: [
+            { key: 'click', t: 'select one, and set the anchor', keyInk: INK },
+            { key: '⌘', t: 'add or remove one, anchor moves', keyInk: INK },
+            { key: '⇧', t: 'extend from the anchor to here', keyInk: INK },
+            { key: 'drag', t: 'nothing — a row drag is a pane gesture', keyInk: INK3 },
+            { key: 'click', t: 'on the count in the control bar: clear', keyInk: INK2 }
+          ]
+        },
+        {
+          k: 'KEYBOARD', tone: CY,
+          rows: [
+            { key: '↑ ↓', t: 'move the focus ring, select nothing', keyInk: INK },
+            { key: 'Space', t: 'toggle the focused row', keyInk: INK },
+            { key: '⇧↑↓', t: 'extend by one, from the anchor', keyInk: INK },
+            { key: '⌘A', t: 'everything the filter currently shows', keyInk: INK },
+            { key: 'Esc', t: 'clear · then close the pane menu', keyInk: INK2 }
+          ]
+        }
+      ],
+      lifetime: [
+        L('A selected row is hidden by a filter change', 'kept', 'Overruling today’s behaviour, which drops it. The count says “8 selected · 2 hidden by the filter”, because dropping silently changes what the next action touches.', 'mark'),
+        L('The filter is cleared again', 'kept', 'The hidden two come back into view and the count loses its clause. Nothing to explain, because nothing was thrown away.', 'keep'),
+        L('A selected object disappears', 'tombstone', 'Held in place, struck through, counted separately. The one case where silence causes a wrong write, so it is the loudest thing on the page.', 'mark'),
+        L('The pane’s cluster is changed', 'cleared', 'A different cluster is a different question with different objects. No ceremony — the count simply goes.', 'clear'),
+        L('The namespace or the kind is changed', 'cleared', 'Same reason. The keys would not resolve, and a selection of keys that no longer exist is the tombstone case for no benefit.', 'clear'),
+        L('The column sort changes', 'kept', 'Order is presentation. The pane scrolls to keep the focused row visible, not the whole selection, which may now span the list.', 'keep'),
+        L('The pane loses focus', 'kept, dimmed', 'Fill to 4%, outline to 40%. Two panes may hold selections at once and only one is receiving keys.', 'keep'),
+        L('You switch tabs and come back', 'kept', 'Selection is per pane and lives in the session store, so the tab returns as you left it.', 'keep'),
+        L('The pane is closed', 'gone', 'The selection belonged to the pane. Reopening the same question gives you a fresh one.', 'clear'),
+        L('The tab enters time travel', 'cleared', 'The objects at 09:12 are not the same objects, and nothing in the past is actionable anyway. Stated because inheriting the selection would look harmless.', 'clear'),
+        L('The app restarts', 'gone', 'Session-level, exactly as the persistence table on the layouts page records. The layout comes back; what you had picked does not.', 'clear'),
+        L('An action runs on the selection', 'kept', 'You usually want to look at the same eight afterwards. Objects that the action destroyed become tombstones on the next watch event.', 'keep')
+      ],
+      closing: [
+        { tone: CY, k: 'MULTI-SELECTION EXISTS — THE PRODUCT PROMISED IT', t: 'Eight pods, one action, is the reason this console is not k9s, so ⌘-click, ⇧-click, ⇧-arrow and ⌘A are all in. The frame had already grown them because they were obvious; what was missing was everything that follows from them, which is the rest of this page. The alternative — single selection with bulk work done through the fleet pane — was rejected because it moves the commonest incident action into a different pane from the evidence.' },
+        { tone: WARN, k: 'STATUS KEEPS THE LEFT EDGE, SELECTION TAKES THE OUTLINE', t: 'The code’s r.mark wins the 2px channel, so selection is fill plus a 1px outline drawn around a contiguous run. Two reasons beyond deference to the code: status must be scannable straight down a column, and eight cyan left bars would compete with eight status bars in the same two pixels. On a tinted row the fill goes to 10% and is composited rather than stacked, which is what makes the selected CrashLoop row readable.' },
+        { tone: BAD, k: 'A SELECTION NEVER SHRINKS IN SILENCE', t: 'Two events can quietly change what “these eight” means: a filter hiding rows, and objects dying. Both are made visible instead — hidden rows are counted in the control bar, dead rows stay as tombstones, and the action bar states the number it would really act on. This is the only rule on the page that prevents a wrong write rather than a wrong impression.' },
+        { tone: INK2, k: 'ARROWS MOVE, SPACE SELECTS', t: 'If arrows selected as they moved, walking a list would destroy an eight-row selection, and there would be no way to look at a row without picking it. Separating the cursor from the set costs one extra keystroke and buys ⇧-arrow, ⌘A over a filtered set, and a focus ring that can sit on an unselected row — the state that makes Space meaningful.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
