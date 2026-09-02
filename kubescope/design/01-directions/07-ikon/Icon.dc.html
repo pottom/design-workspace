@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  img { display: block; image-rendering: auto; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:40px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · APP ICON</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">The icon</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Your logo, made to survive 16 pixels. The full mark has four ideas in it — wheel, eye, scan wedge, brackets — and at dock size two of them vanish. So it is <span style="color:var(--ks-ink)">not one drawing scaled down</span> but five drawings, each dropping what the next size cannot hold.</div>
+    </div>
+    <div style="flex:1"></div>
+    <img src="icon-512.svg" width="132" height="132" alt="KubeScope">
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE LADDER</div>
+      <div style="font-size:20px;font-weight:600">Five drawings, and what each one gives up</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <sc-for list="{{ ladder }}" as="l" hint-placeholder-count="5">
+        <div style="background:var(--ks-panel);padding:20px 18px;display:flex;flex-direction:column;gap:14px;align-items:center">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ l.tone }};align-self:flex-start">{{ l.size }}</div>
+          <img src="{{ l.src }}" width="{{ l.shown }}" height="{{ l.shown }}" alt="{{ l.size }}">
+          <div style="display:flex;align-items:center;gap:9px;padding-top:2px">
+            <img src="{{ l.src }}" width="{{ l.real }}" height="{{ l.real }}" alt="actual size">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">actual</span>
+          </div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty;align-self:stretch">{{ l.t }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:{{ l.tone }};align-self:stretch">{{ l.drops }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">IN PLACE</div>
+      <div style="font-size:20px;font-weight:600">Where it actually appears</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">MACOS DOCK · 128</div>
+        <div style="height:150px;background:linear-gradient(160deg,#1c2230,#0d1119);border:1px solid var(--ks-line);display:flex;align-items:flex-end;justify-content:center;padding:0 0 12px">
+          <div style="display:flex;align-items:flex-end;gap:10px;padding:8px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:16px">
+            <sc-for list="{{ dock }}" as="d" hint-placeholder-count="5">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:5px">
+                <sc-if value="{{ d.isUs }}" hint-placeholder-val="{{ false }}">
+                  <img src="icon-128.svg" width="52" height="52" alt="KubeScope">
+                </sc-if>
+                <sc-if value="{{ d.isOther }}" hint-placeholder-val="{{ true }}">
+                  <div style="width:52px;height:52px;border-radius:12px;background:{{ d.bg }}"></div>
+                </sc-if>
+                <div style="width:3px;height:3px;border-radius:50%;background:{{ d.dot }}"></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">The one place the full mark is legible. Dark plate, not transparent — a transparent icon on a dark dock loses its edges, and this app is dark-only.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">MENU BAR / TRAY · 22 · MONOCHROME</div>
+        <div style="height:150px;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column">
+          <div style="height:26px;background:rgba(255,255,255,.07);display:flex;align-items:center;gap:14px;padding:0 12px;border-bottom:1px solid var(--ks-line)">
+            <div style="flex:1"></div>
+            <img src="tray-light.svg" width="16" height="16" alt="tray">
+            <span style="font-family:var(--ks-mono);font-size:10px;color:#c8d1dd">14:22</span>
+          </div>
+          <div style="flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--ks-line)">
+            <sc-for list="{{ trayStates }}" as="t" hint-placeholder-count="3">
+              <div style="background:var(--ks-field);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:10px">
+                <img src="{{ t.src }}" width="22" height="22" alt="{{ t.label }}">
+                <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ t.tone }};text-align:center;line-height:1.4">{{ t.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">A template image: one colour plus alpha, so macOS inverts it with the menu bar. The badge is the only exception — the worst state in the fleet, visible with the window closed.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">TITLE BAR · TASKBAR · FAVICON · 16</div>
+        <div style="height:150px;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column">
+          <div style="height:30px;background:var(--ks-field);display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line)">
+            <img src="icon-16.svg" width="16" height="16" alt="app">
+            <span style="font-size:11.5px;color:var(--ks-ink)">KubeScope</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">— prod-eu-west · incident</span>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;gap:18px;padding:0 14px">
+            <sc-for list="{{ small }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:7px">
+                <div style="padding:6px;background:{{ s.bg }};border:1px solid {{ s.line }};display:flex;align-items:center;justify-content:center">
+                  <img src="{{ s.src }}" width="{{ s.px }}" height="{{ s.px }}" alt="{{ s.label }}">
+                </div>
+                <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">{{ s.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">At 16 the wheel is one ring and the eye is a dot. Tested on light and dark chrome, because Windows taskbars and browser tabs are not always dark.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">DECISIONS</div>
+        <div style="font-size:19px;font-weight:600">Six, and one of them is a product decision</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="6">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ d.tone }};padding:12px 14px;display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:12.5px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ d.h }}</div>
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ d.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">FILES</div>
+        <div style="font-size:19px;font-weight:600">What to build the bundles from</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <div style="height:22px;display:grid;grid-template-columns:170px 1fr 130px;align-items:center;gap:12px;padding:0 13px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+          <div>FILE</div><div>WHAT IT IS</div><div>USED BY</div>
+        </div>
+        <sc-for list="{{ files }}" as="f" hint-placeholder-count="9">
+          <div style="min-height:26px;display:grid;grid-template-columns:170px 1fr 130px;align-items:center;gap:12px;padding:4px 13px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ f.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.name }}</div>
+            <div style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.4;text-wrap:pretty">{{ f.t }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ f.by }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:var(--ks-field);border:1px solid var(--ks-line);padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+        <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">STILL NEEDED FROM YOU</div>
+        <div style="font-size:12px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">These are SVG. The bundles want rasters: <span style="font-family:var(--ks-mono);color:var(--ks-ink)">.icns</span> for macOS, <span style="font-family:var(--ks-mono);color:var(--ks-ink)">.ico</span> for Windows (16/32/48/256 in one file), and PNGs at 16…512 for Linux. Each size should be exported from <span style="color:var(--ks-ink)">its own</span> SVG above, not resampled from the 512 — that is the whole point of the ladder.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1100}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35';
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      ladder: [
+        { size: '512 · 1024', src: 'icon-512.svg', shown: 128, real: 64, tone: INFO,
+          t: 'Everything: the wheel with eight knobs, the eye with its pupil, the scan wedge, the scanner brackets.',
+          drops: 'installers · about · the store' },
+        { size: '128', src: 'icon-128.svg', shown: 128, real: 42, tone: INFO,
+          t: 'Same four ideas, but the strokes thicken and the brackets lose their fine corner radius.',
+          drops: 'drops: the scan wedge' },
+        { size: '64', src: 'icon-64.svg', shown: 128, real: 32, tone: WARN,
+          t: 'The brackets go. At this size they read as noise around the wheel rather than a frame.',
+          drops: 'drops: the brackets' },
+        { size: '32', src: 'icon-32.svg', shown: 128, real: 22, tone: WARN,
+          t: 'Four knobs instead of eight, no spokes. The eye is now a ring and a dot — still an eye.',
+          drops: 'drops: 4 knobs, the spokes' },
+        { size: '16', src: 'icon-16.svg', shown: 128, real: 16, tone: BAD,
+          t: 'One blue ring, one white dot. Not the wheel any more — the aperture, which is the half of the idea that survives.',
+          drops: 'drops: the wheel entirely' }
+      ],
+      dock: [
+        { isUs: false, isOther: true, bg: 'linear-gradient(150deg,#3a4a63,#222c3d)', dot: 'transparent' },
+        { isUs: false, isOther: true, bg: 'linear-gradient(150deg,#5c4a63,#2d2436)', dot: 'rgba(255,255,255,.5)' },
+        { isUs: true, isOther: false, bg: '', dot: 'rgba(255,255,255,.85)' },
+        { isUs: false, isOther: true, bg: 'linear-gradient(150deg,#4a5c46,#242f22)', dot: 'transparent' },
+        { isUs: false, isOther: true, bg: 'linear-gradient(150deg,#63523a,#362b1e)', dot: 'rgba(255,255,255,.5)' }
+      ],
+      trayStates: [
+        { src: 'tray-light.svg', label: 'all clear\nno badge', tone: INK2 },
+        { src: 'tray-warn.svg', label: 'a cluster is slow\nor stale', tone: WARN },
+        { src: 'tray-alert.svg', label: 'a cluster is\nunreachable', tone: BAD }
+      ],
+      small: [
+        { src: 'icon-16.svg', px: 16, label: '16 · dark', bg: '#0a0d14', line: LINE },
+        { src: 'icon-16.svg', px: 16, label: '16 · light', bg: '#e9edf3', line: '#c3ccd8' },
+        { src: 'icon-32.svg', px: 32, label: '32 · dark', bg: '#0a0d14', line: LINE },
+        { src: 'icon-32.svg', px: 32, label: '32 · light', bg: '#e9edf3', line: '#c3ccd8' }
+      ],
+      decisions: [
+        { tone: INFO, h: 'It is five drawings, not one file.', t: 'Downsampling the 512 turns eight knobs into grey fuzz and the eye into a smudge. Each size is drawn for its own pixel grid, with strokes on whole pixels at 16 and 32.' },
+        { tone: INFO, h: 'The plate stays dark, and stays.', t: 'No transparent background: on a dark dock or a dark taskbar a transparent icon loses its silhouette. The plate is the same near-black as the app, so the icon looks like the window it opens.' },
+        { tone: WARN, h: 'The eye outlives the wheel.', t: 'When only one idea fits, it is the aperture, not the helm. The wheel says “Kubernetes” — which every tool in this category already says — and the eye says “scope”, which is the half of the name that is ours.' },
+        { tone: OK, h: 'The tray icon is monochrome, by platform rule.', t: 'One colour plus alpha, so macOS renders it as a template image and inverts it with the menu bar. Colour there would look broken on a light bar, and every other tray icon obeys this.' },
+        { tone: BAD, h: 'The tray badge is a product decision, not decoration.', t: 'The badge carries the worst state in the fleet: nothing when all clear, amber when a cluster is slow or stale, red when one is unreachable. This app is left open all day and often behind other windows — the tray is the only surface that can say “go look” without you asking.' },
+        { tone: IDLE, h: 'No wordmark, no letters.', t: 'The lockup is for first run and the about box. An icon with “KubeScope” written in it is unreadable at every size where the icon is actually used, and the OS prints the name underneath anyway.' }
+      ],
+      files: [
+        { name: 'icon-512.svg', t: 'the full mark on its plate — the master', by: 'icns · ico · store', ink: INK },
+        { name: 'icon-128.svg', t: 'thicker strokes, no scan wedge', by: 'dock · installer', ink: INK },
+        { name: 'icon-64.svg', t: 'no brackets', by: 'dock small · alt-tab', ink: INK },
+        { name: 'icon-32.svg', t: 'four knobs, no spokes', by: 'taskbar · ico', ink: INK },
+        { name: 'icon-16.svg', t: 'ring and dot only', by: 'title bar · favicon', ink: INK },
+        { name: 'tray-dark.svg', t: 'monochrome template, black + alpha', by: 'macOS light bar', ink: '#c8d1dd' },
+        { name: 'tray-light.svg', t: 'monochrome template, white + alpha', by: 'macOS dark bar · Linux', ink: '#c8d1dd' },
+        { name: 'tray-warn.svg', t: 'tray with the amber badge', by: 'a cluster is slow', ink: '#f3d08a' },
+        { name: 'tray-alert.svg', t: 'tray with the red badge', by: 'a cluster is down', ink: '#f0b5b0' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

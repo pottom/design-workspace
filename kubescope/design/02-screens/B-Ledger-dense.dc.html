@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #101114; }
+  a { color: #d8a24a; text-decoration: none; }
+  a:hover { color: #eebc6c; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--l-void:#0d0e11;--l-panel:#171a1e;--l-panel-2:#1d2126;--l-rule:#2b3037;--l-rule-soft:#22262c;--l-ink:#eae7e0;--l-ink-2:#a5a19a;--l-ink-3:#6e6b65;--l-ok:#6fae86;--l-warn:#d8a24a;--l-bad:#e0655c;--l-info:#7fa8d4;--l-idle:#7d7a74;--serif:'Source Serif 4',Georgia,serif;--sans:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',monospace;background:#101114;color:#eae7e0;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:56px;display:flex;flex-direction:column;gap:64px;width:1712px">
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;color:#6e6b65">KUBESCOPE — ROUND 02 · CHOSEN DIRECTION</div>
+    <div style="font-family:'Source Serif 4',Georgia,serif;font-size:38px;font-weight:600;letter-spacing:-.015em">Ledger, dense</div>
+    <div style="font-size:15px;line-height:1.6;color:#a5a19a;max-width:960px;text-wrap:pretty">The chosen direction, re-cut to the decided density: 41 pod rows at 1000px instead of 24. Same character — hairlines instead of boxes, no pane borders, full cluster names, a serif sentence at the top of every pane saying what is wrong — but the chrome is thinner and rows are 20px. Column headers now appear only on panes wide enough to earn them; the four-pane incident screen has none.</div>
+  </div>
+
+  <!-- ============ SCREEN 1 ============ -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#d8a24a">B · 01</div>
+      <div style="font-size:17px;font-weight:600">The working day — one pod list, one pane</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1600 × 1000 · 41 rows visible · 20px rows</div>
+    </div>
+
+    <div data-screen-label="B01 pod list" style="width:1600px;height:1000px;background:#0d0e11;display:grid;grid-template-columns:212px 1fr;grid-template-rows:40px 1fr;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)">
+
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:26px;padding:0 18px;border-bottom:1px solid #2b3037">
+        <div style="font-family:'Source Serif 4',Georgia,serif;font-size:15px;font-weight:600;letter-spacing:.01em">KubeScope</div>
+        <div style="display:flex;align-items:center;gap:24px;font-size:13px">
+          <span style="display:flex;align-items:center;gap:8px;color:#eae7e0;font-weight:600;box-shadow:inset 0 -2px 0 #d8a24a;padding:3px 0"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">2</span>Payments</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1</span>Fleet</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">3</span>Incident<span style="width:6px;height:6px;background:#e0655c;border-radius:50%"></span></span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">4</span>CI</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14px;color:#a5a19a">Eight clusters answering, one slow, one silent.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a5a19a;padding:4px 9px;border:1px solid #2b3037">⌘K</div>
+      </div>
+
+      <div style="border-right:1px solid #2b3037;display:flex;flex-direction:column;min-height:0">
+        <div style="padding:12px 16px 8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6e6b65">CLUSTERS</div>
+        <sc-for list="{{ side }}" as="c" hint-placeholder-count="10">
+          <div style="padding:7px 16px;display:flex;flex-direction:column;gap:2px;background:{{ c.bg }};border-left:2px solid {{ c.bar }}">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-size:13px;color:{{ c.ink }};font-weight:{{ c.weight }}">{{ c.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">{{ c.rtt }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:{{ c.tone }}"><span style="font-size:8px">{{ c.glyph }}</span>{{ c.state }}</div>
+          </div>
+        </sc-for>
+        <div style="flex:1"></div>
+        <div style="padding:13px 16px;border-top:1px solid #2b3037;font-size:12.5px;color:#a5a19a">Add a cluster…</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:#171a1e">
+        <div style="padding:9px 24px 8px;display:flex;align-items:flex-end;gap:16px;border-bottom:1px solid #2b3037">
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <div style="display:flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6e6b65"><span style="width:7px;height:7px;background:#7fa8d4"></span>PROD-EU-WEST · ALL NAMESPACES</div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:19px;font-weight:600;line-height:1.1">Pods <span style="color:#6e6b65;font-weight:400">41</span></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:18px;font-size:12.5px;color:#a5a19a">
+            <span style="color:#e0655c;font-family:'Source Serif 4',Georgia,serif;font-size:14px">Six of them need you.</span>
+            <span style="color:#2b3037">·</span>
+            <span>Watching live, 2s behind</span>
+            <span style="padding:5px 11px;border:1px solid #2b3037;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a5a19a">/ filter</span>
+          </div>
+        </div>
+        <div style="height:22px;display:grid;grid-template-columns:126px 130px 1fr 50px 44px 128px 56px;align-items:center;padding:0 24px;gap:14px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:#6e6b65;border-bottom:1px solid #22262c">
+          <div>STATUS</div><div>NAMESPACE</div><div>NAME</div><div>READY</div><div style="text-align:right">RESTARTS</div><div>NODE</div><div style="text-align:right">AGE</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow:hidden">
+          <sc-for list="{{ pods }}" as="p" hint-placeholder-count="24">
+            <div style="height:20px;display:grid;grid-template-columns:126px 130px 1fr 50px 44px 128px 56px;align-items:center;padding:0 24px;gap:14px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 #22262c;font-size:12px">
+              <div style="display:flex;align-items:center;gap:6px;color:{{ p.tone }}"><span style="font-size:8px;width:8px">{{ p.glyph }}</span><span style="font-size:11px">{{ p.word }}</span></div>
+              <div style="color:#6e6b65;font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.ns }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:{{ p.nameInk }};font-weight:{{ p.nameWeight }};display:flex;align-items:baseline;gap:12px;overflow:hidden"><span style="flex:none">{{ p.name }}</span><span style="font-family:'Source Serif 4',Georgia,serif;font-size:12px;color:{{ p.whyInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.why }}</span></div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ p.readyInk }}">{{ p.ready }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ p.rsInk }};text-align:right">{{ p.rs }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6e6b65;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.node }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#6e6b65;text-align:right">{{ p.age }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="padding:8px 24px;display:flex;align-items:center;gap:18px;border-top:1px solid #2b3037;background:#1d2126">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65">SELECTED</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#eae7e0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ selName }}</div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:12.5px">
+            <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Logs<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">L</span></span>
+            <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Manifest<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">Y</span></span>
+            <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Shell<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">S</span></span>
+            <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Events<span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">E</span></span>
+            <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;border:1px solid #5a4520;color:#d8a24a">Restart rollout<span style="font-family:'IBM Plex Mono',monospace;font-size:10px">R</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 2 ============ -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#d8a24a">B · 02</div>
+      <div style="font-size:17px;font-weight:600">The incident — four panes, three clusters</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1600 × 1000 · no column headers on these panes — too narrow to earn them</div>
+    </div>
+
+    <div data-screen-label="B02 incident" style="width:1600px;height:1000px;background:#0d0e11;display:grid;grid-template-columns:212px 1fr;grid-template-rows:40px 1fr;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)">
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:26px;padding:0 18px;border-bottom:1px solid #2b3037">
+        <div style="font-family:'Source Serif 4',Georgia,serif;font-size:15px;font-weight:600">KubeScope</div>
+        <div style="display:flex;align-items:center;gap:24px;font-size:13px">
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1</span>Fleet</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">2</span>Payments</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#eae7e0;font-weight:600;box-shadow:inset 0 -2px 0 #e0655c;padding:3px 0"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">3</span>Incident</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">4</span>CI</span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14px;color:#e0655c">edge-01 has not answered for four minutes.</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a5a19a;padding:4px 9px;border:1px solid #2b3037">⌘K</div>
+      </div>
+
+      <div style="border-right:1px solid #2b3037;display:flex;flex-direction:column;min-height:0">
+        <div style="padding:12px 16px 8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6e6b65">CLUSTERS · 3 IN VIEW</div>
+        <sc-for list="{{ side2 }}" as="c" hint-placeholder-count="10">
+          <div style="padding:7px 16px;display:flex;flex-direction:column;gap:2px;background:{{ c.bg }};border-left:2px solid {{ c.bar }}">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-size:13px;color:{{ c.ink }};font-weight:{{ c.weight }}">{{ c.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">{{ c.panes }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:{{ c.tone }}"><span style="font-size:8px">{{ c.glyph }}</span>{{ c.state }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;min-height:0;background:#171a1e">
+
+        <div style="display:flex;flex-direction:column;min-height:0;border-right:1px solid #2b3037;border-bottom:1px solid #2b3037;box-shadow:inset 3px 0 0 #7fa8d4">
+          <div style="padding:8px 18px 7px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid #22262c">
+            <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65"><span style="width:6px;height:6px;background:#7fa8d4"></span>PROD-EU-WEST · PAYMENTS<div style="flex:1"></div><span style="color:#6fae86">LIVE</span></div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;line-height:1.3;color:#eae7e0">Six pods here are not running. <span style="color:#a5a19a">checkout-api has restarted 47 times in four hours.</span></div>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column">
+            <div style="flex:none">
+            <sc-for list="{{ incPods }}" as="p" hint-placeholder-count="6">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 18px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 #22262c">
+                <span style="display:flex;align-items:center;gap:6px;color:{{ p.tone }};font-size:11.5px;flex:none;width:94px"><span style="font-size:8px">{{ p.glyph }}</span>{{ p.word }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ p.nameInk }};font-weight:{{ p.nameWeight }};flex:none;max-width:238px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                <span style="font-family:'Source Serif 4',Georgia,serif;font-size:12px;color:{{ p.whyInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.why }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ p.readyInk }};flex:none">{{ p.ready }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ p.rsInk }};flex:none">{{ p.rsLabel }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65;flex:none;width:46px;text-align:right">{{ p.age }}</span>
+              </div>
+            </sc-for>
+            <div style="padding:9px 18px;display:flex;gap:9px;font-size:11.5px">
+              <span style="padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Memory against limits</span>
+              <span style="padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Owner chain</span>
+              <span style="padding:4px 10px;border:1px solid #2b3037;color:#eae7e0">Same pod, other clusters</span>
+            </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:5px 18px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65;box-shadow:inset 0 -1px 0 #2b3037;flex:none">THE REST OF THE CLUSTER<div style="flex:1"></div><span>35 pods, all running</span></div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ restPods }}" as="p" hint-placeholder-count="11">
+                <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 18px;box-shadow:inset 0 -1px 0 #22262c">
+                  <span style="display:flex;align-items:center;gap:6px;color:{{ p.tone }};font-size:11.5px;flex:none;width:94px"><span style="font-size:8px">{{ p.glyph }}</span>{{ p.word }}</span>
+                  <span style="font-size:11.5px;color:#6e6b65;flex:none;width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.ns }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ p.nameInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65;flex:none">{{ p.ready }}</span>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65;flex:none;width:46px;text-align:right">{{ p.age }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;min-height:0;border-bottom:1px solid #2b3037">
+          <div style="padding:8px 18px 7px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid #22262c">
+            <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65"><span style="width:6px;height:6px;background:#7fa8d4"></span><span style="width:6px;height:6px;background:#b49ad4"></span>TWO CLUSTERS · CONTAINER API<div style="flex:1"></div><span style="color:#6fae86">LIVE · 214/S</span></div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;line-height:1.3;color:#eae7e0">Logs, interleaved. <span style="color:#a5a19a">Warnings and above, both production clusters, one clock.</span></div>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden;font-family:'IBM Plex Mono',monospace;font-size:12px">
+            <sc-for list="{{ logs }}" as="l" hint-placeholder-count="20">
+              <div style="min-height:22px;display:flex;align-items:flex-start;gap:12px;padding:3px 18px;background:{{ l.bg }};box-shadow:inset 0 -1px 0 #22262c">
+                <div style="width:62px;flex:none;color:#6e6b65">{{ l.t }}</div>
+                <div style="width:96px;flex:none;color:{{ l.clTone }}">{{ l.cl }}</div>
+                <div style="width:44px;flex:none;color:{{ l.lvlTone }}">{{ l.lvl }}</div>
+                <div style="color:{{ l.ink }};line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.msg }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;min-height:0;border-right:1px solid #2b3037">
+          <div style="padding:8px 18px 7px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid #22262c">
+            <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65"><span style="width:6px;height:6px;background:#d8a24a"></span>PROD-AP-SOUTH · ALL NAMESPACES<div style="flex:1"></div><span style="color:#d8a24a">SLOW · 610MS</span></div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;line-height:1.3;color:#d8a24a">Reconnecting — what you see is 47 seconds old. <span style="color:#a5a19a;font-size:13px">Retry now</span></div>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden">
+            <sc-for list="{{ events }}" as="e" hint-placeholder-count="10">
+              <div style="min-height:24px;padding:4px 18px;display:flex;align-items:baseline;gap:12px;background:{{ e.bg }};box-shadow:inset 0 -1px 0 #22262c;font-size:12px">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#6e6b65;flex:none">{{ e.t }}</span>
+                <span style="display:flex;align-items:center;gap:6px;color:{{ e.tone }};font-size:12px;flex:none;width:74px"><span style="font-size:8px">{{ e.glyph }}</span>{{ e.sev }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#eae7e0;flex:none">{{ e.reason }}</span>
+                <span style="font-family:'Source Serif 4',Georgia,serif;color:#a5a19a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ e.msg }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65;flex:none">{{ e.n }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;min-height:0;background:#131519">
+          <div style="padding:8px 18px 7px;display:flex;flex-direction:column;gap:2px;border-bottom:1px solid #22262c">
+            <div style="display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.13em;color:#6e6b65"><span style="width:6px;height:6px;background:#b49ad4"></span>PROD-US-EAST · PINNED<div style="flex:1"></div><span style="color:#6fae86">ATTACHED</span></div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:14.5px;line-height:1.3;color:#eae7e0">Shell into <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">ledger-worker-…-2wq7t</span>, container worker.</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden;padding:8px 18px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.5">
+            <sc-for list="{{ term }}" as="t" hint-placeholder-count="18">
+              <div style="color:{{ t.ink }};white-space:pre;overflow:hidden;text-overflow:ellipsis">{{ t.s }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SCREEN 3 ============ -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;color:#d8a24a">B · 03</div>
+      <div style="font-size:17px;font-weight:600">The fleet — ten clusters as a page, not a grid</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1600 × 1000</div>
+    </div>
+
+    <div data-screen-label="B03 fleet" style="width:1600px;height:1000px;background:#0d0e11;display:grid;grid-template-columns:212px 1fr;grid-template-rows:40px 1fr;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.6)">
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:26px;padding:0 18px;border-bottom:1px solid #2b3037">
+        <div style="font-family:'Source Serif 4',Georgia,serif;font-size:15px;font-weight:600">KubeScope</div>
+        <div style="display:flex;align-items:center;gap:24px;font-size:13px">
+          <span style="display:flex;align-items:center;gap:8px;color:#eae7e0;font-weight:600;box-shadow:inset 0 -2px 0 #d8a24a;padding:3px 0"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">1</span>Fleet</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">2</span>Payments</span>
+          <span style="display:flex;align-items:center;gap:8px;color:#a5a19a"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">3</span>Incident<span style="width:6px;height:6px;background:#e0655c;border-radius:50%"></span></span>
+        </div>
+        <div style="flex:1"></div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">last probe 14:22:07</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#a5a19a;padding:4px 9px;border:1px solid #2b3037">⌘K</div>
+      </div>
+
+      <div style="border-right:1px solid #2b3037;display:flex;flex-direction:column;min-height:0">
+        <div style="padding:12px 16px 8px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6e6b65">CLUSTERS</div>
+        <sc-for list="{{ side3 }}" as="c" hint-placeholder-count="10">
+          <div style="padding:7px 16px;display:flex;flex-direction:column;gap:2px;background:{{ c.bg }};border-left:2px solid {{ c.bar }}">
+            <div style="display:flex;align-items:baseline;gap:8px">
+              <span style="font-size:13px;color:{{ c.ink }};font-weight:{{ c.weight }}">{{ c.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;color:#6e6b65">{{ c.rtt }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:{{ c.tone }}"><span style="font-size:8px">{{ c.glyph }}</span>{{ c.state }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="min-height:0;display:flex;flex-direction:column;background:#171a1e">
+        <div style="padding:14px 30px 13px;display:flex;align-items:flex-end;gap:30px;border-bottom:1px solid #2b3037">
+          <div style="display:flex;flex-direction:column;gap:6px;max-width:640px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#6e6b65">THE FLEET · 10 CLUSTERS · 148 NODES · 3 412 PODS</div>
+            <div style="font-family:'Source Serif 4',Georgia,serif;font-size:23px;line-height:1.25;font-weight:600;text-wrap:pretty"><span style="color:#e0655c">Two clusters need you</span><span style="color:#6e6b65"> — edge-01 stopped answering four minutes ago, prod-ap-south is answering slowly and two of its nodes are NotReady.</span></div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;gap:28px">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:#6e6b65">{{ k.label }}</div>
+                <div style="font-family:'Source Serif 4',Georgia,serif;font-size:26px;font-weight:600;line-height:1;color:{{ k.tone }}">{{ k.v }}</div>
+                <div style="font-size:11.5px;color:#a5a19a">{{ k.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:30px;display:grid;grid-template-columns:190px 128px 100px 128px 118px 1fr;align-items:center;padding:0 30px;gap:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.12em;color:#6e6b65;border-bottom:1px solid #22262c">
+          <div>CLUSTER</div><div>CONNECTION</div><div style="text-align:right">RTT</div><div>NODES</div><div>PODS</div><div>WHAT IT SAYS</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow:hidden">
+          <sc-for list="{{ fleet }}" as="c" hint-placeholder-count="10">
+            <div style="height:66px;display:grid;grid-template-columns:190px 128px 100px 128px 118px 1fr;align-items:center;padding:0 30px;gap:20px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 #22262c">
+              <div style="display:flex;flex-direction:column;gap:2px;border-left:2px solid {{ c.cl }};padding-left:11px">
+                <span style="font-size:14px;color:#eae7e0;font-weight:500">{{ c.name }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#6e6b65">{{ c.plat }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:7px;color:{{ c.tone }};font-size:13px"><span style="font-size:9px">{{ c.glyph }}</span>{{ c.state }}</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:{{ c.rttTone }};text-align:right">{{ c.rtt }}</div>
+              <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#eae7e0">{{ c.nodes }}</span><span style="font-size:11.5px;color:{{ c.nodeTone }}">{{ c.nodeNote }}</span></div>
+              <div style="display:flex;align-items:baseline;gap:8px"><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#eae7e0">{{ c.pods }}</span><span style="font-size:11.5px;color:{{ c.podTone }}">{{ c.podNote }}</span></div>
+              <div style="font-family:'Source Serif 4',Georgia,serif;font-size:13.5px;line-height:1.4;color:{{ c.noteTone }};text-wrap:pretty">{{ c.note }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1712,&quot;height&quot;:1200}}">
+class Component extends DCLogic {
+  renderVals() {
+    const OK = '#6fae86', WARN = '#d8a24a', BAD = '#e0655c', INFO = '#7fa8d4', IDLE = '#7d7a74';
+    const INK = '#eae7e0', INK2 = '#a5a19a', INK3 = '#6e6b65';
+    const PH = {
+      Running:     { glyph: '\u25cf', word: 'Running',     tone: OK },
+      CrashLoop:   { glyph: '\u25b2', word: 'CrashLoop',   tone: BAD },
+      Failed:      { glyph: '\u25b2', word: 'Failed',      tone: BAD },
+      Pending:     { glyph: '\u25c6', word: 'Pending',     tone: WARN },
+      Degraded:    { glyph: '\u25b2', word: 'Degraded',    tone: WARN },
+      Terminating: { glyph: '\u25a0', word: 'Terminating', tone: IDLE },
+      Unknown:     { glyph: '\u25cb', word: 'Unknown',     tone: IDLE }
+    };
+    let seed = 4242;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const hash = n => Array.from({ length: n }, () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(rnd() * 36)]).join('');
+    const nodes = ['ip-10-0-3-19', 'ip-10-0-1-204', 'ip-10-0-2-44', 'ip-10-0-4-8', 'ip-10-0-3-91', 'ip-10-0-1-17'];
+    const ages = ['4d2h', '12d', '31d', '6h14m', '2d9h', '18d', '54m', '9d', '3d17h', '21d'];
+
+    const groups = [
+      ['payments', 'checkout-api', '7f9c8d4b6', 4, 2],
+      ['payments', 'ledger-worker', '5d8f9c74c', 3, 1],
+      ['payments', 'fraud-scorer', '9c1b7a5e2', 2, 2],
+      ['payments', 'payout-batcher', '4e7c9b2d5', 2, 1],
+      ['ingress', 'envoy-gateway', '6b4d9f7c8', 3, 1],
+      ['ingress', 'cert-manager', '58c7d9b41', 1, 1],
+      ['observability', 'otel-collector', '7d5c8f9a1', 3, 1],
+      ['observability', 'loki-ingester', '4b8d2c7f6', 3, 2],
+      ['observability', 'grafana', '6f9a3c5d8', 1, 1],
+      ['platform', 'argocd-repo-server', '8d4c7b9e1', 2, 1],
+      ['platform', 'external-secrets', '5a9c3d8f2', 2, 1],
+      ['kube-system', 'coredns', '9f4b7c2d8', 2, 1],
+      ['kube-system', 'cilium-operator', '6c8a4f9b3', 2, 1],
+      ['kube-system', 'metrics-server', '5d7c9b4a2', 1, 1],
+      ['data', 'kafka', null, 3, 1],
+      ['data', 'clickhouse', null, 3, 1],
+      ['data', 'redis-cache', '7c4b9d2f8', 2, 1],
+      ['jobs', 'nightly-export', '3f8c5d9b2', 2, 1]
+    ];
+    const specials = {
+      'checkout-api/1': { phase: 'CrashLoop', ready: '1/2', rs: 47, why: 'Killed for memory eight minutes ago; the limit is 512Mi and it peaked at 511Mi.' },
+      'checkout-api/3': { phase: 'Pending', ready: '0/2', rs: 0, why: 'Nowhere to put it — three nodes are short of memory, three are tainted.' },
+      'ledger-worker/0': { phase: 'Terminating', ready: '1/1', rs: 0, why: 'Being replaced by the 2026.8.3 rollout.' },
+      'fraud-scorer/0': { phase: 'Degraded', ready: '1/2', rs: 3, why: 'The envoy sidecar has not been ready for two minutes.' },
+      'payout-batcher/0': { phase: 'Failed', ready: '0/1', rs: 5, why: 'Exited 2 — the config it was given does not match the one it expects.' },
+      'ledger-worker/2': { phase: 'Pending', ready: '0/1', rs: 0, why: 'Insufficient memory on three of six nodes.' },
+      'loki-ingester/0': { phase: 'Degraded', ready: '1/2', rs: 8, why: 'Readiness has failed three times in ninety seconds.' },
+      'otel-collector/1': { phase: 'Unknown', ready: '2/2', rs: 0, why: 'Its node stopped reporting; this is the last thing we heard.' },
+      'kafka/2': { phase: 'CrashLoop', ready: '0/1', rs: 12, why: 'Backing off — the container fails on start.' },
+      'cilium-operator/1': { phase: 'Terminating', ready: '1/1', rs: 0, why: 'Its node was drained nine minutes ago.' },
+      'nightly-export/0': { phase: 'Failed', ready: '0/1', rs: 5, why: 'Exited 137 — it ran past its deadline.' }
+    };
+    const mkPod = (ns, base, h, i, ctrs) => {
+      const sp = specials[base + '/' + i];
+      const phase = sp ? sp.phase : 'Running';
+      const m = PH[phase];
+      const bad = phase === 'CrashLoop' || phase === 'Failed';
+      const warn = phase === 'Pending' || phase === 'Degraded';
+      const dim = phase === 'Terminating' || phase === 'Unknown';
+      const rs = sp ? sp.rs : (rnd() < 0.15 ? Math.floor(rnd() * 3) : 0);
+      return {
+        ns, name: h ? base + '-' + h + '-' + hash(5) : base + '-' + i,
+        phase, glyph: m.glyph, word: m.word, tone: m.tone,
+        ready: sp ? sp.ready : ctrs + '/' + ctrs,
+        rs, rsLabel: rs === 0 ? 'no restarts' : rs + '\u00d7 restarted',
+        node: nodes[Math.floor(rnd() * nodes.length)],
+        age: ages[Math.floor(rnd() * ages.length)],
+        why: sp ? sp.why : '',
+        bg: bad ? 'rgba(224,101,92,.09)' : warn ? 'rgba(216,162,74,.06)' : 'transparent',
+        nameInk: bad || warn ? INK : dim ? INK3 : '#d5d1c9',
+        nameWeight: bad || warn ? '600' : '400',
+        readyInk: sp && sp.ready.split('/')[0] !== sp.ready.split('/')[1] ? m.tone : INK3,
+        rsInk: rs > 10 ? BAD : rs > 0 ? WARN : INK3,
+        whyInk: bad ? '#f0b5b0' : warn ? '#e6cd9e' : INK3
+      };
+    };
+    let pods = [];
+    groups.forEach(g => { for (let i = 0; i < g[3]; i++) pods.push(mkPod(g[0], g[1], g[2], i, g[4])); });
+    pods = pods.slice(0, 41);
+    const sel = pods.find(p => p.phase === 'CrashLoop');
+    if (sel) sel.bg = '#2a2129';
+
+    const CL = {
+      'prod-eu-west': INFO, 'prod-us-east': '#b49ad4', 'prod-ap-south': WARN,
+      'staging-eu': OK, 'staging-us': '#6fb3aa', 'dev-sandbox': '#8f8b83',
+      'edge-01': BAD, 'edge-02': '#d98b62', 'ci-runners': '#a3b566', 'analytics': '#b39348'
+    };
+    const raw = [
+      ['prod-eu-west', 'live', '41ms', 'k8s 1.29.4'], ['prod-us-east', 'live', '58ms', 'k8s 1.29.4'],
+      ['prod-ap-south', 'slow', '610ms', 'k8s 1.28.9'], ['staging-eu', 'live', '22ms', 'k8s 1.30.1'],
+      ['staging-us', 'live', '31ms', 'k8s 1.30.1'], ['dev-sandbox', 'live', '12ms', 'k8s 1.31.0'],
+      ['edge-01', 'down', '\u2014', 'ocp 4.15.9'], ['edge-02', 'live', '180ms', 'ocp 4.15.9'],
+      ['ci-runners', 'live', '44ms', 'k8s 1.29.4'], ['analytics', 'paused', 'paused', 'k8s 1.30.0']
+    ];
+    const mark = {
+      live: { glyph: '\u25cf', tone: OK, label: 'live' },
+      slow: { glyph: '\u25d0', tone: WARN, label: 'slow' },
+      down: { glyph: '\u25b2', tone: BAD, label: 'no response' },
+      paused: { glyph: '\u25a0', tone: IDLE, label: 'paused' }
+    };
+    const side = (active, panes) => raw.map(r => {
+      const on = active.indexOf(r[0]) >= 0;
+      return {
+        name: r[0], ink: on ? INK : INK2, weight: on ? '600' : '400',
+        bg: on ? '#1d2126' : 'transparent', bar: on ? CL[r[0]] : 'transparent',
+        rtt: r[2], panes: panes && panes[r[0]] ? panes[r[0]] : (on ? '' : ''),
+        state: mark[r[1]].label, glyph: mark[r[1]].glyph, tone: mark[r[1]].tone
+      };
+    });
+
+    const lvlTone = { ERROR: BAD, WARN: WARN, INFO: INFO };
+    const logs = [
+      ['14:22:04', 'prod-eu-west', 'ERROR', 'checkout: context deadline exceeded calling ledger.grpc:8443 after 2.00s'],
+      ['14:22:04', 'prod-us-east', 'WARN', 'ledger: queue depth 8412 (soft limit 8000), shedding non-critical writes'],
+      ['14:22:04', 'prod-eu-west', 'ERROR', 'checkout: 3 consecutive failures, opening circuit for ledger.grpc'],
+      ['14:22:05', 'prod-eu-west', 'WARN', 'checkout: heap 498Mi of 512Mi limit, GC pause 214ms'],
+      ['14:22:05', 'prod-us-east', 'INFO', 'ledger: replayed 1204 entries from wal segment 000731'],
+      ['14:22:05', 'prod-eu-west', 'ERROR', 'checkout: refusing new connections \u2014 memory backpressure'],
+      ['14:22:05', 'prod-eu-west', 'WARN', 'envoy: upstream checkout-api 503 rate 41% over 30s'],
+      ['14:22:06', 'prod-us-east', 'WARN', 'ledger: pg pool exhausted (32/32), 18 goroutines waiting'],
+      ['14:22:06', 'prod-eu-west', 'ERROR', 'checkout: container killed \u2014 exit 137 (OOMKilled), restart #47'],
+      ['14:22:06', 'prod-eu-west', 'INFO', 'kubelet: pulling registry.internal/checkout-api:2026.8.3'],
+      ['14:22:07', 'prod-us-east', 'ERROR', 'ledger: tx 0x9f21 aborted, deadlock on accounts_eu'],
+      ['14:22:07', 'prod-eu-west', 'INFO', 'checkout: starting, config sha 4bd91c, 8 workers'],
+      ['14:22:08', 'prod-us-east', 'WARN', 'ledger: clock skew 41ms vs ntp peer, tolerated'],
+      ['14:22:08', 'prod-eu-west', 'ERROR', 'checkout: readiness failed \u2014 /healthz 503 (ledger unreachable)'],
+      ['14:22:09', 'prod-us-east', 'INFO', 'ledger: queue depth 6109, back under soft limit'],
+      ['14:22:09', 'prod-eu-west', 'WARN', 'envoy: retry budget 82% consumed for checkout-api'],
+      ['14:22:10', 'prod-eu-west', 'ERROR', 'checkout: heap 511Mi of 512Mi \u2014 allocation failed in json.Decode'],
+      ['14:22:10', 'prod-us-east', 'WARN', 'ledger: slow query 1.81s \u2014 SELECT balance FROM accounts_eu'],
+      ['14:22:11', 'prod-eu-west', 'ERROR', 'checkout: container killed \u2014 exit 137 (OOMKilled), restart #48'],
+      ['14:22:11', 'prod-eu-west', 'INFO', 'kubelet: back-off 40s restarting failed container api']
+    ].map(l => ({
+      t: l[0], cl: l[1], clTone: l[1] === 'prod-eu-west' ? INFO : '#b49ad4',
+      lvl: l[2], lvlTone: lvlTone[l[2]], msg: l[3],
+      ink: l[2] === 'ERROR' ? '#f0b5b0' : l[2] === 'WARN' ? '#e6cd9e' : INK2,
+      bg: l[2] === 'ERROR' ? 'rgba(224,101,92,.07)' : 'transparent'
+    }));
+
+    const SEV = { Warning: { glyph: '\u25b2', tone: WARN }, Error: { glyph: '\u25b2', tone: BAD }, Normal: { glyph: '\u25cf', tone: IDLE } };
+    const events = [
+      ['14:21', 'Error', 'FailedScheduling', '0/6 nodes available: 3 insufficient memory, 3 tainted', 41],
+      ['14:20', 'Warning', 'BackOff', 'Back-off restarting failed container api', 47],
+      ['14:20', 'Warning', 'Unhealthy', 'Readiness probe failed: HTTP 503 from /healthz', 62],
+      ['14:19', 'Error', 'OOMKilling', 'Memory cgroup out of memory: killed process 1 (api)', 47],
+      ['14:18', 'Warning', 'NodeNotReady', 'Node ip-10-0-4-8 status is now NotReady', 2],
+      ['14:17', 'Normal', 'Killing', 'Stopping container api', 47],
+      ['14:17', 'Warning', 'FailedMount', 'Unable to attach volume ledger-wal: timed out after 2m', 3],
+      ['14:14', 'Warning', 'Evicted', 'The node was low on resource: memory', 6],
+      ['14:12', 'Warning', 'ProbeWarning', 'Startup probe took 41s (threshold 30s)', 9],
+      ['14:09', 'Warning', 'CertificateExpiring', 'Certificate api-tls expires in 11 days', 1]
+    ].map(e => ({
+      t: e[0], sev: e[1], glyph: SEV[e[1]].glyph, tone: SEV[e[1]].tone,
+      reason: e[2], msg: e[3], n: e[4] + '\u00d7',
+      bg: e[1] === 'Error' ? 'rgba(224,101,92,.07)' : 'transparent'
+    }));
+
+    const term = [
+      ['$ kubectl exec -it ledger-worker-5d8f9c74c-2wq7t -c worker -- sh', INK3],
+      ['/app # ps -o pid,rss,comm', INK],
+      ['  PID   RSS COMMAND', INK2],
+      ['    1  412M worker', INK2],
+      ['   28   19M wal-shipper', INK2],
+      ['/app # cat /sys/fs/cgroup/memory.max', INK],
+      ['536870912', INK2],
+      ['/app # cat /sys/fs/cgroup/memory.peak', INK],
+      ['535822336', '#f0b5b0'],
+      ['/app # ./ledgerctl queue stat', INK],
+      ['depth 6109   inflight 182   oldest 4.21s', '#e6cd9e'],
+      ['/app # ./ledgerctl pool stat', INK],
+      ['pg 29/32  waiters 4  p95 812ms', INK2],
+      ['/app # nc -zv checkout-api.payments 8080', INK],
+      ['checkout-api.payments: connection refused', '#f0b5b0'],
+      ['/app # \u2588', INK]
+    ].map(t => ({ s: t[0], ink: t[1] }));
+
+    const kpis = [
+      { label: 'NODES', v: '148', sub: '2 NotReady', tone: INK },
+      { label: 'PODS', v: '3 412', sub: '14 not running', tone: INK },
+      { label: 'RESTARTS 24H', v: '63', sub: '47 of them one workload', tone: BAD },
+      { label: 'CERTS < 30D', v: '3', sub: 'soonest in 11 days', tone: WARN }
+    ];
+
+    const fleet = [
+      ['prod-eu-west', 'k8s 1.29.4', 'live', '41ms', '24', '', '612', '2 unhealthy', 'Payments is unwell: checkout-api has been killed for memory forty-seven times since ten past ten.', 'warn'],
+      ['prod-us-east', 'k8s 1.29.4', 'live', '58ms', '24', '', '588', '', 'Healthy. The ledger queue ran deep for a few minutes and has recovered.', 'ok'],
+      ['prod-ap-south', 'k8s 1.28.9', 'slow', '610ms', '18', '2 NotReady', '431', '', 'Answering slowly and reconnecting; what we show you here is forty-seven seconds old.', 'warn'],
+      ['staging-eu', 'k8s 1.30.1', 'live', '22ms', '12', '1 cordoned', '288', '', 'Healthy. One node is cordoned for a kernel upgrade.', 'ok'],
+      ['staging-us', 'k8s 1.30.1', 'live', '31ms', '12', '', '274', '', 'Healthy. Nothing has changed in six hours.', 'ok'],
+      ['dev-sandbox', 'k8s 1.31.0', 'live', '12ms', '6', '', '141', '41 completed', 'Healthy. Forty-one finished pods were never reaped.', 'ok'],
+      ['edge-01', 'ocp 4.15.9', 'down', '\u2014', '3', '', '\u2014', '', 'No response for four minutes and twelve seconds. The last good probe was at 14:17:55.', 'bad'],
+      ['edge-02', 'ocp 4.15.9', 'live', '180ms', '3', '', '62', '', 'Healthy, but the ingress-tls route certificate expires in eleven days.', 'warn'],
+      ['ci-runners', 'k8s 1.29.4', 'live', '44ms', '40', '', '894', '12 pending', 'Healthy. Twelve pods are pending because the build queue is long \u2014 expected.', 'ok'],
+      ['analytics', 'k8s 1.30.0', 'paused', 'paused', '6', '', '122', '', 'You paused the watch at 09:12. This context is read-only anyway.', 'idle']
+    ].map(c => {
+      const m = mark[c[2]];
+      const k = c[9];
+      return {
+        name: c[0], plat: c[1], cl: CL[c[0]],
+        state: m.label, glyph: m.glyph, tone: c[2] === 'live' ? OK : m.tone,
+        rtt: c[3], rttTone: c[2] === 'slow' ? WARN : c[2] === 'down' ? BAD : INK2,
+        nodes: c[4], nodeNote: c[5], nodeTone: c[5].indexOf('NotReady') >= 0 ? BAD : INK3,
+        pods: c[6], podNote: c[7], podTone: c[7].indexOf('unhealthy') >= 0 ? BAD : INK3,
+        note: c[8], noteTone: k === 'bad' ? '#f0b5b0' : k === 'warn' ? '#e6cd9e' : k === 'idle' ? INK3 : INK2,
+        bg: k === 'bad' ? 'rgba(224,101,92,.08)' : k === 'warn' ? 'rgba(216,162,74,.045)' : 'transparent'
+      };
+    });
+
+    return {
+      pods, selName: sel ? sel.name : '', logs, events, term, kpis, fleet,
+      incPods: [
+        mkPod('payments', 'checkout-api', '7f9c8d4b6', 1, 2),
+        mkPod('payments', 'checkout-api', '7f9c8d4b6', 3, 2),
+        mkPod('payments', 'ledger-worker', '5d8f9c74c', 2, 1),
+        mkPod('payments', 'ledger-worker', '5d8f9c74c', 0, 1),
+        mkPod('payments', 'fraud-scorer', '9c1b7a5e2', 0, 2),
+        mkPod('payments', 'payout-batcher', '4e7c9b2d5', 0, 1)
+      ],
+      restPods: [
+        mkPod('ingress', 'envoy-gateway', '6b4d9f7c8', 0, 1),
+        mkPod('ingress', 'envoy-gateway', '6b4d9f7c8', 1, 1),
+        mkPod('ingress', 'cert-manager', '58c7d9b41', 0, 1),
+        mkPod('observability', 'otel-collector', '7d5c8f9a1', 0, 1),
+        mkPod('observability', 'grafana', '6f9a3c5d8', 0, 1),
+        mkPod('platform', 'argocd-repo-server', '8d4c7b9e1', 0, 1),
+        mkPod('platform', 'external-secrets', '5a9c3d8f2', 0, 1),
+        mkPod('kube-system', 'coredns', '9f4b7c2d8', 0, 1),
+        mkPod('kube-system', 'metrics-server', '5d7c9b4a2', 0, 1),
+        mkPod('data', 'clickhouse', null, 0, 1),
+        mkPod('data', 'redis-cache', '7c4b9d2f8', 0, 1)
+      ],
+      side: side(['prod-eu-west']),
+      side2: side(['prod-eu-west', 'prod-us-east', 'prod-ap-south'], { 'prod-eu-west': '2 panes', 'prod-us-east': '1 pane', 'prod-ap-south': '1 pane' }),
+      side3: side(raw.map(r => r[0]))
+    };
+  }
+}
+
+</script>
+</body>
+</html>

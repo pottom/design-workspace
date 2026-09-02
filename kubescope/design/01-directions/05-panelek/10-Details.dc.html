@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:940px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 10 / 30 · OBJECT PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Details</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The pane a row opens by default. Not a YAML dump and not a form — the twenty facts about one object that answer “what is it, what is wrong with it, and what is it attached to”, with everything else one keystroke away.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="details · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>full object watched · only this one</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Details</span>
+        <span style="color:var(--ks-ink-3)">pinned</span><span style="color:var(--ks-ink-2)">payments/checkout-api-7f9c8d4b6-k8n1p</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">Pod · v1</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live · watch 2s</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- identity + the one thing wrong -->
+      <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:11px;min-width:0">
+            <span style="display:flex;align-items:center;gap:7px;color:var(--ks-bad);font-family:var(--ks-mono);font-size:12px;font-weight:600;flex:none"><span style="font-size:9px">▲</span>CrashLoopBackOff</span>
+            <span style="font-family:var(--ks-mono);font-size:18px;font-weight:600;color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">checkout-api-7f9c8d4b6-k8n1p</span>
+          </div>
+          <div style="font-size:13px;line-height:1.55;color:#f0b5b0;text-wrap:pretty">Killed for memory 47 times since 10:11, most recently 2 minutes ago. It asks for 256Mi, its limit is 512Mi, and its working set peaks at 511Mi — the limit is the ceiling it keeps hitting, not a safety net.</div>
+          <div style="display:flex;align-items:stretch;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line);margin-top:2px">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="6">
+              <div style="flex:1;background:var(--ks-panel);padding:7px 11px;display:flex;flex-direction:column;gap:3px;min-width:0">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.k }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:14px;font-weight:600;line-height:1.1;color:{{ s.tone }}">{{ s.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:none;width:250px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">FROM HERE</div>
+          <sc-for list="{{ actions }}" as="a" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:9px;height:24px;padding:0 9px;border:1px solid {{ a.line }};background:{{ a.bg }}">
+              <span style="font-family:var(--ks-mono);font-size:10px;color:{{ a.keyInk }};width:16px;flex:none">{{ a.key }}</span>
+              <span style="font-size:11.5px;color:{{ a.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- three columns: containers · conditions and events · relations -->
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr 400px;gap:1px;background:var(--ks-line)">
+
+        <div style="min-height:0;display:flex;flex-direction:column;background:var(--ks-panel)">
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-ink)">Containers</span><div style="flex:1"></div><span style="color:var(--ks-ink-3)">2 · 1 ready</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ containers }}" as="c" hint-placeholder-count="2">
+              <div style="border-bottom:1px solid var(--ks-line-soft);padding:10px 11px;display:flex;flex-direction:column;gap:8px;background:{{ c.bg }}">
+                <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                  <span style="font-size:8px;color:{{ c.tone }};flex:none">{{ c.glyph }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:12.5px;font-weight:600;color:{{ c.nameInk }}">{{ c.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.stateInk }};flex:none">{{ c.state }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.image }}</div>
+                <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="5">
+                  <div style="display:grid;grid-template-columns:92px 1fr;gap:10px;align-items:center">
+                    <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ r.k }}</span>
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                      <sc-if value="{{ r.hasBar }}" hint-placeholder-val="{{ false }}">
+                        <div style="flex:1;height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                          <div style="position:absolute;left:0;top:0;bottom:0;width:{{ r.barW }};background:{{ r.barTone }}"></div>
+                          <div style="position:absolute;left:{{ r.markX }};top:-2px;bottom:-2px;width:2px;background:rgba(152,164,180,.9)"></div>
+                        </div>
+                      </sc-if>
+                      <span style="font-family:var(--ks-mono);font-size:11px;color:{{ r.ink }};flex:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.v }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ c.hasLast }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:7px 9px;background:var(--ks-field);border-left:2px solid var(--ks-bad);font-size:11px;line-height:1.45;color:#f0b5b0;text-wrap:pretty">{{ c.last }}</div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="min-height:0;display:flex;flex-direction:column;background:var(--ks-panel)">
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-ink)">Conditions</span><div style="flex:1"></div><span style="color:var(--ks-bad)">{{ conditionsNote }}</span>
+          </div>
+          <sc-for list="{{ conditions }}" as="c" hint-placeholder-count="5">
+            <div style="min-height:26px;display:grid;grid-template-columns:126px 52px 1fr;align-items:center;padding:4px 11px;gap:10px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:{{ c.nameInk }}">{{ c.name }}</span>
+              <span style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10.5px;color:{{ c.tone }};font-weight:600"><span style="font-size:7px">{{ c.glyph }}</span>{{ c.value }}</span>
+              <span style="font-size:11px;color:{{ c.whyInk }};line-height:1.35;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.why }}</span>
+            </div>
+          </sc-for>
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 11px;border-top:1px solid var(--ks-line);border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px;background:var(--ks-field)">
+            <span style="color:var(--ks-ink)">Recent events</span><div style="flex:1"></div><span style="color:var(--ks-ink-3)">6 groups · E for all</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ events }}" as="e" hint-placeholder-count="6">
+              <div style="min-height:24px;display:grid;grid-template-columns:46px 124px 1fr 36px;align-items:center;padding:3px 11px;gap:9px;background:{{ e.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ e.t }}</span>
+                <span style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10.5px;color:{{ e.tone }};font-weight:600"><span style="font-size:7px">{{ e.glyph }}</span>{{ e.reason }}</span>
+                <span style="color:{{ e.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ e.msg }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ e.countInk }};text-align:right">{{ e.n }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="min-height:0;display:flex;flex-direction:column;background:var(--ks-field)">
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-ink)">What it is attached to</span><div style="flex:1"></div><span style="color:var(--ks-ink-3)">⏎ to open</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;padding:10px 11px;display:flex;flex-direction:column;gap:11px" data-scroll="dense">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">OWNER CHAIN</div>
+              <sc-for list="{{ owners }}" as="o" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:9px;padding:6px 9px;background:{{ o.bg }};border:1px solid {{ o.line }};margin-left:{{ o.indent }}">
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);width:64px;flex:none">{{ o.kind }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ o.ink }};font-weight:{{ o.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:{{ o.metaInk }};flex:none">{{ o.meta }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <sc-for list="{{ relGroups }}" as="g" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ g.label }}</div>
+                <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:9px;min-height:22px;padding:3px 9px;background:{{ i.bg }};border-left:2px solid {{ i.tone }}">
+                    <span style="font-family:var(--ks-mono);font-size:11px;color:{{ i.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.name }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-size:10.5px;color:{{ i.metaInk }};flex:none">{{ i.meta }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">Same pane, four kinds — the shape holds, the facts change</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:280px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="padding:9px;border-bottom:1px solid var(--ks-line-soft);background:{{ v.headBg }}">
+              <div style="font-size:12px;line-height:1.45;color:{{ v.headInk }};font-weight:600;text-wrap:pretty">{{ v.head }}</div>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 9px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.35;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:{{ c.wrap }}">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const CONDITIONS = [
+      { name: 'PodScheduled', value: 'True', glyph: '\u25cf', tone: OK, nameInk: '#c8d1dd', why: 'placed on ip-10-0-3-19 at 10:04', whyInk: INK3, bg: 'transparent' },
+      { name: 'Initialized', value: 'True', glyph: '\u25cf', tone: OK, nameInk: '#c8d1dd', why: 'wait-for-db finished in 4s', whyInk: INK3, bg: 'transparent' },
+      { name: 'ContainersReady', value: 'False', glyph: '\u25b2', tone: BAD, nameInk: INK, why: 'containers with unready status: [api]', whyInk: '#f0b5b0', bg: 'rgba(255,95,95,.08)' },
+      { name: 'Ready', value: 'False', glyph: '\u25b2', tone: BAD, nameInk: INK, why: 'removed from the service endpoints at 14:20', whyInk: '#f0b5b0', bg: 'rgba(255,95,95,.08)' },
+      { name: 'DisruptionAllowed', value: 'False', glyph: '\u25c6', tone: WARN, nameInk: '#c8d1dd', why: 'PDB minAvailable 6 · 6 ready — an eviction would block', whyInk: '#f3d08a', bg: 'rgba(240,180,41,.05)' }
+    ];
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px', wrap: 'nowrap' }, o || {});
+    const vr = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '24px' });
+
+    return {
+      facts: [
+        { k: 'FACTS SHOWN', v: '24', tone: INK },
+        { k: 'YAML LINES BEHIND IT', v: '412', tone: INK3 },
+        { k: 'ONE KEY AWAY', v: '6 panes', tone: INFO },
+        { k: 'PRIMARY ELEMENT', v: 'the name + phase', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      stats: [
+        { k: 'RESTARTS', v: '47', sub: 'since 10:11', tone: BAD },
+        { k: 'READY', v: '1/2', sub: 'api is not', tone: BAD },
+        { k: 'AGE', v: '4d2h', sub: 'created 28 Aug', tone: INK },
+        { k: 'NODE', v: 'ip-10-0-3-19', sub: '91% memory', tone: WARN },
+        { k: 'QOS', v: 'Burstable', sub: 'request < limit', tone: INK },
+        { k: 'IP', v: '10.44.2.19', sub: 'no host network', tone: INK }
+      ],
+      actions: [
+        { key: 'L', label: 'Logs · both containers', ink: INK, line: LINE, bg: 'transparent', keyInk: INK },
+        { key: '\u21e7L', label: 'Previous instance logs', ink: INK, line: LINE, bg: 'transparent', keyInk: INK },
+        { key: 'M', label: 'Metrics, events on the curve', ink: INK, line: LINE, bg: 'transparent', keyInk: INK },
+        { key: 'Y', label: 'YAML · 412 lines', ink: INK, line: LINE, bg: 'transparent', keyInk: INK },
+        { key: 'S', label: 'Shell into api', ink: WARN, line: '#4a3a12', bg: 'rgba(240,180,41,.08)', keyInk: WARN },
+        { key: 'E', label: 'Requests / limits…', ink: WARN, line: '#4a3a12', bg: 'rgba(240,180,41,.08)', keyInk: WARN }
+      ],
+      containers: [
+        {
+          name: 'api', glyph: '\u25b2', tone: BAD, nameInk: INK, state: 'CrashLoopBackOff', stateInk: '#ffb3b3',
+          image: 'registry.internal/checkout-api:2026.8.3', bg: 'rgba(255,95,95,.06)',
+          rows: [
+            { k: 'memory', v: '511Mi of 512Mi', ink: '#ffb3b3', hasBar: true, barW: '99%', barTone: BAD, markX: '50%' },
+            { k: 'cpu', v: '910m of 1', ink: '#f3d08a', hasBar: true, barW: '91%', barTone: WARN, markX: '20%' },
+            { k: 'restarts', v: '47 · last 2m ago', ink: '#ffb3b3', hasBar: false },
+            { k: 'probes', v: 'liveness 30s · readiness 5s', ink: INK2, hasBar: false },
+            { k: 'ports', v: '8080 http · 9090 metrics', ink: INK2, hasBar: false }
+          ],
+          hasLast: true, last: 'Last state: terminated · exit 137 · OOMKilled at 14:20:41, after 4m of running.'
+        },
+        {
+          name: 'envoy', glyph: '\u25cf', tone: OK, nameInk: '#c8d1dd', state: 'Running', stateInk: INK2,
+          image: 'registry.internal/envoy:1.31.2', bg: 'transparent',
+          rows: [
+            { k: 'memory', v: '84Mi of 128Mi', ink: INK2, hasBar: true, barW: '66%', barTone: 'rgba(62,207,142,.45)', markX: '50%' },
+            { k: 'cpu', v: '40m of 200m', ink: INK2, hasBar: true, barW: '20%', barTone: 'rgba(62,207,142,.45)', markX: '25%' },
+            { k: 'restarts', v: '0', ink: INK3, hasBar: false },
+            { k: 'ports', v: '15001 proxy · 15000 admin', ink: INK2, hasBar: false }
+          ],
+          hasLast: false, last: ''
+        },
+        {
+          name: 'wait-for-db', glyph: '\u2713', tone: INFO, nameInk: '#c8d1dd', state: 'init · completed', stateInk: INK3,
+          image: 'registry.internal/busybox:1.36', bg: 'transparent',
+          rows: [
+            { k: 'finished', v: 'in 4s, exit 0', ink: INK2, hasBar: false },
+            { k: 'restarts', v: '0', ink: INK3, hasBar: false }
+          ],
+          hasLast: false, last: ''
+        },
+        {
+          name: 'pod', glyph: '\u25a0', tone: IDLE, nameInk: INK3, state: 'scheduling', stateInk: INK3,
+          image: 'what the whole pod carries, not a container', bg: 'transparent',
+          rows: [
+            { k: 'volumes', v: 'config (cm) · tls (secret) · tmp (emptyDir 1Gi)', ink: INK2, hasBar: false },
+            { k: 'tolerations', v: 'none — it cannot go on a tainted node', ink: '#f3d08a', hasBar: false },
+            { k: 'affinity', v: 'preferred: spread across zones', ink: INK2, hasBar: false },
+            { k: 'priority', v: 'default · 0', ink: INK2, hasBar: false },
+            { k: 'dns', v: 'ClusterFirst · 3 search paths', ink: INK2, hasBar: false },
+            { k: 'termination', v: 'grace 30s', ink: INK2, hasBar: false }
+          ],
+          hasLast: false, last: ''
+        }
+      ],
+      conditionsNote: CONDITIONS.filter(x => x.value !== 'True').length + ' not true',
+      conditions: CONDITIONS,
+      conditionsUnused: [
+        { name: 'PodScheduled', value: 'True', glyph: '\u25cf', tone: OK, nameInk: '#c8d1dd', why: 'placed on ip-10-0-3-19 at 10:04', whyInk: INK3, bg: 'transparent' },
+        { name: 'Initialized', value: 'True', glyph: '\u25cf', tone: OK, nameInk: '#c8d1dd', why: 'wait-for-db finished in 4s', whyInk: INK3, bg: 'transparent' },
+        { name: 'ContainersReady', value: 'False', glyph: '\u25b2', tone: BAD, nameInk: INK, why: 'containers with unready status: [api]', whyInk: '#f0b5b0', bg: 'rgba(255,95,95,.08)' },
+        { name: 'Ready', value: 'False', glyph: '\u25b2', tone: BAD, nameInk: INK, why: 'removed from the service endpoints at 14:20', whyInk: '#f0b5b0', bg: 'rgba(255,95,95,.08)' },
+        { name: 'DisruptionAllowed', value: 'False', glyph: '\u25c6', tone: WARN, nameInk: '#c8d1dd', why: 'PDB minAvailable 6 · 6 ready — an eviction would block', whyInk: '#f3d08a', bg: 'rgba(240,180,41,.05)' }
+      ],
+      events: [
+        { t: '14:22', reason: 'BackOff', glyph: '\u25b2', tone: WARN, msg: 'Back-off restarting failed container api', ink: '#e9dcc0', n: '47\u00d7', countInk: BAD, bg: 'rgba(240,180,41,.05)' },
+        { t: '14:20', reason: 'OOMKilling', glyph: '\u25b2', tone: BAD, msg: 'Memory cgroup out of memory: killed process 1 (api)', ink: '#ffd7d7', n: '47\u00d7', countInk: BAD, bg: 'rgba(255,95,95,.09)' },
+        { t: '14:20', reason: 'Unhealthy', glyph: '\u25b2', tone: WARN, msg: 'Readiness probe failed: HTTP 503 from /healthz', ink: '#e9dcc0', n: '62\u00d7', countInk: BAD, bg: 'rgba(240,180,41,.05)' },
+        { t: '14:15', reason: 'Killing', glyph: '\u25cf', tone: IDLE, msg: 'Stopping container api', ink: INK2, n: '47\u00d7', countInk: WARN, bg: 'transparent' },
+        { t: '14:14', reason: 'Pulled', glyph: '\u25cf', tone: IDLE, msg: 'Container image already present on machine', ink: INK2, n: '88\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '14:12', reason: 'Created', glyph: '\u25cf', tone: IDLE, msg: 'Created container api', ink: INK2, n: '47\u00d7', countInk: WARN, bg: 'transparent' },
+        { t: '14:12', reason: 'Started', glyph: '\u25cf', tone: IDLE, msg: 'Started container api', ink: INK2, n: '47\u00d7', countInk: WARN, bg: 'transparent' },
+        { t: '14:08', reason: 'Evicted', glyph: '\u25b2', tone: WARN, msg: 'The node was low on resource: memory', ink: '#e9dcc0', n: '6\u00d7', countInk: WARN, bg: 'rgba(240,180,41,.05)' },
+        { t: '14:04', reason: 'Pulling', glyph: '\u25cf', tone: IDLE, msg: 'Pulling image checkout-api:2026.8.3', ink: INK2, n: '3\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '14:02', reason: 'Updated', glyph: '\u25cf', tone: INFO, msg: 'cm/checkout-config · TIMEOUT_MS 2000 → 500', ink: '#8ac6ff', n: '1\u00d7', countInk: INFO, bg: 'rgba(74,168,255,.06)' },
+        { t: '13:58', reason: 'ProbeWarning', glyph: '\u25b2', tone: WARN, msg: 'Readiness took 812ms, threshold 500ms', ink: '#e9dcc0', n: '18\u00d7', countInk: WARN, bg: 'rgba(240,180,41,.05)' },
+        { t: '13:44', reason: 'SandboxChanged', glyph: '\u25cf', tone: IDLE, msg: 'Pod sandbox changed, it will be killed and re-created', ink: INK2, n: '4\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '13:31', reason: 'OOMKilling', glyph: '\u25b2', tone: BAD, msg: 'Memory cgroup out of memory: killed process 1 (api)', ink: '#ffd7d7', n: '47\u00d7', countInk: BAD, bg: 'rgba(255,95,95,.09)' },
+        { t: '13:22', reason: 'FailedMount', glyph: '\u25b2', tone: WARN, msg: 'Unable to attach volume ledger-wal, timed out', ink: '#e9dcc0', n: '2\u00d7', countInk: INK3, bg: 'rgba(240,180,41,.05)' },
+        { t: '12:54', reason: 'NodeTainted', glyph: '\u25cf', tone: IDLE, msg: 'ip-10-0-3-19 tainted memory-pressure by the kubelet', ink: INK2, n: '1\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '11:40', reason: 'ScalingReplicaSet', glyph: '\u25cf', tone: IDLE, msg: 'Scaled up replica set checkout-api-7f9c8d4b6 to 8', ink: INK2, n: '4\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '11:12', reason: 'Unhealthy', glyph: '\u25b2', tone: WARN, msg: 'Liveness probe failed: connection refused', ink: '#e9dcc0', n: '31\u00d7', countInk: WARN, bg: 'rgba(240,180,41,.05)' },
+        { t: '10:41', reason: 'BackOff', glyph: '\u25b2', tone: WARN, msg: 'Back-off 40s restarting failed container api', ink: '#e9dcc0', n: '47\u00d7', countInk: BAD, bg: 'rgba(240,180,41,.05)' },
+        { t: '10:11', reason: 'OOMKilling', glyph: '\u25b2', tone: BAD, msg: 'First kill — memory cgroup out of memory', ink: '#ffd7d7', n: '1\u00d7', countInk: BAD, bg: 'rgba(255,95,95,.09)' },
+        { t: '10:07', reason: 'Started', glyph: '\u25cf', tone: IDLE, msg: 'Started container envoy', ink: INK2, n: '1\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '10:06', reason: 'Pulled', glyph: '\u25cf', tone: IDLE, msg: 'Container image already present on machine', ink: INK2, n: '88\u00d7', countInk: INK3, bg: 'transparent' },
+        { t: '10:04', reason: 'Scheduled', glyph: '\u25cf', tone: IDLE, msg: 'Successfully assigned to ip-10-0-3-19', ink: INK2, n: '1\u00d7', countInk: INK3, bg: 'transparent' }
+      ],
+      owners: [
+        { kind: 'Deployment', name: 'checkout-api', ink: '#c8d1dd', weight: '400', meta: '8 replicas', metaInk: INK3, bg: 'transparent', line: LINE, indent: '0px' },
+        { kind: 'ReplicaSet', name: 'checkout-api-7f9c8d4b6', ink: '#c8d1dd', weight: '400', meta: '2026.8.3', metaInk: INK3, bg: 'transparent', line: LINE, indent: '12px' },
+        { kind: 'Pod', name: 'checkout-api-…-k8n1p', ink: INK, weight: '600', meta: 'you are here', metaInk: INFO, bg: 'var(--ks-sel)', line: '#2f4356', indent: '24px' }
+      ],
+      relGroups: [
+        {
+          label: 'SERVICES IN FRONT', items: [
+            { name: 'svc/checkout', ink: '#c8d1dd', tone: INFO, meta: 'endpoint removed 14:20', metaInk: '#f3d08a', bg: 'transparent' },
+            { name: 'route/checkout', ink: '#c8d1dd', tone: INFO, meta: 'pay.corp', metaInk: INK3, bg: 'transparent' }
+          ]
+        },
+        {
+          label: 'CONFIG IT MOUNTS', items: [
+            { name: 'cm/checkout-config', ink: INK, tone: WARN, meta: 'changed 14:02', metaInk: '#f3d08a', bg: 'rgba(240,180,41,.06)' },
+            { name: 'secret/api-tls', ink: '#c8d1dd', tone: IDLE, meta: 'expires in 11d', metaInk: '#f3d08a', bg: 'transparent' },
+            { name: 'secret/db-credentials', ink: '#c8d1dd', tone: IDLE, meta: '3 keys', metaInk: INK3, bg: 'transparent' }
+          ]
+        },
+        {
+          label: 'IDENTITY', items: [
+            { name: 'sa/ci-bot', ink: '#c8d1dd', tone: '#e08adf', meta: 'can read all secrets', metaInk: '#ffb3b3', bg: 'transparent' }
+          ]
+        },
+        {
+          label: 'ALSO ON THIS NODE', items: [
+            { name: '23 other pods', ink: '#c8d1dd', tone: IDLE, meta: '91% memory used', metaInk: '#f3d08a', bg: 'transparent' },
+            { name: 'clickhouse-0 · 6Gi', ink: '#c8d1dd', tone: IDLE, meta: 'the biggest neighbour', metaInk: INK3, bg: 'transparent' }
+          ]
+        },
+        {
+          label: 'NETWORK', items: [
+            { name: 'netpol/payments-default', ink: '#c8d1dd', tone: '#5ad2c4', meta: 'egress limited to ledger', metaInk: INK3, bg: 'transparent' },
+            { name: 'endpoints/checkout', ink: '#c8d1dd', tone: '#5ad2c4', meta: '2 of 3 ready', metaInk: '#f3d08a', bg: 'transparent' }
+          ]
+        },
+        {
+          label: 'ELSEWHERE IN THE FLEET', items: [
+            { name: 'prod-us-east · same pod', ink: '#c8d1dd', tone: PURPLE, meta: 'Running, 0 restarts', metaInk: OK, bg: 'transparent' },
+            { name: 'prod-ap-south · same pod', ink: '#c8d1dd', tone: WARN, meta: 'Degraded', metaInk: WARN, bg: 'transparent' },
+            { name: 'compare all three ▸', ink: '#8ac6ff', tone: INFO, meta: 'XC-03', metaInk: INK3, bg: 'transparent' }
+          ]
+        }
+      ],
+      variants: [
+        {
+          title: 'A Deployment', cap: 'RES-04 · RES-05', edge: INFO, scope: 'pinned · deploy/checkout-api', scopeTone: INFO, state: '◆ rolling', stateTone: WARN,
+          headBg: 'rgba(240,180,41,.07)', headInk: '#f3d08a', head: 'Rolling out 2026.8.3 — 6 of 8 pods updated, 2 of them crashing.',
+          cols: '104px 1fr',
+          rows: [
+            vr([c('replicas', { ink: INK3 }), c('8 desired · 6 updated · 5 ready', { ink: INK })]),
+            vr([c('strategy', { ink: INK3 }), c('RollingUpdate · max surge 1, unavailable 0', {})]),
+            vr([c('image', { ink: INK3 }), c('checkout-api:2026.8.3', { ink: INK })]),
+            vr([c('changed', { ink: INK3 }), c('14:04 by argocd · previous 2026.8.2', { ink: '#8ac6ff' })]),
+            vr([c('replicasets', { ink: INK3 }), c('7f9c8d4b6 (6) · 5d8f9c74c (2, old)', {})]),
+            vr([c('pods', { ink: INK3 }), c('▲ 2 CrashLoop · ◆ 1 Pending · ● 5 Running', { ink: INK, glyph: '', gtone: BAD })]),
+            vr([c('pdb', { ink: INK3 }), c('minAvailable 6 — blocks eviction now', { ink: '#f3d08a' })]),
+            vr([c('history', { ink: INK3 }), c('4 revisions · roll back ▸', { ink: '#8ac6ff' })])
+          ],
+          note: 'For a workload the identity line becomes the rollout state, and “containers” becomes the replica breakdown. The owner chain points down instead of up.'
+        },
+        {
+          title: 'A Node', cap: 'RES-04 · DIAG-04', edge: WARN, scope: 'pinned · ip-10-0-3-19', scopeTone: WARN, state: '◆ pressure', stateTone: WARN,
+          headBg: 'rgba(240,180,41,.07)', headInk: '#f3d08a', head: 'Ready, but 91% of its memory is spoken for and the kubelet has tainted it.',
+          cols: '104px 1fr',
+          rows: [
+            vr([c('conditions', { ink: INK3 }), c('● Ready · ▲ MemoryPressure · ● DiskOK', { ink: INK })]),
+            vr([c('allocated', { ink: INK3 }), c('memory 91% · cpu 74%', { ink: '#ffb3b3' })]),
+            vr([c('pods', { ink: INK3 }), c('24 · 2 unhealthy', { ink: INK })]),
+            vr([c('taints', { ink: INK3 }), c('node.kubernetes.io/memory-pressure', { ink: '#f3d08a' })]),
+            vr([c('version', { ink: INK3 }), c('v1.29.4 · containerd 1.7.18', {})]),
+            vr([c('instance', { ink: INK3 }), c('m6i.2xlarge · eu-west-1a', {})]),
+            vr([c('uptime', { ink: INK3 }), c('31d · last reboot 1 Aug', {})]),
+            vr([c('what if', { ink: INK3 }), c('simulate a drain ▸', { ink: '#8ac6ff' })])
+          ],
+          note: 'Same three columns, different facts: conditions stay, containers become the pod list, and relations become the workloads that would move if you drained it.'
+        },
+        {
+          title: 'A ConfigMap', cap: 'RES-04 · ACT-12', edge: INFO, scope: 'pinned · cm/checkout-config', scopeTone: INFO, state: '● 4 keys', stateTone: OK,
+          headBg: 'rgba(74,168,255,.06)', headInk: '#8ac6ff', head: 'Mounted as env by 8 pods — a change here takes effect without a restart.',
+          cols: '132px 1fr',
+          rows: [
+            vr([c('TIMEOUT_MS', { ink: INK }), c('500 · was 2000 at 14:02', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('MAX_RETRIES', { ink: INK }), c('5 · was 3 at 14:12', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('POOL_SIZE', { ink: INK }), c('32', {})]),
+            vr([c('FEATURE_PAYOUTS', { ink: INK }), c('on · changed 3d ago', {})]),
+            vr([c('mounted by', { ink: INK3 }), c('8 pods of deploy/checkout-api', { ink: INK })]),
+            vr([c('as', { ink: INK3 }), c('envFrom — not a file, so no reload needed', { ink: INK2 })]),
+            vr([c('elsewhere', { ink: INK3 }), c('7 clusters have it · 1 differs', { ink: '#f3d08a' })]),
+            vr([c('', {}), c('edit keys ▸  ·  diff against us-east ▸', { ink: '#8ac6ff' })])
+          ],
+          note: 'A ConfigMap’s details are its keys, and the recently changed ones are tinted. The question people arrive with — who mounts this, and does a change restart anything — is answered above the fold.'
+        },
+        {
+          title: 'A CRD we do not know', cap: 'RES-03 · RES-04', edge: IDLE, scope: 'pinned · kafkatopic/ledger.v2', scopeTone: OK, state: '▲ not ready', stateTone: BAD,
+          headBg: 'rgba(255,95,95,.08)', headInk: '#ffd7d7', head: 'Ready is False: “insufficient brokers — 3 required, 2 available”.',
+          cols: '116px 1fr',
+          rows: [
+            vr([c('conditions', { ink: INK3 }), c('▲ Ready False · ● Reconciled True', { ink: INK })]),
+            vr([c('partitions', { ink: INK3 }), c('12', {})]),
+            vr([c('replicas', { ink: INK3 }), c('3 · only 2 in sync', { ink: '#ffb3b3' })]),
+            vr([c('printer cols', { ink: INK3 }), c('from the CRD, not from us', { ink: INK2 })]),
+            vr([c('owner', { ink: INK3 }), c('kafka/ledger-cluster', {})]),
+            vr([c('spec', { ink: INK3 }), c('shown verbatim — we cannot interpret it', { ink: INK2 })]),
+            vr([c('actions', { ink: INK3 }), c('read, YAML, events, delete', { ink: INK2 })]),
+            vr([c('', {}), c('everything we know comes from the API ▸', { ink: INK3 })])
+          ],
+          note: 'For an unknown kind the pane degrades honestly: conditions and printer columns at the top, the raw spec below, and an action set reduced to what the API guarantees.'
+        }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The name and its phase, on one line, at 18px — and directly under it one sentence of prose explaining the phase. A details pane that opens with metadata makes you hunt; this one opens with the diagnosis and keeps the metadata in the strip below.' },
+        { tone: INFO, k: 'DENSITY', t: 'Three columns rather than a long scroll: containers, conditions with events, and relations. Twenty-four facts visible without scrolling, against 412 lines of YAML behind the Y key — that ratio is the pane’s whole argument.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'It is opinionated about which twenty-four facts matter, and for an unusual object it will be wrong: annotations, tolerations, topology constraints and finalizers are not here. The rule is that anything omitted must be reachable in one keystroke, and the YAML pane is that guarantee. This is also the only pane that watches a full object rather than metadata, so it is deliberately the one you open per row, not per list.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

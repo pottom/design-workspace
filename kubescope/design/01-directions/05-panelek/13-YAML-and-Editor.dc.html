@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-key:#8ac6ff;--ks-str:#a8e6c8;--ks-num:#e6cd9e;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 13 / 30 · OBJECT PANE · RES-06 · ACT-02 · ACT-12</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">YAML and the editor</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">One pane with two faces. The form is faster for the six things people actually change; the YAML is there for everything else and for the people who prefer it. They are not alternatives — <span style="color:var(--ks-ink)">both produce the same diff, and the diff is what you approve</span>.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="yaml + editor · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>nothing is sent to the cluster until the diff is approved</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0">
+
+      <!-- the form -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-warn)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Edit</span>
+          <span style="color:var(--ks-ink-3)">deploy/checkout-api</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">3 changes</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink-3)">not applied</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="height:26px;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+          <sc-for list="{{ formTabs }}" as="t" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:7px;padding:0 11px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:11.5px;color:{{ t.ink }};font-weight:{{ t.weight }}">
+              {{ t.label }}<span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ t.metaInk }}">{{ t.meta }}</span>
+            </div>
+          </sc-for>
+          <div style="flex:1"></div>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ formSections }}" as="s" hint-placeholder-count="3">
+            <div>
+              <div style="display:flex;align-items:center;gap:9px;padding:9px 13px 6px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line)">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:{{ s.tone }}">{{ s.label }}</span>
+                <span style="font-size:11px;color:var(--ks-ink-3)">{{ s.note }}</span>
+              </div>
+              <sc-for list="{{ s.fields }}" as="f" hint-placeholder-count="4">
+                <div style="padding:10px 13px;box-shadow:inset 0 -1px 0 var(--ks-line-soft);background:{{ f.bg }};display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:flex-start;gap:14px">
+                    <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
+                      <div style="display:flex;align-items:center;gap:9px">
+                        <span style="font-size:12.5px;color:var(--ks-ink);font-weight:{{ f.weight }}">{{ f.name }}</span>
+                        <sc-if value="{{ f.changed }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-warn);padding:1px 6px;border:1px solid #5a4520;background:rgba(240,180,41,.10)">changed</span>
+                        </sc-if>
+                        <sc-if value="{{ f.hasSource }}" hint-placeholder-val="{{ false }}">
+                          <span style="font-family:var(--ks-mono);font-size:9px;color:{{ f.sourceInk }};padding:1px 6px;border:1px solid {{ f.sourceLine }}">{{ f.source }}</span>
+                        </sc-if>
+                      </div>
+                      <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ f.help }}</div>
+                    </div>
+                    <div style="flex:none;display:flex;align-items:center;gap:9px">
+                      <sc-if value="{{ f.hasOld }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family:var(--ks-mono);font-size:11px;color:#8a5f62;text-decoration:line-through">{{ f.old }}</span>
+                        <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">→</span>
+                      </sc-if>
+                      <div style="display:flex;align-items:center;gap:8px;height:26px;padding:0 10px;border:1px solid {{ f.line }};background:var(--ks-field);width:{{ f.w }}">
+                        <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ f.valueInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.value }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <sc-if value="{{ f.hasMeter }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:10px;padding:6px 9px;background:var(--ks-field);border-left:2px solid {{ f.meterTone }}">
+                      <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);width:74px;flex:none">{{ f.meterLabel }}</span>
+                      <div style="flex:1;height:9px;background:var(--ks-line-soft);position:relative;min-width:0">
+                        <div style="position:absolute;left:0;top:0;bottom:0;width:{{ f.meterUsed }};background:{{ f.meterTone }}"></div>
+                        <div style="position:absolute;left:{{ f.meterMark }};top:-2px;bottom:-2px;width:2px;background:rgba(152,164,180,.9)"></div>
+                        <div style="position:absolute;left:{{ f.meterNew }};top:-3px;bottom:-3px;width:2px;background:var(--ks-ok)"></div>
+                      </div>
+                      <span style="font-family:var(--ks-mono);font-size:10px;color:{{ f.meterInk }};flex:none">{{ f.meterValue }}</span>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ f.hasWarn }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:9px;padding:6px 9px;background:rgba(240,180,41,.07);border-left:2px solid var(--ks-warn)">
+                      <span style="font-size:8px;color:var(--ks-warn);flex:none">◆</span>
+                      <span style="font-size:11.5px;line-height:1.45;color:#f3d08a;text-wrap:pretty">{{ f.warn }}</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="padding:10px 13px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:11px">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">3 CHANGES · NOTHING SENT</span>
+            <span style="font-size:11.5px;color:#f3d08a;line-height:1.35">applying restarts every pod, one at a time</span>
+          </div>
+          <div style="flex:1"></div>
+          <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Discard</span>
+          <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink)">Dry run</span>
+          <span style="padding:6px 12px;border:1px solid #5a4520;background:rgba(240,180,41,.14);font-size:12px;color:var(--ks-warn);font-weight:600">Review the diff…</span>
+        </div>
+      </div>
+
+      <!-- the yaml -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">YAML</span>
+          <span style="color:var(--ks-ink-3)">deploy/checkout-api</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ok)">diff</span>
+          <span style="color:var(--ks-ink-3)">·</span>
+          <span style="color:var(--ks-ink-2)">managed fields hidden</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="height:24px;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+          <sc-for list="{{ yamlChips }}" as="c" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:5px;padding:2px 7px;border:1px solid {{ c.line }};background:{{ c.bg }};color:{{ c.ink }}">{{ c.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-ink-2)"><span style="padding:1px 5px;border:1px solid var(--ks-line);color:var(--ks-ink)">⌥↑</span><span style="padding:1px 5px;border:1px solid var(--ks-line);color:var(--ks-ink)">⌥↓</span>change 2 of 3</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;font-family:var(--ks-mono);font-size:11.5px" data-scroll="dense">
+          <sc-for list="{{ yaml }}" as="l" hint-placeholder-count="30">
+            <sc-if value="{{ l.isFold }}" hint-placeholder-val="{{ false }}">
+              <div style="height:20px;display:flex;align-items:center;gap:9px;padding:0 10px 0 38px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line-soft),inset 0 1px 0 var(--ks-line-soft);color:var(--ks-ink-3);font-size:10px">
+                <span style="color:var(--ks-ink-2)">▸</span>{{ l.foldText }}<div style="flex:1"></div><span>{{ l.foldPath }}</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ l.isLine }}" hint-placeholder-val="{{ true }}">
+              <div style="height:18px;display:grid;grid-template-columns:34px 12px 1fr;align-items:center;background:{{ l.bg }};box-shadow:{{ l.ring }}"><span style="text-align:right;padding-right:8px;color:{{ l.numInk }};font-size:10px;user-select:none">{{ l.n }}</span><span style="color:{{ l.markInk }};text-align:center;font-size:11px">{{ l.mark }}</span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:pre;padding-right:10px;line-height:18px"><span style="color:{{ l.keyInk }}">{{ l.key }}</span><span style="color:{{ l.valInk }}">{{ l.val }}</span><span style="color:var(--ks-ink-3)">{{ l.tail }}</span></span></div>
+            </sc-if>
+          </sc-for>
+        </div>
+
+        <div style="padding:9px 11px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:12px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+          <span style="color:var(--ks-ok)">+2</span><span style="color:var(--ks-bad)">−2</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span>edited here or in the form — same diff either way</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">⌘S review · ⌘Z undo · / search</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Four objects the form knows, and the one it does not</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:296px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 9px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:8px 9px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', LINE_S = '#2c3542';
+const KEY = '#8ac6ff', STR = '#a8e6c8', NUM = '#e6cd9e';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const y = (n, key, val, o) => Object.assign({
+      isLine: true, isFold: false, foldText: '', foldPath: '',
+      n, key, val, tail: '', mark: '', markInk: INK3, numInk: '#39414d',
+      keyInk: KEY, valInk: STR, bg: 'transparent', ring: 'inset 0 -1px 0 rgba(26,32,40,.5)'
+    }, o || {});
+    const fold = (text, path) => ({ isLine: false, isFold: true, foldText: text, foldPath: path, n: '', key: '', val: '', tail: '', mark: '', markInk: INK3, numInk: INK3, keyInk: INK3, valInk: INK3, bg: 'transparent', ring: 'none' });
+    const del = { mark: '\u2212', markInk: BAD, numInk: '#6b4045', bg: 'rgba(255,95,95,.13)', valInk: '#ffb3b3', keyInk: '#c98f95', ring: 'inset 2px 0 0 #ff5f5f' };
+    const add = { mark: '+', markInk: OK, numInk: '#2f6b52', bg: 'rgba(62,207,142,.13)', valInk: '#a8e6c8', keyInk: '#7fc7a8', ring: 'inset 2px 0 0 #3ecf8e' };
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const vr = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '24px' });
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    return {
+      facts: [
+        { k: 'FIELDS IN THE FORM', v: '14', tone: INK },
+        { k: 'LINES IN THE YAML', v: '412', tone: INK },
+        { k: 'CHANGES', v: '3', tone: WARN },
+        { k: 'SENT SO FAR', v: 'nothing', tone: OK }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      formTabs: [
+        { label: 'Image', meta: '', bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 },
+        { label: 'Scale', meta: '', bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 },
+        { label: 'Resources', meta: '2', bg: 'var(--ks-panel)', shadow: 'inset 0 -2px 0 #f0b429', ink: INK, weight: '600', metaInk: WARN },
+        { label: 'Probes', meta: '1', bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: WARN },
+        { label: 'Env', meta: '', bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 },
+        { label: 'Volumes', meta: '', bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 }
+      ],
+      formSections: [
+        {
+          label: 'CONTAINER API · MEMORY', tone: WARN, note: 'the numbers beside the fields are the last 7 days',
+          fields: [
+            {
+              name: 'Memory request', weight: '600', changed: true, bg: 'rgba(240,180,41,.05)',
+              help: 'What the scheduler reserves. Below the real p95 and pods land on nodes that cannot feed them.',
+              hasSource: false, hasOld: true, old: '256Mi', value: '384Mi', valueInk: OK, line: '#22503c', w: '110px',
+              hasMeter: true, meterLabel: 'p95 318Mi', meterUsed: '62%', meterMark: '33%', meterNew: '50%',
+              meterTone: 'rgba(62,207,142,.45)', meterValue: 'was 256 · now 384', meterInk: OK,
+              hasWarn: false, warn: ''
+            },
+            {
+              name: 'Memory limit', weight: '600', changed: true, bg: 'rgba(240,180,41,.05)',
+              help: 'The ceiling. Crossing it kills the container — this is the number that has killed it 47 times.',
+              hasSource: false, hasOld: true, old: '512Mi', value: '768Mi', valueInk: OK, line: '#22503c', w: '110px',
+              hasMeter: true, meterLabel: 'peak 511Mi', meterUsed: '99%', meterMark: '50%', meterNew: '100%',
+              meterTone: BAD, meterValue: 'headroom 1Mi → 257Mi', meterInk: OK,
+              hasWarn: false, warn: ''
+            },
+            {
+              name: 'CPU request', weight: '400', changed: false, bg: 'transparent',
+              help: 'Unchanged. No throttling in seven days, so there is nothing to fix here.',
+              hasSource: false, hasOld: false, old: '', value: '200m', valueInk: INK, line: LINE_S, w: '110px',
+              hasMeter: false, hasWarn: false, warn: ''
+            }
+          ]
+        },
+        {
+          label: 'CONTAINER API · PROBES', tone: WARN, note: 'DIAG-02 said the liveness probe was part of this',
+          fields: [
+            {
+              name: 'Liveness · initial delay', weight: '600', changed: true, bg: 'rgba(240,180,41,.05)',
+              help: 'How long the container gets before the first check. Startup measured at 41s over the last ten restarts.',
+              hasSource: false, hasOld: true, old: '30s', value: '60s', valueInk: OK, line: '#22503c', w: '90px',
+              hasMeter: false,
+              hasWarn: true, warn: 'At 30s this probe was killing the container mid-start — the restart loop had two causes, not one.'
+            },
+            {
+              name: 'Readiness · path', weight: '400', changed: false, bg: 'transparent',
+              help: 'Returns 503 while the ledger is unreachable, which is correct behaviour and not a probe fault.',
+              hasSource: false, hasOld: false, old: '', value: '/healthz', valueInk: INK, line: LINE_S, w: '130px',
+              hasMeter: false, hasWarn: false, warn: ''
+            }
+          ]
+        },
+        {
+          label: 'ENVIRONMENT · RESOLVED', tone: INFO, note: 'shown with where each value comes from',
+          fields: [
+            {
+              name: 'TIMEOUT_MS', weight: '400', changed: false, bg: 'transparent',
+              help: 'Changed at 13:52 outside this editor. Editing it here would edit the ConfigMap, not the Deployment.',
+              hasSource: true, source: 'cm/checkout-config', sourceInk: INFO, sourceLine: '#2f4356',
+              hasOld: false, old: '', value: '500', valueInk: '#f3d08a', line: LINE_S, w: '110px',
+              hasMeter: false, hasWarn: false, warn: ''
+            },
+            {
+              name: 'DB_PASSWORD', weight: '400', changed: false, bg: 'transparent',
+              help: 'From a Secret. Revealing it here is a logged action, and it is never shown by default.',
+              hasSource: true, source: 'secret/db-credentials', sourceInk: WARN, sourceLine: '#5a4520',
+              hasOld: false, old: '', value: '•••••••• reveal', valueInk: INK3, line: LINE_S, w: '150px',
+              hasMeter: false, hasWarn: false, warn: ''
+            },
+            {
+              name: 'POD_IP', weight: '400', changed: false, bg: 'transparent',
+              help: 'Injected by the cluster at start. Not editable, and shown so you do not go looking for it.',
+              hasSource: true, source: 'fieldRef', sourceInk: INK3, sourceLine: LINE,
+              hasOld: false, old: '', value: 'status.podIP', valueInk: INK3, line: LINE, w: '130px',
+              hasMeter: false, hasWarn: false, warn: ''
+            }
+          ]
+        }
+      ],
+      yamlChips: [
+        { t: 'changes only', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: 'with context', bg: 'var(--ks-sel)', line: '#2f4356', ink: INK },
+        { t: 'whole object', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: 'managed fields hidden', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: 'wrap', bg: 'transparent', line: LINE, ink: INK2 }
+      ],
+      yaml: [
+        fold('37 unchanged lines', 'metadata · spec.replicas · selector'),
+        y('38', '    spec:', ''),
+        y('39', '      containers:', ''),
+        y('40', '        - name: ', 'api'),
+        y('41', '          image: ', 'registry.internal/checkout-api:2026.8.3'),
+        y('45', '          resources:', ''),
+        y('46', '            requests:', ''),
+        y('47', '              memory: ', '"256Mi"', del),
+        y('47', '              memory: ', '"384Mi"', add),
+        y('48', '              cpu: ', '"200m"'),
+        y('49', '            limits:', ''),
+        y('50', '              memory: ', '"512Mi"', del),
+        y('50', '              memory: ', '"768Mi"', add),
+        y('51', '              cpu: ', '"1"'),
+        y('52', '          livenessProbe:', ''),
+        y('53', '            httpGet:', ''),
+        y('54', '              path: ', '/healthz'),
+        y('55', '              port: ', '8080', { valInk: NUM }),
+        y('56', '            initialDelaySeconds: ', '30', del),
+        y('56', '            initialDelaySeconds: ', '60', add),
+        y('57', '            periodSeconds: ', '10', { valInk: NUM }),
+        y('58', '            failureThreshold: ', '3', { valInk: NUM }),
+        y('59', '          readinessProbe:', ''),
+        y('60', '            httpGet:', ''),
+        y('61', '              path: ', '/healthz'),
+        y('62', '              port: ', '8080', { valInk: NUM }),
+        y('63', '            periodSeconds: ', '5', { valInk: NUM }),
+        y('64', '          envFrom:', ''),
+        y('65', '            - configMapRef:', ''),
+        y('66', '                name: ', 'checkout-config'),
+        y('67', '            - secretRef:', ''),
+        y('68', '                name: ', 'db-credentials'),
+        fold('344 unchanged lines', 'volumes · tolerations · status')
+      ],
+      variants: [
+        {
+          title: 'ConfigMap', cap: 'ACT-12', edge: INFO, scope: 'cm/checkout-config', scopeTone: INFO, state: '4 keys', stateTone: INK3,
+          cols: '128px 1fr',
+          rows: [
+            vr([c('TIMEOUT_MS', { ink: INK }), c('500', { ink: '#f3d08a', font: MONO })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('changed 13:52 by ci-bot · was 2000', { ink: INK3, size: '9.5px' })], 'rgba(240,180,41,.06)', '18px'),
+            vr([c('MAX_RETRIES', { ink: INK }), c('5', {})]),
+            vr([c('POOL_SIZE', { ink: INK }), c('32', {})]),
+            vr([c('FEATURE_PAYOUTS', { ink: INK }), c('on', {})]),
+            vr([c('', {}), c('', {})], 'transparent', '8px'),
+            vr([c('mounted by', { ink: INK3, size: '9.5px' }), c('8 pods · envFrom · no restart needed', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('elsewhere', { ink: INK3, size: '9.5px' }), c('7 clusters have it · 1 differs', { ink: '#f3d08a', font: SANS, size: '11px' })])
+          ],
+          hasFoot: true, footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'Key–value rows, not a text area. The line under a changed key says who and when — that history is what this pane is for.',
+          note: 'The simplest form in the product, and the one most likely to be edited during an incident. Adding a key adds a row; there is no YAML to get the indentation wrong in.'
+        },
+        {
+          title: 'Secret', cap: 'ACT-12 · RES-09', edge: WARN, scope: 'secret/db-credentials', scopeTone: WARN, state: '3 keys · masked', stateTone: WARN,
+          cols: '128px 1fr',
+          rows: [
+            vr([c('username', { ink: INK }), c('•••••••• · 8 bytes · reveal', { ink: INK3 })]),
+            vr([c('password', { ink: INK }), c('•••••••••••••••• · 24 bytes · reveal', { ink: INK3 })]),
+            vr([c('ca.crt', { ink: INK }), c('•••• · 1 894 bytes · certificate ▸', { ink: '#8ac6ff' })]),
+            vr([c('', {}), c('', {})], 'transparent', '8px'),
+            vr([c('revealing', { ink: INK3, size: '9.5px' }), c('one key at a time, times out after 30s', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('every reveal writes an audit line', { ink: '#f3d08a', font: SANS, size: '11px' })]),
+            vr([c('editing', { ink: INK3, size: '9.5px' }), c('you type plain text, we base64 it', { ink: INK2, font: SANS, size: '11px' })]),
+            vr([c('', {}), c('the diff shows key names only, never values', { ink: '#f3d08a', font: SANS, size: '11px' })])
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'The one form where the diff deliberately withholds something: you approve a change to “password”, not to its contents.',
+          note: 'Byte counts instead of values, because the length alone often answers the question — a 0-byte key is usually the bug.'
+        },
+        {
+          title: 'Route · Ingress', cap: 'ACT-12 · OCP-13', edge: INFO, scope: 'route/checkout', scopeTone: INFO, state: '2 backends', stateTone: INK3,
+          cols: '96px 1fr',
+          rows: [
+            vr([c('host', { ink: INK3 }), c('pay.corp', { ink: INK })]),
+            vr([c('path', { ink: INK3 }), c('/', {})]),
+            vr([c('tls', { ink: INK3 }), c('edge · certificate expires in 11 days', { ink: '#f3d08a' })], 'rgba(240,180,41,.06)'),
+            vr([c('', {}), c('', {})], 'transparent', '6px'),
+            vr([c('backend', { ink: INK3 }), c('svc/checkout : 8080', { ink: INK })]),
+            vr([c('weight', { ink: INK3 }), c('90%', { ink: INK })]),
+            vr([c('backend', { ink: INK3 }), c('svc/checkout-canary : 8080', { ink: INK })]),
+            vr([c('weight', { ink: INK3 }), c('10%', { ink: '#8ac6ff' })]),
+            vr([c('', {}), c('two weights, one slider — they always total 100', { ink: INK3, font: SANS, size: '10.5px' })])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'Rule by rule, not a YAML block — and the canary split is a slider, because two numbers that must sum to 100 are one control.',
+          note: 'Ingress and Route share this form; the TLS row is where they differ, and it says which mode in words rather than a mode name.'
+        },
+        {
+          title: 'A CRD we do not know', cap: 'RES-03', edge: IDLE, scope: 'kafkatopic/ledger.v2', scopeTone: OK, state: 'yaml only', stateTone: IDLE,
+          cols: '1fr',
+          rows: [
+            vr([c('spec:', { ink: KEY })], 'transparent', '18px'),
+            vr([c('  partitions: 12', { ink: NUM })], 'transparent', '18px'),
+            vr([c('  replicas: 3', { ink: NUM })], 'transparent', '18px'),
+            vr([c('  config:', { ink: KEY })], 'transparent', '18px'),
+            vr([c('    retention.ms: "604800000"', { ink: STR })], 'transparent', '18px'),
+            vr([c('    min.insync.replicas: "2"', { ink: STR })], 'transparent', '18px'),
+            vr([c('', {})], 'transparent', '10px'),
+            vr([c('No form. We have no idea what these', { ink: INK2, font: SANS, size: '11px' })], 'transparent', '18px'),
+            vr([c('fields mean, and guessing would be worse', { ink: INK2, font: SANS, size: '11px' })], 'transparent', '18px'),
+            vr([c('than the YAML.', { ink: INK2, font: SANS, size: '11px' })], 'transparent', '18px')
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'What we still give it: schema-aware completion from the CRD’s openAPI, validation before apply, and the same diff.',
+          note: 'The honest degradation. A generated form from a CRD schema would be technically possible and almost always wrong — a required field with no label helps nobody.'
+        }
+      ],
+      closing: [
+        { tone: WARN, k: 'THE FORM AND THE YAML ARE ONE PANE', t: 'Two views of the same unsaved object, side by side and live: typing 768Mi in the field repaints line 50, and editing line 50 repaints the field. Neither is the source of truth — the pending object is, and both are windows onto it. That is what lets the form be fast without ever hiding what it will do.' },
+        { tone: OK, k: 'THE DIFF IS THE CONTRACT', t: 'Nothing reaches the cluster until you have seen a field-level diff, whichever view you edited in. Dry run sits beside it for the server’s opinion — admission webhooks reject things no client can predict, and finding that out before the write is worth one button.' },
+        { tone: INFO, k: 'WHAT WE GIVE UP', t: 'We are not competing with an IDE: no schema-wide refactoring, no multi-document editing, no plugins. The form covers six things per kind and openly refuses on anything it does not understand. The riskiest part is the resolved env list — showing where every value comes from is the feature, but it means the editor has to read ConfigMaps and Secrets the pod reads, and on a tight RBAC that list will be partly unresolvable. It says so per row rather than silently showing the raw reference.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

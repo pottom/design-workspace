@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-read:#4aa8ff;--ks-write:#f0b429;--ks-destr:#ff5f5f;--ks-nav:#8a94a6;--ks-clip:#5e6a79;--ks-sans:'IBM Plex Sans',system-ui,sans-serif;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:46px;width:1800px">
+
+  <div style="display:flex;align-items:flex-end;gap:40px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · BRIEF §4</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">The action map</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">What you can do to each kind of object, and — the column that matters — <span style="color:var(--ks-ink)">what it opens</span>. One rule set applied to thirty-four kinds, so nobody invents a menu per pane. Below it, the mouse: what is draggable, what each button does on every target, and an implementation order for the whole thing.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:10px;align-items:flex-end">
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">SELECTION</div>
+        <div style="display:flex;gap:5px">
+          <div onClick="{{ onSingle }}" style="padding:6px 11px;border:1px solid {{ singleLine }};background:{{ singleBg }};font-family:var(--ks-mono);font-size:11px;color:{{ singleInk }};cursor:pointer">one row</div>
+          <div onClick="{{ onMulti }}" style="padding:6px 11px;border:1px solid {{ multiLine }};background:{{ multiBg }};font-family:var(--ks-mono);font-size:11px;color:{{ multiInk }};cursor:pointer">8 rows · 3 panes</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">CLUSTER</div>
+        <div style="display:flex;gap:5px">
+          <div onClick="{{ onRw }}" style="padding:6px 11px;border:1px solid {{ rwLine }};background:{{ rwBg }};font-family:var(--ks-mono);font-size:11px;color:{{ rwInk }};cursor:pointer">writable</div>
+          <div onClick="{{ onRo }}" style="padding:6px 11px;border:1px solid {{ roLine }};background:{{ roBg }};font-family:var(--ks-mono);font-size:11px;color:{{ roInk }};cursor:pointer">read-only</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">§4.2</div>
+      <div style="font-size:19px;font-weight:600">Six decisions that make the set learnable</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <sc-for list="{{ decisions }}" as="d" hint-placeholder-count="6">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ d.tone }};padding:15px 17px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">{{ d.q }}</div>
+          <div style="font-size:14.5px;font-weight:600;line-height:1.35;color:var(--ks-ink);text-wrap:pretty">{{ d.a }}</div>
+          <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ d.why }}</div>
+          <div style="font-family:var(--ks-mono);font-size:11px;color:{{ d.tone }};line-height:1.5">{{ d.rule }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">§4.1 · §4.3</div>
+      <div style="font-size:19px;font-weight:600">Thirty-four kinds</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">{{ coverage }}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:236px 1fr 340px;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <div style="background:var(--ks-field);padding:8px 0;max-height:820px;overflow-y:auto;scrollbar-gutter:stable">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="9">
+          <div style="display:flex;flex-direction:column">
+            <div style="padding:11px 14px 6px;font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">{{ g.label }}</div>
+            <sc-for list="{{ g.kinds }}" as="k" hint-placeholder-count="6">
+              <div onClick="{{ k.onClick }}" style="display:flex;align-items:center;gap:9px;padding:5px 14px;background:{{ k.bg }};cursor:pointer;border-left:2px solid {{ k.bar }}">
+                <span style="font-size:13px;color:{{ k.ink }};font-weight:{{ k.weight }}">{{ k.name }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ k.n }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-width:0">
+        <div style="padding:15px 18px 13px;border-bottom:1px solid var(--ks-line);display:flex;align-items:flex-end;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:5px;min-width:0">
+            <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">{{ kind.group }}</div>
+            <div style="font-size:22px;font-weight:600;letter-spacing:-.01em">{{ kind.name }}</div>
+            <div style="font-size:12.5px;line-height:1.5;color:var(--ks-ink-2);max-width:620px;text-wrap:pretty">{{ kind.note }}</div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end">
+            <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">⏎ PRIMARY</div>
+            <div style="display:flex;align-items:center;gap:9px;padding:6px 11px;border:1px solid var(--ks-line);background:var(--ks-field)">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-read)">⏎</span>
+              <span style="font-size:13px;font-weight:600">{{ kind.primary }}</span>
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">{{ kind.primaryOpens }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="height:22px;display:grid;grid-template-columns:22px 1fr 252px 96px 58px;align-items:center;padding:0 18px;gap:12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3)">
+          <div></div><div>ACTION</div><div>WHAT IT OPENS</div><div>FAMILY</div><div style="text-align:right">KEY</div>
+        </div>
+
+        <div style="max-height:700px;overflow-y:auto;scrollbar-gutter:stable">
+          <sc-for list="{{ kind.sections }}" as="s" hint-placeholder-count="4">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;padding:7px 18px 5px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line)">
+                <span style="width:6px;height:6px;background:{{ s.tone }}"></span>
+                <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:{{ s.tone }}">{{ s.label }}</span>
+                <span style="font-size:11.5px;color:var(--ks-ink-3)">{{ s.rule }}</span>
+              </div>
+              <sc-for list="{{ s.rows }}" as="a" hint-placeholder-count="6">
+                <div style="min-height:26px;display:grid;grid-template-columns:22px 1fr 252px 96px 58px;align-items:center;padding:4px 18px;gap:12px;box-shadow:inset 0 -1px 0 var(--ks-line-soft);background:{{ a.bg }}">
+                  <div style="font-size:9px;color:{{ a.tone }}">{{ a.glyph }}</div>
+                  <div style="display:flex;align-items:baseline;gap:9px;min-width:0">
+                    <span style="font-size:13px;color:{{ a.ink }};font-weight:{{ a.weight }}">{{ a.label }}</span>
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ a.badgeInk }}">{{ a.badge }}</span>
+                  </div>
+                  <div style="font-family:var(--ks-mono);font-size:11.5px;color:{{ a.opensInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.opens }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ a.tone }}">{{ a.fam }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);text-align:right">{{ a.key }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="background:var(--ks-field);padding:16px;display:flex;flex-direction:column;gap:16px;max-height:820px;overflow-y:auto;scrollbar-gutter:stable">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">HOW IT LOOKS · {{ menuCaption }}</div>
+          <div style="background:var(--ks-panel-hi);border:1px solid #2c3542;box-shadow:0 18px 40px rgba(0,0,0,.55);padding:4px 0">
+            <div style="padding:6px 11px 7px;font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3);border-bottom:1px solid var(--ks-line);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ menuTitle }}</div>
+            <sc-for list="{{ menu }}" as="i" hint-placeholder-count="10">
+              <div style="display:flex;align-items:center;gap:11px;padding:4px 11px;background:{{ i.bg }};box-shadow:{{ i.sep }}">
+                <span style="width:9px;font-size:8px;color:{{ i.tone }}">{{ i.glyph }}</span>
+                <span style="font-size:12px;color:{{ i.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.label }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ i.hint }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ menuNote }}</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">WHERE IT OPENS</div>
+          <div style="display:flex;gap:8px">
+            <sc-for list="{{ placements }}" as="p" hint-placeholder-count="3">
+              <div style="flex:1;display:flex;flex-direction:column;gap:6px;padding:9px;background:var(--ks-panel);border:1px solid var(--ks-line)">
+                <div style="height:44px;display:grid;grid-template-columns:{{ p.cols }};grid-template-rows:{{ p.rows }};gap:2px">
+                  <sc-for list="{{ p.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="background:{{ c.bg }};border:1px solid {{ c.line }}"></div>
+                  </sc-for>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">{{ p.label }}</div>
+                <div style="font-size:10.5px;line-height:1.4;color:var(--ks-ink-3)">{{ p.when }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">ONE ACTION, THREE ENTRY POINTS</div>
+          <sc-for list="{{ entryPoints }}" as="e" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:10px;padding:7px 9px;background:var(--ks-panel);border:1px solid var(--ks-line)">
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:78px;flex:none">{{ e.from }}</span>
+              <span style="font-size:12px;color:var(--ks-ink)">{{ e.label }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-read)">{{ e.same }}</span>
+            </div>
+          </sc-for>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">One implementation per action. The wording, the icon, the confirmation and the destination belong to the action, never to the place it was invoked from.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">MOUSE</div>
+      <div style="font-size:19px;font-weight:600">The gesture map</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">every target, every button, what happens</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 476px;gap:12px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line)">
+        <div style="height:22px;display:grid;grid-template-columns:120px 1fr 96px;align-items:center;padding:0 16px;gap:14px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3)">
+          <div>GESTURE</div><div>WHAT HAPPENS</div><div>FAMILY</div>
+        </div>
+        <div style="max-height:1000px;overflow-y:auto;scrollbar-gutter:stable">
+          <sc-for list="{{ gestureTargets }}" as="t" hint-placeholder-count="14">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 16px 6px;background:var(--ks-panel-hi);box-shadow:inset 0 -1px 0 var(--ks-line)">
+                <span style="width:6px;height:6px;background:{{ t.tone }}"></span>
+                <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink);font-weight:600">{{ t.name }}</span>
+                <span style="font-size:11.5px;color:var(--ks-ink-3)">{{ t.note }}</span>
+              </div>
+              <sc-for list="{{ t.rows }}" as="g" hint-placeholder-count="5">
+                <div style="min-height:24px;display:grid;grid-template-columns:120px 1fr 96px;align-items:center;padding:3px 16px;gap:14px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-2)">{{ g.g }}</div>
+                  <div style="font-size:12px;color:var(--ks-ink-2);line-height:1.4;text-wrap:pretty">{{ g.r }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ g.tone }}">{{ g.fam }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:15px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3);margin-bottom:5px">DRAG, LIVE — TRY IT</div>
+          <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Press the chip, move over the pane, release. Drop zones are the four edges and the middle; what you get is drawn while you drag — the layout itself, not a highlighted rectangle.</div>
+          <div style="display:flex;align-items:center;gap:12px;margin:13px 0 11px">
+            <div onMouseDown="{{ onDragStart }}" style="display:flex;align-items:center;gap:8px;padding:7px 11px;background:var(--ks-sel);border:1px solid #2c3542;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink);cursor:grab;user-select:none">
+              <span style="color:var(--ks-info)">●</span>prod-eu-west · Logs<span style="color:var(--ks-ink-3)">⣿</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ dropInk }}">{{ dropLabel }}</div>
+          </div>
+          <div onMouseMove="{{ onDragMove }}" onMouseUp="{{ onDragEnd }}" onMouseLeave="{{ onDragLeave }}" style="position:relative;height:240px;background:var(--ks-field);border:1px solid var(--ks-line);display:grid;grid-template-columns:{{ demoCols }};grid-template-rows:{{ demoRows }};gap:2px;padding:2px;cursor:{{ demoCursor }}">
+            <sc-for list="{{ demoPanes }}" as="d" hint-placeholder-count="1">
+              <div style="grid-column:{{ d.gc }};grid-row:{{ d.gr }};background:{{ d.bg }};border:1px solid {{ d.line }};display:flex;flex-direction:column;padding:7px 9px;gap:6px">
+                <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:10px;color:{{ d.headInk }}"><span style="color:{{ d.dot }}">●</span>{{ d.title }}</div>
+                <div style="display:flex;flex-direction:column;gap:3px;opacity:.45">
+                  <sc-for list="{{ d.bars }}" as="b" hint-placeholder-count="4">
+                    <div style="height:3px;width:{{ b.w }};background:{{ b.bg }}"></div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ tabDrop }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;left:2px;top:2px;right:2px;height:20px;background:rgba(74,168,255,.18);border:1px dashed var(--ks-info);display:flex;align-items:center;padding:0 7px;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-info)">becomes a tab in this pane slot</div>
+            </sc-if>
+          </div>
+          <div style="margin-top:10px;font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ dragResult }}</div>
+        </div>
+
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:15px;display:flex;flex-direction:column;gap:9px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">WHAT IS DRAGGABLE, AND WHERE TO</div>
+          <sc-for list="{{ draggables }}" as="d" hint-placeholder-count="8">
+            <div style="display:flex;flex-direction:column;gap:3px;padding-bottom:8px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="display:flex;align-items:baseline;gap:9px">
+                <span style="font-size:12.5px;color:var(--ks-ink);font-weight:600">{{ d.what }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-warn)">→</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-2)">{{ d.where }}</span>
+              </div>
+              <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ d.result }}</div>
+            </div>
+          </sc-for>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-warn)">Never draggable:</span> a table row into another table — a row is not a thing you move; a workspace onto another workspace; anything inside a terminal, where drag is text selection and the pane moves by its header only.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ implementation order ============ -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">ORDER</div>
+      <div style="font-size:19px;font-weight:600">A build order you could follow</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">eleven phases · each one usable on its own</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 430px;gap:12px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+        <sc-for list="{{ phases }}" as="p" hint-placeholder-count="11">
+          <div style="background:var(--ks-panel);padding:13px 16px;display:grid;grid-template-columns:52px 1fr 240px 96px;gap:16px;align-items:start">
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="font-family:var(--ks-mono);font-size:17px;font-weight:600;color:{{ p.tone }};line-height:1">{{ p.n }}</div>
+              <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ p.weight }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;min-width:0">
+              <div style="font-size:14.5px;font-weight:600">{{ p.title }}</div>
+              <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ p.what }}</div>
+              <div style="font-size:12px;line-height:1.5;color:{{ p.tone }};text-wrap:pretty">{{ p.why }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">SHIPS AS</div>
+              <div style="font-size:12px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ p.ships }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">CAPABILITIES</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;line-height:1.5;color:var(--ks-read)">{{ p.caps }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-bad);padding:15px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-bad)">DECIDE IN PHASE 0 OR NEVER</div>
+          <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Four things cannot be retrofitted. They are cheap now and a rewrite later, so they belong in the first two phases even though their features ship much later.</div>
+          <sc-for list="{{ nonRetro }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:3px;padding-bottom:9px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="font-size:12.5px;font-weight:600;color:var(--ks-ink)">{{ r.t }}</div>
+              <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ r.d }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:15px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">WHY THIS ORDER AND NOT ANOTHER</div>
+          <sc-for list="{{ orderWhy }}" as="w" hint-placeholder-count="4">
+            <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:var(--ks-ink);font-weight:600">{{ w.h }}</span> {{ w.t }}</div>
+          </sc-for>
+        </div>
+
+        <div style="background:var(--ks-field);border:1px solid var(--ks-line);padding:15px;display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">FIRST USABLE BUILD</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--ks-ink);text-wrap:pretty">End of phase 4. One workspace, split panes, pod and node lists on ten clusters, logs, YAML, describe, a terminal, the action menus and the palette — the point where it can replace k9s for reading, before a single write exists.</div>
+          <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ok)">everything after phase 4 is a reason to keep it rather than to start using it</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const T = { read: '#4aa8ff', write: '#f0b429', destr: '#ff5f5f', nav: '#8a94a6', clip: '#5e6a79' };
+const FAMW = { read: 'read', write: 'write', destr: 'destructive', nav: 'navigate', clip: 'clipboard' };
+const GLYPH = { read: '\u25cf', write: '\u25c6', destr: '\u25b2', nav: '\u2192', clip: '\u29c9' };
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+
+// [label, what it opens, family, key, flags]  P = primary (⏎) · B = works on a multi-selection
+const KINDS = [
+  ['Workloads', 'Pod', 'The most acted-on kind in the product. Twenty actions is too many for a flat menu, so the four families carry the grouping and the primary is always the first item.', [
+    ['Overview', 'details pane', 'read', '\u21b5', 'P'],
+    ['Logs', 'log pane, container picker in the header', 'read', 'L', 'B'],
+    ['Previous instance logs', 'log pane, marked "previous"', 'read', '\u21e7L', ''],
+    ['Describe', 'describe pane', 'read', 'D', ''],
+    ['YAML', 'yaml pane', 'read', 'Y', ''],
+    ['Events', 'event list, filtered to this object', 'read', 'E', ''],
+    ['Metrics', 'metrics pane, events on the curve', 'read', 'M', ''],
+    ['Why is it Pending?', 'diagnostics pane, node by node', 'read', '?', ''],
+    ['Shell', 'terminal pane', 'write', 'S', ''],
+    ['Attach', 'terminal pane, attached to pid 1', 'write', '', ''],
+    ['Port-forward', 'dialog, then the forwards list', 'write', 'F', ''],
+    ['Edit env', 'editor \u2014 says out loud that it restarts', 'write', '', ''],
+    ['Requests / limits', 'editor, real usage beside the numbers', 'write', '', ''],
+    ['Probes', 'editor, risky values flagged', 'write', '', ''],
+    ['Copy file to / from', 'dialog', 'write', '', ''],
+    ['Delete', 'confirmation with impact preview', 'destr', '\u2326', 'B'],
+    ['Go to owner', 'the Deployment\u2019s details', 'nav', 'O', ''],
+    ['Go to node', 'the node\u2019s details', 'nav', 'N', ''],
+    ['Copy name / path / YAML', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Workloads', 'Deployment', 'Workload actions mean "act on the set". Logs at this level is the non-optional one: every pod in one stream, unbroken across a rolling update.', [
+    ['Overview', 'details pane, replica state and conditions', 'read', '\u21b5', 'P'],
+    ['Logs, all pods', 'log pane, workload-level follow', 'read', 'L', ''],
+    ['Pods of this Deployment', 'resource list, scoped by selector', 'read', 'P', ''],
+    ['YAML', 'yaml pane', 'read', 'Y', ''],
+    ['Describe', 'describe pane', 'read', 'D', ''],
+    ['Events', 'event list, this object and its children', 'read', 'E', ''],
+    ['Metrics, summed', 'metrics pane, per-pod curves stacked', 'read', 'M', ''],
+    ['Rollout history', 'revision list, diff per revision', 'read', 'H', ''],
+    ['Diff against a revision', 'diff pane, field level', 'read', '', ''],
+    ['Scale\u2026', 'dialog with current and target count', 'write', '\u21e7S', 'B'],
+    ['Restart rollout', 'confirmation \u2014 names the cluster', 'write', 'R', 'B'],
+    ['Roll back to\u2026', 'revision picker, then diff, then confirm', 'write', '', ''],
+    ['Edit image', 'editor, tags offered from the registry', 'write', 'I', ''],
+    ['Edit env / limits / probes', 'editor', 'write', '', ''],
+    ['Pause / resume rollout', 'inline toggle in the pane header', 'write', '', ''],
+    ['Impact preview', 'impact pane \u2014 without writing anything', 'read', '', ''],
+    ['Delete', 'confirmation with impact preview', 'destr', '\u2326', 'B'],
+    ['Go to the Service in front', 'the Service\u2019s details', 'nav', '', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Workloads', 'StatefulSet', 'Deployment minus rollback, plus the volume claims \u2014 the reason anyone opens a StatefulSet at 2am is usually a stuck PVC.', [
+    ['Overview', 'details pane, state per ordinal', 'read', '\u21b5', 'P'],
+    ['Logs, all pods', 'log pane, ordinal on every line', 'read', 'L', ''],
+    ['Pods', 'resource list, ordered by ordinal', 'read', 'P', ''],
+    ['Volume claims', 'PVC list, scoped to this set', 'read', 'V', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Scale\u2026', 'dialog \u2014 warns that scale-down keeps PVCs', 'write', '\u21e7S', ''],
+    ['Restart rollout', 'confirmation, one ordinal at a time', 'write', 'R', ''],
+    ['Delete', 'confirmation \u2014 asks about the PVCs explicitly', 'destr', '\u2326', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Workloads', 'DaemonSet', 'Per-node by definition, so it gets an action no other workload needs: which nodes are missing it.', [
+    ['Overview', 'details pane, desired / current / ready', 'read', '\u21b5', 'P'],
+    ['Nodes missing a pod', 'node list, filtered to the gap', 'read', '', ''],
+    ['Logs, all pods', 'log pane, node name per line', 'read', 'L', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Restart rollout', 'confirmation, respects maxUnavailable', 'write', 'R', ''],
+    ['Edit image / env', 'editor', 'write', 'I', ''],
+    ['Delete', 'confirmation with impact preview', 'destr', '\u2326', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Workloads', 'Job', 'A Job is a thing that already happened, so its actions are forensic.', [
+    ['Overview', 'details pane, completions and duration', 'read', '\u21b5', 'P'],
+    ['Logs of the last attempt', 'log pane', 'read', 'L', ''],
+    ['Logs of a failed attempt\u2026', 'attempt picker, then log pane', 'read', '\u21e7L', ''],
+    ['Why did it fail?', 'diagnostics pane', 'read', '?', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Rerun', 'confirmation \u2014 creates a new Job from the spec', 'write', '', 'B'],
+    ['Delete', 'confirmation \u2014 offers to keep the pods', 'destr', '\u2326', 'B'],
+    ['Go to owning CronJob', 'the CronJob\u2019s details', 'nav', 'O', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Workloads', 'CronJob', '', [
+    ['Overview', 'details pane, schedule in words, next fire time', 'read', '\u21b5', 'P'],
+    ['Job history', 'resource list of Jobs, newest first', 'read', 'H', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Trigger now', 'confirmation \u2014 shows what will be created', 'write', '', ''],
+    ['Suspend / resume', 'inline toggle, no confirmation', 'write', '', 'B'],
+    ['Edit schedule', 'editor, next five fire times previewed', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 asks about running Jobs', 'destr', '\u2326', 'B'],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Workloads', 'ReplicaSet', 'Almost always reached from a Deployment, so its first navigation goes back up.', [
+    ['Overview', 'details pane', 'read', '\u21b5', 'P'],
+    ['Pods', 'resource list scoped by selector', 'read', 'P', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Scale\u2026', 'dialog \u2014 warns the Deployment will undo it', 'write', '\u21e7S', ''],
+    ['Delete', 'confirmation with impact preview', 'destr', '\u2326', 'B'],
+    ['Go to owner', 'the Deployment\u2019s details', 'nav', 'O', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Workloads', 'DeploymentConfig', 'OpenShift. Deployment\u2019s shape plus its own triggers and the build behind it.', [
+    ['Overview', 'details pane, latest version and triggers', 'read', '\u21b5', 'P'],
+    ['Logs, all pods', 'log pane', 'read', 'L', ''],
+    ['Rollout history', 'revision list', 'read', 'H', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Deploy latest', 'confirmation', 'write', 'R', ''],
+    ['Roll back', 'revision picker, then diff, then confirm', 'write', '', ''],
+    ['Scale\u2026', 'dialog', 'write', '\u21e7S', ''],
+    ['Delete', 'confirmation with impact preview', 'destr', '\u2326', ''],
+    ['Go to BuildConfig', 'the BuildConfig\u2019s details', 'nav', '', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Network', 'Service', 'The question is almost always "does it have endpoints", so that is the overview\u2019s headline, not a tab.', [
+    ['Overview', 'details pane \u2014 endpoint count in the headline', 'read', '\u21b5', 'P'],
+    ['Endpoints', 'pod list behind this Service', 'read', 'P', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Port-forward', 'dialog, then the forwards list', 'write', 'F', ''],
+    ['Edit ports / selector', 'editor \u2014 shows which pods it would match', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 lists what loses its address', 'destr', '\u2326', 'B'],
+    ['Go to Ingress / Route', 'the route in front of it', 'nav', '', ''],
+    ['Copy name / cluster DNS name', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Network', 'Ingress', '', [
+    ['Overview', 'details pane, rules as a readable table', 'read', '\u21b5', 'P'],
+    ['Certificate', 'certificate pane, expiry and issuer', 'read', '', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Edit rules', 'editor, rule by rule \u2014 not raw YAML', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 names the hostnames that go dark', 'destr', '\u2326', 'B'],
+    ['Go to backing Service', 'the Service\u2019s details', 'nav', '', ''],
+    ['Copy host / URL', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Network', 'Route', 'OpenShift. Ingress plus TLS termination and the router that serves it.', [
+    ['Overview', 'details pane: host, TLS mode, target port', 'read', '\u21b5', 'P'],
+    ['Certificate', 'certificate pane', 'read', '', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Edit host / TLS', 'editor', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 names the hostname that goes dark', 'destr', '\u2326', 'B'],
+    ['Go to backing Service', 'the Service\u2019s details', 'nav', '', ''],
+    ['Copy URL', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Network', 'NetworkPolicy', 'Nobody can read a NetworkPolicy from its YAML, so the primary action is a rendered answer, not the object.', [
+    ['What does it allow?', 'details pane, ingress and egress in words', 'read', '\u21b5', 'P'],
+    ['Pods it selects', 'pod list', 'read', 'P', ''],
+    ['Pods that can reach them', 'pod list, computed across policies', 'read', '', ''],
+    ['YAML · Describe', 'the matching panes', 'read', 'Y D', ''],
+    ['Edit rules', 'editor, rule by rule', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 says what becomes reachable', 'destr', '\u2326', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Configuration', 'ConfigMap', 'Five actions, and the one that matters is "who is using this" \u2014 editing blind is how outages start.', [
+    ['Keys and values', 'details pane, key\u2013value table', 'read', '\u21b5', 'P'],
+    ['Who mounts this?', 'pod list, with the mount path per pod', 'read', 'U', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Edit keys', 'editor, key by key \u2014 diff before apply', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 lists the pods that mount it', 'destr', '\u2326', 'B'],
+    ['Copy a value / all as .env', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Configuration', 'Secret', 'Decoding is a read with a consequence: the value lands on screen. Never decoded by default, never copied by accident.', [
+    ['Keys, values hidden', 'details pane, key list with byte counts', 'read', '\u21b5', 'P'],
+    ['Reveal a value', 'in place, one key at a time, times out', 'read', '', ''],
+    ['Who mounts this?', 'pod list, with the mount path', 'read', 'U', ''],
+    ['Certificate details', 'certificate pane, if it holds a cert', 'read', '', ''],
+    ['YAML, values redacted', 'yaml pane', 'read', 'Y', ''],
+    ['Edit keys', 'editor \u2014 encodes for you, diff on key names', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 lists the pods that mount it', 'destr', '\u2326', 'B'],
+    ['Copy one decoded value', 'clipboard \u2014 an audit line is written', 'clip', '\u2318C', '']
+  ]],
+  ['Storage', 'PVC', '', [
+    ['Overview', 'details pane: bound volume, size, access modes', 'read', '\u21b5', 'P'],
+    ['Who uses it?', 'pod list', 'read', 'U', ''],
+    ['Why is it Pending?', 'diagnostics \u2014 class, zone, quota', 'read', '?', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Expand\u2026', 'dialog \u2014 or the reason the class forbids it', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 says whether the data survives', 'destr', '\u2326', 'B'],
+    ['Go to PV', 'the volume\u2019s details', 'nav', '', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Storage', 'PV', '', [
+    ['Overview', 'details pane: claim, reclaim policy, source', 'read', '\u21b5', 'P'],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Delete', 'confirmation \u2014 reclaim policy spelled out', 'destr', '\u2326', ''],
+    ['Go to claim', 'the PVC\u2019s details', 'nav', '', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Storage', 'StorageClass', '', [
+    ['Overview', 'details pane: provisioner, parameters, default', 'read', '\u21b5', 'P'],
+    ['Volumes using it', 'PVC list', 'read', 'U', ''],
+    ['YAML · Describe', 'the matching panes', 'read', 'Y D', ''],
+    ['Make / unset default', 'confirmation \u2014 one default at a time', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 blocked while claims exist', 'destr', '\u2326', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Cluster', 'Node', 'The most dangerous kind in the product. Drain gets a simulation before it gets a confirmation.', [
+    ['Overview', 'details pane: conditions, capacity, taints', 'read', '\u21b5', 'P'],
+    ['Pods on this node', 'pod list, scoped by node', 'read', 'P', ''],
+    ['Metrics', 'metrics pane, allocation against usage', 'read', 'M', ''],
+    ['How overcommitted is it?', 'diagnostics, requests vs allocatable', 'read', '', ''],
+    ['Where would the pods go?', 'drain simulation pane', 'read', '', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Cordon / uncordon', 'confirmation \u2014 one click, reversible', 'write', 'C', 'B'],
+    ['Drain\u2026', 'simulation, then confirmation, then progress', 'write', '', 'B'],
+    ['Debug shell', 'terminal pane on a privileged debug pod', 'write', 'S', ''],
+    ['Edit taints / labels', 'editor \u2014 shows what stops scheduling', 'write', '', ''],
+    ['Delete from the API', 'confirmation \u2014 type the node name', 'destr', '\u2326', ''],
+    ['Copy name / internal IP', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Cluster', 'Namespace · Project', '', [
+    ['Overview', 'details pane: quota use, pod count, age', 'read', '\u21b5', 'P'],
+    ['Everything in it', 'resource list, all kinds, grouped', 'read', 'A', ''],
+    ['Quotas and limit ranges', 'quota pane, consumed by whom', 'read', 'Q', ''],
+    ['Who can act here?', 'RBAC pane, subjects with verbs', 'read', 'R', ''],
+    ['Waste', 'waste pane, requested against used', 'read', '', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Edit labels / annotations', 'editor', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 type the name, lists what dies', 'destr', '\u2326', ''],
+    ['Copy name', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Cluster', 'Event', 'An event is a pointer, so its primary action is to go to the thing it is about.', [
+    ['Go to the object', 'that object\u2019s details pane', 'nav', '\u21b5', 'P'],
+    ['Events like this one', 'event list, filtered to the reason', 'read', '', ''],
+    ['This object\u2019s other events', 'event list, filtered to the object', 'read', 'E', ''],
+    ['Is this happening elsewhere?', 'global search across all clusters', 'read', '', ''],
+    ['YAML', 'yaml pane', 'read', 'Y', ''],
+    ['Copy message', 'clipboard', 'clip', '\u2318C', 'B']
+  ]],
+  ['Permission', 'ServiceAccount', 'The product\u2019s selling point: the computed answer, not the bindings to read.', [
+    ['What can it do?', 'RBAC pane, verbs traced to their source', 'read', '\u21b5', 'P'],
+    ['Pods running as it', 'pod list', 'read', 'P', ''],
+    ['Its tokens and secrets', 'secret list', 'read', '', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Grant a role\u2026', 'RBAC editor \u2014 preview before you allow', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 lists the pods that use it', 'destr', '\u2326', 'B'],
+    ['Copy name', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Permission', 'Role · ClusterRole', '', [
+    ['What does it allow?', 'RBAC matrix: group \u00d7 resource \u00d7 verb', 'read', '\u21b5', 'P'],
+    ['Who has it?', 'subject list, through which binding', 'read', 'W', ''],
+    ['YAML · Describe', 'the matching panes', 'read', 'Y D', ''],
+    ['Edit as a matrix', 'RBAC editor \u2014 escalating verbs flagged', 'write', '', ''],
+    ['Duplicate as a new role', 'RBAC editor, prefilled', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 lists who loses access', 'destr', '\u2326', 'B'],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Permission', 'RoleBinding · ClusterRoleBinding', '', [
+    ['What does this grant, to whom?', 'RBAC pane, both directions', 'read', '\u21b5', 'P'],
+    ['Go to the role', 'the Role\u2019s matrix', 'nav', 'O', ''],
+    ['YAML · Describe', 'the matching panes', 'read', 'Y D', ''],
+    ['Add / remove a subject', 'RBAC editor \u2014 preview before you allow', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 names who loses what', 'destr', '\u2326', 'B'],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Helm', 'Helm release', 'Read from the release Secrets in the API \u2014 no helm binary \u2014 and the fleet comparison is the point.', [
+    ['Overview', 'release pane: values, notes, revision, resources', 'read', '\u21b5', 'P'],
+    ['Values, given and computed', 'release pane, values tab', 'read', 'V', ''],
+    ['Rendered manifest', 'yaml pane, rendered output', 'read', 'Y', ''],
+    ['Resources it owns', 'resource list, all kinds', 'read', 'A', ''],
+    ['Revision history', 'revision list, diff per revision', 'read', 'H', ''],
+    ['Same release on other clusters', 'fleet diff \u2014 where values differ', 'read', '', ''],
+    ['Diff against another cluster', 'diff pane, field level', 'read', '', ''],
+    ['Roll back to\u2026', 'revision picker, then diff, then confirm', 'write', '', ''],
+    ['Edit values', 'editor \u2014 rendered diff first', 'write', '', ''],
+    ['Uninstall', 'confirmation \u2014 type the release name', 'destr', '\u2326', ''],
+    ['Copy values as YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['Helm', 'Helm revision', '', [
+    ['What changed here?', 'diff pane against the previous revision', 'read', '\u21b5', 'P'],
+    ['Values at this revision', 'release pane, read-only', 'read', 'V', ''],
+    ['Rendered manifest', 'yaml pane', 'read', 'Y', ''],
+    ['Roll back to this', 'diff, then confirmation', 'write', '', ''],
+    ['Copy values as YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'Build', 'A Build is a log with metadata, so the log is the primary and the details are secondary.', [
+    ['Build log', 'log pane, follows to completion', 'read', '\u21b5', 'P'],
+    ['Overview', 'details pane: source, strategy, duration', 'read', 'I', ''],
+    ['Why did it fail?', 'diagnostics pane', 'read', '?', ''],
+    ['YAML · Events', 'the matching panes', 'read', 'Y E', ''],
+    ['Rebuild', 'confirmation \u2014 creates a new Build', 'write', 'R', 'B'],
+    ['Cancel', 'confirmation, one click', 'write', '', 'B'],
+    ['Delete', 'confirmation', 'destr', '\u2326', 'B'],
+    ['Go to BuildConfig', 'the BuildConfig\u2019s details', 'nav', 'O', ''],
+    ['Copy name / log', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'BuildConfig', '', [
+    ['Overview', 'details pane: triggers, source, last builds', 'read', '\u21b5', 'P'],
+    ['Build history', 'resource list of Builds, newest first', 'read', 'H', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Start build', 'confirmation \u2014 shows the source revision', 'write', 'R', ''],
+    ['Edit triggers / source', 'editor', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 asks about existing Builds', 'destr', '\u2326', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'ImageStream', '', [
+    ['Tags', 'details pane: tags with digests and age', 'read', '\u21b5', 'P'],
+    ['Who runs this tag?', 'pod list across the cluster', 'read', 'U', ''],
+    ['YAML · Describe · Events', 'the matching panes', 'read', 'Y D E', ''],
+    ['Import / re-import a tag', 'confirmation, then progress', 'write', '', ''],
+    ['Delete a tag', 'confirmation \u2014 lists what runs it', 'destr', '\u2326', ''],
+    ['Copy image reference', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'ClusterOperator', 'The kind you open when an upgrade is stuck, so the primary is a sentence, not a condition list.', [
+    ['Why is it not Available?', 'details pane, conditions in words', 'read', '\u21b5', 'P'],
+    ['Its operands', 'resource list of what it manages', 'read', 'A', ''],
+    ['Related events', 'event list', 'read', 'E', ''],
+    ['YAML', 'yaml pane', 'read', 'Y', ''],
+    ['Go to the upgrade', 'cluster update pane', 'nav', '', ''],
+    ['Copy status', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'MachineConfigPool', '', [
+    ['Overview', 'details pane: ready / updating / degraded', 'read', '\u21b5', 'P'],
+    ['Nodes stuck updating', 'node list, filtered', 'read', 'P', ''],
+    ['YAML · Events', 'the matching panes', 'read', 'Y E', ''],
+    ['Pause / resume updates', 'confirmation \u2014 says what stops', 'write', '', ''],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['OpenShift', 'InstallPlan', 'An unapproved InstallPlan silently stops an operator, so approval is the primary \u2014 and it is a write.', [
+    ['What would it install?', 'details pane: resources and versions', 'read', '\u21b5', 'P'],
+    ['Approve', 'confirmation \u2014 lists the CRDs it adds', 'write', '', 'B'],
+    ['YAML · Events', 'the matching panes', 'read', 'Y E', ''],
+    ['Go to Subscription', 'the Subscription\u2019s details', 'nav', 'O', ''],
+    ['Delete', 'confirmation', 'destr', '\u2326', ''],
+    ['Copy name', 'clipboard', 'clip', '\u2318C', '']
+  ]],
+  ['The unknown', 'Any CRD', 'The handhold. We know nothing about a custom kind, so the set is exactly what the API tells us and the columns come from the CRD\u2019s own printer columns.', [
+    ['Overview', 'details pane: status, conditions, printer columns', 'read', '\u21b5', 'P'],
+    ['YAML', 'yaml pane', 'read', 'Y', ''],
+    ['Describe', 'describe pane', 'read', 'D', ''],
+    ['Events', 'event list, filtered to this object', 'read', 'E', ''],
+    ['Owner chain', 'the owner\u2019s details, if it declares one', 'nav', 'O', ''],
+    ['Owned objects', 'resource list from ownerReferences', 'nav', '', ''],
+    ['Same object on other clusters', 'fleet diff, field level', 'read', '', ''],
+    ['Edit YAML', 'yaml editor \u2014 the only write we can offer blind', 'write', '', ''],
+    ['Delete', 'confirmation \u2014 warns finalizers may block it', 'destr', '\u2326', 'B'],
+    ['Copy name / YAML', 'clipboard', 'clip', '\u2318C', 'B']
+  ]]
+];
+
+const GESTURES = [
+  ['Table row', 'the workhorse target', T.read, [
+    ['click', 'Selects the row. Selection is a fact about the pane, not about the app.', 'read'],
+    ['double click', 'Runs the primary action for that kind \u2014 exactly what \u21b5 does.', 'read'],
+    ['right click', 'The action set for that kind: grouped, primary first, destructive last.', 'read'],
+    ['\u2318 click', 'Adds or removes this row from the selection.', 'read'],
+    ['\u21e7 click', 'Selects the range from the previously clicked row.', 'read'],
+    ['middle click', 'Runs the primary in a new pane instead of reusing one.', 'read'],
+    ['drag vertically', 'Rubber-band selects a range of rows.', 'read'],
+    ['hover', 'Nothing moves. Overflowing text appears as a tooltip after 600ms.', 'read']
+  ]],
+  ['Table cell', 'a value, not an object', T.clip, [
+    ['click', 'Selects the row, not the cell \u2014 cells are not a selection unit.', 'read'],
+    ['double click', 'Selects the cell text for copying; does not run the primary.', 'clipboard'],
+    ['right click', 'The row menu, with "copy this value" added at the top.', 'clipboard'],
+    ['\u2318C', 'Copies this value verbatim: unformatted, untruncated, unrounded.', 'clipboard']
+  ]],
+  ['Column header', '', T.read, [
+    ['click', 'Sorts by this column; again reverses; a third click restores the default.', 'read'],
+    ['right click', 'Hide, pin, add a column, reset to the kind\u2019s defaults.', 'read'],
+    ['drag sideways', 'Moves the column. Order is per pane and survives a restart.', 'read'],
+    ['drag the divider', 'Resizes; double click on the divider fits the column to content.', 'read']
+  ]],
+  ['Pane header', 'the pane\u2019s identity and its handle', T.write, [
+    ['click', 'Focuses the pane. The focused pane is the one the keyboard talks to.', 'read'],
+    ['click the cluster chip', 'The cluster list. A question pane changes scope; an object pane refuses and says why.', 'read'],
+    ['click the scope chip', 'The namespace list, or the pinned object\u2019s identity.', 'read'],
+    ['double click', 'Maximises this pane over the workspace; again restores it.', 'read'],
+    ['right click', 'Split, duplicate, change scope, pause the watch, close.', 'write'],
+    ['drag', 'Moves the pane: onto an edge it re-splits, onto the middle it becomes a tab.', 'write'],
+    ['\u2325 drag', 'Copies the pane instead of moving it \u2014 same question, second scope.', 'write'],
+    ['middle click', 'Closes the pane.', 'destructive']
+  ]],
+  ['Split handle', '', T.write, [
+    ['drag', 'Resizes the two panes. The ratio is remembered per workspace.', 'write'],
+    ['double click', 'Restores an even split.', 'write'],
+    ['right click', 'Even split, swap the two panes, collapse this side.', 'write']
+  ]],
+  ['Pane tab', 'when several views share one slot', T.write, [
+    ['click', 'Shows that view. The others keep their watches open.', 'read'],
+    ['drag', 'Reorders within the slot, or out of it into a pane of its own.', 'write'],
+    ['middle click', 'Closes the tab.', 'destructive'],
+    ['right click', 'Close, close others, move to a new pane, pin.', 'write']
+  ]],
+  ['Cluster rail item', '', T.read, [
+    ['click', 'Asks the focused question pane of this cluster. Object panes are untouched.', 'read'],
+    ['double click', 'Opens this cluster\u2019s own overview in a new pane.', 'read'],
+    ['\u2318 click', 'Adds the cluster to a merged, cross-cluster list.', 'read'],
+    ['right click', 'Probe now, pause the watch, open pods, reveal in kubeconfig.', 'write'],
+    ['drag onto a pane', 'That pane is re-asked of this cluster \u2014 the drag *is* the scope change.', 'write'],
+    ['hover', 'A card: version, RTT, node count, last probe time.', 'read']
+  ]],
+  ['Workspace tab', '', T.nav, [
+    ['click', 'Switches workspace, same as \u23181\u20260.', 'navigate'],
+    ['double click', 'Renames it in place.', 'write'],
+    ['drag', 'Reorders workspaces.', 'write'],
+    ['right click', 'Rename, duplicate, save as a layout, close.', 'write'],
+    ['drop a pane on it', 'Moves that pane to this workspace, scope and scroll intact.', 'write']
+  ]],
+  ['Log line', '', T.read, [
+    ['click', 'Pins the line and stops the follow, so the screen stops moving under you.', 'read'],
+    ['double click', 'Selects the line; if it is JSON, expands it into fields.', 'read'],
+    ['right click', 'Copy, filter to this level, show events around this time.', 'read'],
+    ['drag vertically', 'Selects a range of lines to copy or export.', 'clipboard'],
+    ['wheel up', 'Leaves follow mode and says so; a button in the header returns to live.', 'read']
+  ]],
+  ['Terminal body', 'the terminal owns its mouse', T.write, [
+    ['click', 'Focuses and takes the keyboard. The frame shows which pane holds it.', 'write'],
+    ['drag', 'Selects text \u2014 never moves the pane. Move it by its header.', 'clipboard'],
+    ['right click', 'Paste, copy, clear. No resource actions here.', 'clipboard'],
+    ['\u2318 wheel', 'Zooms this pane only, 80% to 140%.', 'read']
+  ]],
+  ['Fleet row', '', T.read, [
+    ['click', 'The focused pane asks this cluster for pods.', 'read'],
+    ['double click', 'Opens a workspace prepared for that cluster.', 'navigate'],
+    ['click a health cell', 'A list filtered to exactly what that cell counted.', 'read'],
+    ['right click', 'Probe, pause, open pods, compare with another cluster.', 'write']
+  ]],
+  ['Time bar', 'frame-level, not a pane', '#f0b429', [
+    ['drag the handle', 'Moves the whole interface to that moment. Every pane follows.', 'read'],
+    ['click a tick', 'Jumps to that event \u2014 ticks are deploys, restarts and OOMKills.', 'read'],
+    ['wheel', 'Zooms the window: an hour, a shift, a day.', 'read'],
+    ['click "now"', 'Returns to live, and the bar disappears entirely.', 'read']
+  ]],
+  ['Metrics chart', '', T.read, [
+    ['drag sideways', 'Zooms into that window \u2014 and every other pane follows it.', 'read'],
+    ['click an event marker', 'The event, and the object it happened to.', 'navigate'],
+    ['double click', 'Resets the window.', 'read'],
+    ['hover', 'A crosshair with every series\u2019 value at that instant.', 'read']
+  ]]
+];
+
+const DRAGGABLES = [
+  ['A pane, by its header', 'another pane\u2019s edge or middle', 'An edge re-splits that pane and puts this one there; the middle turns it into a tab in that slot. The resulting layout is drawn during the drag \u2014 not a highlighted zone.'],
+  ['A pane, by its header', 'a workspace tab', 'Moves the pane to that workspace. Scope, filter and scroll position travel with it.'],
+  ['A tab', 'out of its slot', 'Becomes a pane of its own, splitting wherever it lands.'],
+  ['A split handle', 'along its axis', 'Resizes. The 320\u00d7180 minimum stops the drag rather than shrinking past it.'],
+  ['A column header', 'along the header bar', 'Reorders columns \u2014 for that pane only.'],
+  ['A cluster from the rail', 'onto a question pane', 'Asks the same question of that cluster. Onto an object pane it is refused, with the reason.'],
+  ['The time handle', 'along the time bar', 'Moves every pane to that moment at once.'],
+  ['A selection of log lines', 'out of the pane', 'Copies them, or exports that window as a file.']
+];
+
+const PHASES = [
+  ['0', 'S', '#8a94a6', 'Tokens, shell, and the two decisions you cannot undo',
+    'CSS custom properties for colour, space, type and motion. The window frame: workspace bar, cluster rail, one pane region. Pane internals sized in rem from the start, and a scope object on every pane.',
+    'Nothing here is a feature, and every later phase is cheaper for it.',
+    'A window with one empty pane and a theme file', 'APP-05'],
+  ['1', 'M', '#4aa8ff', 'The pane frame and the split tree',
+    'Split, close, focus, drag to re-split, drag to tab, resize with minimums, workspaces 1\u20260. Question panes versus object panes as a type in the code, not a convention.',
+    'This is the product\u2019s idea. If it is not right, nothing on top of it can be.',
+    'A tiling shell with placeholder panes', 'APP-04 · APP-06'],
+  ['2', 'L', '#4aa8ff', 'The resource list',
+    'Virtualised rows, columns per kind, sorting that does not move under the cursor, typed filter with negation, label and field selectors, multi-select, the eight data states.',
+    'Every other pane borrows this pane\u2019s vocabulary. Build the states here once.',
+    'Pods and nodes on one cluster, live', 'RES-01 · RES-02 · RES-11 · RES-12'],
+  ['3', 'M', '#4aa8ff', 'Object panes: logs, YAML, describe, terminal',
+    'Log follow with pause and search, workload-level streams, previous instance, JSON field split; CodeMirror for YAML; xterm.js for the shell; describe as its own pane.',
+    'Together with phase 2 this is the whole reading half of k9s.',
+    'The four panes people live in', 'LOG-01 · LOG-05 · RES-06 · RES-10 · ACT-05'],
+  ['4', 'M', '#f0b429', 'The action layer',
+    'The map in this document, as data: one action registry, rendered as the row menu, the pane menu, the keyboard map and the palette. Reads and navigations only.',
+    'The moment the app becomes learnable instead of memorisable \u2014 and the first build worth using daily.',
+    'Right-click everywhere, \u2318K, the key map', 'APP-01 · APP-08 · APP-11'],
+  ['5', 'L', '#3ecf8e', 'The fleet and cross-cluster reads',
+    'Ten clusters probed and watched at once; the fleet pane; global search; merged lists with "8 clusters / 2 differ"; partial results and their vocabulary; interleaved logs from N clusters.',
+    'This is why the product exists. Everything before it k9s already does.',
+    'The fleet screen, and search across clusters', 'XC-01 · XC-02 · XC-05 · XC-08 · LOG-02'],
+  ['6', 'L', '#ff5f5f', 'Writes, editors, and the safety net',
+    'The confirmation grammar in all three tiers; scale, restart, cordon, drain with its simulation; the form editors; impact preview before the write, and the read-only cluster rules.',
+    'Writes are cheap to add and expensive to add badly. They come after the action layer so every one of them arrives with the same grammar.',
+    'The action families that change things', 'ACT-01 · ACT-06 · ACT-07 · ACT-12 · ACT-13'],
+  ['7', 'M', '#4aa8ff', 'Metrics, events on the curve, and the change stream',
+    'uPlot curves with restart, OOMKill, schedule and deploy markers on them; the resource monitor; requests and limits against real usage; the change stream pane.',
+    'The change stream will be your most opened pane \u2014 it answers the first question of every incident.',
+    '"What happened at 14:02?" in one pane', 'MET-04 · MET-08 · MET-12'],
+  ['8', 'L', '#f0b429', 'Time travel',
+    'The history store, the frame-level time bar, per-pane time chips, field-level change history, event retention past the one-hour window, and the terminal\u2019s honest refusal.',
+    'The riskiest feature in the product: past data with a present face. It ships only after every pane can already say how fresh it is.',
+    'The whole interface, half an hour ago', 'TIME-02 · TIME-03 · TIME-04 · TIME-05'],
+  ['9', 'M', '#3ecf8e', 'Helm and configuration drift',
+    'Releases read from the API, values given and computed, revision history, roll back, and the fleet value diff that names the cluster that drifted.',
+    'It reuses the diff pane from phase 8 and the fleet from phase 5, so it is small here and large earlier.',
+    'What is installed where, and where it differs', 'HELM-05 · HELM-06 · HELM-07 · XC-03 · XC-04'],
+  ['10', 'S', '#8a94a6', 'OpenShift, diagnostics, security, and the long tail',
+    'Route, Build, ImageStream, cluster update, operators, quotas; "why is it Pending", rightsizing, orphans; RBAC answers both directions; certificate expiry across the fleet; per-pane zoom, HiDPI passes, persistence per field, token-expiry recovery.',
+    'All of it is the same panes with different kinds \u2014 which is the test of whether phases 1\u20134 were built right.',
+    'The kinds and the questions that finish the map', 'OCP-* · DIAG-* · SEC-* · APP-05']
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { kind: 'Pod', multi: false, ro: false, drop: null, dropped: null, dragging: false };
+  }
+  renderVals() {
+    const st = this.state;
+    const order = ['Workloads', 'Network', 'Configuration', 'Storage', 'Cluster', 'Permission', 'Helm', 'OpenShift', 'The unknown'];
+    const byGroup = {};
+    KINDS.forEach(k => { (byGroup[k[0]] = byGroup[k[0]] || []).push(k); });
+    const cur = KINDS.filter(k => k[1] === st.kind)[0] || KINDS[0];
+    const acts = cur[3];
+    const prim = acts.filter(a => a[4].indexOf('P') >= 0)[0] || acts[0];
+
+    const famMeta = [
+      ['read', 'LOOK AT IT', 'never asks, never changes anything'],
+      ['nav', 'GO SOMEWHERE', 'replaces the pane you are in, unless you middle-click'],
+      ['write', 'CHANGE IT', 'always a dialog or an editor, never a bare menu click'],
+      ['destr', 'DESTRUCTIVE', 'always last, always separated, always names the cluster'],
+      ['clip', 'CLIPBOARD', 'no confirmation, no pane, an audit line for secrets']
+    ];
+    const rowOf = a => {
+      const fam = a[2];
+      const blocked = st.ro && (fam === 'write' || fam === 'destr');
+      const bulkOnly = st.multi && a[4].indexOf('B') < 0;
+      const dim = blocked || bulkOnly;
+      return {
+        label: a[0], opens: blocked ? 'read-only cluster \u2014 not offered' : bulkOnly ? 'single selection only' : a[1],
+        fam: FAMW[fam], tone: dim ? '#3f4855' : T[fam], glyph: GLYPH[fam],
+        key: st.multi && a[4].indexOf('B') >= 0 ? a[3] : st.multi ? '' : a[3],
+        ink: dim ? '#4a545f' : INK, weight: a[4].indexOf('P') >= 0 ? '600' : '400',
+        opensInk: dim ? '#4a545f' : INK2,
+        badge: a[4].indexOf('P') >= 0 ? '\u21b5 primary' : (st.multi && a[4].indexOf('B') >= 0 ? '\u00d78' : ''),
+        badgeInk: a[4].indexOf('P') >= 0 ? T.read : '#f0b429',
+        bg: a[4].indexOf('P') >= 0 ? 'rgba(74,168,255,.06)' : dim ? 'rgba(255,255,255,.012)' : 'transparent'
+      };
+    };
+    const sections = famMeta.map(f => ({
+      label: f[1], rule: f[2], tone: T[f[0]],
+      rows: acts.filter(a => a[2] === f[0]).map(rowOf)
+    })).filter(s => s.rows.length);
+
+    // the menu specimen
+    const menuSrc = st.multi ? acts.filter(a => a[4].indexOf('B') >= 0) : acts;
+    const menu = [];
+    ['read', 'nav', 'write', 'destr', 'clip'].forEach(f => {
+      const rows = menuSrc.filter(a => a[2] === f);
+      rows.forEach((a, i) => {
+        const blocked = st.ro && (f === 'write' || f === 'destr');
+        menu.push({
+          label: a[0] + (blocked ? '' : ''), hint: a[3],
+          glyph: GLYPH[f], tone: blocked ? '#3f4855' : T[f],
+          ink: blocked ? '#4a545f' : (a[4].indexOf('P') >= 0 ? INK : '#c8d1dd'),
+          bg: a[4].indexOf('P') >= 0 ? 'rgba(74,168,255,.07)' : 'transparent',
+          sep: i === 0 && f === 'destr' ? 'inset 0 1px 0 #2c3542' : 'none'
+        });
+      });
+    });
+
+    return {
+      coverage: KINDS.length + ' kinds \u00b7 ' + KINDS.reduce((n, k) => n + k[3].length, 0) + ' actions \u00b7 every one names what it opens',
+      decisions: [
+        { q: 'HOW DOES THE SET APPEAR?', a: 'Three ways in, one set behind them.', why: 'Right-click for discovery, a letter key for speed, the palette when you know the verb but not the place. The menu is generated from the same registry as the key map, so they can never drift apart.', rule: 'right-click \u00b7 letter key \u00b7 \u2318K', tone: T.read },
+        { q: 'HOW DOES IT STAY LEARNABLE AT TWENTY ACTIONS?', a: 'Always the same four groups, in the same order.', why: 'A Pod has nineteen actions and a ConfigMap six, but both menus read top to bottom as look / go / change / destroy. You learn the shape once; a kind you have never opened is still navigable.', rule: 'look \u00b7 go \u00b7 change \u00b7 destroy', tone: T.read },
+        { q: 'WHAT IS THE PRIMARY?', a: 'Per kind, and it is the question people actually arrive with.', why: 'A Pod\u2019s primary is its overview; a Build\u2019s is its log; an Event\u2019s is the object it points at; an InstallPlan\u2019s is approval, which is a write. \u21b5 and double-click always do that one thing.', rule: '\u21b5 = double click = one action per kind', tone: T.read },
+        { q: 'WHERE DOES THE NEW PANE GO?', a: 'The system decides, the same way every time.', why: 'An empty pane wins if one exists; otherwise the source pane splits along its longer axis. \u2325 forces a tab in the same slot, \u21e7 forces a replace. No dialog ever asks you where to put something.', rule: 'empty \u2192 split long axis \u00b7 \u2325 tab \u00b7 \u21e7 replace', tone: T.write },
+        { q: 'WHAT HAPPENS WITH EIGHT ROWS SELECTED?', a: 'The set shrinks to what is true for all of them.', why: 'Actions that need one object disappear rather than grey out \u2014 there is nothing to explain. Everything left carries \u00d78, and the confirmation lists the objects grouped by cluster, because eight pods in three clusters is three writes.', rule: 'shrink \u00b7 count on every item \u00b7 group by cluster', tone: T.write },
+        { q: 'WHAT ABOUT A READ-ONLY CLUSTER?', a: 'Writes stay visible, greyed, with the reason attached.', why: 'Hiding them teaches nothing and invites a second tool. The item says "read-only context" where its shortcut would be, and the pane header carries the same word, so the state is never a surprise at the moment of clicking.', rule: 'grey, not gone \u00b7 reason in place', tone: T.destr },
+      ],
+      groups: order.map(g => ({
+        label: g.toUpperCase(),
+        kinds: (byGroup[g] || []).map(k => ({
+          name: k[1], n: k[3].length,
+          ink: k[1] === st.kind ? INK : INK2, weight: k[1] === st.kind ? '600' : '400',
+          bg: k[1] === st.kind ? '#1d2937' : 'transparent',
+          bar: k[1] === st.kind ? T.read : 'transparent',
+          onClick: () => this.setState({ kind: k[1] })
+        }))
+      })),
+      kind: {
+        name: cur[1], group: cur[0].toUpperCase(), note: cur[2] || 'The set is the shape every kind shares: look at it, go somewhere, change it, destroy it.',
+        primary: prim[0], primaryOpens: '\u2192 ' + prim[1], sections
+      },
+      menu, menuTitle: st.multi ? '8 SELECTED \u00b7 3 CLUSTERS \u00b7 ' + cur[1].toUpperCase() : cur[1].toUpperCase() + ' \u00b7 ' + (cur[1] === 'Pod' ? 'checkout-api-7f9c8d4b6-k8n1p' : 'the row you clicked'),
+      menuCaption: st.multi ? 'MULTI-SELECTION' : 'ONE ROW' ,
+      menuNote: st.multi
+        ? 'Eleven items became ' + menu.length + '. Nothing is greyed out here \u2014 an action that cannot apply to eight objects is simply not in the menu, because there is nothing useful to say about it.'
+        : (st.ro ? 'On a read-only cluster the writes stay in place, greyed, so the menu\u2019s shape never changes \u2014 only its availability.' : 'Primary first and tinted; destructive separated by a rule and always last, so muscle memory cannot land on it.'),
+      placements: [
+        { label: 'empty pane wins', when: 'if the workspace has an empty pane, it fills that', cols: '1fr 1fr', rows: '1fr', cells: [{ bg: '#161a21', line: '#242b35' }, { bg: 'rgba(74,168,255,.18)', line: '#4aa8ff' }] },
+        { label: 'split the long axis', when: 'otherwise the source pane splits itself', cols: '1fr 1fr', rows: '1fr', cells: [{ bg: '#161a21', line: '#242b35' }, { bg: 'rgba(74,168,255,.18)', line: '#4aa8ff' }] },
+        { label: '\u2325 tab in place', when: 'when you want it beside, not instead', cols: '1fr', rows: '10px 1fr', cells: [{ bg: 'rgba(74,168,255,.18)', line: '#4aa8ff' }, { bg: '#161a21', line: '#242b35' }] }
+      ],
+      entryPoints: [
+        { from: 'ROW MENU', label: 'Restart rollout', same: 'same dialog' },
+        { from: 'DETAILS PANE', label: 'Restart rollout', same: 'same dialog' },
+        { from: '\u2318K PALETTE', label: 'Restart rollout of checkout-api', same: 'same dialog' }
+      ],
+      gestureTargets: GESTURES.map(g => ({
+        name: g[0], note: g[1], tone: g[2],
+        rows: g[3].map(r => ({ g: r[0], r: r[1], fam: r[2], tone: r[2] === 'write' ? T.write : r[2] === 'destructive' ? T.destr : r[2] === 'navigate' ? T.nav : r[2] === 'clipboard' ? T.clip : T.read }))
+      })),
+      draggables: DRAGGABLES.map(d => ({ what: d[0], where: d[1], result: d[2] })),
+      phases: PHASES.map(p => ({ n: p[0], weight: p[1] === 'S' ? 'small' : p[1] === 'M' ? 'medium' : 'large', tone: p[2], title: p[3], what: p[4], why: p[5], ships: p[6], caps: p[7] })),
+      nonRetro: [
+        { t: 'Pane internals in rem, never px', d: 'Per-pane zoom (rule 14) is impossible to add later. A pane sets a font-size; everything inside it is em or rem. Decide in phase 0, ship the zoom in phase 10.' },
+        { t: 'Scope as an object on every pane', d: 'Not a global "current cluster" anywhere, not even temporarily. One global variable in phase 2 becomes a month of untangling in phase 5.' },
+        { t: 'Every read carries its as-of time', d: 'Freshness, partial results and time travel are the same field. If a pane cannot say when its data is from, phase 8 is a rewrite of every pane.' },
+        { t: 'Actions as data, not as menu code', d: 'The registry in this document is the source for the menu, the key map, the palette and the confirmations. Written as JSX handlers instead, the four drift apart by phase 6.' }
+      ],
+      orderWhy: [
+        { h: 'The shell before anything in it.', t: 'The tiling model is the product idea; building panes before the frame produces panes that assume they are alone on the screen.' },
+        { h: 'Reading before writing.', t: 'Phase 4 is already better than k9s at reading, on ten clusters, with nothing destructive in it. That is a shippable, low-risk first release.' },
+        { h: 'The action layer before the actions.', t: 'One registry, then forty actions poured into it. The reverse gives forty menus and no grammar.' },
+        { h: 'Freshness before time travel.', t: 'Phase 5 makes every pane able to say how old its data is. Phase 8 only changes what "now" means \u2014 which is why it is safe to build last.' }
+      ],
+      singleBg: st.multi ? 'transparent' : '#1d2937', singleInk: st.multi ? INK2 : INK, singleLine: st.multi ? '#242b35' : '#2c3542',
+      multiBg: st.multi ? '#1d2937' : 'transparent', multiInk: st.multi ? INK : INK2, multiLine: st.multi ? '#2c3542' : '#242b35',
+      rwBg: st.ro ? 'transparent' : '#1d2937', rwInk: st.ro ? INK2 : INK, rwLine: st.ro ? '#242b35' : '#2c3542',
+      roBg: st.ro ? 'rgba(255,95,95,.12)' : 'transparent', roInk: st.ro ? '#ffb3b3' : INK2, roLine: st.ro ? '#54262b' : '#242b35',
+      onSingle: () => this.setState({ multi: false }),
+      onMulti: () => this.setState({ multi: true }),
+      onRw: () => this.setState({ ro: false }),
+      onRo: () => this.setState({ ro: true }),
+      // live drag demo
+      demoCols: st.dropped === 'left' || st.dropped === 'right' ? '1fr 1fr' : '1fr',
+      demoRows: st.dropped === 'top' || st.dropped === 'bottom' ? '1fr 1fr' : '1fr',
+      demoCursor: st.dragging ? 'grabbing' : 'default',
+      tabDrop: st.dropped === 'center',
+      demoPanes: (() => {
+        const host = { title: 'prod-eu-west · Pods', bg: '#161a21', line: '#242b35', headInk: INK2, dot: '#4aa8ff', bars: [{ w: '70%', bg: '#2c3542' }, { w: '52%', bg: '#2c3542' }, { w: '61%', bg: '#2c3542' }, { w: '44%', bg: '#2c3542' }] };
+        const guest = { title: 'prod-eu-west · Logs', bg: 'rgba(74,168,255,.10)', line: '#4aa8ff', headInk: '#8ac6ff', dot: '#4aa8ff', bars: [{ w: '80%', bg: '#2f4356' }, { w: '58%', bg: '#2f4356' }, { w: '66%', bg: '#2f4356' }, { w: '49%', bg: '#2f4356' }] };
+        const d = st.dropped;
+        if (!d || d === 'center') return [Object.assign({ gc: '1', gr: '1' }, host)];
+        if (d === 'left') return [Object.assign({ gc: '1', gr: '1' }, guest), Object.assign({ gc: '2', gr: '1' }, host)];
+        if (d === 'right') return [Object.assign({ gc: '1', gr: '1' }, host), Object.assign({ gc: '2', gr: '1' }, guest)];
+        if (d === 'top') return [Object.assign({ gc: '1', gr: '1' }, guest), Object.assign({ gc: '1', gr: '2' }, host)];
+        return [Object.assign({ gc: '1', gr: '1' }, host), Object.assign({ gc: '1', gr: '2' }, guest)];
+      })(),
+      dropLabel: st.dragging ? (st.drop ? 'release to drop \u00b7 ' + st.drop : 'move over the pane\u2026') : (st.dropped ? 'dropped \u00b7 ' + st.dropped : 'press and drag the chip'),
+      dropInk: st.dragging ? '#4aa8ff' : st.dropped ? '#3ecf8e' : INK3,
+      dragResult: st.dropped === 'center'
+        ? 'Dropped in the middle: the log becomes a second tab in that pane slot. Both keep their watches open; only one is drawn.'
+        : st.dropped
+          ? 'Dropped on the ' + st.dropped + ' edge: the pane split itself and the log took that half. The split ratio is remembered for this workspace.'
+          : 'The four edges split; the middle makes a tab. There is no drop target that means "somewhere sensible" \u2014 the gesture is always explicit.',
+      onDragStart: e => { e.preventDefault(); this.setState({ dragging: true, drop: null }); },
+      onDragMove: e => {
+        if (!this.state.dragging) return;
+        const b = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - b.left) / b.width, y = (e.clientY - b.top) / b.height;
+        const edge = Math.min(x, 1 - x, y, 1 - y);
+        let drop = 'center';
+        if (edge < 0.28) drop = (x < 0.28 && x <= y && x <= 1 - y) ? 'left' : (1 - x < 0.28 && 1 - x <= y && 1 - x <= 1 - y) ? 'right' : (y < 0.28 ? 'top' : 'bottom');
+        if (this.state.drop !== drop) this.setState({ drop });
+      },
+      onDragEnd: e => { if (this.state.dragging) this.setState({ dragging: false, dropped: this.state.drop || 'center', drop: null }); },
+      onDragLeave: e => { if (this.state.dragging) this.setState({ drop: null }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

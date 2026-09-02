@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-ask:#4fc3b0;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 12 / 30 · QUESTION PANE · APP-16…19</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Settings</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">A pane, not a modal — so it can sit <span style="color:var(--ks-ink)">next to the thing you are adjusting</span>. The Prometheus endpoint beside the metrics pane that cannot connect; the read-only switch beside the cluster you are about to write to. Twelve groups, a hundred-odd settings, and the same filter field as every other list.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="settings · beside what it configures" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>every change saves as you make it · no OK button anywhere</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 760px;gap:1px;background:var(--ks-line);min-height:0">
+      <!-- the pane it is being used to fix -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-warn)">
+        <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:var(--ks-warn);font-weight:600">◐ prod-ap-south</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Metrics</span>
+          <span style="color:var(--ks-ink-3)">checkout-api · 30m</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-bad)">▲ no data source</span>
+        </div>
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px">
+          <div style="font-size:15px;color:var(--ks-ink-2);text-align:center;line-height:1.55;max-width:400px;text-wrap:pretty">No Prometheus is configured for <span style="font-family:var(--ks-mono);font-size:14px;color:var(--ks-ink)">prod-ap-south</span>, so there are no curves to draw.</div>
+          <div style="display:flex;align-items:center;gap:9px;padding:7px 13px;border:1px solid var(--ks-info);background:rgba(74,168,255,.10);font-size:12.5px;color:#8ac6ff">
+            <span style="font-size:9px">◈</span>Opened the setting beside it — no dialog to lose your place to
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+            <span>we found one on the cluster:</span><span style="color:var(--ks-ink-2)">thanos-query.observability:9090</span>
+          </div>
+        </div>
+        <div style="height:26px;display:flex;align-items:center;gap:9px;padding:0 10px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+          <span>MET-01</span><span style="color:var(--ks-line)">│</span><span>this pane redraws the moment the endpoint answers</span>
+        </div>
+      </div>
+
+      <!-- settings -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>Settings</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink-3)">scope</span><span style="color:var(--ks-ink-2)">cluster · prod-ap-south<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">118 settings</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ok)">saved</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 11px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+          <div style="flex:1;display:flex;align-items:center;gap:9px;height:26px;padding:0 10px;border:1px solid var(--ks-info);background:var(--ks-panel);box-shadow:inset 0 0 0 1px rgba(74,168,255,.3)">
+            <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">/</span>
+            <span style="font-family:var(--ks-mono);font-size:12.5px;color:var(--ks-ink)">prometheus</span>
+            <span style="font-family:var(--ks-mono);font-size:12.5px;color:var(--ks-info)">▏</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">4 of 118</span>
+          </div>
+          <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none">⌘K finds these too</span>
+        </div>
+
+        <div style="flex:1;min-height:0;display:grid;grid-template-columns:196px 1fr;gap:1px;background:var(--ks-line)">
+          <div style="background:var(--ks-field);display:flex;flex-direction:column;min-height:0;overflow-y:auto;scrollbar-gutter:stable;padding:6px 0" data-scroll="dense">
+            <sc-for list="{{ groups }}" as="g" hint-placeholder-count="12">
+              <div style="min-height:26px;display:flex;align-items:center;gap:9px;padding:4px 11px;background:{{ g.bg }};border-left:2px solid {{ g.bar }}">
+                <span style="font-size:8px;color:{{ g.tone }};flex:none">{{ g.glyph }}</span>
+                <span style="font-size:12.5px;color:{{ g.ink }};font-weight:{{ g.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.name }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ g.countInk }};flex:none">{{ g.count }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <div style="padding:12px 15px 11px;border-bottom:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:15px;font-weight:600">Clusters</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-warn)">◐ prod-ap-south</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">4 settings match “prometheus”</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:rgba(74,168,255,.07);border-left:2px solid var(--ks-info)">
+                <span style="font-size:9px;color:var(--ks-info);flex:none">◈</span>
+                <span style="font-size:11.5px;line-height:1.45;color:#8ac6ff;text-wrap:pretty">These are this cluster’s settings. The fleet pane shows the same cluster’s <span style="color:var(--ks-ink)">state</span>; this shows its <span style="color:var(--ks-ink)">decisions</span> — one record, two views.</span>
+              </div>
+            </div>
+
+            <sc-for list="{{ settings }}" as="s" hint-placeholder-count="8">
+              <div style="padding:11px 15px;border-bottom:1px solid var(--ks-line-soft);background:{{ s.bg }};display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:flex-start;gap:14px">
+                  <div style="display:flex;flex-direction:column;gap:3px;flex:1;min-width:0">
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <span style="font-size:13px;color:var(--ks-ink);font-weight:{{ s.weight }}">{{ s.name }}</span>
+                      <sc-if value="{{ s.hasBadge }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ s.badgeInk }};padding:1px 6px;border:1px solid {{ s.badgeLine }};background:{{ s.badgeBg }}">{{ s.badge }}</span>
+                      </sc-if>
+                    </div>
+                    <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ s.help }}</div>
+                  </div>
+                  <div style="flex:none;display:flex;align-items:center;gap:9px;padding-top:1px">
+                    <sc-if value="{{ s.isField }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:8px;height:26px;padding:0 10px;border:1px solid {{ s.fieldLine }};background:var(--ks-field);width:{{ s.fieldW }}">
+                        <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ s.valueInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.value }}</span>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ s.isToggle }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:center;gap:9px">
+                        <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ s.valueInk }}">{{ s.value }}</span>
+                        <div style="width:26px;height:14px;background:{{ s.trackBg }};border:1px solid {{ s.trackLine }};display:flex;align-items:center;justify-content:{{ s.justify }};padding:0 1px">
+                          <div style="width:10px;height:10px;background:{{ s.knob }}"></div>
+                        </div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ s.isSeg }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;align-items:stretch;border:1px solid var(--ks-line-strong);height:24px">
+                        <sc-for list="{{ s.seg }}" as="o" hint-placeholder-count="3">
+                          <div style="display:flex;align-items:center;padding:0 10px;background:{{ o.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ o.ink }};box-shadow:{{ o.sep }}">{{ o.t }}</div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ s.isAction }}" hint-placeholder-val="{{ false }}">
+                      <span style="padding:5px 11px;border:1px solid {{ s.actionLine }};background:{{ s.actionBg }};font-size:11.5px;color:{{ s.actionInk }}">{{ s.value }}</span>
+                    </sc-if>
+                  </div>
+                </div>
+                <sc-if value="{{ s.hasNote }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;background:var(--ks-field);border-left:2px solid {{ s.noteTone }}">
+                    <span style="font-size:8px;color:{{ s.noteTone }};flex:none">{{ s.noteGlyph }}</span>
+                    <span style="font-size:11.5px;line-height:1.45;color:{{ s.noteInk }};text-wrap:pretty">{{ s.note }}</span>
+                    <div style="flex:1"></div>
+                    <sc-if value="{{ s.hasNoteAction }}" hint-placeholder-val="{{ false }}">
+                      <span style="font-family:var(--ks-mono);font-size:10px;color:{{ s.noteTone }};padding:2px 8px;border:1px solid {{ s.noteTone }};flex:none">{{ s.noteAction }}</span>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+
+            <div style="padding:13px 15px;display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">MATCHES IN OTHER GROUPS</div>
+              <sc-for list="{{ otherMatches }}" as="m" hint-placeholder-count="2">
+                <div style="display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--ks-line);background:var(--ks-field)">
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:96px;flex:none">{{ m.group }}</span>
+                  <span style="font-size:12px;color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.name }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);flex:none">{{ m.value }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- the two questions -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE TWO QUESTIONS</div>
+      <div style="font-size:19px;font-weight:600">Where a cluster setting lives, and how you find one in a hundred</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-info);padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:var(--ks-info)">QUESTION 1 · APP-17</div>
+          <div style="font-size:16px;font-weight:600;line-height:1.4;text-wrap:pretty">One record, two views — and the fleet pane is the one that opens it.</div>
+          <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">A cluster’s settings are not copied into the fleet pane and they do not live in two places. Right-clicking a fleet row opens <span style="color:var(--ks-ink)">this pane, scoped to that cluster</span> — the same rows, the same values, edited in the same place. What the fleet row does carry is the <span style="color:var(--ks-ink)">consequence</span> of a setting, stated as state: “paused by you at 09:12”, “read-only”, “no metrics source”.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">THE FLEET ROW — STATE</div>
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:9px 11px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="width:2px;height:14px;background:var(--ks-warn)"></span>
+                <span style="font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink);font-weight:600">prod-ap-south</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-warn)">◐ slow · 610ms</span>
+              </div>
+              <div style="font-size:11.5px;line-height:1.45;color:#f3d08a;text-wrap:pretty">2 nodes NotReady · no metrics source</div>
+              <div style="display:flex;gap:6px;margin-top:2px">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-info);padding:2px 7px;border:1px solid var(--ks-line)">settings ▸</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);padding:2px 7px;border:1px solid var(--ks-line)">probe now</span>
+              </div>
+            </div>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Reports what is true. “No metrics source” is the visible effect of an unset field.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">THE SETTING — DECISION</div>
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:9px 11px;display:flex;flex-direction:column;gap:6px">
+              <div style="display:flex;align-items:center;gap:9px">
+                <span style="font-size:12px;color:var(--ks-ink)">Prometheus endpoint</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-bad);padding:1px 6px;border:1px solid #54262b">unset</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;height:24px;padding:0 9px;border:1px solid var(--ks-line-strong);background:var(--ks-field)">
+                <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">not configured</span>
+              </div>
+              <div style="font-size:10.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">Discovered: thanos-query.observability:9090 · use it</div>
+            </div>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Holds what you chose. Editing it changes the fleet row on the next probe — never the other way round.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:11px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-ok);padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:var(--ks-ok)">QUESTION 2 · APP-16</div>
+          <div style="font-size:16px;font-weight:600;line-height:1.4;text-wrap:pretty">You do not browse for a setting. You type at it — in the pane, or from ⌘K.</div>
+          <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The twelve groups are a map for the first week, not the way in. The filter searches names, help text, values and aliases, and it keeps matches from <span style="color:var(--ks-ink)">other groups</span> visible at the bottom rather than hiding them behind the group you happen to be in. Typing <span style="font-family:var(--ks-mono);color:var(--ks-ink)">#</span> in the palette searches only settings and jumps straight to the row.</div>
+        </div>
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-over-line,#2c3542);box-shadow:0 18px 40px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:10px;height:36px;padding:0 13px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+            <span style="font-family:var(--ks-mono);font-size:12px;color:var(--ks-idle)">#</span>
+            <span style="font-family:var(--ks-mono);font-size:13.5px;color:var(--ks-ink)">utc</span>
+            <span style="font-family:var(--ks-mono);font-size:13.5px;color:var(--ks-info)">▏</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">3 settings</span>
+          </div>
+          <sc-for list="{{ paletteHits }}" as="h" hint-placeholder-count="3">
+            <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 13px;background:{{ h.bg }};box-shadow:{{ h.ring }}">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);width:78px;flex:none">{{ h.group }}</span>
+              <span style="font-size:12.5px;color:{{ h.ink }};font-weight:{{ h.weight }}">{{ h.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);flex:none">{{ h.value }}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;align-items:center;gap:12px;height:26px;padding:0 13px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+            <span>⏎ opens the pane at that row</span><div style="flex:1"></div><span>found by alias: “utc” → time zone</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- the twelve groups + danger zone -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE INVENTORY</div>
+      <div style="font-size:19px;font-weight:600">Twelve groups — and the one that is kept apart</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <sc-for list="{{ inventory }}" as="g" hint-placeholder-count="12">
+        <div style="background:{{ g.cardBg }};padding:13px 15px;display:flex;flex-direction:column;gap:7px;border-top:2px solid {{ g.tone }}">
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="font-size:9px;color:{{ g.tone }}">{{ g.glyph }}</span>
+            <span style="font-size:13px;font-weight:600;color:{{ g.nameInk }}">{{ g.name }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ g.count }}</span>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ g.t }}</div>
+          <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ g.scopeInk }};letter-spacing:.04em">{{ g.scope }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ASK = '#4fc3b0', LINE = '#242b35', LINE_S = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const base = {
+      hasBadge: false, badge: '', badgeInk: INK3, badgeLine: LINE, badgeBg: 'transparent',
+      isField: false, isToggle: false, isSeg: false, isAction: false,
+      value: '', valueInk: INK, fieldLine: LINE_S, fieldW: '260px',
+      trackBg: '#141922', trackLine: LINE, knob: '#3f4855', justify: 'flex-start',
+      seg: [], actionLine: LINE, actionBg: 'transparent', actionInk: INK,
+      hasNote: false, note: '', noteTone: INFO, noteInk: INK2, noteGlyph: '\u25c6',
+      hasNoteAction: false, noteAction: '', weight: '400', bg: 'transparent'
+    };
+    const set = o => Object.assign({}, base, o);
+
+    return {
+      facts: [
+        { k: 'GROUPS', v: '12', tone: INK },
+        { k: 'SETTINGS', v: '118', tone: INK },
+        { k: 'MODAL', v: 'never', tone: OK },
+        { k: 'OK BUTTON', v: 'none', tone: OK }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + WARN, ink: INK, numInk: WARN },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 2 ? INK : INK3, bg: i === 2 ? '#161a21' : 'transparent',
+        bar: i === 2 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      groups: [
+        ['Clusters', '\u25cf', WARN, '4 hits', true],
+        ['Kubeconfig', '\u25cb', IDLE, '', false],
+        ['Appearance', '\u25cb', IDLE, '', false],
+        ['Formats', '\u25cb', IDLE, '', false],
+        ['Behaviour', '\u25cb', IDLE, '', false],
+        ['Notifications', '\u25cb', IDLE, '', false],
+        ['History', '\u25cb', IDLE, '', false],
+        ['Assistant', '\u25c7', ASK, '1 hit', false],
+        ['Keyboard', '\u25cb', IDLE, '', false],
+        ['Saved things', '\u25cb', IDLE, '', false],
+        ['Diagnostics', '\u25cb', IDLE, '1 hit', false],
+        ['Danger zone', '\u25b2', BAD, '', false]
+      ].map(g => ({
+        name: g[0], glyph: g[1], tone: g[2], count: g[3],
+        ink: g[4] ? INK : g[0] === 'Danger zone' ? '#f0b5b0' : INK2,
+        weight: g[4] ? '600' : '400',
+        bg: g[4] ? 'var(--ks-sel)' : 'transparent',
+        bar: g[4] ? INFO : 'transparent',
+        countInk: g[3] ? WARN : INK3
+      })),
+      settings: [
+        set({
+          name: 'Prometheus endpoint', weight: '600', bg: 'rgba(74,168,255,.06)',
+          help: 'Where this cluster’s metrics come from. Without it the metric panes have nothing to draw and say so.',
+          hasBadge: true, badge: 'MET-01', badgeInk: INFO, badgeLine: '#2f4356', badgeBg: 'rgba(74,168,255,.08)',
+          isField: true, value: 'not configured', valueInk: INK3, fieldLine: '#54262b', fieldW: '280px',
+          hasNote: true, noteTone: OK, noteGlyph: '\u25c6', noteInk: '#a8e6c8',
+          note: 'Found one on the cluster: thanos-query.observability:9090 — it answered in 41ms.',
+          hasNoteAction: true, noteAction: 'use it'
+        }),
+        set({
+          name: 'Prometheus query timeout',
+          help: 'How long a range query may take before the pane gives up and says the source is slow.',
+          isField: true, value: '30s', fieldW: '110px'
+        }),
+        set({
+          name: 'Prometheus authentication',
+          help: 'Bearer token, basic auth, or the cluster’s own service account. Stored in the OS keychain, never in the settings file.',
+          isSeg: true,
+          seg: [
+            { t: 'none', bg: 'transparent', ink: INK2, sep: 'none' },
+            { t: 'service account', bg: 'var(--ks-sel)', ink: INK, sep: 'inset 1px 0 0 #242b35' },
+            { t: 'token', bg: 'transparent', ink: INK2, sep: 'inset 1px 0 0 #242b35' }
+          ]
+        }),
+        set({
+          name: 'Fall back to metrics-server',
+          help: 'When Prometheus is unreachable, show instant usage from metrics-server instead of an empty pane.',
+          hasBadge: true, badge: 'MET-08', badgeInk: INK3, badgeLine: LINE,
+          isToggle: true, value: 'on', valueInk: OK, trackBg: 'rgba(62,207,142,.16)', trackLine: '#22503c', knob: OK, justify: 'flex-end'
+        }),
+        set({
+          name: 'Read-only', weight: '600',
+          help: 'No write reaches this cluster, whatever you click. Writes stay visible and greyed, with the reason in place of the shortcut.',
+          hasBadge: true, badge: 'CONN-08', badgeInk: BAD, badgeLine: '#54262b', badgeBg: 'rgba(255,95,95,.08)',
+          isToggle: true, value: 'on', valueInk: '#ffb3b3', trackBg: 'rgba(255,95,95,.18)', trackLine: '#54262b', knob: BAD, justify: 'flex-end',
+          hasNote: true, noteTone: BAD, noteGlyph: '\u25b2', noteInk: '#f0b5b0',
+          note: 'Turning this off on a cluster marked prod is in the danger zone, not here.',
+          hasNoteAction: true, noteAction: 'why'
+        }),
+        set({
+          name: 'This is production',
+          help: 'Makes every confirmation on this cluster tier 3: the object’s name must be typed before anything runs.',
+          hasBadge: true, badge: 'ACT-07', badgeInk: INK3, badgeLine: LINE,
+          isToggle: true, value: 'on', valueInk: WARN, trackBg: 'rgba(240,180,41,.16)', trackLine: '#5a4520', knob: WARN, justify: 'flex-end'
+        }),
+        set({
+          name: 'Cluster group',
+          help: 'Which fleet group this belongs to. Groups are the scope of every cross-cluster action.',
+          hasBadge: true, badge: 'CONN-02', badgeInk: INK3, badgeLine: LINE,
+          isField: true, value: 'prod', fieldW: '150px'
+        }),
+        set({
+          name: 'Assistant may read this cluster',
+          help: 'Off everywhere by default. With it on, the context strip still shows exactly what would be sent, and secrets stay masked.',
+          hasBadge: true, badge: 'ASK-08', badgeInk: ASK, badgeLine: '#245c54', badgeBg: 'rgba(79,195,176,.08)',
+          isToggle: true, value: 'off', valueInk: INK3
+        })
+      ],
+      otherMatches: [
+        { group: 'Assistant', name: 'Send Prometheus results as context', value: 'off' },
+        { group: 'Diagnostics', name: 'Log Prometheus request failures', value: 'on' }
+      ],
+      paletteHits: [
+        { group: 'Formats', name: 'Time zone', value: 'local · switch to UTC', ink: INK, weight: '600', bg: 'var(--ks-sel)', ring: 'inset 2px 0 0 #4aa8ff' },
+        { group: 'Formats', name: 'Timestamps in exports', value: 'UTC', ink: '#c8d1dd', weight: '400', bg: 'transparent', ring: 'none' },
+        { group: 'Log', name: 'Log line clock', value: 'follows the app', ink: '#c8d1dd', weight: '400', bg: 'transparent', ring: 'none' }
+      ],
+      inventory: [
+        { name: 'Clusters', glyph: '\u25cf', tone: INFO, count: '9 × 10', t: 'Enabled, read-only, group, “this is prod”, Prometheus, proxy, assistant permission — per cluster. The biggest group by far.', scope: 'PER CLUSTER · APP-17', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INFO },
+        { name: 'Kubeconfig', glyph: '\u25cf', tone: INFO, count: '6', t: 'Which file, which context is current, editing — with a connection test before it saves and a backup before it writes.', scope: 'GLOBAL · CONN-09/10', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Appearance', glyph: '\u25cf', tone: IDLE, count: '4', t: 'Theme, density, base zoom. Per-pane zoom is not here — it belongs to the pane, and lives in its menu.', scope: 'GLOBAL · APP-05', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Formats', glyph: '\u25cf', tone: IDLE, count: '7', t: 'MiB or MB, millicores or cores, local time or UTC, relative or absolute — and when the app switches between the last two.', scope: 'GLOBAL · rule 3', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Behaviour', glyph: '\u25cf', tone: IDLE, count: '11', t: 'What survives a restart, default sort, how strict the confirmations are. Field by field, because “everything” and “nothing” are both wrong.', scope: 'GLOBAL · rule 12', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Notifications', glyph: '\u25cf', tone: IDLE, count: '8', t: 'Your own watch rules, and what may speak while the window is in the background.', scope: 'GLOBAL · APP-12/13', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'History', glyph: '\u25cf', tone: IDLE, count: '6', t: 'What we store for time travel, for how long, how much disk it holds right now, and emptying it.', scope: 'GLOBAL · TIME-06', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Assistant', glyph: '\u25c7', tone: ASK, count: '9', t: 'Endpoint (local or hosted), model, what may be sent, masking rules, cost. Off by default, per cluster.', scope: 'GLOBAL + PER CLUSTER · ASK-08', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: ASK },
+        { name: 'Keyboard', glyph: '\u25cf', tone: IDLE, count: '∞', t: 'The whole map, rebindable, plus your own commands bound to keys with the selection as an argument.', scope: 'GLOBAL · APP-08/10', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Saved things', glyph: '\u25cf', tone: IDLE, count: '5 kinds', t: 'Views, columns, filters, queries, layouts — listed, renamable, deletable, and exportable to a colleague.', scope: 'GLOBAL · APP-19', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Diagnostics', glyph: '\u25cf', tone: IDLE, count: '4', t: 'The app’s own error log, connection diagnostics, version. And the line that says: no telemetry, ever.', scope: 'GLOBAL · APP-07/20', nameInk: INK, cardBg: 'var(--ks-panel)', scopeInk: INK3 },
+        { name: 'Danger zone', glyph: '\u25b2', tone: BAD, count: '4', t: 'Wipe history, reset layouts, turn read-only off on a prod cluster. Last in the list, red-topped, and each one a tier 3 confirmation.', scope: 'KEPT APART · APP-18', nameInk: '#ffd7d7', cardBg: 'rgba(255,95,95,.07)', scopeInk: BAD }
+      ],
+      closing: [
+        { tone: INFO, k: 'IT IS A PANE, AND THAT IS THE FEATURE', t: 'The whole argument for not making this a modal is on the left of the mock: the metrics pane that cannot connect, and the setting that fixes it, side by side. A dialog would have covered the thing you are trying to repair, and you would have had to remember the cluster’s name to type it.' },
+        { tone: OK, k: 'NO OK BUTTON', t: 'Every change applies as you make it and says “saved” in the header — the panes behind redraw immediately, which is how you know it worked. Two exceptions earn a confirmation: anything in the danger zone, and the kubeconfig editor, which tests the connection and takes a backup before it writes to a file that kubectl and CI also read.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'The twelve groups will not stay twelve — settings grow, and a group list is a poor map at thirty. We accept that because the group list is not the way in: the filter and the palette are, and both search help text and aliases rather than just names. The real risk is the Clusters group, which is nine settings times forty clusters; if that becomes unusable, it wants a table of its own rather than a longer list.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

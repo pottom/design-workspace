@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+  @keyframes ksSlide { 0% { transform: translateX(-110%); } 100% { transform: translateX(410%); } }
+  @keyframes ksPulse { 0%, 100% { opacity: .28; } 50% { opacity: 1; } }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;--ks-sans:'IBM Plex Sans',system-ui,sans-serif;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:40px;width:1800px">
+
+  <div style="display:flex;align-items:flex-end;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:940px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · WIDGET CATALOGUE · SCOPE §8 PHASE M-2</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">Controls, indicators, charts</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Not screens — the element catalogue the scope document asks for in phase M-2. Every item carries the capability ID it exists for, so nothing here is decoration and nothing in the contract is left without a widget. Sizes are the real ones: a control is 24px tall inside a pane, 30px in a dialog.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;max-width:330px">
+      <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">THE RULE FOR ALL OF IT</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ks-ink);text-wrap:pretty">Chrome is rectangular and 1px; colour means status and nothing else; every control is 24px tall and sized in em so a pane can zoom (<span style="font-family:var(--ks-mono);font-size:11.5px">APP-15</span>).</div>
+    </div>
+  </div>
+
+  <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:{{ g.tone }}">{{ g.n }}</div>
+        <div style="font-size:20px;font-weight:600">{{ g.title }}</div>
+        <div style="font-size:13px;color:var(--ks-ink-3);text-wrap:pretty">{{ g.note }}</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+        <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="9">
+          <div style="background:var(--ks-panel);padding:15px 16px;display:flex;flex-direction:column;gap:11px;min-width:0">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-size:13.5px;font-weight:600;color:var(--ks-ink)">{{ i.name }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.06em;color:{{ g.tone }}">{{ i.cap }}</span>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:32px">
+
+              <sc-for list="{{ i.buttons }}" as="b" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:7px;height:{{ b.h }};padding:0 {{ b.px }};border:1px solid {{ b.line }};background:{{ b.bg }};font-size:12px;color:{{ b.ink }};font-weight:{{ b.weight }};opacity:{{ b.opacity }}">
+                  <span style="font-size:9px;color:{{ b.glyphTone }}">{{ b.glyph }}</span>{{ b.label }}
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ b.key }}</span>
+                </div>
+              </sc-for>
+
+              <sc-for list="{{ i.chips }}" as="c" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:6px;height:22px;padding:0 8px;background:{{ c.bg }};border:1px solid {{ c.line }};font-family:var(--ks-mono);font-size:10.5px;color:{{ c.ink }}">
+                  <span style="font-size:8px;color:{{ c.glyphTone }}">{{ c.glyph }}</span>{{ c.label }}
+                </div>
+              </sc-for>
+
+              <sc-for list="{{ i.fields }}" as="f" hint-placeholder-count="0">
+                <div style="display:flex;align-items:center;gap:7px;height:24px;padding:0 8px;border:1px solid {{ f.line }};background:var(--ks-field);width:{{ f.w }};min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ f.prefixInk }}">{{ f.prefix }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ f.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ f.value }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:{{ f.suffixInk }}">{{ f.suffix }}</span>
+                </div>
+              </sc-for>
+
+              <sc-if value="{{ i.hasToggle }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <sc-for list="{{ i.toggles }}" as="t" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <div style="width:26px;height:14px;background:{{ t.trackBg }};border:1px solid {{ t.trackLine }};display:flex;align-items:center;justify-content:{{ t.justify }};padding:0 1px">
+                        <div style="width:10px;height:10px;background:{{ t.knob }}"></div>
+                      </div>
+                      <span style="font-size:11.5px;color:{{ t.ink }}">{{ t.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasSeg }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:stretch;border:1px solid var(--ks-line-strong);height:24px">
+                  <sc-for list="{{ i.seg }}" as="s" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;padding:0 10px;background:{{ s.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ s.ink }};box-shadow:{{ s.sep }}">{{ s.label }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasChecks }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:5px">
+                  <sc-for list="{{ i.checks }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <div style="width:13px;height:13px;border:1px solid {{ c.line }};background:{{ c.bg }};display:flex;align-items:center;justify-content:center;font-size:9px;color:{{ c.markInk }}">{{ c.mark }}</div>
+                      <span style="font-size:11.5px;color:{{ c.ink }}">{{ c.label }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasMeter }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:8px;width:100%">
+                  <sc-for list="{{ i.meters }}" as="m" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:{{ m.labelW }};flex:none">{{ m.label }}</span>
+                      <div style="flex:1;height:{{ m.h }};background:var(--ks-line-soft);position:relative;min-width:0">
+                        <div style="position:absolute;left:0;top:0;bottom:0;width:{{ m.used }};background:{{ m.tone }}"></div>
+                        <div style="position:absolute;left:{{ m.mark }};top:-3px;width:2px;height:{{ m.markH }};background:{{ m.markTone }}"></div>
+                        <div style="position:absolute;left:{{ m.mark2 }};top:-3px;width:2px;height:{{ m.markH }};background:{{ m.mark2Tone }}"></div>
+                      </div>
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ m.valueInk }};width:{{ m.valueW }};flex:none;text-align:right">{{ m.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasSpark }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:9px;width:100%">
+                  <sc-for list="{{ i.sparks }}" as="s" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:74px;flex:none">{{ s.label }}</span>
+                      <svg width="{{ s.w }}" height="{{ s.h }}" viewBox="{{ s.viewBox }}" preserveAspectRatio="none" style="display:block">
+                        <sc-if value="{{ s.hasArea }}" hint-placeholder-val="{{ false }}">
+                          <polygon points="{{ s.area }}" fill="{{ s.areaFill }}"></polygon>
+                        </sc-if>
+                        <polyline points="{{ s.points }}" fill="none" stroke="{{ s.stroke }}" stroke-width="{{ s.sw }}" stroke-linejoin="round"></polyline>
+                        <sc-for list="{{ s.marks }}" as="m" hint-placeholder-count="0">
+                          <rect x="{{ m.x }}" y="0" width="{{ m.w }}" height="{{ m.h }}" fill="{{ m.fill }}"></rect>
+                        </sc-for>
+                      </svg>
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ s.valueInk }};flex:none">{{ s.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasBars }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:7px;width:100%">
+                  <sc-for list="{{ i.bars }}" as="b" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;gap:9px">
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:{{ b.labelW }};flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.label }}</span>
+                      <div style="flex:1;display:flex;align-items:center;gap:2px;height:11px;min-width:0">
+                        <sc-for list="{{ b.segs }}" as="s" hint-placeholder-count="3">
+                          <div title="{{ s.title }}" style="width:{{ s.w }};height:11px;background:{{ s.bg }}"></div>
+                        </sc-for>
+                      </div>
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ b.valueInk }};flex:none">{{ b.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasProgress }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:10px;width:100%">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="flex:1;height:6px;background:var(--ks-line-soft);position:relative;overflow:hidden">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:64%;background:var(--ks-warn)"></div>
+                    </div>
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">18 of 24 · 1m12s</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <div style="flex:1;height:6px;background:var(--ks-line-soft);position:relative;overflow:hidden">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:26%;background:var(--ks-info);animation:ksSlide 1.6s linear infinite"></div>
+                    </div>
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">probing · unknown length</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">
+                      <span style="font-size:8px;color:var(--ks-info);animation:ksPulse 1.2s ease-in-out infinite">●</span>attaching to 3 containers…
+                    </span>
+                    <div style="flex:1"></div>
+                    <span style="height:20px;padding:0 8px;border:1px solid var(--ks-line);display:flex;align-items:center;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">cancel</span>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasSlider }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:11px;width:100%">
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:56px;flex:none">replicas</span>
+                    <div style="display:flex;align-items:stretch;border:1px solid var(--ks-line-strong);height:24px">
+                      <div style="width:24px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ks-ink-2);border-right:1px solid var(--ks-line)">−</div>
+                      <div style="width:44px;display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:12px;background:var(--ks-field)">8</div>
+                      <div style="width:24px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ks-ink-2);border-left:1px solid var(--ks-line)">+</div>
+                    </div>
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">was 6 · hpa max 12</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:10px">
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:56px;flex:none">window</span>
+                    <div style="flex:1;height:3px;background:var(--ks-line-soft);position:relative">
+                      <div style="position:absolute;left:0;top:0;bottom:0;width:42%;background:var(--ks-info)"></div>
+                      <div style="position:absolute;left:42%;top:-5px;width:2px;height:13px;background:var(--ks-ink)"></div>
+                    </div>
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);width:52px;text-align:right">30 min</span>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasMatrix }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:3px;width:100%">
+                  <div style="display:grid;grid-template-columns:96px repeat(5,1fr);gap:3px">
+                    <div></div>
+                    <sc-for list="{{ i.matrixCols }}" as="c" hint-placeholder-count="5">
+                      <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.05em;color:var(--ks-ink-3);text-align:center">{{ c.t }}</div>
+                    </sc-for>
+                  </div>
+                  <sc-for list="{{ i.matrixRows }}" as="r" hint-placeholder-count="4">
+                    <div style="display:grid;grid-template-columns:96px repeat(5,1fr);gap:3px;align-items:center">
+                      <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</div>
+                      <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
+                        <div style="height:19px;border:1px solid {{ c.line }};background:{{ c.bg }};display:flex;align-items:center;justify-content:center;font-size:10px;color:{{ c.ink }}">{{ c.mark }}</div>
+                      </sc-for>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasChart }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:8px;width:100%">
+                  <div style="display:flex;align-items:center;gap:12px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+                    <span style="color:var(--ks-ink-2)">{{ i.chart.title }}</span>
+                    <div style="flex:1"></div>
+                    <sc-for list="{{ i.chart.legend }}" as="l" hint-placeholder-count="3">
+                      <span style="display:flex;align-items:center;gap:5px;color:{{ l.ink }}"><span style="width:8px;height:2px;background:{{ l.tone }}"></span>{{ l.label }}</span>
+                    </sc-for>
+                  </div>
+                  <div style="position:relative;background:var(--ks-field);border:1px solid var(--ks-line-soft)">
+                    <svg width="100%" height="{{ i.chart.h }}" viewBox="{{ i.chart.viewBox }}" preserveAspectRatio="none" style="display:block">
+                      <sc-for list="{{ i.chart.grid }}" as="g2" hint-placeholder-count="3">
+                        <line x1="0" y1="{{ g2.y }}" x2="{{ i.chart.w }}" y2="{{ g2.y }}" stroke="#1a2028" stroke-width="1"></line>
+                      </sc-for>
+                      <sc-for list="{{ i.chart.bands }}" as="b" hint-placeholder-count="0">
+                        <rect x="{{ b.x }}" y="0" width="{{ b.w }}" height="{{ i.chart.hNum }}" fill="{{ b.fill }}"></rect>
+                      </sc-for>
+                      <sc-for list="{{ i.chart.series }}" as="s" hint-placeholder-count="2">
+                        <polygon points="{{ s.area }}" fill="{{ s.areaFill }}"></polygon>
+                        <polyline points="{{ s.points }}" fill="none" stroke="{{ s.stroke }}" stroke-width="1.6" stroke-linejoin="round"></polyline>
+                      </sc-for>
+                      <sc-for list="{{ i.chart.limits }}" as="l" hint-placeholder-count="0">
+                        <line x1="0" y1="{{ l.y }}" x2="{{ i.chart.w }}" y2="{{ l.y }}" stroke="{{ l.tone }}" stroke-width="1" stroke-dasharray="4 3"></line>
+                      </sc-for>
+                      <sc-for list="{{ i.chart.events }}" as="e" hint-placeholder-count="0">
+                        <line x1="{{ e.x }}" y1="0" x2="{{ e.x }}" y2="{{ i.chart.hNum }}" stroke="{{ e.tone }}" stroke-width="1"></line>
+                        <rect x="{{ e.bx }}" y="{{ e.by }}" width="9" height="9" fill="{{ e.tone }}"></rect>
+                      </sc-for>
+                    </svg>
+                    <div style="position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:0 4px;font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);pointer-events:none">
+                      <sc-for list="{{ i.chart.xLabels }}" as="x" hint-placeholder-count="4">
+                        <span>{{ x.t }}</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="display:flex;flex-wrap:wrap;gap:9px">
+                    <sc-for list="{{ i.chart.markers }}" as="m" hint-placeholder-count="0">
+                      <span style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)"><span style="width:8px;height:8px;background:{{ m.tone }}"></span>{{ m.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ i.hasTimeline }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:7px;width:100%">
+                  <sc-for list="{{ i.timeline }}" as="t" hint-placeholder-count="6">
+                    <div style="display:flex;align-items:baseline;gap:10px">
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:44px;flex:none">{{ t.at }}</span>
+                      <span style="width:2px;align-self:stretch;background:{{ t.tone }};flex:none"></span>
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ t.kindInk }};width:74px;flex:none">{{ t.kind }}</span>
+                      <span style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.4;text-wrap:pretty">{{ t.what }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+
+            </div>
+
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">{{ i.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">STATES</div>
+      <div style="font-size:20px;font-weight:600">Every control has six states, and they are the same six everywhere</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <sc-for list="{{ states }}" as="s" hint-placeholder-count="6">
+        <div style="background:var(--ks-panel);padding:14px;display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:{{ s.tone }}">{{ s.name }}</div>
+          <div style="display:flex;align-items:center;gap:7px;height:24px;padding:0 11px;border:1px solid {{ s.line }};background:{{ s.bg }};font-size:12px;color:{{ s.ink }};box-shadow:{{ s.shadow }};opacity:{{ s.opacity }};width:fit-content">
+            <span style="font-size:9px;color:{{ s.glyphTone }}">{{ s.glyph }}</span>Restart rollout
+          </div>
+          <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-idle)">SCROLLBARS</div>
+      <div style="font-size:20px;font-weight:600">One scrollbar, everywhere</div>
+      <div style="font-size:13px;color:var(--ks-ink-3)">a scrollbar is information, so it never hides</div>
+    </div>
+    <div style="display:grid;grid-template-columns:390px 1fr;gap:14px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:15px;display:flex;flex-direction:column;gap:11px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:var(--ks-ink-3)">LIVE — SCROLL THESE</div>
+        <div style="display:flex;gap:14px">
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">DEFAULT · 10px lane</div>
+            <div style="height:132px;overflow-y:auto;scrollbar-gutter:stable;background:var(--ks-field);border:1px solid var(--ks-line);padding:6px 8px">
+              <sc-for list="{{ scrollDemo }}" as="d" hint-placeholder-count="18">
+                <div style="height:20px;flex:none;display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden"><span style="font-size:7px;color:{{ d.tone }};flex:none">{{ d.glyph }}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">DENSE · 8px lane</div>
+            <div data-scroll="dense" style="height:132px;overflow-y:auto;scrollbar-gutter:stable;background:var(--ks-field);border:1px solid var(--ks-line);padding:6px 8px">
+              <sc-for list="{{ scrollDemo }}" as="d" hint-placeholder-count="18">
+                <div style="height:20px;flex:none;display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden"><span style="font-size:7px;color:{{ d.tone }};flex:none">{{ d.glyph }}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Drag one. The thumb takes the focus blue while held — the same active state every control uses.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+        <sc-for list="{{ scrollRules }}" as="r" hint-placeholder-count="6">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:12.5px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ r.h }}</div>
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.tone }};line-height:1.5">{{ r.spec }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:20px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+    <span>{{ coverage }}</span>
+    <div style="flex:1"></div>
+    <span>tokens: <span style="color:var(--ks-ink-2)">--ks-*</span> · controls 24px in a pane, 30px in a dialog · all internals in em</span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#2c3542', FIELD = '#07090c';
+
+const btn = (label, o) => Object.assign({
+  label, h: '24px', px: '11px', line: LINE_S, bg: 'transparent', ink: INK, weight: '400',
+  glyph: '', glyphTone: INK3, key: '', opacity: '1'
+}, o || {});
+const chip = (label, o) => Object.assign({ label, bg: 'transparent', line: LINE, ink: INK2, glyph: '', glyphTone: INK3 }, o || {});
+const field = (value, o) => Object.assign({ value, w: '190px', line: LINE_S, ink: INK, prefix: '', prefixInk: INK3, suffix: '', suffixInk: INK3 }, o || {});
+
+// deterministic series helpers
+function series(n, seed, lo, hi) {
+  let s = seed;
+  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const out = [];
+  let v = (lo + hi) / 2;
+  for (let i = 0; i < n; i++) {
+    v += (rnd() - 0.48) * (hi - lo) * 0.28;
+    v = Math.max(lo, Math.min(hi, v));
+    out.push(v);
+  }
+  return out;
+}
+function poly(vals, w, h, max, pad) {
+  const p = pad || 0;
+  const step = w / (vals.length - 1);
+  return vals.map((v, i) => (i * step).toFixed(1) + ',' + (h - p - (v / max) * (h - p * 2)).toFixed(1)).join(' ');
+}
+function areaPoly(vals, w, h, max, pad) {
+  return '0,' + h + ' ' + poly(vals, w, h, max, pad) + ' ' + w + ',' + h;
+}
+
+class Component extends DCLogic {
+  renderVals() {
+    // ---- metric chart with event annotations (MET-04)
+    const W = 600, H = 132;
+    const mem = series(60, 991, 180, 520);
+    mem[47] = 511; mem[48] = 40; mem[49] = 120; mem[50] = 210;
+    const cpu = series(60, 313, 40, 300);
+    const chartMain = {
+      title: 'checkout-api · memory and cpu · 30 min · prod-eu-west',
+      legend: [
+        { label: 'memory', tone: INFO, ink: INK2 },
+        { label: 'cpu', tone: OK, ink: INK2 },
+        { label: 'limit 512Mi', tone: BAD, ink: INK2 }
+      ],
+      h: '132px', hNum: H, w: W, viewBox: '0 0 ' + W + ' ' + H,
+      grid: [{ y: 33 }, { y: 66 }, { y: 99 }],
+      bands: [{ x: 470, w: 22, fill: 'rgba(255,95,95,.14)' }],
+      series: [
+        { points: poly(mem, W, H, 560, 6), area: areaPoly(mem, W, H, 560, 6), stroke: INFO, areaFill: 'rgba(74,168,255,.14)' },
+        { points: poly(cpu, W, H, 560, 6), area: areaPoly(cpu, W, H, 560, 6), stroke: OK, areaFill: 'rgba(62,207,142,.08)' }
+      ],
+      limits: [{ y: (H - 6 - (512 / 560) * (H - 12)).toFixed(1), tone: BAD }],
+      events: [
+        { x: 120, bx: 116, by: 4, tone: INFO },
+        { x: 250, bx: 246, by: 4, tone: WARN },
+        { x: 392, bx: 388, by: 4, tone: WARN },
+        { x: 470, bx: 466, by: 4, tone: BAD },
+        { x: 505, bx: 501, by: 4, tone: INFO }
+      ],
+      xLabels: [{ t: '13:52' }, { t: '14:02' }, { t: '14:12' }, { t: '14:22' }],
+      markers: [
+        { tone: INFO, label: 'deploy 2026.8.3' },
+        { tone: WARN, label: 'restart ×2' },
+        { tone: WARN, label: 'probe failed' },
+        { tone: BAD, label: 'OOMKilled 14:20' },
+        { tone: INFO, label: 'image pull' }
+      ]
+    };
+
+    // ---- cross-cluster comparison (MET-06)
+    const CW = 560, CH = 104;
+    const a = series(48, 77, 120, 300), b = series(48, 909, 90, 260), c = series(48, 4242, 200, 420);
+    const chartXC = {
+      title: 'same query, three clusters · sum(rate(http_requests_total[5m]))',
+      legend: [{ label: 'prod-eu-west', tone: INFO, ink: INK2 }, { label: 'prod-us-east', tone: '#b48cff', ink: INK2 }, { label: 'prod-ap-south', tone: WARN, ink: INK2 }],
+      h: '104px', hNum: CH, w: CW, viewBox: '0 0 ' + CW + ' ' + CH,
+      grid: [{ y: 26 }, { y: 52 }, { y: 78 }],
+      bands: [],
+      series: [
+        { points: poly(a, CW, CH, 460, 5), area: '', stroke: INFO, areaFill: 'transparent' },
+        { points: poly(b, CW, CH, 460, 5), area: '', stroke: '#b48cff', areaFill: 'transparent' },
+        { points: poly(c, CW, CH, 460, 5), area: '', stroke: WARN, areaFill: 'transparent' }
+      ],
+      limits: [], events: [],
+      xLabels: [{ t: '−30m' }, { t: '−20m' }, { t: '−10m' }, { t: 'now' }],
+      markers: [{ tone: WARN, label: 'ap-south is 2.1× the others — that is the finding, not the absolute number' }]
+    };
+
+    const sparkOf = (label, seed, lo, hi, value, valueInk, marks) => {
+      const vals = series(28, seed, lo, hi);
+      return {
+        label, w: '150', h: '26', viewBox: '0 0 150 26',
+        points: poly(vals, 150, 26, hi * 1.1, 2),
+        hasArea: true, area: areaPoly(vals, 150, 26, hi * 1.1, 2), areaFill: 'rgba(74,168,255,.10)',
+        stroke: INFO, sw: '1.4', value, valueInk, marks: marks || []
+      };
+    };
+
+    const groups = [
+      {
+        n: 'A', tone: INFO, title: 'Controls', note: 'everything you can press, type into or drag',
+        items: [
+          {
+            name: 'Buttons', cap: 'ACT-01 · ACT-07',
+            buttons: [
+              btn('Restart rollout', { line: '#5a4520', bg: 'rgba(240,180,41,.12)', ink: WARN, weight: '600' }),
+              btn('Show YAML diff', {}),
+              btn('Delete', { line: '#54262b', ink: '#ffb3b3', glyph: '▲', glyphTone: BAD }),
+              btn('Cancel', { line: LINE, ink: INK2 }),
+              btn('Drain node', { line: '#54262b', bg: 'rgba(255,95,95,.14)', ink: '#ffb3b3', weight: '600', opacity: '0.45' })
+            ],
+            note: 'Rectangular, 1px border, no radius, no gradient. A write is amber, a destructive is red, everything else is a neutral outline. The disabled state keeps its colour at 45% so the shape of the dialog never changes as it becomes available.'
+          },
+          {
+            name: 'Icon and menu buttons', cap: 'APP-01',
+            buttons: [
+              btn('', { px: '7px', glyph: '⋮', glyphTone: INK2 }),
+              btn('', { px: '7px', glyph: '⧉', glyphTone: INK2 }),
+              btn('', { px: '7px', glyph: '↻', glyphTone: INK2 }),
+              btn('', { px: '7px', glyph: '⊞', glyphTone: INK2 }),
+              btn('⌘K', { px: '8px', ink: INK2, line: LINE })
+            ],
+            note: 'Only for gestures that also exist as words somewhere else — an icon-only control is never the sole route to an action. 24px square, so it sits in a pane header without stretching it.'
+          },
+          {
+            name: 'Scope pickers', cap: 'RES-01 · CONN-02 · XC-08',
+            chips: [
+              chip('prod-eu-west ▾', { bg: 'rgba(74,168,255,.10)', line: '#2f4356', ink: INK, glyph: '●', glyphTone: OK }),
+              chip('all clusters ▾', { line: LINE_S, ink: INK, glyph: '◈', glyphTone: INFO }),
+              chip('ns payments ▾', { line: LINE_S }),
+              chip('pinned · …-k8n1p', { line: LINE, ink: INK3, glyph: '◉', glyphTone: INK3 })
+            ],
+            note: 'The cluster chip carries the connection glyph, so scope and health are one control. An object pane shows the fourth variant: no caret, dimmed, and clicking it explains why it cannot change.'
+          },
+          {
+            name: 'Filter field with negation', cap: 'RES-12 · LOG-03',
+            fields: [
+              field('crash', { prefix: '/', w: '150px', suffix: '6', suffixInk: INK2 }),
+              field('!kube-system', { prefix: '/', w: '176px', suffix: '38', suffixInk: INK2, ink: '#f3d08a' }),
+              field('level=error', { prefix: '{}', w: '158px', suffix: 'json', suffixInk: INFO })
+            ],
+            note: 'One field, three languages: plain substring, `!` for negation, and `key=value` when the stream is structured. The match count lives inside the field, right-aligned — never in a separate label that can drift out of sync.'
+          },
+          {
+            name: 'Selector and saved views', cap: 'RES-07 · RES-08 · MET-11',
+            chips: [
+              chip('app=checkout ×', { line: LINE_S, ink: INK }),
+              chip('tier!=canary ×', { line: LINE_S, ink: INK }),
+              chip('+ selector', { line: LINE, ink: INK3 }),
+              chip('saved · “payments on fire” ▾', { line: LINE_S, ink: INFO })
+            ],
+            note: 'Label and field selectors are chips with their own remove target, because they are removed far more often than edited. Saved views and saved queries use the same chip so the two concepts look related — they are.'
+          },
+          {
+            name: 'Toggles and modes', cap: 'CONN-08 · APP-05 · XC-08',
+            hasToggle: true,
+            toggles: [
+              { label: 'read-only cluster', trackBg: 'rgba(255,95,95,.18)', trackLine: '#54262b', knob: BAD, justify: 'flex-end', ink: '#ffb3b3' },
+              { label: 'follow logs', trackBg: 'rgba(62,207,142,.16)', trackLine: '#22503c', knob: OK, justify: 'flex-end', ink: INK },
+              { label: 'merged rows', trackBg: '#141922', trackLine: LINE, knob: '#3f4855', justify: 'flex-start', ink: INK2 }
+            ],
+            hasSeg: true,
+            seg: [
+              { label: 'flat', bg: '#1d2937', ink: INK, sep: 'none' },
+              { label: 'merged', bg: 'transparent', ink: INK2, sep: 'inset 1px 0 0 #242b35' },
+              { label: 'compact', bg: 'transparent', ink: INK2, sep: 'inset 1px 0 0 #242b35' }
+            ],
+            note: 'A rectangular 26×14 track — no pill, no animation longer than 120ms. Segmented controls are for two to four mutually exclusive views of the same data (XC-08 flat vs merged); anything longer is a dropdown.'
+          },
+          {
+            name: 'Multi-select checkboxes', cap: 'RES-11',
+            hasChecks: true,
+            checks: [
+              { label: 'checkout-api-…-k8n1p', mark: '✓', bg: 'rgba(240,180,41,.16)', line: '#5a4520', markInk: WARN, ink: INK },
+              { label: 'ledger-worker-…-9plmz', mark: '✓', bg: 'rgba(240,180,41,.16)', line: '#5a4520', markInk: WARN, ink: INK },
+              { label: 'fraud-scorer-…-2wq7t', mark: '', bg: FIELD, line: LINE_S, markInk: INK3, ink: INK2 },
+              { label: 'header: 8 of 41 · 3 panes', mark: '–', bg: 'rgba(240,180,41,.10)', line: '#5a4520', markInk: WARN, ink: INK2 }
+            ],
+            note: 'Amber, because a selection is potential action — it never uses the blue of identity or the green of health. The header box shows the mixed state as an en dash, and the count includes rows hidden by the filter.'
+          },
+          {
+            name: 'Numbers, steppers, windows', cap: 'ACT-01 · MET-05 · LOG-08',
+            hasSlider: true,
+            note: 'A stepper always shows what the value was, and the constraint that will fight you (an HPA maximum, a quota). Time windows are one slider shared by every pane, because MET-05 says zooming in one place moves all of them.'
+          },
+          {
+            name: 'Key–value and matrix editors', cap: 'ACT-12 · SEC-07 · SEC-09',
+            hasMatrix: true,
+            matrixCols: [{ t: 'get' }, { t: 'list' }, { t: 'watch' }, { t: 'create' }, { t: 'delete' }],
+            matrixRows: [
+              { label: 'pods', cells: [{ mark: '✓', bg: 'rgba(62,207,142,.14)', line: '#22503c', ink: OK }, { mark: '✓', bg: 'rgba(62,207,142,.14)', line: '#22503c', ink: OK }, { mark: '✓', bg: 'rgba(62,207,142,.14)', line: '#22503c', ink: OK }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }] },
+              { label: 'pods/exec', cells: [{ mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '✓', bg: 'rgba(240,180,41,.16)', line: '#5a4520', ink: WARN }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }] },
+              { label: 'secrets', cells: [{ mark: '✓', bg: 'rgba(255,95,95,.16)', line: '#54262b', ink: '#ffb3b3' }, { mark: '✓', bg: 'rgba(255,95,95,.16)', line: '#54262b', ink: '#ffb3b3' }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }, { mark: '', bg: FIELD, line: LINE, ink: INK3 }] },
+              { label: '* (any)', cells: [{ mark: '✓', bg: 'rgba(255,95,95,.24)', line: BAD, ink: '#ffd7d7' }, { mark: '✓', bg: 'rgba(255,95,95,.24)', line: BAD, ink: '#ffd7d7' }, { mark: '✓', bg: 'rgba(255,95,95,.24)', line: BAD, ink: '#ffd7d7' }, { mark: '✓', bg: 'rgba(255,95,95,.24)', line: BAD, ink: '#ffd7d7' }, { mark: '✓', bg: 'rgba(255,95,95,.24)', line: BAD, ink: '#ffd7d7' }] }
+            ],
+            note: 'RBAC is edited as a grid because `["apps"]` and `[""]` look identical in a text box and obviously different in a table. Escalating cells are red as you tick them, not after you apply — that is SEC-09 built into the control rather than bolted on as a warning.'
+          }
+        ]
+      },
+      {
+        n: 'B', tone: OK, title: 'Indicators', note: 'everything that tells you a state without you asking',
+        items: [
+          {
+            name: 'Phase and severity', cap: 'RES-02',
+            chips: [
+              chip('Running', { ink: OK, glyph: '●', glyphTone: OK, line: 'transparent' }),
+              chip('CrashLoop', { ink: BAD, glyph: '▲', glyphTone: BAD, line: 'transparent', bg: 'rgba(255,95,95,.10)' }),
+              chip('Pending', { ink: WARN, glyph: '◆', glyphTone: WARN, line: 'transparent' }),
+              chip('Terminating', { ink: IDLE, glyph: '■', glyphTone: IDLE, line: 'transparent' }),
+              chip('Unknown', { ink: IDLE, glyph: '○', glyphTone: IDLE, line: 'transparent' }),
+              chip('47×', { ink: BAD, line: LINE }),
+              chip('1/2', { ink: WARN, line: LINE })
+            ],
+            note: 'Glyph plus word plus colour, always all three — this is the one requirement in the brief that has no exceptions. The glyph set is five shapes and never grows; a new state gets a word, not a sixth shape.'
+          },
+          {
+            name: 'Connection and freshness', cap: 'CONN-03 · APP-14',
+            chips: [
+              chip('live · watch 2s', { ink: OK, glyph: '●', glyphTone: OK, line: 'transparent' }),
+              chip('slow · 610ms', { ink: WARN, glyph: '◐', glyphTone: WARN, line: 'transparent' }),
+              chip('47s old', { ink: WARN, glyph: '◐', glyphTone: WARN, bg: 'rgba(240,180,41,.10)', line: '#4a3a12' }),
+              chip('no response 4m12s', { ink: '#ffb3b3', glyph: '▲', glyphTone: BAD, bg: 'rgba(255,95,95,.10)', line: '#54262b' }),
+              chip('paused by you', { ink: IDLE, glyph: '■', glyphTone: IDLE, line: LINE }),
+              chip('6 of 8 sources', { ink: WARN, glyph: '◐', glyphTone: WARN, line: '#4a3a12' })
+            ],
+            note: 'APP-14 asks every pane to say how fresh its data is and where it came from. That is one chip in the pane header with six values — and the last one, the partial-source count, is the only place a number is allowed to be amber without anything being broken.'
+          },
+          {
+            name: 'Counts and drift', cap: 'XC-08 · RES-12',
+            chips: [
+              chip('6 of 41', { ink: INK2, line: LINE }),
+              chip('8 clusters / 2 differ', { ink: WARN, line: '#4a3a12', glyph: '◈', glyphTone: WARN }),
+              chip('identical on 8', { ink: OK, line: 'transparent', glyph: '●', glyphTone: OK }),
+              chip('3 hidden by filter', { ink: INK3, line: LINE }),
+              chip('+4 more', { ink: INFO, line: LINE })
+            ],
+            note: 'A merged row from XC-08 is a count with a verdict attached. “Identical on 8” is worth showing as loudly as a difference — it is the answer to the question people actually asked.'
+          },
+          {
+            name: 'Requests, limits, real usage', cap: 'MET-12 · ACT-13 · DIAG-03',
+            hasMeter: true,
+            meters: [
+              { label: 'memory', labelW: '58px', h: '9px', used: '62%', tone: 'rgba(62,207,142,.5)', mark: '50%', markTone: INK2, markH: '15px', mark2: '99%', mark2Tone: BAD, value: '318Mi', valueInk: INK, valueW: '92px' },
+              { label: 'cpu', labelW: '58px', h: '9px', used: '31%', tone: 'rgba(62,207,142,.5)', mark: '20%', markTone: INK2, markH: '15px', mark2: '100%', mark2Tone: LINE_S, value: '88m', valueInk: INK, valueW: '92px' },
+              { label: 'quota · ns', labelW: '58px', h: '9px', used: '88%', tone: WARN, mark: '100%', markTone: LINE_S, markH: '15px', mark2: '0%', mark2Tone: 'transparent', value: '44 of 50', valueInk: WARN, valueW: '92px' }
+            ],
+            note: 'The fill is what is used; the two ticks are the request and the limit. One widget answers “is it right-sized?” and it is the same widget you edit in (ACT-13) — which is the short loop the scope document calls the point of the product.'
+          },
+          {
+            name: 'Sparklines', cap: 'MET-12 · CONN-03',
+            hasSpark: true,
+            sparks: [
+              sparkOf('memory', 991, 120, 480, '318Mi ↗', INK),
+              sparkOf('rtt', 313, 20, 90, '41ms', OK),
+              sparkOf('log rate', 77, 40, 300, '214/s', INK2)
+            ],
+            note: 'Twenty-eight points, no axes, no labels inside. A sparkline never carries a number of its own — the number lives beside it, so the shape means movement and the text means value.'
+          },
+          {
+            name: 'Phase bars and pressure', cap: 'XC-02 · DIAG-04',
+            hasBars: true,
+            bars: [
+              { label: 'prod-eu-west', labelW: '96px', value: '612', valueInk: INK2, segs: [{ w: '2%', bg: BAD, title: 'failing 2' }, { w: '2%', bg: WARN, title: 'pending 12' }, { w: '96%', bg: 'rgba(62,207,142,.45)', title: 'running 598' }] },
+              { label: 'prod-ap-south', labelW: '96px', value: '431', valueInk: INK2, segs: [{ w: '1.4%', bg: BAD, title: 'failing 6' }, { w: '5.3%', bg: WARN, title: 'pending 23' }, { w: '93.3%', bg: 'rgba(62,207,142,.45)', title: 'running 402' }] },
+              { label: 'ip-10-0-3-19', labelW: '96px', value: '91% mem', valueInk: BAD, segs: [{ w: '91%', bg: BAD, title: 'allocated' }, { w: '9%', bg: '#2c3542', title: 'free' }] },
+              { label: 'ip-10-0-1-204', labelW: '96px', value: '54% mem', valueInk: OK, segs: [{ w: '54%', bg: 'rgba(62,207,142,.45)', title: 'allocated' }, { w: '46%', bg: '#2c3542', title: 'free' }] }
+            ],
+            note: 'Worst first, always, left to right — so a fleet of ten rows is scannable by the left edge alone. Proportional widths, four segments maximum, and a tooltip per segment carrying the real count.'
+          },
+          {
+            name: 'Progress and busy', cap: 'ACT-06 · CONN-03',
+            hasProgress: true,
+            note: 'Determinate when we know the denominator (18 of 24 pods), indeterminate only for a probe whose length is genuinely unknown, and a pulsing dot for “attaching”. Every long operation is cancellable and says so in the same row.'
+          },
+          {
+            name: 'Health score and toplists', cap: 'DIAG-07 · DIAG-05',
+            chips: [
+              chip('health 62 · degraded', { ink: WARN, line: '#4a3a12', glyph: '◐', glyphTone: WARN }),
+              chip('health 94 · good', { ink: OK, line: 'transparent', glyph: '●', glyphTone: OK }),
+              chip('restarts 24h: 63', { ink: BAD, line: LINE }),
+              chip('OOMKills 24h: 12', { ink: BAD, line: LINE }),
+              chip('waste 360 cores', { ink: WARN, line: LINE })
+            ],
+            note: 'A score is never shown alone: it always carries the word that classifies it, because 62 means nothing on its own and “degraded” means something immediately. Clicking it opens the list it was computed from — a number nobody can trace is a number nobody trusts.'
+          },
+          {
+            name: 'Alerts, rules and audit', cap: 'MET-07 · APP-12 · SEC-06',
+            chips: [
+              chip('firing · HighMemory', { ink: '#ffb3b3', bg: 'rgba(255,95,95,.10)', line: '#54262b', glyph: '▲', glyphTone: BAD }),
+              chip('your rule · 3 restarts in 10m', { ink: WARN, line: '#4a3a12', glyph: '◈', glyphTone: WARN }),
+              chip('notified in background', { ink: INK3, line: LINE, glyph: '○', glyphTone: INK3 }),
+              chip('audit · you deleted kafka-2', { ink: INK2, line: LINE, glyph: '⧉', glyphTone: INK3 })
+            ],
+            note: 'Alertmanager alerts and your own local rules (APP-12) look deliberately different: theirs are red and come from the cluster, yours are amber and come from you. The audit chip is the only indicator that refers to the past tense of your own hands.'
+          }
+        ]
+      },
+      {
+        n: 'C', tone: WARN, title: 'Charts', note: 'the four the contract actually requires — and nothing else',
+        items: [
+          {
+            name: 'Metric curve with events on it', cap: 'MET-02 · MET-04',
+            hasChart: true, chart: chartMain,
+            note: 'The keystone widget of the product. The curve is uPlot; the event markers are drawn on its canvas, not beside it — a restart at 14:20 is a line through the memory graph, so “what happened at 14:02?” is answered by looking rather than by correlating two panes. The dashed red line is the limit; the shaded band is the OOMKill window.'
+          },
+          {
+            name: 'Cross-cluster comparison', cap: 'MET-06 · XC-07',
+            hasChart: true, chart: chartXC,
+            note: 'Same query, one axis, one line per cluster in that cluster’s reserved colour — which is why cluster colours are reserved in the first place. No area fills here: three filled areas are unreadable, and the question is shape, not volume.'
+          },
+          {
+            name: 'Change stream', cap: 'TIME-07 · TIME-08',
+            hasTimeline: true,
+            timeline: [
+              { at: '14:22', tone: BAD, kind: 'oomkill', kindInk: '#ffb3b3', what: 'checkout-api killed for memory · 47th time today' },
+              { at: '14:20', tone: WARN, kind: 'scale', kindInk: '#f3d08a', what: 'hpa scaled checkout-api 6 → 8' },
+              { at: '14:12', tone: INFO, kind: 'configmap', kindInk: '#8ac6ff', what: 'payments/checkout-config key TIMEOUT_MS 2000 → 500 · by ci-bot' },
+              { at: '14:04', tone: INFO, kind: 'deploy', kindInk: '#8ac6ff', what: 'checkout-api image 2026.8.2 → 2026.8.3 · by argocd' },
+              { at: '13:58', tone: IDLE, kind: 'rbac', kindInk: INK2, what: 'rolebinding payments-deployer gained subject svc/ci-bot' },
+              { at: '13:41', tone: IDLE, kind: 'node', kindInk: INK2, what: 'ip-10-0-4-8 became NotReady' }
+            ],
+            note: 'TIME-07 says this will be the most opened pane, because the first question of an incident is not “what is the state” but “what changed”. Note the 14:12 line: a timeout dropped to 500ms twelve minutes before the OOMKills started. That is the whole argument for TIME-08 in one row.'
+          },
+          {
+            name: 'Certificate and expiry timeline', cap: 'SEC-03',
+            hasBars: true,
+            bars: [
+              { label: 'ingress-tls · edge-02', labelW: '150px', value: '11d', valueInk: BAD, segs: [{ w: '4%', bg: BAD, title: '11 days left' }, { w: '96%', bg: '#141922', title: 'of 90 days' }] },
+              { label: 'api-tls · prod-eu-west', labelW: '150px', value: '24d', valueInk: WARN, segs: [{ w: '27%', bg: WARN, title: '24 days left' }, { w: '73%', bg: '#141922', title: 'of 90 days' }] },
+              { label: 'kubelet · prod-ap-south', labelW: '150px', value: '112d', valueInk: OK, segs: [{ w: '31%', bg: 'rgba(62,207,142,.45)', title: '112 days left' }, { w: '69%', bg: '#141922', title: 'of 365 days' }] },
+              { label: 'router-ca · edge-01', labelW: '150px', value: 'unknown', valueInk: INK3, segs: [{ w: '100%', bg: 'rgba(255,95,95,.10)', title: 'cluster unreachable' }] }
+            ],
+            note: 'Time to expiry, as a fraction of the certificate’s own lifetime — so a 90-day cert with 11 days left looks as urgent as it is. The last row is the rule from the eight questions: an unreachable cluster keeps its row, because an absent row would read as “nothing expiring here”.'
+          },
+          {
+            name: 'Drain simulation', cap: 'DIAG-08 · ACT-16',
+            hasBars: true,
+            bars: [
+              { label: 'ip-10-0-1-204', labelW: '110px', value: '+14 fits', valueInk: OK, segs: [{ w: '54%', bg: 'rgba(62,207,142,.45)', title: 'current 54%' }, { w: '24%', bg: 'rgba(74,168,255,.45)', title: 'incoming 24%' }, { w: '22%', bg: '#2c3542', title: 'free' }] },
+              { label: 'ip-10-0-3-91', labelW: '110px', value: '+7 fits', valueInk: OK, segs: [{ w: '61%', bg: 'rgba(62,207,142,.45)', title: 'current 61%' }, { w: '17%', bg: 'rgba(74,168,255,.45)', title: 'incoming 17%' }, { w: '22%', bg: '#2c3542', title: 'free' }] },
+              { label: 'ip-10-0-2-44', labelW: '110px', value: 'tainted', valueInk: INK3, segs: [{ w: '38%', bg: 'rgba(62,207,142,.45)', title: 'current 38%' }, { w: '62%', bg: '#141922', title: 'excluded by taint' }] },
+              { label: 'nowhere to go', labelW: '110px', value: '2 pods', valueInk: BAD, segs: [{ w: '100%', bg: 'rgba(255,95,95,.20)', title: 'ledger-worker needs 2Gi' }] }
+            ],
+            note: 'The same widget as node pressure, run forwards: current allocation in green, what would arrive in blue, and a final row for the pods that fit nowhere. Blue means “not yet true” across the whole product — this is the chart form of the forecast tone from question 7.'
+          },
+          {
+            name: 'Log level histogram', cap: 'LOG-04 · LOG-07',
+            hasSpark: true,
+            sparks: [
+              { label: 'errors', w: '150', h: '26', viewBox: '0 0 150 26', points: poly(series(28, 5, 0, 40), 150, 26, 44, 2), hasArea: true, area: areaPoly(series(28, 5, 0, 40), 150, 26, 44, 2), areaFill: 'rgba(255,95,95,.16)', stroke: BAD, sw: '1.4', value: '41/s ↗', valueInk: '#ffb3b3', marks: [{ x: '112', w: '2', h: '26', fill: 'rgba(255,95,95,.5)' }] },
+              { label: 'warnings', w: '150', h: '26', viewBox: '0 0 150 26', points: poly(series(28, 9, 10, 80), 150, 26, 88, 2), hasArea: true, area: areaPoly(series(28, 9, 10, 80), 150, 26, 88, 2), areaFill: 'rgba(240,180,41,.14)', stroke: WARN, sw: '1.4', value: '73/s', valueInk: '#f3d08a', marks: [] },
+              { label: 'all lines', w: '150', h: '26', viewBox: '0 0 150 26', points: poly(series(28, 13, 120, 260), 150, 26, 280, 2), hasArea: false, area: '', areaFill: 'transparent', stroke: INK3, sw: '1.4', value: '214/s', valueInk: INK2, marks: [] }
+            ],
+            note: 'A log pane’s header carries three sparklines rather than a chart: rate by level, twenty-eight buckets, the same widget as any other sparkline. Clicking a bucket is LOG-07 — it jumps the stream to that moment instead of filtering it.'
+          }
+        ]
+      }
+    ];
+
+    return {
+      groups,
+      states: [
+        { name: 'REST', tone: INK3, line: LINE_S, bg: 'transparent', ink: INK, glyph: '', glyphTone: INK3, shadow: 'none', opacity: '1', note: 'The default. A 1px outline and nothing else — no fill, no shadow.' },
+        { name: 'HOVER', tone: INFO, line: '#3b4655', bg: '#161a21', ink: INK, glyph: '', glyphTone: INK3, shadow: 'none', opacity: '1', note: 'Border brightens one step, a faint fill appears. Nothing moves and nothing grows.' },
+        { name: 'FOCUS', tone: INFO, line: INFO, bg: '#161a21', ink: INK, glyph: '', glyphTone: INK3, shadow: 'inset 0 0 0 1px rgba(74,168,255,.45)', opacity: '1', note: 'A doubled blue border, never an outer glow — a keyboard user must find it at a glance in a four-pane layout.' },
+        { name: 'ACTIVE', tone: OK, line: INFO, bg: '#1d2937', ink: INK, glyph: '', glyphTone: INK3, shadow: 'none', opacity: '1', note: 'Pressed. The fill deepens for the 90ms the mouse is down; that is the whole animation.' },
+        { name: 'BUSY', tone: WARN, line: '#5a4520', bg: 'rgba(240,180,41,.10)', ink: WARN, glyph: '◐', glyphTone: WARN, shadow: 'none', opacity: '1', note: 'The label stays, a glyph appears, the control stops accepting input. It never turns into a spinner — the text you clicked must remain readable.' },
+        { name: 'BLOCKED', tone: BAD, line: LINE, bg: 'transparent', ink: INK2, glyph: '○', glyphTone: INK3, shadow: 'none', opacity: '0.45', note: 'Greyed, not gone, with the reason where the shortcut would be: “read-only context” (CONN-08).' }
+      ],
+      scrollDemo: Array.from({ length: 18 }, (_, i) => {
+        const bad = i === 2 || i === 9;
+        const warn = i === 5 || i === 13;
+        return {
+          t: 'checkout-api-\u2026-' + ['x2m4q', 'k8n1p', 'p91md', 'z0mq4', 'b71ka', 'f5flv', '9plmz', '2wq7t', 'kq81z'][i % 9],
+          glyph: bad ? '\u25b2' : warn ? '\u25c6' : '\u25cf',
+          tone: bad ? BAD : warn ? WARN : OK
+        };
+      }),
+      scrollRules: [
+        { tone: INFO, h: 'It never auto-hides.', t: 'In a tiling tool the presence of a scrollbar is data: it says there is more below. An overlay bar that fades out makes a full pane and a half-shown pane look identical.', spec: 'always visible when content overflows' },
+        { tone: INFO, h: 'The gutter is reserved.', t: 'scrollbar-gutter: stable on every scrollable pane, so a list that grows past its box does not shove its own columns 10px to the left as the bar appears.', spec: 'scrollbar-gutter: stable' },
+        { tone: IDLE, h: 'Rectangular, like everything else.', t: 'No radius, no shadow, no arrows at the ends. A 6px thumb inset in a 10px lane by a transparent border, so it reads as part of the chrome rather than an object floating over it.', spec: '10px lane · 6px thumb · 0 radius' },
+        { tone: OK, h: 'Three states, the control states.', t: 'Rest #2c3542, hover #3b4655, dragging the focus blue — the same progression a button makes, so the bar is visibly the same material as the rest of the frame.', spec: '#2c3542 → #3b4655 → #4aa8ff' },
+        { tone: WARN, h: 'Dense panes get 8px.', t: 'A log or a table inside a four-way split carries data-scroll="dense": the lane narrows to 8px, because at 300px wide every pixel of content matters more than the bar does.', spec: '[data-scroll="dense"] · 8px' },
+        { tone: IDLE, h: 'Firefox gets the same thing.', t: 'scrollbar-width: thin with scrollbar-color set to the same two tokens. It is not pixel-identical and does not need to be — it needs to be the same grey on the same transparent track.', spec: 'scrollbar-color: #2c3542 transparent' }
+      ],
+      coverage: '9 controls · 9 indicators · 6 charts · 1 scrollbar · capability IDs from 01-kepesseg-scope.md §6'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

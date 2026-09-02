@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:940px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 06 / 30 · QUESTION PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Change stream</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The scope document says this will be the most opened pane in the product, and it is right: when something breaks the first question is not <span style="color:var(--ks-ink)">what is the state</span> but <span style="color:var(--ks-ink)">what changed</span>. Deploys, image swaps, ConfigMap edits, scaling, RBAC — in order, with who did it, and never grouped.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="change stream · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>from our own store · 7 days kept · 41 MB</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">●</span>prod-eu-west<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Changes</span>
+        <span style="color:var(--ks-ink-3)">ns</span><span style="color:var(--ks-ink-2)">all<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">window</span><span style="color:var(--ks-ink-2)">last 3h<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ink-2);padding:1px 6px;border:1px solid var(--ks-line)">by anyone ▾</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">31 changes</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- the correlation strip: changes against the symptom -->
+      <div style="padding:11px 12px 9px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:center;gap:12px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+          <span style="color:var(--ks-ink-2)">changes against the symptom</span>
+          <span style="color:var(--ks-ink-3)">memory of checkout-api · 3h</span>
+          <div style="flex:1"></div>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:2px;background:var(--ks-info)"></span>memory</span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:2px;height:8px;background:var(--ks-info)"></span>change</span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:2px;height:8px;background:var(--ks-bad)"></span>OOMKill</span>
+          <span style="color:var(--ks-ink-2)">drag to zoom · every pane follows</span>
+        </div>
+        <div style="position:relative;height:96px;background:var(--ks-panel);border:1px solid var(--ks-line-soft)">
+          <svg width="100%" height="96" viewBox="0 0 1500 96" preserveAspectRatio="none" style="display:block">
+            <line x1="0" y1="24" x2="1500" y2="24" stroke="#1a2028" stroke-width="1"></line>
+            <line x1="0" y1="48" x2="1500" y2="48" stroke="#1a2028" stroke-width="1"></line>
+            <line x1="0" y1="72" x2="1500" y2="72" stroke="#1a2028" stroke-width="1"></line>
+            <line x1="0" y1="{{ limitY }}" x2="1500" y2="{{ limitY }}" stroke="#ff5f5f" stroke-width="1" stroke-dasharray="4 3"></line>
+            <polygon points="{{ memArea }}" fill="rgba(74,168,255,.14)"></polygon>
+            <polyline points="{{ memLine }}" fill="none" stroke="#4aa8ff" stroke-width="1.6" stroke-linejoin="round"></polyline>
+            <sc-for list="{{ marks }}" as="m" hint-placeholder-count="8">
+              <line x1="{{ m.x }}" y1="0" x2="{{ m.x }}" y2="96" stroke="{{ m.tone }}" stroke-width="1"></line>
+              <rect x="{{ m.bx }}" y="{{ m.by }}" width="8" height="8" fill="{{ m.tone }}"></rect>
+            </sc-for>
+          </svg>
+          <div style="position:absolute;left:0;right:0;bottom:2px;display:flex;justify-content:space-between;padding:0 6px;font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);pointer-events:none">
+            <span>11:22</span><span>12:22</span><span>13:22</span><span>14:22 now</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;padding:7px 9px;background:rgba(255,95,95,.08);border-left:2px solid var(--ks-bad)">
+          <span style="font-size:9px;color:var(--ks-bad)">▲</span>
+          <span style="font-size:12.5px;line-height:1.45;color:#ffd7d7;text-wrap:pretty">Memory started climbing at <span style="font-family:var(--ks-mono)">14:02</span>, eight minutes after <span style="font-family:var(--ks-mono);color:var(--ks-ink)">checkout-config · TIMEOUT_MS 2000 → 500</span>. Nothing else changed in between.</span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-info);flex:none">show the diff ▸</span>
+          <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-warn);flex:none">revert it ▸</span>
+        </div>
+      </div>
+
+      <div style="height:20px;display:grid;grid-template-columns:66px 96px 128px 1fr 172px 96px;align-items:center;padding:0 10px;gap:11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div style="color:var(--ks-ink-2)">WHEN ↓</div><div>KIND</div><div>OBJECT</div><div>WHAT CHANGED</div><div>BY</div><div style="text-align:right">SOURCE</div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;overflow-x:hidden">
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="31">
+          <div style="min-height:26px;display:grid;grid-template-columns:66px 96px 128px 1fr 172px 96px;align-items:center;padding:4px 10px;gap:11px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:12px">
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.timeInk }}">{{ r.t }}</div>
+            <div style="display:flex;align-items:center;gap:7px">
+              <span style="width:2px;height:12px;background:{{ r.tone }}"></span>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.kindInk }}">{{ r.kind }}</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.objInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.obj }}</div>
+            <div style="display:flex;align-items:baseline;gap:8px;overflow:hidden">
+              <span style="color:{{ r.whatInk }};line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.what }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.deltaInk }};flex:none">{{ r.delta }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;overflow:hidden">
+              <span style="font-size:8px;color:{{ r.byTone }}">{{ r.byGlyph }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.by }}</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);text-align:right">{{ r.source }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 10px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-ink-2)">selected</span>
+        <span style="color:var(--ks-ink);font-weight:600">ConfigMap · checkout-config · TIMEOUT_MS 2000 → 500</span>
+        <div style="flex:1"></div>
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="5">
+          <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">Fleet-wide, one object, one author, and the narrow case</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:274px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="11">
+                <div style="min-height:23px;display:grid;grid-template-columns:{{ v.cols }};align-items:baseline;padding:3px 8px;gap:8px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;color:{{ c.ink }};font-weight:{{ c.weight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }}">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">DETAIL</div>
+      <div style="font-size:18px;font-weight:600">An expanded change — and the vocabulary of change kinds</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <div style="padding:6px 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">14:02:11 · CONFIGMAP · CHECKOUT-CONFIG · EXPANDED</div>
+        <div style="padding:11px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;flex-direction:column;gap:3px;font-family:var(--ks-mono);font-size:11.5px">
+            <sc-for list="{{ diff }}" as="d" hint-placeholder-count="7">
+              <div style="display:flex;align-items:baseline;gap:9px;padding:2px 7px;background:{{ d.bg }}">
+                <span style="color:{{ d.signInk }};width:9px;flex:none">{{ d.sign }}</span>
+                <span style="color:{{ d.ink }};overflow-wrap:anywhere">{{ d.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-for list="{{ diffFields }}" as="f" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:112px 1fr;gap:11px;font-family:var(--ks-mono);font-size:11px;padding:2px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="color:var(--ks-ink-3)">{{ f.k }}</span>
+              <span style="color:{{ f.ink }};overflow-wrap:anywhere">{{ f.v }}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:8px;font-family:var(--ks-mono);font-size:11px">
+            <span style="padding:5px 10px;border:1px solid var(--ks-line);color:var(--ks-ink)">who mounts this ▸</span>
+            <span style="padding:5px 10px;border:1px solid var(--ks-line);color:var(--ks-ink)">the same key on 7 clusters ▸</span>
+            <span style="padding:5px 10px;border:1px solid #5a4520;color:var(--ks-warn)">revert to 2000 ▸</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+          <div style="padding:6px 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">THE CHANGE KINDS — EACH WITH ONE COLOUR AND ONE SENTENCE SHAPE</div>
+          <div style="padding:10px 11px;display:flex;flex-direction:column;gap:0">
+            <sc-for list="{{ kinds }}" as="k" hint-placeholder-count="9">
+              <div style="display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:baseline;padding:5px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;gap:7px">
+                  <span style="width:2px;height:11px;background:{{ k.tone }}"></span>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ k.tone }}">{{ k.k }}</span>
+                </div>
+                <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ k.t }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <sc-for list="{{ notes }}" as="n" hint-placeholder-count="2">
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ n.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:{{ n.tone }}">{{ n.k }}</div>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', SANS = "'IBM Plex Sans',sans-serif";
+// one colour per change kind, used everywhere the kind appears
+const KIND = {
+  deploy: INFO, image: INFO, config: '#8ac6ff', scale: WARN, rbac: '#e08adf',
+  node: IDLE, quota: WARN, secret: '#e08adf', route: '#5ad2c4', helm: OK, kubescope: '#9ad04a'
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    // memory curve for the correlation strip
+    let s = 20260902;
+    const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const W = 1500, H = 96, MAX = 620;
+    const vals = [];
+    for (let i = 0; i < 108; i++) {
+      // flat until the config change at index ~72, then climbing to the limit
+      const base = i < 72 ? 210 + rnd() * 40 : 240 + (i - 72) * 8.4 + rnd() * 30;
+      vals.push(Math.min(560, base));
+    }
+    const pts = vals.map((v, i) => ((i * W) / (vals.length - 1)).toFixed(1) + ',' + (H - 6 - (v / MAX) * (H - 12)).toFixed(1)).join(' ');
+    const marks = [
+      [0.14, INFO], [0.31, KIND.config], [0.46, WARN], [0.62, INFO], [0.667, KIND.config], [0.79, BAD], [0.88, BAD], [0.95, WARN]
+    ].map(m => ({ x: (m[0] * W).toFixed(0), bx: (m[0] * W - 4).toFixed(0), by: '3', tone: m[1] }));
+
+    // [time, kind, object, what changed, delta, by, byKind, source, weight]
+    const raw = [
+      ['14:22', 'scale', 'checkout-api', 'replicas', '6 → 8', 'hpa/checkout-api', 'system', 'watch', 0],
+      ['14:20', 'kubescope', 'kafka-2', 'pod deleted', 'by you', 'you · workstation', 'you', 'audit', 1],
+      ['14:16', 'image', 'otel-collector', 'image', '0.104 → 0.106', 'argocd · platform', 'bot', 'watch', 0],
+      ['14:12', 'config', 'checkout-config', 'key MAX_RETRIES', '3 → 5', 'ci-bot · pipeline 8812', 'bot', 'watch', 0],
+      ['14:09', 'rbac', 'payments-deployer', 'subject added', 'svc/ci-bot', 'admin@corp', 'human', 'watch', 1],
+      ['14:04', 'deploy', 'checkout-api', 'image', '2026.8.2 → 2026.8.3', 'argocd · payments', 'bot', 'watch', 1],
+      ['14:02', 'config', 'checkout-config', 'key TIMEOUT_MS', '2000 → 500', 'ci-bot · pipeline 8809', 'bot', 'watch', 2],
+      ['13:58', 'node', 'ip-10-0-4-8', 'condition Ready', 'true → false', 'kubelet', 'system', 'watch', 1],
+      ['13:54', 'helm', 'observability', 'chart', '41.2.0 → 41.4.1', 'flux · infra', 'bot', 'secret', 0],
+      ['13:47', 'config', 'envoy-config', 'key retry_budget', '0.9 → 0.8', 'ci-bot · pipeline 8804', 'bot', 'watch', 0],
+      ['13:41', 'scale', 'ledger-worker', 'replicas', '3 → 4', 'you · workstation', 'you', 'audit', 0],
+      ['13:38', 'deploy', 'checkout-api', 'probe timeout', '1s → 2s', 'argocd · payments', 'bot', 'watch', 0],
+      ['13:31', 'quota', 'payments', 'memory limit', '48Gi → 64Gi', 'admin@corp', 'human', 'watch', 0],
+      ['13:22', 'secret', 'api-tls', 'certificate rotated', 'expires in 11d', 'cert-manager', 'system', 'watch', 1],
+      ['13:14', 'route', 'checkout', 'backend weight', '90/10 → 50/50', 'admin@corp', 'human', 'watch', 0],
+      ['13:02', 'image', 'loki-ingester', 'image', '2.9.6 → 3.0.1', 'flux · infra', 'bot', 'watch', 0],
+      ['12:54', 'node', 'ip-10-0-2-44', 'taint added', 'maintenance:NoSchedule', 'you · workstation', 'you', 'audit', 0],
+      ['12:47', 'config', 'grafana-datasources', 'key prometheus_url', 'changed', 'flux · infra', 'bot', 'watch', 0],
+      ['12:41', 'rbac', 'viewer', 'rule added', 'get secrets', 'admin@corp', 'human', 'watch', 2],
+      ['12:33', 'scale', 'otel-collector', 'replicas', '3 → 2', 'hpa/otel', 'system', 'watch', 0],
+      ['12:22', 'deploy', 'fraud-scorer', 'image', '1.11.0 → 1.12.0', 'argocd · payments', 'bot', 'watch', 0],
+      ['12:11', 'config', 'ledger-config', 'key POOL_SIZE', '32 → 32', 'ci-bot · pipeline 8791', 'bot', 'watch', 0],
+      ['12:02', 'helm', 'cert-manager', 'values', 'dns01 solver', 'flux · infra', 'bot', 'secret', 0],
+      ['11:54', 'node', 'ip-10-0-3-91', 'joined the cluster', 'v1.29.4', 'cluster-autoscaler', 'system', 'watch', 0],
+      ['11:47', 'image', 'argocd-repo-server', 'image', '2.11.2 → 2.11.3', 'flux · infra', 'bot', 'watch', 0],
+      ['11:38', 'quota', 'observability', 'cpu limit', '24 → 32', 'admin@corp', 'human', 'watch', 0],
+      ['11:31', 'config', 'checkout-config', 'key FEATURE_PAYOUTS', 'off → on', 'ci-bot · pipeline 8782', 'bot', 'watch', 1],
+      ['11:22', 'deploy', 'payout-batcher', 'command args', 'changed', 'argocd · payments', 'bot', 'watch', 0],
+      ['11:14', 'route', 'admin', 'tls mode', 'edge → reencrypt', 'admin@corp', 'human', 'watch', 0],
+      ['11:02', 'scale', 'redis-cache', 'replicas', '2 → 2', 'hpa/redis', 'system', 'watch', 0],
+      ['10:54', 'secret', 'registry-pull', 'rotated', 'by policy', 'external-secrets', 'system', 'watch', 0]
+    ];
+    const byMark = { you: ['\u25c9', OK], human: ['\u25cf', WARN], bot: ['\u25a0', INFO], system: ['\u25cb', IDLE] };
+    const rows = raw.map((r, i) => {
+      const tone = KIND[r[1]];
+      const hot = r[8] === 2;
+      const notable = r[8] === 1;
+      const bm = byMark[r[6]];
+      return {
+        t: r[0], kind: r[1], obj: r[2], what: r[3], delta: r[4], by: r[5], source: r[7], tone,
+        timeInk: hot ? INK : INK3,
+        kindInk: tone,
+        objInk: hot || notable ? INK : '#c8d1dd',
+        whatInk: hot ? INK : INK2,
+        deltaInk: hot ? '#ffd7d7' : notable ? INK : INK3,
+        byGlyph: bm[0], byTone: bm[1],
+        bg: hot ? 'rgba(255,95,95,.10)' : notable ? 'rgba(74,168,255,.05)' : (i % 2 ? 'transparent' : 'rgba(255,255,255,.012)')
+      };
+    });
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3 }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+
+    return {
+      facts: [
+        { k: 'CHANGES · 3H', v: '31', tone: INK },
+        { k: 'BY A HUMAN', v: '7', tone: WARN },
+        { k: 'RETENTION', v: '7 days', tone: OK },
+        { k: 'PRIMARY ELEMENT', v: 'the correlation line', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      memLine: pts,
+      memArea: '0,' + H + ' ' + pts + ' ' + W + ',' + H,
+      limitY: (H - 6 - (512 / MAX) * (H - 12)).toFixed(1),
+      marks, rows,
+      actions: [
+        { key: '\u21b5', label: 'expand the diff', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'O', label: 'the object', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'X', label: 'this key on 7 clusters', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'T', label: 'go there in time', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'R', label: 'revert…', ink: WARN, line: '#4a3a12', keyInk: WARN }
+      ],
+      variants: [
+        {
+          title: 'Fleet-wide', cap: 'TIME-07 · XC-01', edge: WARN, scope: '8 clusters · 3h', scopeTone: WARN, state: '◐ 6 of 8', stateTone: WARN,
+          cols: '46px 60px 1fr',
+          rows: [
+            vr([c('14:22', { ink: INK3 }), c('eu-west', { ink: INFO }), c('hpa scaled checkout-api 6→8', { ink: INK2 })]),
+            vr([c('14:12', { ink: INK3 }), c('eu-west', { ink: INFO }), c('TIMEOUT_MS 2000→500', { ink: INK, weight: '600' })], 'rgba(74,168,255,.06)'),
+            vr([c('14:11', { ink: INK3 }), c('us-east', { ink: PURPLE }), c('TIMEOUT_MS 2000→500', { ink: INK, weight: '600' })], 'rgba(74,168,255,.06)'),
+            vr([c('14:11', { ink: INK3 }), c('ap-south', { ink: WARN }), c('TIMEOUT_MS 2000→500', { ink: INK, weight: '600' })], 'rgba(74,168,255,.06)'),
+            vr([c('14:04', { ink: INK3 }), c('eu-west', { ink: INFO }), c('image 2026.8.2→2026.8.3', { ink: INK2 })]),
+            vr([c('14:04', { ink: INK3 }), c('us-east', { ink: PURPLE }), c('image 2026.8.2→2026.8.3', { ink: INK2 })]),
+            vr([c('13:58', { ink: INK3 }), c('ap-south', { ink: WARN }), c('node ip-10-0-4-8 NotReady', { ink: '#f3d08a' })]),
+            vr([c('13:54', { ink: INK3 }), c('staging-eu', { ink: OK }), c('helm observability 41.4.1', { ink: INK2 })]),
+            vr([c('13:41', { ink: INK3 }), c('eu-west', { ink: INFO }), c('you scaled ledger-worker 3→4', { ink: INK2 })]),
+            vr([c('—', { ink: '#8a5f62' }), c('edge-01', { ink: '#8a5f62' }), c('no answer — its changes are unknown', { ink: '#8a5f62' })], 'rgba(255,95,95,.08)')
+          ],
+          note: 'The same config key changed on three clusters within a minute — that is a pipeline, not an accident. One rollout arriving everywhere looks completely different from one person editing one cluster, and this is where you can tell them apart.'
+        },
+        {
+          title: 'One object’s history', cap: 'TIME-03 · TIME-09', edge: INFO, scope: 'pinned · checkout-api', scopeTone: INFO, state: '● 9 changes', stateTone: OK,
+          cols: '52px 1fr 52px',
+          rows: [
+            vr([c('14:22', { ink: INK3 }), c('replicas 6 → 8', { ink: INK2 }), c('hpa', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('14:04', { ink: INK3 }), c('image 2026.8.2 → 2026.8.3', { ink: INK, weight: '600' }), c('argocd', { justify: 'flex-end', ink: INK3 })], 'rgba(74,168,255,.06)'),
+            vr([c('13:38', { ink: INK3 }), c('probe timeout 1s → 2s', { ink: INK2 }), c('argocd', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('11:22', { ink: INK3 }), c('replicas 4 → 6', { ink: INK2 }), c('hpa', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('yest', { ink: INK3 }), c('memory limit 384Mi → 512Mi', { ink: INK, weight: '600' }), c('you', { justify: 'flex-end', ink: OK })], 'rgba(74,168,255,.06)'),
+            vr([c('yest', { ink: INK3 }), c('image 2026.8.1 → 2026.8.2', { ink: INK2 }), c('argocd', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('2d', { ink: INK3 }), c('cpu request 100m → 200m', { ink: INK2 }), c('you', { justify: 'flex-end', ink: OK })]),
+            vr([c('3d', { ink: INK3 }), c('env FEATURE_PAYOUTS off → on', { ink: INK2 }), c('ci-bot', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('5d', { ink: INK3 }), c('created', { ink: INK3 }), c('argocd', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('diff against yesterday ▸', { ink: INFO }), c('', {})])
+          ],
+          note: 'Opened from a row, so the object column goes and the whole pane is one thing’s life. The last line is TIME-09: pick any point and diff the present against it — the question is always “what changed since it was fine”.'
+        },
+        {
+          title: 'Filtered to humans', cap: 'SEC-06 · TIME-07', edge: '#e08adf', scope: 'by a person · 24h', scopeTone: '#e08adf', state: '● 11 changes', stateTone: OK,
+          cols: '46px 66px 1fr',
+          rows: [
+            vr([c('14:20', { ink: INK3 }), c('you', { ink: OK, glyph: '\u25c9', gtone: OK }), c('deleted pod kafka-2', { ink: INK, weight: '600' })], 'rgba(62,207,142,.05)'),
+            vr([c('14:09', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('rolebinding + svc/ci-bot', { ink: '#f3d08a', weight: '600' })], 'rgba(224,138,223,.07)'),
+            vr([c('13:41', { ink: INK3 }), c('you', { ink: OK, glyph: '\u25c9', gtone: OK }), c('scaled ledger-worker 3→4', { ink: INK2 })]),
+            vr([c('13:31', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('quota payments 48→64Gi', { ink: INK2 })]),
+            vr([c('13:14', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('route weights 90/10 → 50/50', { ink: INK2 })]),
+            vr([c('12:54', { ink: INK3 }), c('you', { ink: OK, glyph: '\u25c9', gtone: OK }), c('tainted ip-10-0-2-44', { ink: INK2 })]),
+            vr([c('12:41', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('role viewer + get secrets', { ink: '#ffd7d7', weight: '600' })], 'rgba(255,95,95,.09)'),
+            vr([c('09:12', { ink: INK3 }), c('you', { ink: OK, glyph: '\u25c9', gtone: OK }), c('paused the analytics watch', { ink: INK2 })]),
+            vr([c('08:41', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('cordoned ip-10-0-2-44', { ink: INK2 })]),
+            vr([c('yest', { ink: INK3 }), c('you', { ink: OK, glyph: '\u25c9', gtone: OK }), c('memory limit 384→512Mi', { ink: INK2 })]),
+            vr([c('yest', { ink: INK3 }), c('admin', { ink: WARN, glyph: '\u25cf', gtone: WARN }), c('deleted ns payments-old', { ink: '#ffd7d7', weight: '600' })], 'rgba(255,95,95,.09)')
+          ],
+          note: 'Four author kinds, four glyphs: you, another person, a bot, the system. Filtering to “a person” is the fastest way to explain a Friday afternoon — and our own writes appear here too, from the audit log rather than the watch.'
+        },
+        {
+          title: 'Narrow — 300px', cap: 'TIME-07', edge: INFO, scope: 'prod-eu-west', scopeTone: INFO, state: '● live', stateTone: OK,
+          cols: '44px 1fr',
+          rows: [
+            vr([c('14:22', { ink: INK3 }), c('scale · checkout-api 6→8', { ink: INK2 })]),
+            vr([c('14:20', { ink: INK3 }), c('you · deleted kafka-2', { ink: INK })], 'rgba(62,207,142,.05)'),
+            vr([c('14:16', { ink: INK3 }), c('image · otel 0.104→0.106', { ink: INK2 })]),
+            vr([c('14:12', { ink: INK3 }), c('config · MAX_RETRIES 3→5', { ink: INK2 })]),
+            vr([c('14:09', { ink: INK3 }), c('rbac · payments-deployer', { ink: '#f3d08a' })], 'rgba(224,138,223,.07)'),
+            vr([c('14:04', { ink: INK3 }), c('deploy · api 2026.8.3', { ink: INK, weight: '600' })], 'rgba(74,168,255,.06)'),
+            vr([c('14:02', { ink: INK3 }), c('config · TIMEOUT_MS 2000→500', { ink: '#ffd7d7', weight: '600' })], 'rgba(255,95,95,.10)'),
+            vr([c('13:58', { ink: INK3 }), c('node · ip-10-0-4-8 NotReady', { ink: '#f3d08a' })]),
+            vr([c('13:54', { ink: INK3 }), c('helm · observability 41.4.1', { ink: INK2 })]),
+            vr([c('13:47', { ink: INK3 }), c('config · retry_budget 0.9→0.8', { ink: INK2 })])
+          ],
+          note: 'At 300px the row becomes “kind · object · delta” on one line and the correlation strip collapses to nothing. The kind keeps its colour bar, which is enough to scan by even when the words are cut.'
+        }
+      ],
+      diff: [
+        { sign: '', t: 'data:', ink: INK, signInk: INK3, bg: 'transparent' },
+        { sign: '-', t: '  TIMEOUT_MS: "2000"', ink: '#ffb3b3', signInk: BAD, bg: 'rgba(255,95,95,.10)' },
+        { sign: '+', t: '  TIMEOUT_MS: "500"', ink: '#a8e6c8', signInk: OK, bg: 'rgba(62,207,142,.08)' },
+        { sign: '', t: '  MAX_RETRIES: "3"', ink: INK2, signInk: INK3, bg: 'transparent' },
+        { sign: '', t: '  POOL_SIZE: "32"', ink: INK2, signInk: INK3, bg: 'transparent' },
+        { sign: '', t: '  FEATURE_PAYOUTS: "on"', ink: INK2, signInk: INK3, bg: 'transparent' }
+      ],
+      diffFields: [
+        { k: 'at', v: '14:02:11 · 20 minutes ago', ink: INK2 },
+        { k: 'by', v: 'ci-bot · pipeline 8809 · commit 4bd91c8', ink: INK2 },
+        { k: 'mounted by', v: '8 pods of deploy/checkout-api — as env, not as a file', ink: '#f3d08a' },
+        { k: 'took effect', v: 'immediately for new requests; no restart was triggered', ink: '#f3d08a' },
+        { k: 'elsewhere', v: 'the same key changed on prod-us-east and prod-ap-south at 14:11', ink: INK2 }
+      ],
+      kinds: [
+        { k: 'deploy', tone: KIND.deploy, t: 'A workload’s spec changed: image, args, probes, resources. “image 2026.8.2 → 2026.8.3”.' },
+        { k: 'config', tone: KIND.config, t: 'A ConfigMap key. Always shown as key plus old → new, never as “updated”.' },
+        { k: 'secret', tone: KIND.secret, t: 'A Secret changed. Key names and the fact of the change; never the values.' },
+        { k: 'scale', tone: KIND.scale, t: 'Replica count. An HPA change and a human change look different by their author glyph, not their colour.' },
+        { k: 'rbac', tone: KIND.rbac, t: 'A role, a rule or a subject. Its own colour because it is the change class nobody notices in time.' },
+        { k: 'node', tone: KIND.node, t: 'A node joined, left, was tainted, or changed condition. Grey: it is usually context, not cause.' },
+        { k: 'quota', tone: KIND.quota, t: 'ResourceQuota and LimitRange. An exhausted quota surfaces as Pending pods somewhere else.' },
+        { k: 'route', tone: KIND.route, t: 'Ingress or Route: host, TLS mode, backend weights. Canary shifts live here.' },
+        { k: 'helm', tone: KIND.helm, t: 'A release revision — read from the release Secret, so no helm binary is involved.' },
+        { k: 'kubescope', tone: KIND.kubescope, t: 'A write we made ourselves, from the audit log. Our own actions are never invisible in this list.' }
+      ],
+      notes: [
+        { tone: INFO, k: 'WHY IT IS NEVER GROUPED', t: 'Events collapse; changes do not. Two identical ConfigMap edits ten minutes apart are two separate facts, and the interval between them is often the answer. Ordering is strict, newest first, and the row is never reordered by a live update.' },
+        { tone: WARN, k: 'WHAT COUNTS AS A CHANGE', t: 'A spec write, by anyone. Status updates, heartbeats and resourceVersion churn are not changes and never appear — otherwise the pane would be a watch feed, which is exactly what it must not be.' }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The correlation line under the chart: one sentence naming the change, the symptom and the eight minutes between them. Every other pane makes you infer that; this one writes it down. Without it the chart is decoration and the list is a log.' },
+        { tone: INFO, k: 'DENSITY', t: '26px rows because the delta needs room beside the object — about 24 changes at 1000px with the correlation strip open, 31 with it collapsed. Alternating row tints, which no other pane uses, because there is no status colour here to carry the eye across.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'It is only as good as our retention: seven days by default, and nothing before we were installed. And it cannot see writes made with a service account we never watch — a change made in a namespace outside our scope is simply absent, which is why the header always states the scope and the window.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

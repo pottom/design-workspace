@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-over:#161a21;--ks-over-line:#2c3542;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · LAYERS 1 AND 4 · BRIEF §2.4 · APP-01 · APP-08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The palette, and the help</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Two layers, one question asked twice: <span style="color:var(--ks-ink)">what can I do here?</span> The palette is where you do it, the help is where you read it — so they are built from the same registry, in the same order, and neither is a static list.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- the organising principle -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE QUESTION</div>
+      <div style="font-size:19px;font-weight:600">Verbs, nouns, or both — the brief’s question, answered</div>
+    </div>
+    <div style="display:grid;grid-template-columns:520px 1fr;gap:16px;align-items:stretch">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-info);padding:17px 19px;display:flex;flex-direction:column;gap:11px">
+        <div style="font-size:17px;font-weight:600;line-height:1.4;text-wrap:pretty">Both — but neither one is the ordering. The list is ordered by <span style="color:var(--ks-info)">distance from what you are looking at</span>.</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">A palette sorted by verb makes you know the word we chose. Sorted by noun it makes you know where the thing lives. Neither is knowable on day one, and with more than a hundred capabilities both lists are too long to scan.</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">So matching is on both — type <span style="font-family:var(--ks-mono);color:var(--ks-ink)">log</span> and you get the verb, type <span style="font-family:var(--ks-mono);color:var(--ks-ink)">checkout</span> and you get the object — and the <span style="color:var(--ks-ink)">order</span> is five rings outward from the cursor. The thing under your cursor first, the app in general last.</div>
+        <div style="margin-top:2px;padding:10px 12px;background:var(--ks-field);border-left:2px solid var(--ks-info);font-family:var(--ks-mono);font-size:11px;line-height:1.6;color:#8ac6ff">this selection → this pane → this cluster → the fleet → the app</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+        <sc-for list="{{ rings }}" as="r" hint-placeholder-count="5">
+          <div style="background:var(--ks-panel);padding:14px 13px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;gap:7px">
+              <span style="width:16px;height:16px;border:1px solid {{ r.tone }};background:{{ r.dotBg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:9px;color:{{ r.tone }};flex:none">{{ r.n }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:{{ r.tone }}">{{ r.label }}</span>
+            </div>
+            <div style="font-size:12px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+            <div style="flex:1"></div>
+            <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);line-height:1.5">{{ r.ex }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- the palette in the frame, before you type -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">LAYER 1</div>
+      <div style="font-size:19px;font-weight:600">The palette, before you have typed anything</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">the state that decides whether anyone learns the app</div>
+    </div>
+
+    <div data-screen-label="palette · empty state" style="position:relative;width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+      <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line);opacity:.5">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+        <div style="display:flex;align-items:stretch">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+              <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+          <span style="padding:3px 7px;border:1px solid var(--ks-info);color:var(--ks-info);background:rgba(74,168,255,.10)">⌘K</span>
+        </div>
+      </div>
+      <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px;opacity:.5">
+        <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+          <div style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+            <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;opacity:.42">
+        <sc-for list="{{ ghostPanes }}" as="g" hint-placeholder-count="4">
+          <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0;border-left:2px solid {{ g.edge }}">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+              <span style="color:{{ g.edge }};font-weight:600">{{ g.cluster }}</span><span style="color:var(--ks-ink-2)">{{ g.kind }}</span><div style="flex:1"></div><span>{{ g.meta }}</span>
+            </div>
+            <div style="flex:1;min-height:0;padding:5px 0;overflow:hidden">
+              <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="12">
+                <div style="height:20px;display:flex;align-items:center;gap:8px;padding:0 9px;background:{{ r.bg }}">
+                  <span style="width:5px;height:5px;background:{{ r.dot }};flex:none"></span>
+                  <span style="height:4px;width:{{ r.w }};background:#232b36"></span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="position:absolute;inset:0;background:rgba(6,7,10,.62)"></div>
+
+      <div style="position:absolute;left:50%;top:96px;transform:translateX(-50%);width:840px;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:0 34px 90px rgba(0,0,0,.75);display:flex;flex-direction:column;overflow:hidden">
+        <div style="display:flex;align-items:center;gap:12px;height:48px;padding:0 16px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+          <span style="font-family:var(--ks-mono);font-size:15px;color:var(--ks-info)">⌘K</span>
+          <span style="font-size:16px;color:var(--ks-ink-3)">Type a verb, a name, or a question</span>
+          <span style="font-family:var(--ks-mono);font-size:16px;color:var(--ks-info)">▏</span>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:6px">
+            <sc-for list="{{ prefixes }}" as="p" hint-placeholder-count="5">
+              <span title="{{ p.title }}" style="display:flex;align-items:center;gap:5px;padding:3px 7px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)"><span style="color:{{ p.tone }};font-weight:600">{{ p.k }}</span>{{ p.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:9px;padding:7px 16px;background:rgba(74,168,255,.07);border-bottom:1px solid var(--ks-line)">
+          <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">IN CONTEXT</span>
+          <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-info)">● prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink)">pod checkout-api-7f9c8d4b6-k8n1p</span>
+          <span style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-bad)"><span style="font-size:8px">▲</span>CrashLoop</span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">everything below acts on this unless it says otherwise</span>
+        </div>
+
+        <div style="max-height:520px;overflow-y:auto" data-scroll="dense">
+          <sc-for list="{{ emptyGroups }}" as="g" hint-placeholder-count="4">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;padding:9px 16px 5px;box-shadow:{{ g.sep }}">
+                <span style="width:14px;height:14px;border:1px solid {{ g.tone }};background:{{ g.dotBg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:8px;color:{{ g.tone }};flex:none">{{ g.n }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:{{ g.tone }}">{{ g.label }}</span>
+                <span style="font-size:11px;color:var(--ks-ink-3)">{{ g.note }}</span>
+              </div>
+              <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="4">
+                <div style="height:30px;display:flex;align-items:center;gap:12px;padding:0 16px;background:{{ i.bg }};box-shadow:{{ i.ring }}">
+                  <span style="width:11px;font-size:9px;color:{{ i.glyphTone }};flex:none">{{ i.glyph }}</span>
+                  <span style="font-size:13.5px;color:{{ i.ink }};font-weight:{{ i.weight }};flex:none">{{ i.label }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.target }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-size:11px;color:var(--ks-ink-3);flex:none">{{ i.opens }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ i.keyInk }};padding:2px 7px;border:1px solid {{ i.keyLine }};flex:none">{{ i.key }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;height:30px;padding:0 16px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+          <span>↑↓ move</span><span>⏎ run</span><span>⇧⏎ in a new pane</span><span>⌥⏎ on every cluster</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">128 capabilities · nothing destructive runs from here without its confirmation</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+      <sc-for list="{{ emptyNotes }}" as="n" hint-placeholder-count="3">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ n.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:12.5px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ n.h }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- typed states -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">TYPED</div>
+      <div style="font-size:19px;font-weight:600">Four things you might type, and what comes back</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;align-items:start">
+      <sc-for list="{{ typed }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-size:13.5px;font-weight:600">{{ t.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ t.cap }}</span>
+          </div>
+          <div style="background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:0 20px 46px rgba(0,0,0,.55);display:flex;flex-direction:column;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:10px;height:40px;padding:0 14px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+              <span style="font-family:var(--ks-mono);font-size:12px;color:{{ t.promptTone }}">{{ t.prompt }}</span>
+              <span style="font-family:var(--ks-mono);font-size:14px;color:var(--ks-ink)">{{ t.query }}</span>
+              <span style="font-family:var(--ks-mono);font-size:14px;color:var(--ks-info)">▏</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:{{ t.countTone }}">{{ t.count }}</span>
+            </div>
+            <div style="min-height:262px;display:flex;flex-direction:column">
+              <sc-for list="{{ t.groups }}" as="g" hint-placeholder-count="3">
+                <div>
+                  <div style="display:flex;align-items:center;gap:9px;padding:7px 14px 4px;box-shadow:{{ g.sep }}">
+                    <span style="width:12px;height:12px;border:1px solid {{ g.tone }};background:{{ g.dotBg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:7.5px;color:{{ g.tone }};flex:none">{{ g.n }}</span>
+                    <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:{{ g.tone }}">{{ g.label }}</span>
+                    <span style="font-size:10.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.note }}</span>
+                  </div>
+                  <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="3">
+                    <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 14px;background:{{ i.bg }};box-shadow:{{ i.ring }}">
+                      <span style="width:10px;font-size:8px;color:{{ i.glyphTone }};flex:none">{{ i.glyph }}</span>
+                      <span style="font-size:12px;color:{{ i.ink }};font-weight:{{ i.weight }};flex:none">{{ i.label }}</span>
+                      <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.target }}</span>
+                      <div style="flex:1"></div>
+                      <span style="font-family:var(--ks-mono);font-size:10px;color:{{ i.keyInk }};flex:none">{{ i.key }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+              <div style="flex:1"></div>
+              <sc-if value="{{ t.hasFoot }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:9px 14px;border-top:1px solid var(--ks-line);background:{{ t.footBg }};font-size:11.5px;line-height:1.5;color:{{ t.footInk }};text-wrap:pretty">{{ t.foot }}</div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">{{ t.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- help -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">LAYER 4</div>
+      <div style="font-size:19px;font-weight:600">The help — what you can do <span style="color:var(--ks-ok)">here and now</span></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">? · the same registry, read instead of run</div>
+    </div>
+
+    <div data-screen-label="help · contextual" style="position:relative;width:1600px;height:820px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+      <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line);opacity:.5">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+        <div style="display:flex;align-items:stretch">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+              <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1"></div>
+      </div>
+      <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px;opacity:.5">
+        <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+          <div style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+            <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;opacity:.4">
+        <sc-for list="{{ ghostPanes }}" as="g" hint-placeholder-count="4">
+          <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0;border-left:2px solid {{ g.edge }}">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+              <span style="color:{{ g.edge }};font-weight:600">{{ g.cluster }}</span><span>{{ g.kind }}</span>
+            </div>
+            <div style="flex:1;min-height:0;padding:5px 0;overflow:hidden">
+              <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="10">
+                <div style="height:20px;display:flex;align-items:center;gap:8px;padding:0 9px"><span style="width:5px;height:5px;background:{{ r.dot }}"></span><span style="height:4px;width:{{ r.w }};background:#232b36"></span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- the focused pane keeps its brightness: help is about it -->
+      <div style="position:absolute;left:47px;top:39px;width:calc(50% - 24px);height:calc(50% - 20px);border:1px solid var(--ks-info);box-shadow:0 0 0 1px rgba(74,168,255,.25);pointer-events:none"></div>
+      <div style="position:absolute;inset:0;background:rgba(6,7,10,.55)"></div>
+
+      <div style="position:absolute;left:50%;top:70px;transform:translateX(-50%);width:1120px;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:0 34px 90px rgba(0,0,0,.75);display:flex;flex-direction:column;overflow:hidden">
+        <div style="display:flex;align-items:flex-end;gap:16px;padding:14px 18px 13px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">HELP · WHAT YOU CAN DO HERE AND NOW</div>
+            <div style="display:flex;align-items:center;gap:11px">
+              <span style="font-size:17px;font-weight:600">Pod list</span>
+              <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-info)">● prod-eu-west · ns payments</span>
+              <span style="color:var(--ks-line)">│</span>
+              <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink-2)">1 row selected · CrashLoop</span>
+            </div>
+          </div>
+          <div style="flex:1"></div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="display:flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">/ search these</span>
+            <span style="display:flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">the whole map</span>
+            <span style="display:flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">Esc</span>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ks-line)">
+          <sc-for list="{{ helpCols }}" as="col" hint-placeholder-count="4">
+            <div style="background:var(--ks-over);display:flex;flex-direction:column">
+              <div style="display:flex;align-items:center;gap:9px;padding:9px 14px 7px;border-bottom:1px solid var(--ks-line-soft)">
+                <span style="width:12px;height:12px;border:1px solid {{ col.tone }};background:{{ col.dotBg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:7.5px;color:{{ col.tone }};flex:none">{{ col.n }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ col.tone }}">{{ col.label }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ col.count }}</span>
+              </div>
+              <div style="padding:5px 0">
+                <sc-for list="{{ col.rows }}" as="r" hint-placeholder-count="12">
+                  <div style="min-height:22px;display:flex;align-items:center;gap:10px;padding:2px 14px;background:{{ r.bg }}">
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.keyInk }};width:48px;flex:none;text-align:right">{{ r.key }}</span>
+                    <span style="font-size:11.5px;color:{{ r.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.label }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.metaInk }};flex:none">{{ r.meta }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:9px 18px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-size:11.5px;color:var(--ks-ink-2)">
+          <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">NOT HERE</span>
+          <span>Drain, cordon and the node actions — this pane holds pods. <span style="color:var(--ks-ink-3)">The help never lists a key that would do nothing.</span></span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">37 of 128 capabilities reachable from where you stand</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+
+const it = (label, o) => Object.assign({
+  label, glyph: '\u25cf', glyphTone: INFO, target: '', opens: '', key: '',
+  ink: '#c8d1dd', weight: '400', bg: 'transparent', ring: 'none',
+  keyInk: INK3, keyLine: LINE
+}, o || {});
+const sel = o => Object.assign({ bg: 'var(--ks-sel)', ring: 'inset 2px 0 0 #4aa8ff', ink: INK, weight: '600', keyInk: INK, keyLine: '#2c3542' }, o || {});
+
+class Component extends DCLogic {
+  renderVals() {
+    const railData = [['EW', INFO], ['UE', PURPLE], ['AS', WARN], ['SE', OK], ['SU', '#5ad2c4'],
+      ['DS', '#8a94a6'], ['E1', BAD], ['E2', '#ff8a5c'], ['CI', '#9ad04a'], ['AN', '#c9a227']];
+
+    const ghostRows = (n, seed) => Array.from({ length: n }, (_, i) => {
+      const bad = (i + seed) % 7 === 2, warn = (i + seed) % 5 === 1;
+      return { dot: bad ? BAD : warn ? WARN : 'rgba(62,207,142,.4)', w: (38 + ((i * 37 + seed * 11) % 46)) + '%', bg: bad ? 'rgba(255,95,95,.07)' : 'transparent' };
+    });
+
+    return {
+      facts: [
+        { k: 'CAPABILITIES', v: '128', tone: INK },
+        { k: 'ORDERING', v: '5 rings', tone: INFO },
+        { k: 'EMPTY STATE', v: 'never empty', tone: OK },
+        { k: 'HELP IS', v: 'contextual', tone: OK }
+      ],
+      rings: [
+        { n: '1', label: 'SELECTION', tone: BAD, dotBg: 'rgba(255,95,95,.14)', t: 'The row under the cursor. Its own action set, in the action map’s order.', ex: 'logs · shell · restart' },
+        { n: '2', label: 'THIS PANE', tone: WARN, dotBg: 'rgba(240,180,41,.14)', t: 'What this pane can be told: filter, sort, columns, split, change scope.', ex: 'add a column · split right' },
+        { n: '3', label: 'THIS CLUSTER', tone: INFO, dotBg: 'rgba(74,168,255,.14)', t: 'Anything scoped to prod-eu-west: other kinds, its nodes, its events.', ex: 'nodes · events · quotas' },
+        { n: '4', label: 'THE FLEET', tone: OK, dotBg: 'rgba(62,207,142,.14)', t: 'The same question of ten clusters, and the cross-cluster verbs.', ex: 'search everywhere · diff' },
+        { n: '5', label: 'THE APP', tone: IDLE, dotBg: 'rgba(107,118,132,.14)', t: 'Settings, layouts, help, kubeconfig. Real, and correctly last.', ex: 'settings · saved layouts' }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: railData.map(r => ({ code: r[0], ink: INK3, bg: 'transparent', bar: 'transparent' })),
+      ghostPanes: [
+        { cluster: 'prod-eu-west', kind: 'Pods', meta: '41', edge: INFO, rows: ghostRows(14, 0) },
+        { cluster: '2 clusters', kind: 'Logs', meta: '214/s', edge: PURPLE, rows: ghostRows(14, 3) },
+        { cluster: 'prod-ap-south', kind: 'Events', meta: '47s old', edge: WARN, rows: ghostRows(14, 5) },
+        { cluster: 'prod-us-east', kind: 'Shell', meta: 'attached', edge: PURPLE, rows: ghostRows(14, 2) }
+      ],
+      prefixes: [
+        { k: '>', label: 'do', tone: WARN, title: 'commands only' },
+        { k: '@', label: 'find', tone: INFO, title: 'objects only' },
+        { k: '#', label: 'setting', tone: IDLE, title: 'settings only' },
+        { k: '?', label: 'explain', tone: OK, title: 'ask the assistant' },
+        { k: ':', label: 'kind', tone: INFO, title: 'jump to a resource kind' }
+      ],
+      emptyGroups: [
+        {
+          n: '1', label: 'THIS POD', tone: BAD, dotBg: 'rgba(255,95,95,.14)', sep: 'none',
+          note: 'because it is selected, and because it is the thing that is broken',
+          items: [
+            sel(it('Why is it CrashLooping?', { glyph: '\u25b2', glyphTone: BAD, target: 'checkout-api-…-k8n1p', opens: 'diagnostics pane', key: '?' })),
+            it('Logs', { target: 'container api · 2 containers', opens: 'log pane', key: 'L' }),
+            it('Previous instance logs', { target: 'the run that was killed at 14:20', opens: 'log pane', key: '⇧L' }),
+            it('Requests / limits…', { glyph: '\u25c6', glyphTone: WARN, target: '511Mi used of a 512Mi limit', opens: 'editor', key: 'E' })
+          ]
+        },
+        {
+          n: '2', label: 'THIS PANE', tone: WARN, dotBg: 'rgba(240,180,41,.14)', sep: 'inset 0 1px 0 #242b35',
+          note: 'the pod list of prod-eu-west',
+          items: [
+            it('Show only what is not Running', { glyph: '\u25c6', glyphTone: WARN, target: 'filter · 6 of 41 rows', opens: 'this pane', key: '/' }),
+            it('Add the memory column', { target: 'from metrics', opens: 'this pane', key: '' }),
+            it('Split right with the logs', { target: 'same selection', opens: 'a new pane', key: '⇧⏎' })
+          ]
+        },
+        {
+          n: '3', label: 'WHERE YOU LEFT OFF', tone: INFO, dotBg: 'rgba(74,168,255,.14)', sep: 'inset 0 1px 0 #242b35',
+          note: 'your last five, most recent first — this is what makes the palette faster than the menu on day two',
+          items: [
+            it('Change stream', { target: 'prod-eu-west · last hour', opens: 'a pane', key: '' }),
+            it('Search the fleet for CrashLoopBackOff', { glyph: '\u25c8', glyphTone: OK, target: '10 clusters', opens: 'a pane', key: '' }),
+            it('Fleet', { target: 'all clusters', opens: 'a pane', key: '⌘1' })
+          ]
+        },
+        {
+          n: '5', label: 'AND EVERYTHING ELSE', tone: IDLE, dotBg: 'rgba(107,118,132,.14)', sep: 'inset 0 1px 0 #242b35',
+          note: 'one line, not a list — the palette is a search field, not a menu',
+          items: [
+            it('128 capabilities · start typing to find any of them', { glyph: '\u25cb', glyphTone: IDLE, target: '', opens: 'type a verb, a name or a question', key: '' })
+          ]
+        }
+      ],
+      emptyNotes: [
+        { tone: BAD, h: 'It is never empty, and never a menu of everything.', t: 'Opening it with no input shows what you would plausibly do to the thing you are looking at, then what this pane can be told, then your last five. A palette that opens blank teaches nothing; one that opens with 128 rows teaches nothing either.' },
+        { tone: WARN, h: 'The context line is a promise.', t: 'The strip under the field names the cluster and the selected object, and says everything below acts on this. Without it a palette is ambiguous in a tiling app — “restart” restarts what, exactly?' },
+        { tone: INFO, h: 'Recents are ring 3, not ring 1.', t: 'Frequency-ranked palettes drift towards whatever you did yesterday. Here recency is one group with a fixed position, so it can help without pushing the selected object’s own actions below the fold.' }
+      ],
+      typed: [
+        {
+          title: 'A verb — “rest”', cap: 'APP-01', prompt: '⌘K', promptTone: INFO, query: 'rest', count: '9 matches', countTone: INK2,
+          groups: [
+            {
+              n: '1', label: 'THIS POD', tone: BAD, dotBg: 'rgba(255,95,95,.14)', sep: 'none', note: '',
+              items: [
+                sel(it('Restart the rollout', { glyph: '\u25c6', glyphTone: WARN, target: 'deploy/checkout-api · 8 pods', key: 'R' })),
+                it('Restarts on the curve', { target: 'metrics · 47 markers', key: 'M' })
+              ]
+            },
+            {
+              n: '3', label: 'THIS CLUSTER', tone: INFO, dotBg: 'rgba(74,168,255,.14)', sep: 'inset 0 1px 0 #242b35', note: '',
+              items: [
+                it('Restart toplist', { target: 'diagnostics · 63 in 24h', key: '' }),
+                it('Sort this list by restarts', { target: 'pod list', key: '' })
+              ]
+            },
+            {
+              n: '4', label: 'THE FLEET', tone: OK, dotBg: 'rgba(62,207,142,.14)', sep: 'inset 0 1px 0 #242b35', note: '',
+              items: [
+                it('Restart this rollout on 3 clusters', { glyph: '\u25c8', glyphTone: WARN, target: 'one confirmation', key: '⌥⏎' }),
+                it('Restart toplist, fleet-wide', { glyph: '\u25c8', glyphTone: OK, target: '10 clusters', key: '' })
+              ]
+            }
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Two of these write. They are amber in the list and still go through their confirmation with its impact preview — the palette is a faster route to an action, never a quieter one.',
+          note: 'A verb matches across all five rings at once, and the ring is what disambiguates: “restart” means this pod here, and three clusters there.'
+        },
+        {
+          title: 'A name — “ledger”', cap: 'APP-01 · XC-01', prompt: '⌘K', promptTone: INFO, query: 'ledger', count: '14 across 6 clusters', countTone: WARN,
+          groups: [
+            {
+              n: '3', label: 'THIS CLUSTER', tone: INFO, dotBg: 'rgba(74,168,255,.14)', sep: 'none', note: 'prod-eu-west',
+              items: [
+                sel(it('deploy/ledger-worker', { glyph: '\u25c6', glyphTone: WARN, target: 'payments · 1 pod Pending', key: '⏎' })),
+                it('pod/ledger-worker-…-9plmz', { glyph: '\u25c6', glyphTone: WARN, target: 'Pending 22m', key: '' }),
+                it('svc/ledger', { target: '3 endpoints', key: '' }),
+                it('secret/ledger-wal', { target: '2 keys', key: '' })
+              ]
+            },
+            {
+              n: '4', label: 'THE FLEET', tone: OK, dotBg: 'rgba(62,207,142,.14)', sep: 'inset 0 1px 0 #242b35', note: '',
+              items: [
+                it('ledger-worker on 6 clusters', { glyph: '\u25c8', glyphTone: OK, target: 'merged list · 2 differ', key: '' }),
+                it('Merged logs from all 6', { glyph: '\u25c8', glyphTone: OK, target: 'one stream', key: '' }),
+                it('Diff eu-west against us-east', { glyph: '\u25c8', glyphTone: OK, target: 'field level', key: '' })
+              ]
+            }
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'No ring 1 group: nothing you selected is called “ledger”, so the palette starts at the cluster and does not pad the top with a heading over nothing.',
+          note: 'A noun brings back objects and the cross-cluster verbs that only make sense once a name exists. Empty rings are omitted, never shown empty.'
+        },
+        {
+          title: 'A question — “? why is it slow”', cap: 'ASK-04 · APP-01', prompt: '?', promptTone: OK, query: 'why is it slow', count: 'assistant', countTone: OK,
+          groups: [
+            {
+              n: '1', label: 'ASK ABOUT THE SELECTION', tone: OK, dotBg: 'rgba(62,207,142,.14)', sep: 'none', note: '',
+              items: [
+                sel(it('Ask about checkout-api-…-k8n1p', { glyph: '\u25c7', glyphTone: OK, target: 'opens the assistant with this context', key: '⏎' }))
+              ]
+            },
+            {
+              n: '2', label: 'OR ANSWER IT YOURSELF', tone: WARN, dotBg: 'rgba(240,180,41,.14)', sep: 'inset 0 1px 0 #242b35',
+              note: 'the panes that usually answer “slow”',
+              items: [
+                it('Metrics with events on the curve', { target: 'this pod · 30 min', key: 'M' }),
+                it('Resource monitor', { target: 'this namespace, sorted by cpu', key: '' }),
+                it('Change stream', { target: 'what changed in the last hour', key: '' }),
+                it('Apiserver latency', { target: 'this cluster · p95', key: '' })
+              ]
+            }
+          ],
+          hasFoot: true, footBg: 'rgba(62,207,142,.06)', footInk: '#a8e6c8',
+          foot: 'The assistant is one row, not the whole answer. A question always also offers the panes that answer it without a model — you should be able to ignore the assistant entirely and still be fast.',
+          note: 'The ? prefix routes to the assistant, but the palette keeps offering the deterministic route beside it. That ordering is a product position, not a layout accident.'
+        },
+        {
+          title: 'Nothing matched — “dashbord”', cap: 'APP-01', prompt: '⌘K', promptTone: INK3, query: 'dashbord', count: '0 matches', countTone: BAD,
+          groups: [
+            {
+              n: '0', label: 'NOT FOUND', tone: BAD, dotBg: 'rgba(255,95,95,.14)', sep: 'none',
+              note: 'nothing in the app is called that',
+              items: [
+                it('Did you mean: Fleet?', { glyph: '\u25c8', glyphTone: OK, target: 'the closest thing we have to a dashboard', key: '⏎' }),
+                it('Did you mean: Metrics browser?', { glyph: '\u25c8', glyphTone: OK, target: 'what metrics exist here', key: '' })
+              ]
+            },
+            {
+              n: '5', label: 'ELSEWHERE', tone: IDLE, dotBg: 'rgba(107,118,132,.14)', sep: 'inset 0 1px 0 #242b35', note: '',
+              items: [
+                it('Search the fleet for “dashbord”', { glyph: '\u25c8', glyphTone: IDLE, target: 'as an object name, 10 clusters', key: '' }),
+                it('Ask the assistant', { glyph: '\u25c7', glyphTone: OK, target: 'it may know what you meant', key: '' })
+              ]
+            }
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'Never a blank panel with “no results”. There are always three exits: a near match, a wider search, and a question.',
+          note: 'Fuzzy matching runs on our own vocabulary, so a typo lands somewhere. The dead end is the one state a palette must not have — it is the moment people stop using it.'
+        }
+      ],
+      helpCols: [
+        {
+          n: '1', label: 'THE SELECTED POD', tone: BAD, dotBg: 'rgba(255,95,95,.14)', count: '11 keys',
+          rows: [
+            { key: '⏎', label: 'Overview', ink: INK, keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'L', label: 'Logs', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⇧L', label: 'Previous instance logs', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'D', label: 'Describe', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'Y', label: 'YAML', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'E', label: 'Events', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'M', label: 'Metrics', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '?', label: 'Why is it CrashLooping?', ink: INK, keyInk: BAD, meta: 'now', metaInk: BAD, bg: 'rgba(255,95,95,.08)' },
+            { key: 'S', label: 'Shell', ink: '#f3d08a', keyInk: WARN, meta: 'write', metaInk: WARN, bg: 'transparent' },
+            { key: 'R', label: 'Restart the rollout', ink: '#f3d08a', keyInk: WARN, meta: 'write', metaInk: WARN, bg: 'transparent' },
+            { key: '⌫', label: 'Delete', ink: '#f0b5b0', keyInk: BAD, meta: 'destructive', metaInk: BAD, bg: 'transparent' }
+          ]
+        },
+        {
+          n: '2', label: 'THIS PANE', tone: WARN, dotBg: 'rgba(240,180,41,.14)', count: '12 keys',
+          rows: [
+            { key: '/', label: 'Filter as you type', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '!', label: 'Negate the filter', ink: '#c8d1dd', keyInk: INK, meta: 'in the field', metaInk: INK3, bg: 'transparent' },
+            { key: 'j k', label: 'Down, up', ink: '#c8d1dd', keyInk: INK, meta: 'vim', metaInk: INK3, bg: 'transparent' },
+            { key: '␣', label: 'Add to the selection', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'n', label: 'Change namespace', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'c', label: 'Change cluster', ink: '#c8d1dd', keyInk: INK, meta: 'question pane', metaInk: INK3, bg: 'transparent' },
+            { key: '⇧⏎', label: 'Open in a new pane', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘\\', label: 'Split right', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘-', label: 'Split down', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘W', label: 'Close this pane', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘+ −', label: 'Zoom this pane', ink: '#c8d1dd', keyInk: INK, meta: '90–140%', metaInk: INK3, bg: 'transparent' },
+            { key: 'p', label: 'Pause the watch', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' }
+          ]
+        },
+        {
+          n: '3', label: 'THIS CLUSTER AND THE FLEET', tone: INFO, dotBg: 'rgba(74,168,255,.14)', count: '9 keys',
+          rows: [
+            { key: '⌘1…0', label: 'Jump to a cluster', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'g f', label: 'Fleet', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'g n', label: 'Nodes', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'g e', label: 'Events', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: 'g c', label: 'Change stream', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘F', label: 'Search every cluster', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⌥⏎', label: 'Do this on every cluster', ink: '#f3d08a', keyInk: WARN, meta: 'write', metaInk: WARN, bg: 'transparent' },
+            { key: '⌘D', label: 'Diff against another cluster', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '', label: '', ink: INK3, keyInk: INK3, meta: '', metaInk: INK3, bg: 'transparent' }
+          ]
+        },
+        {
+          n: '5', label: 'THE APP', tone: IDLE, dotBg: 'rgba(107,118,132,.14)', count: '5 keys',
+          rows: [
+            { key: '⌘K', label: 'The palette', ink: INK, keyInk: INFO, meta: 'everything', metaInk: INFO, bg: 'rgba(74,168,255,.06)' },
+            { key: '?', label: 'This help', ink: '#c8d1dd', keyInk: INK, meta: '', metaInk: INK3, bg: 'transparent' },
+            { key: '⇧T', label: 'Go back in time', ink: '#f3d08a', keyInk: WARN, meta: 'the frame', metaInk: WARN, bg: 'transparent' },
+            { key: '⌘,', label: 'Settings', ink: '#c8d1dd', keyInk: INK, meta: 'as a pane', metaInk: INK3, bg: 'transparent' },
+            { key: '⌘⇧K', label: 'Rebind any of these', ink: '#c8d1dd', keyInk: INK, meta: 'APP-10', metaInk: INK3, bg: 'transparent' }
+          ]
+        }
+      ],
+      closing: [
+        { tone: INFO, k: 'ONE REGISTRY, TWO LAYERS', t: 'The palette and the help read the same action registry, in the same five-ring order. Nothing is written twice, so a new capability appears in both the moment it is registered — and a key that has no action cannot be printed in the help.' },
+        { tone: OK, k: 'THE HELP KNOWS WHERE YOU STAND', t: 'It is titled with the focused pane and its selection, and it ends with what is deliberately absent: “drain and cordon are not here — this pane holds pods”. A static key map cannot say that, and the sentence is the difference between a reference and an answer.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'Five rings means a capability can appear twice with different scopes — “restart” for this pod and for three clusters — which is more rows than a flat list would show. We take that cost because the alternative is one row whose meaning depends on state you cannot see. The palette also never becomes a shell: no free-text kubectl, because a command line with no impact preview is exactly the hole the confirmation layer exists to close.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

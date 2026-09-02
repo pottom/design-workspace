@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+  input[type=range] { accent-color: #4aa8ff; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-sans:'IBM Plex Sans',system-ui,sans-serif;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:34px;width:1800px">
+
+  <div style="display:flex;flex-direction:column;gap:9px;max-width:960px">
+    <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · BRIEF §5</div>
+    <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">Fourteen rules</div>
+    <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Each one is a decision somebody would otherwise make per pane, differently every time. Left column: the rule and why. Right column: the specimen — the actual words and numbers, not a description of them.</div>
+  </div>
+
+  <sc-for list="{{ rules }}" as="r" hint-placeholder-count="14">
+    <div style="display:grid;grid-template-columns:428px 1fr;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <div style="background:var(--ks-panel);padding:20px 22px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;gap:11px">
+          <span style="font-family:var(--ks-mono);font-size:22px;font-weight:600;color:{{ r.tone }};line-height:1">{{ r.n }}</span>
+          <span style="font-size:17px;font-weight:600;letter-spacing:-.01em;text-wrap:pretty">{{ r.title }}</span>
+        </div>
+        <div style="font-size:14px;line-height:1.45;font-weight:600;color:var(--ks-ink);text-wrap:pretty">{{ r.decision }}</div>
+        <sc-for list="{{ r.body }}" as="p" hint-placeholder-count="2">
+          <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ p.t }}</div>
+        </sc-for>
+        <div style="margin-top:2px;padding:9px 11px;background:var(--ks-field);border-left:2px solid {{ r.tone }};font-family:var(--ks-mono);font-size:11px;line-height:1.55;color:{{ r.tone }};text-wrap:pretty">{{ r.oneLiner }}</div>
+      </div>
+
+      <div style="background:var(--ks-field);padding:18px 20px;display:flex;flex-direction:column;gap:13px;min-width:0">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">{{ r.specLabel }}</div>
+
+        <!-- generic key/value specimen table -->
+        <sc-if value="{{ r.isTable }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column">
+            <div style="display:grid;grid-template-columns:{{ r.cols }};gap:14px;padding:0 0 6px;font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3);box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <sc-for list="{{ r.head }}" as="h" hint-placeholder-count="3">
+                <div>{{ h.t }}</div>
+              </sc-for>
+            </div>
+            <sc-for list="{{ r.rows }}" as="row" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:{{ r.cols }};gap:14px;padding:6px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft);align-items:baseline">
+                <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="3">
+                  <div style="font-family:{{ c.font }};font-size:{{ c.size }};line-height:1.45;color:{{ c.ink }};font-weight:{{ c.weight }};text-wrap:pretty;overflow-wrap:anywhere">{{ c.t }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- data-state matrix -->
+        <sc-if value="{{ r.isMatrix }}" hint-placeholder-val="{{ false }}">
+          <div style="overflow-x:auto">
+            <div style="min-width:1100px;display:flex;flex-direction:column;gap:2px">
+              <div style="display:grid;grid-template-columns:124px repeat(8,1fr);gap:2px">
+                <div></div>
+                <sc-for list="{{ r.states }}" as="s" hint-placeholder-count="8">
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.07em;color:{{ s.tone }};padding-bottom:3px">{{ s.t }}</div>
+                </sc-for>
+              </div>
+              <sc-for list="{{ r.matrix }}" as="m" hint-placeholder-count="8">
+                <div style="display:grid;grid-template-columns:124px repeat(8,1fr);gap:2px">
+                  <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink);display:flex;align-items:center">{{ m.pane }}</div>
+                  <sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="8">
+                    <div style="background:{{ c.bg }};padding:5px 6px;font-size:10px;line-height:1.35;color:{{ c.ink }};min-height:38px;text-wrap:pretty">{{ c.t }}</div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- truncation, live -->
+        <sc-if value="{{ r.isTrunc }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">column width</span>
+              <input type="range" min="90" max="420" value="{{ truncW }}" onChange="{{ onTruncW }}" style="width:230px">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink)">{{ truncW }}px</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-bad)">WRONG · TRUNCATED AT THE END</div>
+                <div style="display:flex;flex-direction:column;gap:2px;padding:9px;background:var(--ks-panel);border:1px solid #54262b">
+                  <sc-for list="{{ truncEnd }}" as="t" hint-placeholder-count="3">
+                    <div style="width:{{ truncWpx }};font-family:var(--ks-mono);font-size:12px;color:{{ t.ink }};overflow:hidden;white-space:nowrap;text-overflow:ellipsis">{{ t.t }}</div>
+                  </sc-for>
+                </div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ truncEndNote }}</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ok)">RIGHT · TRUNCATED IN THE MIDDLE</div>
+                <div style="display:flex;flex-direction:column;gap:2px;padding:9px;background:var(--ks-panel);border:1px solid #22503c">
+                  <sc-for list="{{ truncMid }}" as="t" hint-placeholder-count="3">
+                    <div style="width:{{ truncWpx }};font-family:var(--ks-mono);font-size:12px;color:{{ t.ink }};overflow:hidden;white-space:nowrap">{{ t.t }}</div>
+                  </sc-for>
+                </div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">The hash and the suffix both survive. Generated names differ in the middle, so the middle is the part that must not be thrown away.</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- destructive tiers -->
+        <sc-if value="{{ r.isDestr }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:11px">
+            <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+              <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ t.tone }};padding:12px;display:flex;flex-direction:column;gap:9px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:{{ t.tone }}">{{ t.tier }}</div>
+                <div style="font-size:12.5px;line-height:1.5;color:var(--ks-ink);text-wrap:pretty">{{ t.what }}</div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ t.examples }}</div>
+                <div style="margin-top:2px;padding:9px;background:var(--ks-field);border:1px solid var(--ks-line);display:flex;flex-direction:column;gap:7px">
+                  <div style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.4">{{ t.specimenTop }}</div>
+                  <sc-if value="{{ t.hasInput }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding:5px 8px;border:1px solid {{ t.tone }};background:#0d1015;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink)">{{ t.typed }}<span style="color:var(--ks-ink-3)">▏</span></div>
+                  </sc-if>
+                  <div style="display:flex;gap:7px;align-items:center">
+                    <span style="padding:5px 10px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Cancel</span>
+                    <span style="padding:5px 10px;border:1px solid {{ t.ctaLine }};background:{{ t.ctaBg }};font-size:11.5px;color:{{ t.tone }};font-weight:600">{{ t.cta }}</span>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- time travel frame -->
+        <sc-if value="{{ r.isTime }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="border:1px solid #4a3a12;background:var(--ks-panel)">
+              <div style="height:30px;display:flex;align-items:center;gap:12px;padding:0 11px;background:repeating-linear-gradient(135deg,rgba(240,180,41,.16) 0 8px,rgba(240,180,41,.07) 8px 16px);border-bottom:1px solid #4a3a12;font-family:var(--ks-mono);font-size:11px;color:var(--ks-warn)">
+                <span style="font-weight:600">◐ NOT NOW · 13:52:10</span>
+                <span style="color:#c69a3f">30 minutes ago · every pane follows</span>
+                <div style="flex:1;height:3px;background:#3a2f14;position:relative">
+                  <span style="position:absolute;left:0;top:-3px;bottom:-3px;width:58%;background:rgba(240,180,41,.35)"></span>
+                  <span style="position:absolute;left:58%;top:-5px;width:2px;height:13px;background:var(--ks-warn)"></span>
+                </div>
+                <span style="padding:2px 8px;border:1px solid #4a3a12;color:var(--ks-warn)">back to now</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line)">
+                <sc-for list="{{ timePanes }}" as="p" hint-placeholder-count="4">
+                  <div style="background:var(--ks-panel);padding:9px 11px;display:flex;flex-direction:column;gap:6px;border-top:2px solid {{ p.edge }}">
+                    <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px">
+                      <span style="color:{{ p.clInk }}">{{ p.cluster }}</span>
+                      <span style="color:var(--ks-ink-3)">{{ p.type }}</span>
+                      <div style="flex:1"></div>
+                      <span style="padding:1px 6px;background:{{ p.chipBg }};color:{{ p.chipInk }};font-size:9.5px">{{ p.chip }}</span>
+                    </div>
+                    <div style="font-size:11.5px;line-height:1.5;color:{{ p.ink }};text-wrap:pretty">{{ p.body }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">The stripe is the only place in the product that uses a texture, and it exists so the state is recognisable from across a room — colour alone is not enough for a mode this dangerous. Nothing outside the amber frame changes colour, so the panes keep reading normally.</div>
+          </div>
+        </sc-if>
+
+        <!-- zoom, live -->
+        <sc-if value="{{ r.isZoom }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:center;gap:7px">
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">this pane only</span>
+              <sc-for list="{{ zoomOpts }}" as="z" hint-placeholder-count="5">
+                <div onClick="{{ z.onClick }}" style="padding:5px 10px;border:1px solid {{ z.line }};background:{{ z.bg }};font-family:var(--ks-mono);font-size:11px;color:{{ z.ink }};cursor:pointer">{{ z.label }}</div>
+              </sc-for>
+              <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">⌘ wheel does the same</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+              <div style="background:var(--ks-panel);border:1px solid var(--ks-line);font-size:{{ zoomPx }};min-width:0">
+                <div style="height:1.7em;display:flex;align-items:center;gap:.7em;padding:0 .8em;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:.85em">
+                  <span style="color:var(--ks-info);font-weight:600">● prod-eu-west</span><span style="color:var(--ks-ink-3)">│</span><span>Logs</span>
+                  <div style="flex:1"></div><span style="color:var(--ks-ok)">{{ zoomLabel }}</span>
+                </div>
+                <div style="padding:.5em .8em;display:flex;flex-direction:column;font-family:var(--ks-mono);font-size:.9em;line-height:1.5">
+                  <sc-for list="{{ zoomLines }}" as="l" hint-placeholder-count="9">
+                    <div style="display:flex;gap:.8em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="color:var(--ks-ink-3)">{{ l.t }}</span><span style="color:{{ l.lvlInk }};font-weight:600">{{ l.lvl }}</span><span style="color:{{ l.ink }}">{{ l.msg }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT SCALES, WHAT DOES NOT</div>
+                <sc-for list="{{ zoomRules }}" as="z" hint-placeholder-count="5">
+                  <div style="display:flex;gap:10px;font-size:11.5px;line-height:1.45;color:var(--ks-ink-2)">
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ z.tone }};width:52px;flex:none">{{ z.k }}</span>
+                    <span style="text-wrap:pretty">{{ z.t }}</span>
+                  </div>
+                </sc-for>
+                <div style="font-family:var(--ks-mono);font-size:11px;line-height:1.55;color:var(--ks-warn);text-wrap:pretty">{{ zoomCount }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- sizes -->
+        <sc-if value="{{ r.isSizes }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">
+              <sc-for list="{{ sizeNums }}" as="s" hint-placeholder-count="4">
+                <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:11px 13px;display:flex;flex-direction:column;gap:4px">
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ s.k }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:17px;font-weight:600;color:{{ s.tone }}">{{ s.v }}</div>
+                  <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:12px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">COLUMNS DROP IN THIS ORDER, AS A PANE NARROWS</div>
+                <sc-for list="{{ dropOrder }}" as="d" hint-placeholder-count="7">
+                  <div style="display:flex;align-items:baseline;gap:10px;font-size:11.5px">
+                    <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:66px;flex:none">{{ d.w }}</span>
+                    <span style="font-family:var(--ks-mono);color:{{ d.tone }}">{{ d.cols }}</span>
+                  </div>
+                </sc-for>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Status, name and the reason are never dropped. A pane that cannot show those three is too small to exist, which is what the 320px minimum encodes.</div>
+              </div>
+              <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:12px;display:flex;flex-direction:column;gap:8px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">THE BIG END, AND PIXEL DENSITY</div>
+                <sc-for list="{{ bigEnd }}" as="b" hint-placeholder-count="4">
+                  <div style="display:flex;gap:10px;font-size:11.5px;line-height:1.45;color:var(--ks-ink-2)">
+                    <span style="color:{{ b.tone }};font-family:var(--ks-mono);font-size:10.5px;width:64px;flex:none">{{ b.k }}</span>
+                    <span style="text-wrap:pretty">{{ b.t }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- palette -->
+        <sc-if value="{{ r.isPalette }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start">
+            <div style="background:var(--ks-panel);border:1px solid #2c3542">
+              <div style="padding:9px 12px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:10px;font-family:var(--ks-mono);font-size:11px">
+                <span style="color:var(--ks-ink-3)">⌘K</span><span style="color:var(--ks-ink)">drain</span><span style="color:var(--ks-ink-3)">▏</span>
+              </div>
+              <sc-for list="{{ paletteRows }}" as="p" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;gap:12px;padding:6px 12px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:{{ p.catTone }};width:60px;flex:none">{{ p.cat }}</span>
+                  <span style="font-size:12px;color:var(--ks-ink)">{{ p.label }}</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ p.hint }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">THE RANKING, IN ORDER</div>
+              <sc-for list="{{ paletteRank }}" as="p" hint-placeholder-count="5">
+                <div style="display:flex;gap:9px;font-size:11.5px;line-height:1.45;color:var(--ks-ink-2)"><span style="font-family:var(--ks-mono);color:var(--ks-info)">{{ p.n }}</span><span style="text-wrap:pretty">{{ p.t }}</span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:flex;align-items:center;gap:20px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+    <span>Rules 1–14 · brief §5 · numbering follows the brief, including its order</span>
+    <div style="flex:1"></div>
+    <span>Tokens: <span style="color:var(--ks-ink-2)">--ks-*</span> on the document root of every file in this round</span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+const cell = (t, o) => Object.assign({ t, font: SANS, size: '12px', ink: INK2, weight: '400' }, o || {});
+const mono = (t, o) => cell(t, Object.assign({ font: MONO, size: '11.5px' }, o || {}));
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { truncW: 168, zoom: 100 };
+  }
+  renderVals() {
+    const st = this.state;
+
+    // ---- rule 1: data states × pane types
+    const S = { load: IDLE, empty: INK3, perm: WARN, partial: WARN, stale: WARN, dead: BAD, err: BAD, gone: BAD };
+    const states = [
+      ['LOADING', S.load], ['EMPTY', S.empty], ['FORBIDDEN', S.perm], ['PARTIAL', S.partial],
+      ['STALE', S.stale], ['DISCONNECTED', S.dead], ['ERROR', S.err], ['GONE', S.gone]
+    ];
+    const mc = (t, k) => ({
+      t, ink: k === 'ok' ? INK2 : k === 'warn' ? '#f3d08a' : k === 'bad' ? '#ffb3b3' : INK3,
+      bg: k === 'warn' ? 'rgba(240,180,41,.07)' : k === 'bad' ? 'rgba(255,95,95,.08)' : 'rgba(255,255,255,.02)'
+    });
+    const matrix = [
+      ['Table', [
+        mc('skeleton rows, count unknown', 'dim'), mc('“no pods in payments” + clear-filter', 'dim'),
+        mc('“you cannot list pods here” + who can', 'warn'), mc('rows shown, “8 of 10 clusters”', 'warn'),
+        mc('rows dimmed 15%, “47s old” + retry', 'warn'), mc('rows kept, frozen, “stopped 4m ago”', 'bad'),
+        mc('the sentence + raw error behind a link', 'bad'), mc('row struck through, “deleted 2s ago”', 'bad')
+      ]],
+      ['Log', [
+        mc('“attaching to 3 containers…”', 'dim'), mc('“no output since 14:02” + follow on', 'dim'),
+        mc('“no log access on this container”', 'warn'), mc('“2 of 8 pods not streaming”, named', 'warn'),
+        mc('“follow stopped, showing to 14:21”', 'warn'), mc('a rule across the stream + reconnect', 'bad'),
+        mc('“stream closed: 410 Gone” + retry', 'bad'), mc('“the pod is gone” + previous logs', 'bad')
+      ]],
+      ['YAML', [
+        mc('dimmed skeleton, no cursor', 'dim'), mc('never empty — objects always have a spec', 'dim'),
+        mc('“403 on get” + which verb is missing', 'warn'), mc('“managed fields hidden” is not partial', 'dim'),
+        mc('“read at 14:21, may have changed”', 'warn'), mc('“cannot re-read; this is the last copy”', 'bad'),
+        mc('the sentence + raw API error', 'bad'), mc('“deleted; kept read-only for you”', 'bad')
+      ]],
+      ['Describe', [
+        mc('skeleton sections', 'dim'), mc('“no events for this object”', 'dim'),
+        mc('“403 on events” + partial describe', 'warn'), mc('“events omitted — no access”', 'warn'),
+        mc('“as of 14:21”', 'warn'), mc('frozen + reconnect', 'bad'),
+        mc('sentence + raw error', 'bad'), mc('“deleted 2s ago”', 'bad')
+      ]],
+      ['Terminal', [
+        mc('“opening exec…” + cancel', 'dim'), mc('a prompt is never empty', 'dim'),
+        mc('“exec forbidden here” + the verb', 'warn'), mc('does not apply — one target only', 'dim'),
+        mc('does not apply — a shell is live or dead', 'dim'), mc('“connection closed” + reopen, buffer kept', 'bad'),
+        mc('exit code + why, buffer kept', 'bad'), mc('“the pod died under you” + reopen', 'bad')
+      ]],
+      ['Metrics', [
+        mc('axes drawn, no line', 'dim'), mc('“no metrics-server in this cluster”', 'dim'),
+        mc('“403 on metrics”', 'warn'), mc('gap in the line, not interpolated', 'warn'),
+        mc('line stops, hatched area after it', 'warn'), mc('hatched from the last sample', 'bad'),
+        mc('sentence + raw error', 'bad'), mc('“object gone; window kept”', 'bad')
+      ]],
+      ['Fleet', [
+        mc('rows with “probing…”', 'dim'), mc('“no clusters yet” + add one', 'dim'),
+        mc('per-cluster, on its own row', 'warn'), mc('rows for the silent ones, marked', 'warn'),
+        mc('per-row age, never one global age', 'warn'), mc('“no response 4m12s” + last good probe', 'bad'),
+        mc('the error on the row that owns it', 'bad'), mc('“context removed from kubeconfig”', 'bad')
+      ]],
+      ['Diff', [
+        mc('both sides skeleton', 'dim'), mc('“identical — nothing differs”', 'ok'),
+        mc('“cannot read the right side”', 'warn'), mc('“comparing 6 of 8 clusters”', 'warn'),
+        mc('“left is 47s old” per side', 'warn'), mc('one side frozen, labelled', 'bad'),
+        mc('sentence + raw error', 'bad'), mc('“one side no longer exists”', 'bad')
+      ]]
+    ];
+
+    // ---- rule 4 truncation
+    const names = ['checkout-api-7f9c8d4b6-x2m4q', 'checkout-api-7f9c8d4b6-x2p9k', 'checkout-api-7f9c8d4b6-x2z71'];
+    const midTrunc = (s, chars) => {
+      if (s.length <= chars) return s;
+      const keepEnd = Math.max(7, Math.floor(chars * 0.42));
+      const keepStart = Math.max(4, chars - keepEnd - 1);
+      return s.slice(0, keepStart) + '…' + s.slice(s.length - keepEnd);
+    };
+    const chars = Math.max(8, Math.floor(st.truncW / 7.25));
+    const sameAtEnd = chars < 25;
+
+    // ---- rule 14 zoom
+    const zoomLines = [
+      ['14:22:04', 'ERROR', 'checkout: context deadline exceeded calling ledger.grpc:8443', BAD, '#ffd7d7'],
+      ['14:22:04', 'WARN ', 'ledger: queue depth 8412 (soft limit 8000), shedding writes', WARN, '#e9dcc0'],
+      ['14:22:05', 'INFO ', 'ledger: replayed 1204 entries from wal segment 000731', INFO, INK2],
+      ['14:22:05', 'ERROR', 'checkout: refusing new connections — memory backpressure', BAD, '#ffd7d7'],
+      ['14:22:06', 'WARN ', 'envoy: upstream 503 rate 41% over a 30s window', WARN, '#e9dcc0'],
+      ['14:22:06', 'ERROR', 'checkout: container killed — exit 137 (OOMKilled), restart #47', BAD, '#ffd7d7'],
+      ['14:22:07', 'INFO ', 'checkout: starting, config sha 4bd91c, 8 workers', INFO, INK2],
+      ['14:22:08', 'WARN ', 'ledger: clock skew 41ms vs ntp peer, tolerated', WARN, '#e9dcc0'],
+      ['14:22:08', 'ERROR', 'checkout: readiness probe failed — /healthz 503', BAD, '#ffd7d7']
+    ];
+    const zoomFor = z => (z / 100) * 13;
+    const rowsAt = z => Math.floor(456 / ((z / 100) * 13 * 0.9 * 1.5));
+
+    const rules = [
+      {
+        n: '01', tone: INFO, title: 'Data states, for every pane type — not just the table',
+        decision: 'Eight states, one vocabulary, and every pane type has its own answer for all eight.',
+        body: [
+          { t: 'The table is easy; the ones that get forgotten are an empty log, a YAML that came back 403, and a terminal whose pod died underneath it. Each of those is a different sentence, and if they are invented per pane they will contradict each other.' },
+          { t: 'Three of the eight are not errors and must not look like errors: partial, stale and empty. They keep the data on screen and add a line above it. Only disconnected, error and gone are allowed to take the content away.' }
+        ],
+        oneLiner: 'loading · empty · forbidden · partial · stale · disconnected · error · gone',
+        specLabel: 'THE FULL MATRIX — THE WORDS EACH PANE USES', isMatrix: true,
+        states: states.map(s => ({ t: s[0], tone: s[1] })),
+        matrix: matrix.map(m => ({ pane: m[0], cells: m[1] }))
+      },
+      {
+        n: '02', tone: WARN, title: 'The language of errors',
+        decision: 'Every error is rewritten into one sentence naming the cause and the next step — and the raw text is always one click away.',
+        body: [
+          { t: 'A mapped table of known API and TLS errors turns the string into a sentence. Unknown errors get a generic frame ("the cluster refused this request") with the raw text shown immediately, because a wrong guess is worse than no guess.' },
+          { t: 'The raw error is never removed. An engineer is reading this, and the exact string is what they paste into a search or a ticket. It lives behind "show the original" and is always copyable in full.' }
+        ],
+        oneLiner: 'one sentence · one next step · the original always reachable',
+        specLabel: 'RAW → WHAT WE SHOW', isTable: true,
+        cols: '1fr 1fr 128px',
+        head: [{ t: 'THE CLUSTER SAID' }, { t: 'WE SAY' }, { t: 'NEXT STEP' }],
+        rows: [
+          { cells: [mono('x509: certificate signed by unknown authority', { ink: '#ffb3b3' }), cell('This cluster’s certificate is not signed by an authority we trust.', { ink: INK }), mono('trust it · fix kubeconfig', { ink: INFO })] },
+          { cells: [mono('Unauthorized', { ink: '#ffb3b3' }), cell('Your token was rejected. It has probably expired.', { ink: INK }), mono('sign in again', { ink: INFO })] },
+          { cells: [mono('pods is forbidden: User cannot list resource "pods"', { ink: '#f3d08a' }), cell('You may not list pods in this namespace.', { ink: INK }), mono('who can? → RBAC', { ink: INFO })] },
+          { cells: [mono('the server could not find the requested resource', { ink: '#f3d08a' }), cell('This cluster does not have that kind. It may be an OpenShift-only type.', { ink: INK }), mono('list kinds', { ink: INFO })] },
+          { cells: [mono('etcdserver: request timed out', { ink: '#ffb3b3' }), cell('The cluster accepted the request but did not finish it in time.', { ink: INK }), mono('retry · check control plane', { ink: INFO })] },
+          { cells: [mono('dial tcp 10.4.0.1:6443: i/o timeout', { ink: '#ffb3b3' }), cell('We cannot reach the API server. Nothing is wrong with your permissions.', { ink: INK }), mono('probe · check VPN', { ink: INFO })] },
+          { cells: [mono('too old resource version: 41928 (58211)', { ink: INK3 }), cell('Not shown at all — we reconnect the watch and say nothing.', { ink: INK3 }), mono('silent', { ink: INK3 })] }
+        ]
+      },
+      {
+        n: '03', tone: INFO, title: 'Numbers, units and time',
+        decision: 'Binary units with the Kubernetes suffix, CPU in millicores under one core, age in two parts, timestamps relative under an hour and absolute above it.',
+        body: [
+          { t: 'The rule that matters most is the last one: relative time reads well for recent things and lies about old ones. "4d ago" is useless when you need to correlate with a deploy, so above an hour we print the clock and keep the relative form as a tooltip.' },
+          { t: 'Everything is local time with the offset shown once in the frame, never per row. UTC is available as a preference for teams who page across zones — one setting, applied everywhere, never a mixture.' }
+        ],
+        oneLiner: '1.5Gi not 1536Mi · 250m not 0.25 · 4d3h · 14:22:04 above an hour',
+        specLabel: 'THE FORMATS, AND WHAT WE REJECTED', isTable: true,
+        cols: '150px 1fr 1fr',
+        head: [{ t: 'QUANTITY' }, { t: 'WE PRINT' }, { t: 'NOT' }],
+        rows: [
+          { cells: [cell('Memory', { ink: INK }), mono('512Mi · 1.5Gi · 24Gi', { ink: OK }), mono('536870912 · 1536Mi · 0.5GB', { ink: INK3 })] },
+          { cells: [cell('CPU, below a core', { ink: INK }), mono('250m · 1.2 · 8', { ink: OK }), mono('0.25 · 250 millicores', { ink: INK3 })] },
+          { cells: [cell('Age', { ink: INK }), mono('54m · 4d2h · 31d', { ink: OK }), mono('4d · 98h · 4 days ago', { ink: INK3 })] },
+          { cells: [cell('Under an hour', { ink: INK }), mono('47s ago · 12m ago', { ink: OK }), mono('14:21:13', { ink: INK3 })] },
+          { cells: [cell('Over an hour', { ink: INK }), mono('14:22:04 (hover: 3h ago)', { ink: OK }), mono('3h ago', { ink: INK3 })] },
+          { cells: [cell('Log timestamps', { ink: INK }), mono('14:22:04.118 — always absolute, ms', { ink: OK }), mono('relative anything', { ink: INK3 })] },
+          { cells: [cell('Counts', { ink: INK }), mono('3412 · 1.2M — thin space, no comma', { ink: OK }), mono('3,412 · 3 412,00', { ink: INK3 })] },
+          { cells: [cell('Percentages', { ink: INK }), mono('91% · 0.4% — one decimal under 10', { ink: OK }), mono('91.0% · 0%', { ink: INK3 })] },
+          { cells: [cell('Nothing there', { ink: INK }), mono('— (em dash), never 0 or blank', { ink: OK }), mono('0 · n/a · null', { ink: INK3 })] }
+        ]
+      },
+      {
+        n: '04', tone: BAD, title: 'Truncation — and this is more important than it sounds',
+        decision: 'Generated names truncate in the middle. Only free text truncates at the end.',
+        body: [
+          { t: 'Pod names differ in their last five characters. Cut the end and two different pods become the same string on screen — and then somebody deletes the wrong one. Drag the slider: on the left the three rows are indistinguishable well before the column gets tight.' },
+          { t: 'The rule keys off the value, not the column: anything with a generated suffix (pods, replica sets, nodes, PVCs) is middle-truncated; messages, reasons and log lines are end-truncated because their beginning is what identifies them.' }
+        ],
+        oneLiner: 'names in the middle · prose at the end · never a bare cut without an ellipsis',
+        specLabel: 'THE SAME THREE PODS, TWO RULES', isTrunc: true
+      },
+      {
+        n: '05', tone: WARN, title: 'Default sort, and a live table that does not move under you',
+        decision: 'Worst first, then newest first — never alphabetical. And a table never reorders itself while the cursor is over it.',
+        body: [
+          { t: 'Alphabetical is the default that hides the thing you opened the pane for. Pods sort by severity of phase, then by restart count, then by age; events and logs sort newest first; nodes sort NotReady first. Every kind declares its own default, and a third click on a column header returns to it.' },
+          { t: 'The second half is a safety rule. While the pointer is inside the rows, incoming updates are buffered and a chip says "3 rows want to move". Moving the mouse out, or clicking the chip, applies them. Without this, a live table plus a right-click equals an action on the wrong object.' }
+        ],
+        oneLiner: 'worst → newest · sort frozen under the cursor · third click restores the default',
+        specLabel: 'DEFAULTS PER KIND, AND THE FREEZE', isTable: true,
+        cols: '150px 1fr 250px',
+        head: [{ t: 'KIND' }, { t: 'DEFAULT ORDER' }, { t: 'WHILE HOVERED' }],
+        rows: [
+          { cells: [cell('Pods', { ink: INK }), cell('phase severity → restarts → age', { ink: INK2 }), mono('◐ 3 rows want to move', { ink: WARN })] },
+          { cells: [cell('Nodes', { ink: INK }), cell('NotReady → pressure → name', { ink: INK2 }), mono('◐ buffered', { ink: WARN })] },
+          { cells: [cell('Events', { ink: INK }), cell('newest first, warnings pinned above', { ink: INK2 }), mono('new events queue at the top', { ink: WARN })] },
+          { cells: [cell('Logs', { ink: INK }), cell('time, oldest → newest, follow at the tail', { ink: INK2 }), mono('follow pauses on scroll', { ink: WARN })] },
+          { cells: [cell('Clusters', { ink: INK }), cell('unreachable → slow → live', { ink: INK2 }), mono('rows never reorder, ever', { ink: OK })] },
+          { cells: [cell('Helm releases', { ink: INK }), cell('failed → newest revision', { ink: INK2 }), mono('◐ buffered', { ink: WARN })] },
+          { cells: [cell('Any CRD', { ink: INK }), cell('status conditions first, then age', { ink: INK2 }), mono('◐ buffered', { ink: WARN })] }
+        ]
+      },
+      {
+        n: '06', tone: INFO, title: 'What happens to the selection',
+        decision: 'Selection belongs to the pane, survives refresh and filter changes, and is dropped only when the object is gone or the pane changes what it is asking.',
+        body: [
+          { t: 'The hard case is a selected object that somebody else deletes. It stays in the list, struck through, marked "deleted 2s ago", and stays selected for ten seconds so that a queued action fails loudly instead of silently doing nothing. Then it disappears.' },
+          { t: 'A selection that leaves the visible set because of a filter is kept but shown as a count above the table: "8 selected, 3 not matching the filter". Nothing silently reduces a multi-selection — that is how eight deletes become five.' }
+        ],
+        oneLiner: 'per pane · survives refresh and filter · dies with the object or the question',
+        specLabel: 'EVENT → WHAT HAPPENS TO IT', isTable: true,
+        cols: '210px 130px 1fr',
+        head: [{ t: 'EVENT' }, { t: 'SELECTION' }, { t: 'WHAT IS SAID' }],
+        rows: [
+          { cells: [cell('Watch refreshes the rows', { ink: INK }), mono('kept', { ink: OK }), cell('nothing — this must be invisible', { ink: INK3 })] },
+          { cells: [cell('Filter changes', { ink: INK }), mono('kept', { ink: OK }), cell('“8 selected · 3 hidden by the filter”', { ink: INK2 })] },
+          { cells: [cell('Sort changes', { ink: INK }), mono('kept', { ink: OK }), cell('the rows move, the selection follows them', { ink: INK3 })] },
+          { cells: [cell('Workspace switch', { ink: INK }), mono('kept', { ink: OK }), cell('and it is still there when you come back', { ink: INK3 })] },
+          { cells: [cell('Namespace or cluster changed', { ink: INK }), mono('dropped', { ink: BAD }), cell('it is a different question now', { ink: INK2 })] },
+          { cells: [cell('Selected object deleted', { ink: INK }), mono('held 10s', { ink: WARN }), cell('struck through, “deleted 2s ago”, then removed', { ink: '#f3d08a' })] },
+          { cells: [cell('App restart', { ink: INK }), mono('dropped', { ink: BAD }), cell('layout and filters return; a selection does not', { ink: INK2 })] }
+        ]
+      },
+      {
+        n: '07', tone: BAD, title: 'The grammar of destructive actions',
+        decision: 'Three tiers, decided by what cannot be undone — not by how the action feels.',
+        body: [
+          { t: 'Reversible and cheap goes through with no dialog and an undo toast. Reversible but disruptive gets one confirmation naming the cluster. Irreversible, or irreversible-at-scale, requires typing the object’s name — and on a production cluster the tier moves up by one automatically.' },
+          { t: 'On a read-only cluster the items stay visible and greyed, with "read-only context" where the shortcut would be. Hiding them teaches nothing and sends people back to kubectl.' }
+        ],
+        oneLiner: 'undo · confirm · type the name — and prod moves everything up one tier',
+        specLabel: 'THE THREE TIERS, AS THEY APPEAR', isDestr: true
+      },
+      {
+        n: '08', tone: WARN, title: 'The global time signal',
+        decision: 'Time travel repaints the whole frame amber with a diagonal stripe, every pane header carries the timestamp, and the terminal refuses to pretend.',
+        body: [
+          { t: 'This is the most dangerous feature in the product: past data with a present face. So the signal is not a badge — it is the frame itself, in a colour and a texture used nowhere else, and it cannot be dismissed while the mode is on.' },
+          { t: 'The terminal cannot time travel. It says so, keeps its scrollback readable, and offers either "stay live" (the shell keeps working while everything else is in the past, and its header stays green while the frame is amber) or "close it". Silently freezing a shell would be a lie about a live connection.' }
+        ],
+        oneLiner: 'amber striped frame · per-pane timestamp · the shell says no',
+        specLabel: 'THE FRAME AT 13:52, THIRTY MINUTES BACK', isTime: true
+      },
+      {
+        n: '09', tone: INFO, title: 'The organising principle of the palette',
+        decision: 'Verb first, noun as an alias, ranked by what is in front of you.',
+        body: [
+          { t: 'With a hundred capabilities, an alphabetical list is a filing cabinet. Every entry is phrased as a verb applied to a thing ("Drain a node", "Compare a release across clusters"), and every entry carries the nouns people would type instead — so "node" finds the drain, and so does "evacuate".' },
+          { t: 'Ranking is what makes it usable: actions on the focused pane’s selection first, then on the focused pane, then the workspace, then global capabilities, then documentation. The scope of each match is printed on the left, so you always know what a command would act on.' }
+        ],
+        oneLiner: 'verb first · nouns as aliases · ranked by scope, nearest first',
+        specLabel: 'TYPING “DRAIN”', isPalette: true
+      },
+      {
+        n: '10', tone: WARN, title: 'When the token expires mid-session',
+        decision: 'The affected panes go stale, not blank; one bar offers re-authentication for every cluster that needs it; nothing is lost.',
+        body: [
+          { t: 'With OIDC this happens daily. Every pane on an affected cluster keeps its last data with the stale treatment and the sentence "your session for prod-eu-west expired at 14:22". Layout, filters, scroll and selection all stay exactly as they were.' },
+          { t: 'One frame-level bar handles it: "3 clusters need you to sign in again · sign in". After a successful re-auth every watch re-establishes itself and the stale banners disappear on their own. A write attempted during expiry is refused before it is sent, never half-applied.' }
+        ],
+        oneLiner: 'stale, not blank · one bar, all clusters · writes refused, never partial',
+        specLabel: 'WHAT EACH PANE SHOWS', isTable: true,
+        cols: '150px 1fr 1fr',
+        head: [{ t: 'PANE' }, { t: 'SHOWS' }, { t: 'ON SIGN-IN' }],
+        rows: [
+          { cells: [cell('Table', { ink: INK }), cell('last rows, dimmed, “session expired 14:22”', { ink: '#f3d08a' }), cell('watch resumes, banner goes', { ink: INK2 })] },
+          { cells: [cell('Log', { ink: INK }), cell('stream stops at the last line, rule drawn', { ink: '#f3d08a' }), cell('reattaches, gap marked', { ink: INK2 })] },
+          { cells: [cell('YAML', { ink: INK }), cell('the copy it has, read-only', { ink: '#f3d08a' }), cell('re-reads, diff offered if changed', { ink: INK2 })] },
+          { cells: [cell('Terminal', { ink: INK }), cell('the session is dead — says so, keeps the buffer', { ink: '#ffb3b3' }), cell('offers to reopen the shell', { ink: INK2 })] },
+          { cells: [cell('Fleet', { ink: INK }), cell('affected clusters marked “sign in”, others normal', { ink: '#f3d08a' }), cell('probes resume', { ink: INK2 })] }
+        ]
+      },
+      {
+        n: '11', tone: IDLE, title: 'What ⌘C copies',
+        decision: 'The most useful complete value for the thing under the pointer — always unformatted and untruncated.',
+        body: [
+          { t: 'Formatting is for reading; the clipboard is for pasting into a terminal or a ticket. So memory copies as "536870912" if the cell holds bytes, ages copy as an ISO timestamp, and a truncated name copies whole.' },
+          { t: 'With a multi-selection, ⌘C copies one object per line — names only — and ⇧⌘C copies the whole rows as TSV, which pastes into a spreadsheet. Copying a decoded secret writes an audit line; that is the only copy with a side effect.' }
+        ],
+        oneLiner: 'complete, unformatted, untruncated · ⇧⌘C for rows as TSV',
+        specLabel: 'CONTEXT → WHAT LANDS ON THE CLIPBOARD', isTable: true,
+        cols: '190px 1fr 1fr',
+        head: [{ t: 'WHERE' }, { t: '⌘C' }, { t: '⇧⌘C' }],
+        rows: [
+          { cells: [cell('A selected row', { ink: INK }), mono('checkout-api-7f9c8d4b6-x2m4q', { ink: OK }), mono('the row as TSV, all columns', { ink: INK2 })] },
+          { cells: [cell('A cell (memory)', { ink: INK }), mono('536870912', { ink: OK }), mono('512Mi (as displayed)', { ink: INK2 })] },
+          { cells: [cell('A cell (age)', { ink: INK }), mono('2026-08-28T09:14:02Z', { ink: OK }), mono('4d2h (as displayed)', { ink: INK2 })] },
+          { cells: [cell('8 rows selected', { ink: INK }), mono('8 names, one per line', { ink: OK }), mono('8 rows as TSV with a header', { ink: INK2 })] },
+          { cells: [cell('A log line', { ink: INK }), mono('timestamp + level + message, one line', { ink: OK }), mono('the JSON, pretty-printed', { ink: INK2 })] },
+          { cells: [cell('A log selection', { ink: INK }), mono('the lines, verbatim, with timestamps', { ink: OK }), mono('with the cluster and pod prefixed', { ink: INK2 })] },
+          { cells: [cell('A YAML pane', { ink: INK }), mono('the selection, or the whole document', { ink: OK }), mono('with managed fields included', { ink: INK2 })] },
+          { cells: [cell('A revealed secret', { ink: INK }), mono('the decoded value + an audit line', { ink: WARN }), mono('refused', { ink: BAD })] }
+        ]
+      },
+      {
+        n: '12', tone: OK, title: 'What survives a restart',
+        decision: 'Everything about the question survives; nothing about the moment does.',
+        body: [
+          { t: 'Layout, scopes, filters, sort, column sets and zoom are the question you were asking — they come back. Selection, scroll position, time position and terminal sessions are the moment you were in, and restoring those either lies (a live tail that is now hours old) or is dangerous (a selection you no longer remember making).' },
+          { t: 'One exception is worth the code: if the app was in time travel when it closed, it reopens live and puts a single line in the frame — "you were looking at 13:52 when this closed · go back there". Offered, never restored.' }
+        ],
+        oneLiner: 'the question comes back · the moment does not · time travel is offered, not restored',
+        specLabel: 'FIELD BY FIELD', isTable: true,
+        cols: '190px 110px 1fr',
+        head: [{ t: 'FIELD' }, { t: 'SURVIVES' }, { t: 'WHY' }],
+        rows: [
+          { cells: [cell('Workspaces and layout', { ink: INK }), mono('yes', { ink: OK }), cell('it is the desk you set up', { ink: INK3 })] },
+          { cells: [cell('Each pane’s cluster and namespace', { ink: INK }), mono('yes', { ink: OK }), cell('the question, not the moment', { ink: INK3 })] },
+          { cells: [cell('Filters and selectors', { ink: INK }), mono('yes', { ink: OK }), cell('expensive to retype, harmless to keep', { ink: INK3 })] },
+          { cells: [cell('Sort and column set', { ink: INK }), mono('yes', { ink: OK }), cell('per pane, per kind', { ink: INK3 })] },
+          { cells: [cell('Per-pane zoom, density', { ink: INK }), mono('yes', { ink: OK }), cell('it is eyesight, not state', { ink: INK3 })] },
+          { cells: [cell('Object panes (log, YAML, shell)', { ink: INK }), mono('slot only', { ink: WARN }), cell('the pane returns empty, naming what it held', { ink: '#f3d08a' })] },
+          { cells: [cell('Scroll position', { ink: INK }), mono('no', { ink: BAD }), cell('the rows underneath it have changed', { ink: INK3 })] },
+          { cells: [cell('Selection', { ink: INK }), mono('no', { ink: BAD }), cell('a forgotten selection plus a keystroke is a write', { ink: INK3 })] },
+          { cells: [cell('Time position', { ink: INK }), mono('offered', { ink: WARN }), cell('one line in the frame, your choice', { ink: '#f3d08a' })] },
+          { cells: [cell('Terminal sessions', { ink: INK }), mono('no', { ink: BAD }), cell('an exec cannot be resumed; the pane says so', { ink: INK3 })] }
+        ]
+      },
+      {
+        n: '13', tone: INFO, title: 'Screen sizes — both ends',
+        decision: 'Desktop only, 1280×800 to 5K. The small end degrades by dropping columns; the big end adds panes, never longer rows.',
+        body: [
+          { t: 'A 3440px row is unreadable: the eye loses the start before it reaches the end. So content inside a pane has a maximum width of 1180px and the extra space becomes more panes — a wide screen is a bigger desk, not a bigger page. Above 2400px the workspace offers a three-column split by default.' },
+          { t: 'Pixel density is a floor, not a preference. Hairlines are 1px solid lines, never 0.5px; the smallest type is 11px and only on 2× displays — on a 1× monitor the same UI clamps to 12px, which the rem sizing makes a one-line change.' }
+        ],
+        oneLiner: '1280×800 min · pane 320×180 min · content max 1180px · more panes, not wider rows',
+        specLabel: 'THE NUMBERS', isSizes: true
+      },
+      {
+        n: '14', tone: WARN, title: 'Per-pane zoom',
+        decision: 'Density is the app’s; zoom is one pane’s. Which means pane internals are sized in em from the first commit.',
+        body: [
+          { t: 'A pane sets a font-size, and everything inside it — row height, padding, gutters, icon sizes — is expressed in em against that. Then zoom is a single property on one element, and ⌘-wheel over a log at 85% gets you five more lines while the table beside it stays at 100% because you are reading it.' },
+          { t: 'This is the one rule in this document that cannot be added later. A pixel-sized pane can never be zoomed without re-measuring every value in it, which is why it appears here rather than in the capability list.' }
+        ],
+        oneLiner: 'em inside panes, px only for the frame · 80% to 140% · ⌘ wheel',
+        specLabel: 'ONE PANE, FIVE ZOOM LEVELS', isZoom: true
+      }
+    ];
+
+    return {
+      rules,
+      truncW: st.truncW, truncWpx: st.truncW + 'px',
+      onTruncW: e => this.setState({ truncW: Number(e.target.value) }),
+      truncEnd: names.map(n => ({ t: n, ink: sameAtEnd ? '#ffb3b3' : INK2 })),
+      truncMid: names.map(n => ({ t: midTrunc(n, chars), ink: INK2 })),
+      truncEndNote: sameAtEnd
+        ? 'At this width all three rows read identically. The pod you delete is not the pod you looked at.'
+        : 'Wide enough today — but a four-pane incident layout is not, and this is where the wrong row gets clicked.',
+      tiers: [
+        { tier: 'TIER 1 · UNDO', tone: OK, what: 'Goes through immediately, with an undo toast for ten seconds.', examples: 'Cordon · suspend a CronJob · pause a rollout · pause a watch', specimenTop: 'Cordoned ip-10-0-3-19.', hasInput: false, cta: 'Undo', ctaLine: '#22503c', ctaBg: 'rgba(62,207,142,.12)' },
+        { tier: 'TIER 2 · CONFIRM', tone: WARN, what: 'One dialog that names the cluster, shows the equivalent kubectl, and says what happens to traffic.', examples: 'Restart rollout · scale · delete a pod · rerun a Job · approve an InstallPlan', specimenTop: 'Restart rollout checkout-api in prod-eu-west? One replica stays ready throughout.', hasInput: false, cta: 'Restart rollout', ctaLine: '#5a4520', ctaBg: 'rgba(240,180,41,.12)' },
+        { tier: 'TIER 3 · TYPE THE NAME', tone: BAD, what: 'Irreversible, or irreversible at scale. The name must be typed; paste is allowed, autofill is not.', examples: 'Delete a namespace · drain a node · uninstall a release · delete 8 objects at once · any tier-2 action on a production cluster', specimenTop: 'Drain ip-10-0-3-19 in prod-eu-west. 24 pods move; 2 have nowhere to go.', hasInput: true, typed: 'ip-10-0-3-1', cta: 'Drain node', ctaLine: '#54262b', ctaBg: 'rgba(255,95,95,.14)' }
+      ],
+      timePanes: [
+        { cluster: 'prod-eu-west', clInk: INFO, type: 'Pods', chip: '13:52:10', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: '41 rows as they were then. checkout-api has 12 restarts here, not 47 — the number itself is historical.' },
+        { cluster: 'prod-eu-west', clInk: INFO, type: 'Logs', chip: '13:52:10', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: 'Replayed from the store, not followed. The follow button is replaced by “play forward from here”.' },
+        { cluster: 'prod-ap-south', clInk: WARN, type: 'Events', chip: 'kept 7d', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: 'Events survive past Kubernetes’ one-hour window because we keep them — which is the only reason this mode is useful.' },
+        { cluster: 'prod-us-east', clInk: '#b48cff', type: 'Shell', chip: 'LIVE · NOW', chipBg: 'rgba(62,207,142,.16)', chipInk: OK, edge: OK, ink: '#a8e6c8', body: 'A shell cannot time travel. It stays live and says so in green while the frame is amber — or you close it. It never freezes silently.' }
+      ],
+      zoomOpts: [80, 90, 100, 110, 125].map(z => ({
+        label: z + '%', onClick: () => this.setState({ zoom: z }),
+        bg: st.zoom === z ? '#1d2937' : 'transparent', ink: st.zoom === z ? INK : INK2, line: st.zoom === z ? '#2c3542' : '#242b35'
+      })),
+      zoomPx: zoomFor(st.zoom).toFixed(2) + 'px',
+      zoomLabel: st.zoom + '% · live',
+      zoomLines: zoomLines.map(l => ({ t: l[0], lvl: l[1], msg: l[2], lvlInk: l[3], ink: l[4] })),
+      zoomRules: [
+        { k: 'em', tone: OK, t: 'row height, padding, gutters, icon size, the header bar, the column bar' },
+        { k: 'em', tone: OK, t: 'the log’s line height — which is what buys the extra lines' },
+        { k: 'px', tone: WARN, t: 'the 1px pane borders and separators: a hairline must not become 0.8px' },
+        { k: 'px', tone: WARN, t: 'the frame — workspace bar, cluster rail, time bar: they are not in a pane' },
+        { k: 'own', tone: INFO, t: 'the terminal and the chart manage their own scale; zoom is passed to them as a number' }
+      ],
+      zoomCount: 'at ' + st.zoom + '% this pane fits ' + rowsAt(st.zoom) + ' log lines in the same 456px — against ' + rowsAt(100) + ' at 100%',
+      sizeNums: [
+        { k: 'SMALLEST WINDOW', v: '1280 × 800', tone: INFO, note: 'four panes of ~310px wide; the everyday case, not the extreme' },
+        { k: 'PANE MINIMUM', v: '320 × 180', tone: WARN, note: 'below this a split is refused, with a message' },
+        { k: 'CONTENT MAX WIDTH', v: '1180px', tone: OK, note: 'per pane; wider space becomes more panes' },
+        { k: 'THREE COLUMNS FROM', v: '2400px', tone: OK, note: 'default split changes; at 5K, four' }
+      ],
+      dropOrder: [
+        { w: '≥ 1000px', cols: 'status · ns · name · ready · restarts · node · age · reason', tone: OK },
+        { w: '≥ 820px', cols: 'status · ns · name · ready · restarts · age · reason', tone: OK },
+        { w: '≥ 680px', cols: 'status · ns · name · ready · restarts · age', tone: INK2 },
+        { w: '≥ 520px', cols: 'status · name · ready · restarts · age', tone: INK2 },
+        { w: '≥ 420px', cols: 'status · name · restarts · age', tone: WARN },
+        { w: '≥ 320px', cols: 'status · name · age', tone: WARN },
+        { w: '< 320px', cols: 'the split is refused instead', tone: BAD }
+      ],
+      bigEnd: [
+        { k: '3440px', tone: INFO, t: 'A single pane keeps its 1180px content column and gains a second and third pane instead — the row length stays readable.' },
+        { k: 'reading', tone: INFO, t: 'A line of monospace over ~110 characters loses its start. That is the number the 1180px cap comes from, at 12px.' },
+        { k: '2× / HiDPI', tone: OK, t: '11px minimum type, 1px hairlines, 8px status glyphs — all safe.' },
+        { k: '1× SCREEN', tone: WARN, t: 'Type clamps to 12px, glyphs to 10px, and separators go from 1px lines to a background step, because a 1px line on 1× at low contrast disappears.' }
+      ],
+      paletteRows: [
+        { cat: 'SELECTION', label: 'Drain ip-10-0-3-19 — 24 pods move', hint: 'node · evacuate', bg: '#1d2937', catTone: OK },
+        { cat: 'SELECTION', label: 'Where would the pods go? — simulate the drain', hint: 'simulate', bg: 'transparent', catTone: OK },
+        { cat: 'PANE', label: 'Drain every NotReady node in this list', hint: '2 nodes', bg: 'transparent', catTone: INFO },
+        { cat: 'CLUSTER', label: 'Cordon all nodes in prod-ap-south', hint: 'cordon · disable', bg: 'transparent', catTone: INFO },
+        { cat: 'FLEET', label: 'Find drained nodes across all clusters', hint: 'search', bg: 'transparent', catTone: WARN },
+        { cat: 'HELP', label: 'What does draining actually do?', hint: 'docs', bg: 'transparent', catTone: IDLE }
+      ],
+      paletteRank: [
+        { n: '1', t: 'Actions on the focused pane’s selection — the thing your eye is on.' },
+        { n: '2', t: 'Actions on the focused pane as a whole.' },
+        { n: '3', t: 'Actions on that pane’s cluster.' },
+        { n: '4', t: 'Fleet-wide capabilities.' },
+        { n: '5', t: 'Documentation, last and clearly labelled, so it never displaces a command.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

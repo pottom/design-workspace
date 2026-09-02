@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-sans:'IBM Plex Sans',system-ui,sans-serif;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:36px;width:1800px">
+
+  <div style="display:flex;flex-direction:column;gap:9px;max-width:980px">
+    <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · BRIEF §3</div>
+    <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">The eight questions, answered</div>
+    <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Decisions, not screens. Questions 4, 5 and 8 turn out to be one problem — “is what I am looking at the whole truth, and is it now?” — so they get one vocabulary and are answered together at the end. That is the finding, not a shortcut.</div>
+  </div>
+
+  <sc-for list="{{ blocks }}" as="b" hint-placeholder-count="6">
+    <div style="display:grid;grid-template-columns:428px 1fr;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <div style="background:var(--ks-panel);padding:20px 22px;display:flex;flex-direction:column;gap:11px">
+        <div style="display:flex;align-items:baseline;gap:11px">
+          <span style="font-family:var(--ks-mono);font-size:20px;font-weight:600;color:{{ b.tone }};line-height:1.1">{{ b.q }}</span>
+          <span style="font-size:17px;font-weight:600;letter-spacing:-.01em;text-wrap:pretty">{{ b.title }}</span>
+        </div>
+        <div style="font-size:14px;line-height:1.45;font-weight:600;color:var(--ks-ink);text-wrap:pretty">{{ b.answer }}</div>
+        <sc-for list="{{ b.body }}" as="p" hint-placeholder-count="2">
+          <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ p.t }}</div>
+        </sc-for>
+        <div style="padding:9px 11px;background:var(--ks-field);border-left:2px solid {{ b.tone }};font-family:var(--ks-mono);font-size:11px;line-height:1.55;color:{{ b.tone }};text-wrap:pretty">{{ b.rule }}</div>
+      </div>
+
+      <div style="background:var(--ks-field);padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">{{ b.specLabel }}</div>
+
+        <!-- three-frame storyboard (Q1) -->
+        <sc-if value="{{ b.isFrames }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+            <sc-for list="{{ frames }}" as="f" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-info)">{{ f.step }}</span><span style="font-size:12px;color:var(--ks-ink)">{{ f.title }}</span></div>
+                <div style="height:190px;background:var(--ks-panel);border:1px solid var(--ks-line);position:relative;display:grid;grid-template-columns:{{ f.cols }};gap:1px;overflow:hidden">
+                  <sc-for list="{{ f.panes }}" as="p" hint-placeholder-count="1">
+                    <div style="background:{{ p.bg }};border-left:2px solid {{ p.edge }};display:flex;flex-direction:column;min-width:0">
+                      <div style="height:17px;display:flex;align-items:center;gap:6px;padding:0 7px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)"><span style="color:{{ p.dot }}">●</span>{{ p.head }}</div>
+                      <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:3px 0">
+                        <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="7">
+                          <div style="height:14px;display:flex;align-items:center;gap:6px;padding:0 7px;background:{{ r.bg }}">
+                            <span style="width:5px;height:5px;background:{{ r.dot }};flex:none"></span>
+                            <span style="height:3px;width:{{ r.w }};background:{{ r.bar }}"></span>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ f.menu }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute;left:46px;top:60px;width:154px;background:var(--ks-panel-hi);border:1px solid #2c3542;box-shadow:0 12px 26px rgba(0,0,0,.6);padding:3px 0;z-index:5">
+                      <sc-for list="{{ q1menu }}" as="m" hint-placeholder-count="5">
+                        <div style="display:flex;align-items:center;gap:7px;padding:3px 8px;background:{{ m.bg }}">
+                          <span style="font-size:7px;color:{{ m.tone }}">{{ m.glyph }}</span>
+                          <span style="font-size:9.5px;color:{{ m.ink }}">{{ m.label }}</span>
+                          <div style="flex:1"></div>
+                          <span style="font-family:var(--ks-mono);font-size:8.5px;color:var(--ks-ink-3)">{{ m.key }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ f.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- multi-select (Q2) -->
+        <sc-if value="{{ b.isMulti }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 366px;gap:12px;align-items:start">
+            <div style="border:1px solid var(--ks-line);background:var(--ks-panel)">
+              <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 10px;background:rgba(240,180,41,.10);border-bottom:1px solid #4a3a12;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-warn)">
+                <span style="font-weight:600">8 objects selected</span><span style="color:#c69a3f">3 clusters · 2 kinds · 3 panes</span>
+                <div style="flex:1"></div>
+                <span style="padding:2px 7px;border:1px solid #4a3a12">restart ×8</span>
+                <span style="padding:2px 7px;border:1px solid #4a3a12">cordon ×2</span>
+                <span style="padding:2px 7px;border:1px solid #54262b;color:#ffb3b3">delete ×8</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--ks-line);height:236px">
+                <sc-for list="{{ q2panes }}" as="p" hint-placeholder-count="3">
+                  <div style="background:var(--ks-panel);display:flex;flex-direction:column;border-left:2px solid {{ p.edge }};min-width:0">
+                    <div style="height:20px;display:flex;align-items:center;gap:6px;padding:0 7px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px">
+                      <span style="color:{{ p.clInk }};font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.cluster }}</span>
+                      <div style="flex:1"></div>
+                      <span style="color:var(--ks-warn);flex:none">{{ p.share }}</span>
+                    </div>
+                    <div style="flex:1;min-height:0;overflow:hidden">
+                      <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="9">
+                        <div style="height:20px;display:flex;align-items:center;gap:6px;padding:0 7px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px">
+                          <span style="width:8px;color:var(--ks-warn);font-size:9px">{{ r.check }}</span>
+                          <span style="font-size:7px;color:{{ r.tone }}">{{ r.glyph }}</span>
+                          <span style="color:{{ r.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:var(--ks-panel);border:1px solid #2c3542;box-shadow:0 18px 40px rgba(0,0,0,.5)">
+              <div style="padding:11px 14px 10px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:9px">
+                <span style="font-size:11px;color:var(--ks-bad)">▲</span><span style="font-size:14px;font-weight:600">Delete 8 pods?</span>
+              </div>
+              <div style="padding:12px 14px;display:flex;flex-direction:column;gap:9px">
+                <div style="font-size:12px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">This is <span style="color:var(--ks-ink)">three separate writes</span>, one per cluster, sent in sequence and reported one by one. If the second fails the third is not attempted.</div>
+                <sc-for list="{{ q2confirm }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex;flex-direction:column;gap:3px;padding:8px 9px;background:var(--ks-field);border-left:2px solid {{ c.tone }}">
+                    <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px"><span style="color:{{ c.tone }};font-weight:600">{{ c.cluster }}</span><div style="flex:1"></div><span style="color:{{ c.noteInk }}">{{ c.note }}</span></div>
+                    <sc-for list="{{ c.objs }}" as="o" hint-placeholder-count="3">
+                      <div style="font-family:var(--ks-mono);font-size:10px;color:{{ o.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.t }}</div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+                <div style="padding:6px 9px;border:1px solid #54262b;font-family:var(--ks-mono);font-size:10.5px;color:#ffb3b3">type <span style="color:var(--ks-ink)">delete 8 pods</span> to confirm ▏</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- time travel (Q3) -->
+        <sc-if value="{{ b.isTime }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="border:1px solid #4a3a12;background:var(--ks-panel)">
+              <div style="height:32px;display:flex;align-items:center;gap:12px;padding:0 11px;background:repeating-linear-gradient(135deg,rgba(240,180,41,.17) 0 8px,rgba(240,180,41,.07) 8px 16px);border-bottom:1px solid #4a3a12;font-family:var(--ks-mono);font-size:11px;color:var(--ks-warn)">
+                <span style="font-weight:600">◐ NOT NOW · 13:52:10</span>
+                <span style="color:#c69a3f">30 min ago</span>
+                <div style="flex:1;height:3px;background:#3a2f14;position:relative">
+                  <span style="position:absolute;left:0;top:0;bottom:0;width:58%;background:rgba(240,180,41,.4)"></span>
+                  <span style="position:absolute;left:58%;top:-5px;width:2px;height:13px;background:var(--ks-warn)"></span>
+                  <sc-for list="{{ ticks }}" as="t" hint-placeholder-count="5">
+                    <span style="position:absolute;left:{{ t.x }};top:-4px;width:1px;height:11px;background:{{ t.tone }}" title="{{ t.label }}"></span>
+                  </sc-for>
+                </div>
+                <span style="padding:2px 8px;border:1px solid #4a3a12">back to now</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line)">
+                <sc-for list="{{ timePanes }}" as="p" hint-placeholder-count="4">
+                  <div style="background:var(--ks-panel);padding:9px 11px;display:flex;flex-direction:column;gap:6px;border-top:2px solid {{ p.edge }}">
+                    <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px">
+                      <span style="color:{{ p.clInk }};font-weight:600">{{ p.cluster }}</span><span style="color:var(--ks-ink-3)">{{ p.type }}</span>
+                      <div style="flex:1"></div>
+                      <span style="padding:1px 6px;background:{{ p.chipBg }};color:{{ p.chipInk }};font-size:9.5px">{{ p.chip }}</span>
+                    </div>
+                    <div style="font-size:11.5px;line-height:1.5;color:{{ p.ink }};text-wrap:pretty">{{ p.body }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">The stripe is the only texture in the product, and it exists so the mode is recognisable across a room — colour alone is not enough for something this dangerous. The ticks on the bar are deploys, restarts and OOMKills, so scrubbing lands on events rather than on arbitrary seconds.</div>
+          </div>
+        </sc-if>
+
+        <!-- fleet row anatomy (Q6) -->
+        <sc-if value="{{ b.isFleet }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="border:1px solid var(--ks-line);background:var(--ks-panel)">
+              <div style="height:20px;display:grid;grid-template-columns:150px 96px 62px 96px 1fr 128px;align-items:center;padding:0 11px;gap:12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+                <div>CLUSTER</div><div>CONNECTION</div><div style="text-align:right">RTT</div><div>NODES</div><div>PODS BY PHASE</div><div>WHAT IT NEEDS</div>
+              </div>
+              <sc-for list="{{ fleet }}" as="c" hint-placeholder-count="10">
+                <div style="height:34px;display:grid;grid-template-columns:150px 96px 62px 96px 1fr 128px;align-items:center;padding:0 11px;gap:12px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <div style="display:flex;align-items:center;gap:8px;border-left:2px solid {{ c.hue }};padding-left:9px">
+                    <span style="font-size:8px;color:{{ c.tone }}">{{ c.glyph }}</span>
+                    <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+                  </div>
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.tone }}">{{ c.state }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.rttInk }};text-align:right">{{ c.rtt }}</div>
+                  <div style="display:flex;align-items:baseline;gap:7px;font-family:var(--ks-mono);font-size:10.5px"><span style="color:var(--ks-ink)">{{ c.nodes }}</span><span style="color:{{ c.nodeInk }};font-size:9.5px">{{ c.nodeNote }}</span></div>
+                  <div style="display:flex;align-items:center;gap:2px;height:11px">
+                    <sc-for list="{{ c.bars }}" as="s" hint-placeholder-count="4">
+                      <div title="{{ s.label }}" style="width:{{ s.w }};height:11px;background:{{ s.bg }}"></div>
+                    </sc-for>
+                    <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);margin-left:7px">{{ c.podLabel }}</span>
+                  </div>
+                  <div style="font-size:10.5px;line-height:1.35;color:{{ c.needInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.need }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">One row, 34px, ten of them in 340px — the whole fleet above the fold with room for a second pane underneath. The phase bar is the only chart: proportional, four segments, and a tooltip per segment. It is readable at a glance because there is exactly one thing to compare across rows.</div>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">The last column is the whole design. Not a status word repeated ten times, but the sentence that decides whether you click: <span style="color:var(--ks-ink-2)">“2 nodes NotReady”</span>, <span style="color:var(--ks-ink-2)">“cert expires in 11 days”</span>, <span style="color:var(--ks-ink-2)">“nothing”</span>. Sorted so that rows needing you are always at the top.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- impact preview (Q7) -->
+        <sc-if value="{{ b.isImpact }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+            <div style="background:var(--ks-panel);border:1px solid #2c3542;border-top:2px solid var(--ks-info)">
+              <div style="padding:11px 14px 10px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-info)">FORECAST · NOTHING HAS HAPPENED YET</span>
+              </div>
+              <div style="padding:13px 14px;display:flex;flex-direction:column;gap:11px">
+                <div style="font-size:14.5px;font-weight:600;line-height:1.35;text-wrap:pretty">Draining ip-10-0-3-19 moves 24 pods. Two of them have nowhere to go.</div>
+                <sc-for list="{{ impact }}" as="i" hint-placeholder-count="4">
+                  <div style="display:flex;gap:10px;padding:8px 9px;background:var(--ks-field);border-left:2px solid {{ i.tone }}">
+                    <span style="font-size:9px;color:{{ i.tone }};padding-top:2px">{{ i.glyph }}</span>
+                    <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                      <div style="font-size:12px;color:var(--ks-ink);line-height:1.4;text-wrap:pretty">{{ i.head }}</div>
+                      <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ i.detailInk }};line-height:1.45;text-wrap:pretty">{{ i.detail }}</div>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="display:flex;align-items:center;gap:9px;padding-top:2px">
+                  <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Not now</span>
+                  <span style="padding:6px 12px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:12px;color:var(--ks-warn);font-weight:600">I understand — drain anyway</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-info)">fix the PDB first ▸</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">HOW A FORECAST DIFFERS FROM AN ERROR</div>
+              <sc-for list="{{ forecast }}" as="f" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:96px 1fr;gap:11px;padding:8px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ f.k }}</div>
+                  <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ f.t }}</div>
+                </div>
+              </sc-for>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">Blue, not red, and the verb in the button is the user’s own: “drain anyway”. A safety net you cannot walk past is a wall, and people learn to click through walls.</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- completeness vocabulary (Q4 + Q5 + Q8) -->
+        <sc-if value="{{ b.isTruth }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:13px">
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px">
+              <sc-for list="{{ truthChips }}" as="c" hint-placeholder-count="5">
+                <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:11px 12px;display:flex;flex-direction:column;gap:7px">
+                  <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:10.5px;color:{{ c.tone }};font-weight:600"><span style="font-size:9px">{{ c.glyph }}</span>{{ c.name }}</div>
+                  <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink);text-wrap:pretty">{{ c.means }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ c.shows }}</div>
+                  <div style="font-size:10.5px;line-height:1.45;color:{{ c.tone }};text-wrap:pretty">{{ c.data }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start">
+              <div style="border:1px solid #4a3a12;background:var(--ks-panel)">
+                <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 10px;font-family:var(--ks-mono);font-size:10.5px;border-bottom:1px solid var(--ks-line-soft)">
+                  <span style="color:var(--ks-warn);font-weight:600">◐ 6 clusters</span><span style="color:var(--ks-ink-3)">Pods · merged</span><div style="flex:1"></div><span style="color:var(--ks-warn)">2 missing</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;background:rgba(240,180,41,.09);border-bottom:1px solid #4a3a12;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-warn)">
+                  <span>6 of 8 clusters answered · <span style="color:var(--ks-ink)">edge-01</span> silent, <span style="color:var(--ks-ink)">analytics</span> paused</span>
+                  <div style="flex:1"></div><span style="padding:1px 6px;border:1px solid #4a3a12">retry both</span>
+                </div>
+                <sc-for list="{{ partialRows }}" as="r" hint-placeholder-count="8">
+                  <div style="height:22px;display:grid;grid-template-columns:104px 92px 1fr 54px;align-items:center;padding:0 10px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+                    <div style="display:flex;align-items:center;gap:7px"><span style="width:2px;height:11px;background:{{ r.hue }}"></span><span style="color:{{ r.clInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.cluster }}</span></div>
+                    <div style="display:flex;align-items:center;gap:5px;color:{{ r.tone }};font-size:10px"><span style="font-size:7px">{{ r.glyph }}</span>{{ r.phase }}</div>
+                    <div style="color:{{ r.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                    <div style="color:var(--ks-ink-3);text-align:right">{{ r.age }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">THE FOUR RULES BEHIND ALL THREE QUESTIONS</div>
+                <sc-for list="{{ truthRules }}" as="r" hint-placeholder-count="4">
+                  <div style="display:flex;flex-direction:column;gap:3px;padding-bottom:9px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                    <div style="font-size:12.5px;font-weight:600;color:var(--ks-ink);text-wrap:pretty">{{ r.h }}</div>
+                    <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+                  </div>
+                </sc-for>
+                <div style="font-family:var(--ks-mono);font-size:11px;line-height:1.55;color:var(--ks-warn);text-wrap:pretty">A missing cluster keeps its row. An absent row would say “nothing wrong here”, which is the one thing we do not know.</div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:flex;align-items:center;gap:20px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+    <span>Q1 · Q2 · Q3 · Q6 · Q7 answered individually · Q4, Q5 and Q8 answered as one vocabulary</span>
+    <div style="flex:1"></div>
+    <span>tokens: <span style="color:var(--ks-ink-2)">--ks-*</span></span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff';
+
+class Component extends DCLogic {
+  renderVals() {
+    const bar = (w, bg) => ({ w, bg, bar: bg });
+    const row = (w, dot, bg) => ({ w, dot, bar: '#2c3542', bg: bg || 'transparent' });
+
+    const podPane = (sel) => ({
+      bg: '#161a21', edge: INFO, dot: INFO, head: 'prod-eu-west · Pods',
+      rows: [row('62%', '#3ecf8e'), row('48%', '#3ecf8e'), sel ? row('70%', BAD, '#1d2937') : row('70%', BAD), row('54%', WARN), row('44%', '#3ecf8e'), row('58%', '#3ecf8e'), row('50%', '#3ecf8e')]
+    });
+    const logPane = {
+      bg: 'rgba(74,168,255,.08)', edge: INFO, dot: INFO, head: 'pinned · …-k8n1p · api',
+      rows: [row('80%', BAD), row('66%', WARN), row('72%', '#5e6a79'), row('58%', BAD), row('64%', '#5e6a79'), row('76%', WARN), row('60%', '#5e6a79')]
+    };
+
+    const frames = [
+      { step: '01', title: 'a row, right-clicked', cols: '1fr', panes: [podPane(true)], menu: true, note: 'The set is titled with the phase and the name, so you can see what you actually hit. ⏎ and double-click run the first item; L, Y, S, E skip the menu entirely.' },
+      { step: '02', title: 'the pane splits itself', cols: '1fr 1fr', panes: [podPane(true), logPane], note: 'No empty pane existed, so the source pane split along its longer axis — here horizontally. The list keeps its scroll position and its selection.' },
+      { step: '03', title: 'scope pinned, and it says so', cols: '1fr 1fr', panes: [podPane(true), logPane], note: 'The new pane reads “pinned · …-k8n1p · api”. Clicking its cluster chip explains why it cannot be re-pointed: it is this object, here — another cluster would be another pane.' }
+    ];
+    const q1menu = [
+      { label: 'Overview', key: '⏎', glyph: '●', tone: INFO, ink: INK, bg: 'rgba(74,168,255,.10)' },
+      { label: 'Logs', key: 'L', glyph: '●', tone: INFO, ink: '#c8d1dd', bg: 'transparent' },
+      { label: 'YAML', key: 'Y', glyph: '●', tone: INFO, ink: '#c8d1dd', bg: 'transparent' },
+      { label: 'Shell', key: 'S', glyph: '◆', tone: WARN, ink: '#c8d1dd', bg: 'transparent' },
+      { label: 'Delete', key: '⌫', glyph: '▲', tone: BAD, ink: '#ffb3b3', bg: 'transparent' }
+    ];
+
+    const mkRows = (cluster, list) => list.map(r => ({
+      check: r[0] ? '✓' : '', glyph: r[1], tone: r[2], name: r[3],
+      ink: r[0] ? INK : '#c8d1dd', bg: r[0] ? '#1d2937' : 'transparent'
+    }));
+    const q2panes = [
+      { cluster: 'prod-eu-west', clInk: INFO, edge: INFO, share: '3 of 8', rows: mkRows(0, [
+        [1, '▲', BAD, 'checkout-api-…-k8n1p'], [1, '◆', WARN, 'ledger-worker-…-9plmz'], [0, '●', OK, 'fraud-scorer-…-2wq7t'],
+        [1, '▲', WARN, 'loki-ingester-…-x71vd'], [0, '●', OK, 'envoy-gateway-…-abc12'], [0, '●', OK, 'coredns-…-4kd9v'],
+        [0, '●', OK, 'grafana-…-m21kd'], [0, '●', OK, 'redis-cache-…-8plz1'], [0, '●', OK, 'otel-collector-…-p04qz']
+      ]) },
+      { cluster: 'prod-us-east', clInk: PURPLE, edge: PURPLE, share: '3 of 8', rows: mkRows(0, [
+        [1, '▲', BAD, 'kafka-2'], [1, '▲', BAD, 'kafka-1'], [1, '●', OK, 'ledger-worker-…-2wq7t'],
+        [0, '●', OK, 'checkout-api-…-p91md'], [0, '●', OK, 'envoy-gateway-…-1kd0z'], [0, '●', OK, 'coredns-…-9zk22'],
+        [0, '●', OK, 'clickhouse-0'], [0, '●', OK, 'clickhouse-1'], [0, '●', OK, 'grafana-…-77dkq']
+      ]) },
+      { cluster: 'prod-ap-south', clInk: WARN, edge: WARN, share: '2 of 8', rows: mkRows(0, [
+        [1, '◆', WARN, 'coredns-…-b71ka'], [1, '▲', WARN, 'checkout-api-…-z0mq4'], [0, '●', OK, 'envoy-gateway-…-90dks'],
+        [0, '●', OK, 'ledger-worker-…-kq81z'], [0, '●', OK, 'otel-collector-…-4mzq1'], [0, '●', OK, 'grafana-…-2ldk9'],
+        [0, '●', OK, 'redis-cache-…-11kdz'], [0, '●', OK, 'metrics-server-…-8sk2q'], [0, '●', OK, 'kafka-0']
+      ]) }
+    ];
+    const q2confirm = [
+      { cluster: 'prod-eu-west', tone: INFO, note: 'writable', noteInk: INK3, objs: [{ t: 'checkout-api-7f9c8d4b6-k8n1p', ink: INK2 }, { t: 'ledger-worker-5d8f9c74c-9plmz', ink: INK2 }, { t: 'loki-ingester-4b8d2c7f6-x71vd', ink: INK2 }] },
+      { cluster: 'prod-us-east', tone: PURPLE, note: 'writable', noteInk: INK3, objs: [{ t: 'kafka-2 · kafka-1', ink: INK2 }, { t: 'ledger-worker-5d8f9c74c-2wq7t', ink: INK2 }] },
+      { cluster: 'prod-ap-south', tone: WARN, note: 'slow · 610ms', noteInk: WARN, objs: [{ t: 'coredns-9f4b7c2d8-b71ka', ink: INK2 }, { t: 'checkout-api-7f9c8d4b6-z0mq4', ink: INK2 }] }
+    ];
+
+    const ticks = [['14%', BAD, 'OOMKill 13:31'], ['31%', WARN, 'restart 13:39'], ['44%', INFO, 'deploy 13:45'], ['58%', WARN, 'you are here'], ['79%', BAD, 'OOMKill 14:06']]
+      .map(t => ({ x: t[0], tone: t[1], label: t[2] }));
+    const timePanes = [
+      { cluster: 'prod-eu-west', clInk: INFO, type: 'Pods', chip: '13:52:10', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: '41 rows as they were then. checkout-api shows 12 restarts here, not 47 — the number itself is historical.' },
+      { cluster: 'prod-eu-west', clInk: INFO, type: 'Logs', chip: '13:52:10', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: 'Replayed from the store, not followed. “Follow” is replaced by “play forward from here”.' },
+      { cluster: 'prod-ap-south', clInk: WARN, type: 'Events', chip: 'kept 7d', chipBg: 'rgba(240,180,41,.16)', chipInk: WARN, edge: WARN, ink: INK2, body: 'Events outlive Kubernetes’ one-hour window because we keep them — which is the only reason this mode is useful at all.' },
+      { cluster: 'prod-us-east', clInk: PURPLE, type: 'Shell', chip: 'LIVE · NOW', chipBg: 'rgba(62,207,142,.16)', chipInk: OK, edge: OK, ink: '#a8e6c8', body: 'A shell cannot time travel. It stays live and says so in green while the frame is amber — or you close it. It never freezes silently pretending to be the past.' }
+    ];
+
+    const phaseBar = (run, warn, bad, idle) => {
+      const total = run + warn + bad + idle;
+      const seg = (n, bg, label) => n > 0 ? [{ w: (n / total * 100).toFixed(1) + '%', bg, label: label + ': ' + n }] : [];
+      return [].concat(seg(bad, BAD, 'failing'), seg(warn, WARN, 'pending or degraded'), seg(run, 'rgba(62,207,142,.45)', 'running'), seg(idle, '#2c3542', 'completed'));
+    };
+    const fleet = [
+      ['edge-01', BAD, '▲', 'no response', '—', BAD, '3', '', 0, 0, 0, 0, 'unreachable 4m12s', BAD, 'rgba(255,95,95,.10)'],
+      ['prod-ap-south', WARN, '◐', 'slow', '610ms', WARN, '18', '2 NotReady', 402, 23, 6, 0, '2 nodes NotReady', WARN, 'rgba(240,180,41,.07)'],
+      ['prod-eu-west', INFO, '●', 'live', '41ms', INK2, '24', '', 598, 12, 2, 0, 'checkout-api OOMKilled 47×', WARN, 'transparent'],
+      ['edge-02', '#ff8a5c', '●', 'live', '180ms', INK2, '3', '', 62, 0, 0, 0, 'cert expires in 11 days', WARN, 'transparent'],
+      ['prod-us-east', PURPLE, '●', 'live', '58ms', INK2, '24', '', 586, 1, 1, 0, 'nothing', INK3, 'transparent'],
+      ['ci-runners', '#9ad04a', '●', 'live', '44ms', INK2, '40', '', 880, 12, 0, 2, '12 pending — build queue', INK3, 'transparent'],
+      ['staging-eu', OK, '●', 'live', '22ms', INK2, '12', '1 cordoned', 288, 0, 0, 0, 'nothing', INK3, 'transparent'],
+      ['staging-us', '#5ad2c4', '●', 'live', '31ms', INK2, '12', '', 274, 0, 0, 0, 'nothing', INK3, 'transparent'],
+      ['dev-sandbox', '#8a94a6', '●', 'live', '12ms', INK2, '6', '', 100, 0, 0, 41, '41 completed, not reaped', INK3, 'transparent'],
+      ['analytics', '#c9a227', '■', 'paused', 'paused', IDLE, '6', '', 122, 0, 0, 0, 'watch paused by you', IDLE, 'transparent']
+    ].map(c => ({
+      name: c[0], hue: c[1], glyph: c[2], state: c[3], rtt: c[4], rttInk: c[5], tone: c[3] === 'live' ? OK : c[3] === 'slow' ? WARN : c[3] === 'paused' ? IDLE : BAD,
+      nodes: c[6], nodeNote: c[7], nodeInk: c[7].indexOf('NotReady') >= 0 ? BAD : INK3,
+      bars: (c[8] + c[9] + c[10] + c[11]) > 0 ? phaseBar(c[8], c[9], c[10], c[11]) : [{ w: '100%', bg: 'rgba(255,95,95,.18)', label: 'unknown' }],
+      podLabel: (c[8] + c[9] + c[10] + c[11]) > 0 ? (c[8] + c[9] + c[10] + c[11]) + '' : '?',
+      need: c[12], needInk: c[13], bg: c[14]
+    }));
+
+    const impact = [
+      { glyph: '▲', tone: BAD, head: 'Two pods have nowhere to go.', detail: 'ledger-worker (payments) requires 2Gi; the three candidate nodes have 1.1Gi, 0.8Gi and 0.4Gi free.' },
+      { glyph: '▲', tone: WARN, head: 'One PodDisruptionBudget would be violated.', detail: 'payments/checkout-api: minAvailable 6, currently 6 ready — the eviction will block rather than fail.' },
+      { glyph: '●', tone: INFO, head: 'One Service loses an endpoint for about 40 seconds.', detail: 'payments/ledger — 3 endpoints → 2, while the replacement passes its readiness probe.' },
+      { glyph: '●', tone: OK, head: 'Twenty-one pods reschedule cleanly.', detail: 'ip-10-0-1-204 takes 14, ip-10-0-3-91 takes 7. Both stay under 80% of allocatable memory.' }
+    ];
+    const forecast = [
+      { k: 'COLOUR', t: 'Blue frame, not red. Red means something already broke; this is arithmetic about a future you can still choose.' },
+      { k: 'TENSE', t: 'Future, always: “would be violated”, “loses an endpoint for about 40 seconds”. Never “failed”, never “cannot”.' },
+      { k: 'THE VERB', t: 'The confirm button carries the user’s intent — “drain anyway” — not a neutral “OK”. You are agreeing to a consequence you just read.' },
+      { k: 'AN EXIT', t: 'Every forecast offers the fix as a link: fix the PDB, raise the limit, scale first. A warning with no route out gets clicked through blindly.' },
+      { k: 'REUSE', t: 'The same pane opens on its own from the action map (“Impact preview”), with no write pending. Reading the forecast must not require starting the dangerous thing.' }
+    ];
+
+    const truthChips = [
+      { name: 'COMPLETE', glyph: '●', tone: OK, means: 'Every source answered, data is current.', shows: 'nothing — silence is the signal', data: 'shown normally' },
+      { name: 'PARTIAL', glyph: '◐', tone: WARN, means: 'Some sources did not answer.', shows: '“6 of 8 clusters · edge-01 silent”', data: 'shown, missing sources keep a row' },
+      { name: 'STALE', glyph: '◐', tone: WARN, means: 'True, but not now.', shows: '“47s old” + retry, rows dimmed 15%', data: 'shown, dimmed' },
+      { name: 'FROZEN', glyph: '▲', tone: BAD, means: 'The stream stopped and we know it.', shows: '“stopped 4m ago · reconnecting”', data: 'kept, visibly not live' },
+      { name: 'NOT NOW', glyph: '◐', tone: WARN, means: 'Time travel is on.', shows: 'the amber striped frame + timestamp', data: 'historical, marked everywhere' }
+    ];
+    const partialRows = [
+      ['edge-01', BAD, '?', '?', 'no answer — 4m12s', '—', 'rgba(255,95,95,.10)', '#8a5f62'],
+      ['analytics', '#c9a227', '■', 'paused', 'watch paused by you at 09:12', '—', 'rgba(255,255,255,.02)', INK3],
+      ['prod-eu-west', INFO, '▲', 'CrashLoop', 'checkout-api-7f9c8d4b6-k8n1p', '4h11m', 'rgba(255,95,95,.08)', INK],
+      ['prod-us-east', PURPLE, '▲', 'CrashLoop', 'kafka-2', '1h04m', 'rgba(255,95,95,.08)', INK],
+      ['prod-ap-south', WARN, '◆', 'Pending', 'coredns-9f4b7c2d8-b71ka', '18m', 'rgba(240,180,41,.07)', INK],
+      ['staging-eu', OK, '■', 'Terminating', 'cilium-operator-6c8a4f9b3-mm4kd', '9m', 'transparent', '#c8d1dd'],
+      ['ci-runners', '#9ad04a', '◆', 'Pending', 'runner-4d9c7b2e8-k91zq', '2m', 'transparent', '#c8d1dd'],
+      ['edge-02', '#ff8a5c', '●', 'Running', 'router-default-58c7d9b41-9kd2z', '31d', 'transparent', '#c8d1dd']
+    ].map(r => ({
+      cluster: r[0], hue: r[1], glyph: r[2], phase: r[3], name: r[4], age: r[5], bg: r[6], ink: r[7],
+      clInk: r[6].indexOf('255,95,95') >= 0 && r[2] === '?' ? '#8a5f62' : INK2,
+      tone: r[3] === '?' ? '#8a5f62' : r[3] === 'paused' ? IDLE : r[3] === 'CrashLoop' ? BAD : r[3] === 'Pending' ? WARN : r[3] === 'Terminating' ? IDLE : OK
+    }));
+    const truthRules = [
+      { h: 'Freshness is a property of the data, not a state of the app.', t: 'Every read carries the moment it was true. A pane can therefore always answer “when is this from?” without asking anyone — which is what makes partial, stale and time travel the same field with three values rather than three features.' },
+      { h: 'Missing is named, never summarised.', t: '“Some clusters did not respond” is useless. The two that failed are named in the strip and keep their row in the list, marked, so the gap is visible where the answer should have been.' },
+      { h: 'Between fine and broken there is a third state, and it has a colour.', t: 'Amber with the ◐ glyph means “true, but incomplete or old”. It never takes content away and never blocks interaction; it only refuses to let the screen look finished when it is not.' },
+      { h: 'Nothing is ever silently reduced.', t: 'A filtered multi-selection, a partial merge, a dropped column: each says what it left out. Silence is reserved for the one case where everything is complete and current.' }
+    ];
+
+    return {
+      frames, q1menu, q2panes, q2confirm, ticks, timePanes, fleet, impact, forecast, truthChips, partialRows, truthRules,
+      blocks: [
+        {
+          q: 'Q1', tone: INFO, title: 'How does an object pane come into being from a row?',
+          answer: 'Three ways to ask; one rule for where it lands — an empty pane if one exists, otherwise the source pane splits along its longer axis.',
+          body: [
+            { t: 'Right-click for discovery, a letter for speed, ⏎ for the one thing you usually want. Never a dialog asking where to put it: the placement has to be predictable enough to happen behind your eyes while you are still reading the row.' },
+            { t: 'The new pane inherits cluster, namespace, object and container, and shows them as pinned. Modifiers change placement only — ⌥ makes it a tab in the same slot, ⇧ replaces the pane you came from.' }
+          ],
+          rule: 'empty pane wins · else split the long axis · ⌥ tab · ⇧ replace',
+          specLabel: 'THE SAME GESTURE, THREE FRAMES', isFrames: true
+        },
+        {
+          q: 'Q2', tone: WARN, title: 'What does a multi-selection look like across panes?',
+          answer: 'A selection bar in the frame, owned by no pane and naming all of them: “8 objects · 3 clusters · 2 kinds”.',
+          body: [
+            { t: 'Rows keep their status glyph and gain a check mark; each pane header shows its own share (“3 of 8”). A count that lives inside one pane cannot describe a selection spanning three, so the total lives in the frame — the only number in the product that does.' },
+            { t: 'The confirmation is where this earns its keep: it groups by cluster, because eight pods in three clusters is three separate writes — and one of those clusters may be read-only or slow.' }
+          ],
+          rule: 'frame bar · check marks · per-pane share · confirm grouped by cluster',
+          specLabel: 'EIGHT PODS, THREE PANES, THREE CLUSTERS', isMulti: true
+        },
+        {
+          q: 'Q3', tone: WARN, title: 'Where does time live?',
+          answer: 'In the frame, as a striped amber bar — and once it is on, it repaints the frame and marks every pane, permanently and undismissably.',
+          body: [
+            { t: 'Time travel affects the whole interface, so it cannot belong to a pane. The bar sits under the workspace tabs, and its handle moves everything at once. The stripe is the only texture in the product: this mode must be recognisable from across a room, and colour alone is not enough.' },
+            { t: 'Every pane header carries the timestamp instead of its stream state, because a pane must never look live while showing the past. The terminal is the honest exception: it stays live, in green, and says so — or you close it.' }
+          ],
+          rule: 'frame-level · striped + timestamped · undismissable · the shell refuses',
+          specLabel: 'THE FRAME AT 13:52, THIRTY MINUTES BACK', isTime: true
+        },
+        {
+          q: 'Q6', tone: OK, title: 'How do eight clusters fit on one screen?',
+          answer: 'One 34px row per cluster: identity, connection, nodes, a proportional phase bar, and a sentence saying what it needs.',
+          body: [
+            { t: 'Ten rows in 340px leaves the rest of the screen for the pane you open from them. Cards were tried and lost: ten cards cannot be compared, because the eye has to re-find the same number in ten different places. A row puts every value in a column, where comparison is free.' },
+            { t: 'The order is the design: clusters needing you first, then slow, then healthy — never alphabetical. And the last column is a sentence, not a status word, so the row tells you whether to click before you click.' }
+          ],
+          rule: '34px rows · one phase bar · sorted worst-first · a sentence, not a badge',
+          specLabel: 'TEN CLUSTERS, 340 PIXELS', isFleet: true
+        },
+        {
+          q: 'Q7', tone: INFO, title: 'What does a “here is what you will break” warning look like?',
+          answer: 'A forecast, in blue, in the future tense — with the fix offered as a link and the user’s own verb on the button.',
+          body: [
+            { t: 'Nothing has happened yet, so it cannot look like an error. It is arithmetic about a choice you can still make: what moves, what has nowhere to go, which budget would be violated, how long an endpoint disappears for.' },
+            { t: 'It is also a pane in its own right, openable with no write pending. Reading the consequences must never require starting the dangerous thing — which is what separates a safety net from a confirmation dialog.' }
+          ],
+          rule: 'blue · future tense · the fix as a link · “drain anyway”, not “OK”',
+          specLabel: 'DRAINING A NODE, BEFORE ANYTHING HAPPENS', isImpact: true
+        },
+        {
+          q: 'Q4 · Q5 · Q8', tone: WARN, title: 'How does a pane say that what you see is not complete, or not now?',
+          answer: 'Five words, one glyph, used identically by every pane: complete, partial, stale, frozen, not now.',
+          body: [
+            { t: 'These three questions in the brief are one problem: the gap between “fine” and “broken”. Answering them separately would produce three vocabularies, and by the fourth pane they would contradict each other.' },
+            { t: 'So there is a single field on every read — what answered, and when — and five presentations of it. Amber and ◐ mean “true, but incomplete or old”; they never remove content and never block interaction. Only frozen, error and gone are allowed to take data away.' }
+          ],
+          rule: 'complete ● · partial ◐ · stale ◐ · frozen ▲ · not now ◐ — named sources, never summaries',
+          specLabel: 'THE VOCABULARY, AND A MERGED LIST MISSING TWO CLUSTERS', isTruth: true
+        }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

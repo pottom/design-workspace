@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:920px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 05 / 30 · QUESTION PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Global search</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">One question, ten clusters, answered as it arrives. Results are grouped by cluster because that is the unit you act on — and a cluster that has not answered yet keeps its group open with a count of nothing, so a slow cluster can never be mistaken for a clean one.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="global search · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>metadata-only across the fleet · no full objects fetched</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>all clusters<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Search</span>
+        <span style="color:var(--ks-ink-3)">kinds</span><span style="color:var(--ks-ink-2)">pods + events<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">ns</span><span style="color:var(--ks-ink-2)">all<span style="color:var(--ks-ink-3)">▾</span></span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">41 hits · 4 of 10 clusters</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-warn)"><span style="font-size:7px">◐</span>searching · 8 of 10 answered</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- the query line: the primary element -->
+      <div style="padding:13px 14px 12px;display:flex;flex-direction:column;gap:11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+        <div style="display:flex;align-items:center;gap:11px">
+          <span style="font-family:var(--ks-mono);font-size:13px;color:var(--ks-ink-3)">?</span>
+          <div style="flex:1;display:flex;align-items:center;gap:9px;height:32px;padding:0 11px;border:1px solid var(--ks-info);background:var(--ks-panel);box-shadow:inset 0 0 0 1px rgba(74,168,255,.35)">
+            <span style="font-family:var(--ks-mono);font-size:14px;color:var(--ks-ink)">CrashLoopBackOff</span>
+            <span style="font-family:var(--ks-mono);font-size:14px;color:var(--ks-ink-3)">▏</span>
+            <div style="flex:1"></div>
+            <sc-for list="{{ queryChips }}" as="q" hint-placeholder-count="3">
+              <span style="display:flex;align-items:center;gap:5px;padding:3px 8px;border:1px solid {{ q.line }};background:{{ q.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ q.ink }}">{{ q.t }}</span>
+            </sc-for>
+          </div>
+          <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:120px">⏎ search · ⇧⏎ new pane</span>
+        </div>
+        <!-- per-cluster progress: who has answered -->
+        <div style="display:flex;align-items:center;gap:6px">
+          <sc-for list="{{ progress }}" as="p" hint-placeholder-count="10">
+            <div title="{{ p.title }}" style="flex:1;display:flex;flex-direction:column;gap:4px">
+              <div style="height:4px;background:{{ p.barBg }}"></div>
+              <div style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:9.5px;color:{{ p.ink }}">
+                <span style="font-size:7px;color:{{ p.tone }}">{{ p.glyph }}</span>
+                <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                <div style="flex:1"></div>
+                <span style="color:{{ p.countInk }};flex:none">{{ p.count }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;overflow-x:hidden">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="10">
+          <div>
+            <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 10px;background:{{ g.headBg }};box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <span style="width:2px;height:13px;background:{{ g.hue }}"></span>
+              <span style="font-size:8px;color:{{ g.tone }}">{{ g.glyph }}</span>
+              <span style="font-family:var(--ks-mono);font-size:12px;font-weight:600;color:{{ g.nameInk }}">{{ g.name }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ g.countInk }}">{{ g.count }}</span>
+              <span style="font-size:11.5px;color:{{ g.noteInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.note }}</span>
+              <div style="flex:1"></div>
+              <sc-for list="{{ g.actions }}" as="a" hint-placeholder-count="0">
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ a.ink }};padding:2px 7px;border:1px solid {{ a.line }}">{{ a.t }}</span>
+              </sc-for>
+            </div>
+            <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="0">
+              <div style="height:22px;display:grid;grid-template-columns:1fr 44px 108px 46px 56px 118px 250px;align-items:center;padding:0 10px 0 24px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:12px">
+                <div style="font-family:var(--ks-mono);font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.nameWeight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+                <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.readyInk }}">{{ r.ready }}</div>
+                <div style="display:flex;align-items:center;gap:6px;color:{{ r.tone }};font-weight:500"><span style="font-size:8px;width:8px">{{ r.glyph }}</span><span style="font-size:11px;font-family:var(--ks-mono)">{{ r.word }}</span></div>
+                <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.rsInk }};text-align:right">{{ r.rs }}</div>
+                <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);text-align:right">{{ r.age }}</div>
+                <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.ns }}</div>
+                <div style="font-size:11px;color:{{ r.whyInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.why }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 10px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-warn);font-weight:600">41 hits selected</span>
+        <span style="color:var(--ks-ink-3)">in 4 clusters — a bulk action here is 4 writes</span>
+        <div style="flex:1"></div>
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="5">
+          <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">What you can ask, and what comes back</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:262px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="padding:7px 9px;border-bottom:1px solid var(--ks-line-soft);display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:11px;padding:4px 7px;border:1px solid {{ v.qLine }};background:var(--ks-field)">
+                <span style="color:{{ v.qInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.query }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+                <span style="color:{{ v.stateTone }}">{{ v.state }}</span><div style="flex:1"></div><span>{{ v.hits }}</span>
+              </div>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="10">
+                <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:3px 9px;gap:8px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;color:{{ c.ink }};font-weight:{{ c.weight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }}">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">DETAIL</div>
+      <div style="font-size:18px;font-weight:600">The query language, and the states of a search</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <div style="padding:6px 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT YOU CAN TYPE — NO SYNTAX TO LEARN FIRST</div>
+        <div style="padding:11px;display:flex;flex-direction:column;gap:0">
+          <sc-for list="{{ syntax }}" as="s" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:baseline;padding:5px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="font-family:var(--ks-mono);font-size:11.5px;color:{{ s.qInk }}">{{ s.q }}</div>
+              <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ s.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <sc-for list="{{ states }}" as="s" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ s.tone }}">{{ s.name }}</div>
+            <div style="height:118px;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+              <div style="padding:5px 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px;color:{{ s.tone }};display:flex;align-items:center;gap:6px">
+                <span style="font-size:7px">{{ s.glyph }}</span>{{ s.head }}
+              </div>
+              <div style="flex:1;min-height:0;padding:8px 9px;display:flex;flex-direction:column;gap:6px;justify-content:{{ s.justify }}">
+                <sc-for list="{{ s.lines }}" as="l" hint-placeholder-count="3">
+                  <div style="font-size:{{ l.size }};line-height:1.45;color:{{ l.ink }};font-family:{{ l.font }};text-wrap:pretty">{{ l.t }}</div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+const PH = { CrashLoop: ['\u25b2', BAD, 'CrashLoop'], Failed: ['\u25b2', BAD, 'Failed'], Pending: ['\u25c6', WARN, 'Pending'], Degraded: ['\u25b2', WARN, 'Degraded'] };
+
+class Component extends DCLogic {
+  renderVals() {
+    const CLU = {
+      'prod-eu-west': INFO, 'prod-us-east': PURPLE, 'prod-ap-south': WARN, 'staging-eu': OK,
+      'staging-us': '#5ad2c4', 'dev-sandbox': '#8a94a6', 'edge-01': BAD, 'edge-02': '#ff8a5c',
+      'ci-runners': '#9ad04a', 'analytics': '#c9a227'
+    };
+    const codes = { 'prod-eu-west': 'EW', 'prod-us-east': 'UE', 'prod-ap-south': 'AS', 'staging-eu': 'SE', 'staging-us': 'SU', 'dev-sandbox': 'DS', 'edge-01': 'E1', 'edge-02': 'E2', 'ci-runners': 'CI', 'analytics': 'AN' };
+
+    const mkRow = (name, ready, phase, rs, age, ns, why) => {
+      const m = PH[phase];
+      const bad = phase === 'CrashLoop' || phase === 'Failed';
+      return {
+        name, ready, glyph: m[0], word: m[2], tone: m[1], rs: rs + '\u00d7', age, ns, why,
+        nameInk: '#ffffff', nameWeight: '600',
+        readyInk: ready.split('/')[0] !== ready.split('/')[1] ? m[1] : INK3,
+        rsInk: rs > 10 ? BAD : rs > 0 ? WARN : INK3,
+        whyInk: bad ? '#ffb3b3' : '#f3d08a',
+        bg: bad ? 'rgba(255,95,95,.09)' : 'rgba(240,180,41,.06)'
+      };
+    };
+
+    const groups = [
+      {
+        name: 'prod-eu-west', count: '12 hits', note: 'all twelve are the same workload — one cause, not twelve',
+        state: 'answered', tone: OK, glyph: '\u25cf',
+        rows: [
+          mkRow('checkout-api-7f9c8d4b6-k8n1p', '1/2', 'CrashLoop', 47, '4d2h', 'payments', 'OOMKilled \u00b7 limit 512Mi, peak 511Mi'),
+          mkRow('checkout-api-7f9c8d4b6-x2m4q', '1/2', 'CrashLoop', 12, '18m', 'payments', 'OOMKilled \u00b7 same limit, new pod'),
+          mkRow('checkout-api-7f9c8d4b6-p91md', '1/2', 'CrashLoop', 9, '38m', 'payments', 'OOMKilled \u00b7 same limit, new pod'),
+          mkRow('checkout-api-7f9c8d4b6-z0mq4', '0/2', 'CrashLoop', 6, '26m', 'payments', 'OOMKilled \u00b7 same limit, new pod')
+        ],
+        actions: [{ t: 'open a list here', ink: INFO, line: LINE }, { t: 'raise the limit \u00d71', ink: WARN, line: '#4a3a12' }]
+      },
+      {
+        name: 'prod-us-east', count: '9 hits', note: 'kafka-2 only — a StatefulSet ordinal, not a fleet pattern',
+        state: 'answered', tone: OK, glyph: '\u25cf',
+        rows: [
+          mkRow('kafka-2', '0/1', 'CrashLoop', 12, '31d', 'data', 'back-off restarting failed container'),
+          mkRow('kafka-1', '1/1', 'Degraded', 3, '31d', 'data', 'readiness flapping since 13:41')
+        ],
+        actions: [{ t: 'open a list here', ink: INFO, line: LINE }]
+      },
+      {
+        name: 'prod-ap-south', count: '14 hits', note: 'spread across six namespaces — this one is the cluster, not an app',
+        state: 'answered', tone: WARN, glyph: '\u25d0',
+        rows: [
+          mkRow('checkout-api-7f9c8d4b6-b71ka', '1/2', 'Degraded', 2, '4d', 'payments', 'readiness flapping \u00b7 apiserver slow'),
+          mkRow('coredns-9f4b7c2d8-b71ka', '0/1', 'Pending', 0, '18m', 'kube-system', 'node NotReady \u00b7 ip-10-0-4-8'),
+          mkRow('otel-collector-7d5c8f9a1-4mzq1', '1/1', 'Degraded', 4, '12d', 'observability', 'probe timeout 2s exceeded'),
+          mkRow('ledger-worker-5d8f9c74c-kq81z', '0/1', 'Pending', 0, '22m', 'payments', 'insufficient memory \u00b7 2 nodes NotReady')
+        ],
+        actions: [{ t: 'diagnose the cluster', ink: WARN, line: '#4a3a12' }]
+      },
+      {
+        name: 'ci-runners', count: '6 hits', note: 'expected — the build queue always has pending runners',
+        state: 'answered', tone: IDLE, glyph: '\u25cf',
+        rows: [
+          mkRow('runner-4d9c7b2e8-k91zq', '0/1', 'Pending', 0, '2m', 'ci', 'waiting for the build queue'),
+          mkRow('runner-4d9c7b2e8-p02mx', '0/1', 'Pending', 0, '4m', 'ci', 'waiting for the build queue')
+        ],
+        actions: [{ t: 'ignore this cluster', ink: INK3, line: LINE }]
+      },
+      { name: 'staging-eu', count: '0 hits', note: 'nothing matches here', state: 'answered', tone: OK, glyph: '\u25cf', rows: [], actions: [] },
+      { name: 'staging-us', count: '0 hits', note: 'nothing matches here', state: 'answered', tone: OK, glyph: '\u25cf', rows: [], actions: [] },
+      { name: 'dev-sandbox', count: '0 hits', note: 'nothing matches here', state: 'answered', tone: OK, glyph: '\u25cf', rows: [], actions: [] },
+      { name: 'edge-02', count: '0 hits', note: 'nothing matches here', state: 'answered', tone: OK, glyph: '\u25cf', rows: [], actions: [] },
+      { name: 'edge-01', count: 'no answer', note: 'unreachable for 4m12s \u2014 this group is empty because we could not ask, not because it is clean', state: 'down', tone: BAD, glyph: '\u25b2', rows: [], actions: [{ t: 'retry', ink: '#ffb3b3', line: '#54262b' }] },
+      { name: 'analytics', count: 'searching', note: 'still answering \u00b7 4.1s', state: 'pending', tone: WARN, glyph: '\u25d0', rows: [], actions: [] }
+    ].map(g => ({
+      name: g.name, hue: CLU[g.name], glyph: g.glyph, tone: g.tone, count: g.count, note: g.note, rows: g.rows, actions: g.actions,
+      nameInk: g.state === 'down' ? '#ffb3b3' : g.rows.length ? INK : INK2,
+      countInk: g.state === 'down' ? BAD : g.state === 'pending' ? WARN : g.rows.length ? WARN : INK3,
+      noteInk: g.state === 'down' ? '#8a5f62' : g.rows.length ? INK2 : INK3,
+      headBg: g.state === 'down' ? 'rgba(255,95,95,.10)' : g.rows.length ? 'var(--ks-panel-hi)' : 'rgba(255,255,255,.015)'
+    }));
+
+    // every group renders exactly as many rows as its header claims
+    let s2 = 90210;
+    const rnd2 = () => (s2 = (s2 * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const hash2 = () => Array.from({ length: 5 }, () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(rnd2() * 36)]).join('');
+    const AGES = ['4d2h', '12d', '31d', '6h14m', '2d9h', '18d', '54m', '9d', '3d17h', '21d'];
+    groups.forEach(g => {
+      const m = /^(\d+)/.exec(g.count);
+      if (!m || !g.rows.length) return;
+      const want = Number(m[1]);
+      let i = 0;
+      while (g.rows.length < want) {
+        const src = g.rows[i % Math.min(4, g.rows.length)];
+        i++;
+        const base = src.name.replace(/-[a-z0-9]{5}$/, '');
+        const rs = Math.max(1, Math.floor(rnd2() * 14));
+        g.rows.push(Object.assign({}, src, {
+          name: /-\d+$/.test(src.name) ? base + '-' + (2 + i) : base + '-' + hash2(),
+          rs: rs + '\u00d7',
+          rsInk: rs > 10 ? BAD : WARN,
+          age: AGES[Math.floor(rnd2() * AGES.length)],
+          nameWeight: '400', nameInk: '#c8d1dd'
+        }));
+      }
+    });
+
+    const prog = [
+      ['prod-eu-west', 'done', '12'], ['prod-us-east', 'done', '9'], ['prod-ap-south', 'done', '14'],
+      ['staging-eu', 'done', '0'], ['staging-us', 'done', '0'], ['dev-sandbox', 'done', '0'],
+      ['edge-01', 'down', '\u2014'], ['edge-02', 'done', '0'], ['ci-runners', 'done', '6'], ['analytics', 'pending', '\u2026']
+    ].map(p => ({
+      name: codes[p[0]] + ' ' + p[0].replace('prod-', '').replace('staging-', 's-'),
+      title: p[0] + ' \u00b7 ' + p[1],
+      barBg: p[1] === 'done' ? (p[2] !== '0' ? WARN : 'rgba(62,207,142,.35)') : p[1] === 'down' ? BAD : 'rgba(240,180,41,.35)',
+      glyph: p[1] === 'done' ? '\u25cf' : p[1] === 'down' ? '\u25b2' : '\u25d0',
+      tone: p[1] === 'done' ? (p[2] !== '0' ? WARN : OK) : p[1] === 'down' ? BAD : WARN,
+      ink: p[1] === 'down' ? '#8a5f62' : INK3,
+      count: p[2], countInk: p[2] !== '0' && p[2] !== '\u2014' && p[2] !== '\u2026' ? WARN : INK3
+    }));
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3 }, o || {});
+    const vr = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '20px' });
+
+    return {
+      facts: [
+        { k: 'HITS', v: '41 in 4', tone: WARN },
+        { k: 'ANSWERED', v: '8 of 10', tone: WARN },
+        { k: 'FETCHED', v: 'metadata only', tone: OK },
+        { k: 'PRIMARY ELEMENT', v: 'the query line', tone: INFO }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: Object.keys(CLU).map(n => ({
+        name: n, code: codes[n], ink: INK3, bg: 'transparent', bar: 'transparent',
+        glyph: n === 'edge-01' ? '\u25b2' : n === 'prod-ap-south' ? '\u25d0' : n === 'analytics' ? '\u25a0' : '\u25cf',
+        tone: n === 'edge-01' ? BAD : n === 'prod-ap-south' ? WARN : n === 'analytics' ? IDLE : OK
+      })),
+      queryChips: [
+        { t: 'phase', bg: 'rgba(74,168,255,.10)', line: '#2f4356', ink: INFO },
+        { t: 'saved: “fleet crashloops”', bg: 'transparent', line: LINE, ink: INK2 },
+        { t: '⌘⏎ watch this', bg: 'transparent', line: LINE, ink: INK3 }
+      ],
+      progress: prog, groups,
+      actions: [
+        { key: '\u21b5', label: 'open the hit', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'L', label: 'merged logs \u00d741', ink: INK2, line: LINE, keyInk: INK },
+        { key: '\u2318C', label: 'copy as ns/kind/name', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'R', label: 'restart \u00d74 clusters', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: 'W', label: 'watch this query', ink: INK2, line: LINE, keyInk: INK }
+      ],
+      variants: [
+        {
+          title: 'A name fragment', cap: 'XC-01', edge: INFO, query: 'checkout', qInk: INK, qLine: LINE, state: '\u25cf 10 of 10 answered', stateTone: OK, hits: '38 hits · 7 kinds',
+          cols: '62px 1fr 66px',
+          rows: [
+            vr([c('eu-west', { ink: INFO }), c('deploy/checkout-api', { ink: INK, weight: '600' }), c('8 pods', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('eu-west', { ink: INFO }), c('svc/checkout', { ink: '#c8d1dd' }), c('3 eps', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('eu-west', { ink: INFO }), c('cm/checkout-config', { ink: '#c8d1dd' }), c('4 keys', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('us-east', { ink: PURPLE }), c('deploy/checkout-api', { ink: INK, weight: '600' }), c('8 pods', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('us-east', { ink: PURPLE }), c('svc/checkout', { ink: '#c8d1dd' }), c('3 eps', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('ap-south', { ink: WARN }), c('deploy/checkout-api', { ink: INK, weight: '600' }), c('6 pods', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('ap-south', { ink: WARN }), c('cm/checkout-config', { ink: '#c8d1dd' }), c('3 keys', { justify: 'flex-end', ink: WARN })]),
+            vr([c('staging-eu', { ink: OK }), c('deploy/checkout-api', { ink: '#c8d1dd' }), c('2 pods', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('staging-us', { ink: '#5ad2c4' }), c('deploy/checkout-api', { ink: '#c8d1dd' }), c('2 pods', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('ci-runners', { ink: '#9ad04a' }), c('cm/checkout-e2e', { ink: '#c8d1dd' }), c('1 key', { justify: 'flex-end', ink: INK3 })])
+          ],
+          note: 'Kinds mixed, grouped by cluster, one line each. Note ap-south: three ConfigMap keys where the others have four — the count alone is the drift signal, before any diff.'
+        },
+        {
+          title: 'A label selector', cap: 'RES-07 · XC-01', edge: INFO, query: 'app=checkout,tier!=canary', qInk: '#8ac6ff', qLine: '#2f4356', state: '\u25cf 10 of 10 answered', stateTone: OK, hits: '46 pods',
+          cols: '62px 1fr 46px',
+          rows: [
+            vr([c('eu-west', { ink: INFO }), c('8 pods · 2 unhealthy', { ink: INK }), c('▲', { justify: 'flex-end', ink: BAD })]),
+            vr([c('us-east', { ink: PURPLE }), c('8 pods · all running', { ink: '#c8d1dd' }), c('●', { justify: 'flex-end', ink: OK })]),
+            vr([c('ap-south', { ink: WARN }), c('6 pods · 1 degraded', { ink: INK }), c('◐', { justify: 'flex-end', ink: WARN })]),
+            vr([c('staging-eu', { ink: OK }), c('2 pods · all running', { ink: '#c8d1dd' }), c('●', { justify: 'flex-end', ink: OK })]),
+            vr([c('staging-us', { ink: '#5ad2c4' }), c('2 pods · all running', { ink: '#c8d1dd' }), c('●', { justify: 'flex-end', ink: OK })]),
+            vr([c('dev-sandbox', { ink: '#8a94a6' }), c('1 pod · running', { ink: '#c8d1dd' }), c('●', { justify: 'flex-end', ink: OK })]),
+            vr([c('edge-02', { ink: '#ff8a5c' }), c('0 pods · not deployed here', { ink: INK3 }), c('○', { justify: 'flex-end', ink: IDLE })]),
+            vr([c('edge-01', { ink: '#8a5f62' }), c('no answer — kept its row', { ink: '#8a5f62' }), c('▲', { justify: 'flex-end', ink: BAD })], 'rgba(255,95,95,.08)'),
+            vr([c('ci-runners', { ink: '#9ad04a' }), c('0 pods', { ink: INK3 }), c('○', { justify: 'flex-end', ink: IDLE })]),
+            vr([c('analytics', { ink: INK3 }), c('paused by you', { ink: INK3 }), c('■', { justify: 'flex-end', ink: IDLE })])
+          ],
+          note: 'Collapsed to one line per cluster, because with a selector the question is “where and how many”, not “which pods”. Expanding a row lists them; the glyph is the worst phase inside.'
+        },
+        {
+          title: 'An error string', cap: 'XC-01 · TIME-04', edge: WARN, query: 'x509: certificate signed', qInk: '#f3d08a', qLine: '#4a3a12', state: '\u25cf events, 7 days', stateTone: OK, hits: '11 events',
+          cols: '62px 1fr 40px',
+          rows: [
+            vr([c('edge-02', { ink: '#ff8a5c' }), c('router-default · TLS handshake failed', { ink: INK, weight: '600' }), c('6×', { justify: 'flex-end', ink: WARN })], 'rgba(240,180,41,.06)'),
+            vr([c('edge-02', { ink: '#ff8a5c' }), c('build/api-42 · git clone failed', { ink: INK }), c('3×', { justify: 'flex-end', ink: WARN })], 'rgba(240,180,41,.06)'),
+            vr([c('ap-south', { ink: WARN }), c('external-secrets · vault probe', { ink: INK }), c('2×', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('— nothing on the other seven clusters —', { ink: INK3 }), c('', {})]),
+            vr([c('', {}), c('the pattern is edge-02’s own CA bundle,', { ink: INK2 }), c('', {})]),
+            vr([c('', {}), c('not a fleet-wide certificate problem', { ink: INK2 }), c('', {})])
+          ],
+          note: 'Searching event and log text, not just names. The answer here is the absence: nine clusters have nothing, so the fault is local — that conclusion is only available fleet-wide.'
+        },
+        {
+          title: 'A saved, watched query', cap: 'APP-12 · MET-11', edge: OK, query: 'saved · “fleet crashloops”', qInk: OK, qLine: '#22503c', state: '\u25cf watching · alerts on change', stateTone: OK, hits: '41 → 38',
+          cols: '52px 1fr 52px',
+          rows: [
+            vr([c('14:22', { ink: INK3 }), c('41 hits · 6 clusters', { ink: INK, weight: '600' }), c('now', { justify: 'flex-end', ink: OK })]),
+            vr([c('14:12', { ink: INK3 }), c('38 hits · 5 clusters', { ink: INK2 }), c('+3', { justify: 'flex-end', ink: BAD })]),
+            vr([c('13:52', { ink: INK3 }), c('26 hits · 4 clusters', { ink: INK2 }), c('+12', { justify: 'flex-end', ink: BAD })]),
+            vr([c('13:22', { ink: INK3 }), c('14 hits · 3 clusters', { ink: INK2 }), c('+12', { justify: 'flex-end', ink: WARN })]),
+            vr([c('12:52', { ink: INK3 }), c('2 hits · 1 cluster', { ink: INK2 }), c('+12', { justify: 'flex-end', ink: WARN })]),
+            vr([c('12:22', { ink: INK3 }), c('2 hits · 1 cluster', { ink: INK3 }), c('—', { justify: 'flex-end', ink: INK3 })]),
+            vr([c('', {}), c('growing since 13:22 — one cluster at a time', { ink: '#f3d08a' }), c('', {})])
+          ],
+          note: 'A search kept running becomes a rule (APP-12): the pane records the hit count over time and tells you it is growing. That history is what turns a search into a monitor.'
+        }
+      ],
+      syntax: [
+        { q: 'checkout', qInk: INK, t: 'Substring on names, across every kind we can list. The default, and the only thing most people ever type.' },
+        { q: '!kube-system', qInk: '#f3d08a', t: 'Negation. Combines with everything else; several negations are ANDed.' },
+        { q: 'phase=CrashLoopBackOff', qInk: '#8ac6ff', t: 'A field. Offered as completion as soon as you type a value we recognise as a phase.' },
+        { q: 'app=checkout,tier!=canary', qInk: '#8ac6ff', t: 'A label selector — the real Kubernetes one, sent to the apiserver rather than filtered here.' },
+        { q: 'kind:route', qInk: '#8ac6ff', t: 'Restrict to a kind, including a CRD or an OpenShift type. Shorthands work: `po`, `deploy`, `svc`.' },
+        { q: 'age>7d', qInk: '#8ac6ff', t: 'Comparisons on age, restarts and ready counts. `restarts>10` is the one people use.' },
+        { q: 'x509: certificate signed', qInk: '#f3d08a', t: 'A phrase with spaces or a colon searches event and log text as well as names.' },
+        { q: 'in:prod', qInk: OK, t: 'Restrict to a cluster group. Without it the search is the whole fleet, which is the point of the pane.' }
+      ],
+      states: [
+        {
+          name: 'IN FLIGHT', tone: WARN, glyph: '\u25d0', head: '4 of 10 answered · 1.2s', justify: 'flex-start',
+          lines: [
+            { t: 'Results appear per cluster as they arrive — the pane never waits for the slowest.', ink: INK2, size: '11px', font: SANS },
+            { t: '6 groups still open, each showing “searching”', ink: WARN, size: '10.5px', font: MONO }
+          ],
+          note: 'Ordering is by arrival, then re-sorted once everything is in. A cluster that answers in 4s is not punished by being last.'
+        },
+        {
+          name: 'NOTHING FOUND', tone: INK3, glyph: '\u25cb', head: '10 of 10 answered · 0 hits', justify: 'center',
+          lines: [
+            { t: 'Nothing matches “CrashLoopBackOff” anywhere in the fleet.', ink: INK, size: '11.5px', font: SANS },
+            { t: 'That is an answer, and it took 1.4 seconds.', ink: INK3, size: '11px', font: SANS }
+          ],
+          note: 'A clean empty is stated as a positive result, with the answered count as proof that it means something.'
+        },
+        {
+          name: 'PARTIAL', tone: WARN, glyph: '\u25d0', head: '8 of 10 · 2 could not be asked', justify: 'flex-start',
+          lines: [
+            { t: 'edge-01 unreachable, analytics paused — both keep an empty group.', ink: '#f3d08a', size: '11px', font: SANS },
+            { t: 'never “no results” while a source is silent', ink: WARN, size: '10.5px', font: MONO }
+          ],
+          note: 'The distinction the whole pane rests on: we did not find anything versus we could not look.'
+        },
+        {
+          name: 'TOO MANY', tone: WARN, glyph: '\u25b2', head: '4 812 hits · 10 clusters', justify: 'flex-start',
+          lines: [
+            { t: 'Showing the first 200 per cluster, worst phase first.', ink: INK, size: '11.5px', font: SANS },
+            { t: 'narrow it: add a namespace, a kind, or !completed', ink: INFO, size: '10.5px', font: MONO }
+          ],
+          note: 'Capped per cluster, not globally, so one noisy cluster cannot crowd the other nine out of the answer.'
+        }
+      ],
+      closing: [
+        { tone: INFO, k: 'THE PRIMARY ELEMENT', t: 'The query line: 32px tall, focused, with a blue double border — the only control in the product that gets that much weight. Below it the per-cluster progress row, which is the second most important thing on screen because it says how much of the fleet the answer covers.' },
+        { tone: INFO, k: 'DENSITY', t: 'Ten cluster groups with 22px rows: about 30 result rows plus every group header at 1000px. Empty groups collapse to their header line, so nine silent clusters cost nine lines rather than nine screens.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'No relevance ranking — results are grouped by cluster and sorted by severity, never by a score. A ranked list would hide which cluster a hit came from, and in a fleet tool the cluster is half the answer. It also fetches metadata only, so you cannot search inside spec fields from here; that is what the cross-cluster diff pane is for.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

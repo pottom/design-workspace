@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 15 / 30 · OBJECT PANE · MET-02 · MET-04 · MET-10</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Metrics</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The third wedge, and it comes down to one drawing decision: <span style="color:var(--ks-ink)">the events are on the curve, not beside it</span>. A kill at 14:12 is a line through the memory graph — so “what happened at 14:02?” is answered by looking, not by holding two panes in your head.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="metrics · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>zooming here moves every chart pane · MET-05</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 466px;gap:1px;background:var(--ks-line);min-height:0">
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Metrics</span>
+          <span style="color:var(--ks-ink-3)">payments/checkout-api</span>
+          <span style="color:var(--ks-ink-2)">last 30m<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">prometheus · 15s</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="padding:11px 14px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">WHAT THE CURVES SAY</div>
+            <div style="font-size:13.5px;line-height:1.45;color:var(--ks-ink);text-wrap:pretty">Memory climbed from 302Mi to the 512Mi ceiling over twenty minutes and has been killed three times since. CPU never moved.</div>
+          </div>
+          <div style="display:flex;gap:20px;flex:none">
+            <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:3px;padding-left:16px;border-left:1px solid var(--ks-line)">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ k.label }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px">
+                  <span style="font-family:var(--ks-mono);font-size:16px;font-weight:600;line-height:1.1;color:{{ k.tone }}">{{ k.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3)">{{ k.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+          <sc-for list="{{ charts }}" as="ch" hint-placeholder-count="3">
+            <div style="border-bottom:1px solid var(--ks-line);display:flex;flex-direction:column">
+              <div style="height:22px;display:flex;align-items:center;gap:12px;padding:0 12px;font-family:var(--ks-mono);font-size:10px">
+                <span style="color:var(--ks-ink);font-weight:600">{{ ch.title }}</span>
+                <span style="color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ ch.query }}</span>
+                <div style="flex:1"></div>
+                <sc-for list="{{ ch.legend }}" as="l" hint-placeholder-count="2">
+                  <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ink-2);flex:none"><span style="width:9px;height:2px;background:{{ l.tone }}"></span>{{ l.label }}</span>
+                </sc-for>
+                <span style="color:{{ ch.nowTone }};font-weight:600;flex:none">{{ ch.now }}</span>
+              </div>
+              <div style="position:relative;background:var(--ks-field);border-top:1px solid var(--ks-line-soft)">
+                <svg width="100%" height="{{ ch.h }}" viewBox="{{ ch.viewBox }}" preserveAspectRatio="none" style="display:block">
+                  <sc-for list="{{ ch.grid }}" as="g" hint-placeholder-count="3">
+                    <line x1="0" y1="{{ g.y }}" x2="{{ ch.w }}" y2="{{ g.y }}" stroke="#1a2028" stroke-width="1"></line>
+                  </sc-for>
+                  <sc-for list="{{ ch.bands }}" as="b" hint-placeholder-count="0">
+                    <rect x="{{ b.x }}" y="0" width="{{ b.w }}" height="{{ ch.hNum }}" fill="{{ b.fill }}"></rect>
+                  </sc-for>
+                  <polygon points="{{ ch.area }}" fill="{{ ch.areaFill }}"></polygon>
+                  <polyline points="{{ ch.points }}" fill="none" stroke="{{ ch.stroke }}" stroke-width="1.6" stroke-linejoin="round"></polyline>
+                  <sc-for list="{{ ch.limits }}" as="l" hint-placeholder-count="0">
+                    <line x1="0" y1="{{ l.y }}" x2="{{ ch.w }}" y2="{{ l.y }}" stroke="{{ l.tone }}" stroke-width="1" stroke-dasharray="4 3"></line>
+                  </sc-for>
+                  <sc-for list="{{ ch.events }}" as="e" hint-placeholder-count="0">
+                    <line x1="{{ e.x }}" y1="0" x2="{{ e.x }}" y2="{{ ch.hNum }}" stroke="{{ e.tone }}" stroke-width="1" stroke-dasharray="{{ e.dash }}"></line>
+                    <rect x="{{ e.bx }}" y="3" width="8" height="8" fill="{{ e.tone }}"></rect>
+                  </sc-for>
+                  <line x1="{{ ch.cursorX }}" y1="0" x2="{{ ch.cursorX }}" y2="{{ ch.hNum }}" stroke="#e7ecf3" stroke-width="1" stroke-opacity=".55"></line>
+                </svg>
+                <sc-if value="{{ ch.hasLimitLabel }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;right:8px;top:{{ ch.limitTop }};font-family:var(--ks-mono);font-size:9px;color:#f0b5b0;background:var(--ks-field);padding:0 4px">{{ ch.limitLabel }}</div>
+                </sc-if>
+                <div style="position:absolute;left:0;right:0;bottom:2px;display:flex;justify-content:space-between;padding:0 6px;font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);pointer-events:none">
+                  <sc-for list="{{ ch.xLabels }}" as="x" hint-placeholder-count="4">
+                    <span>{{ x.t }}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+
+          <div style="display:flex;flex-direction:column">
+            <div style="height:22px;display:flex;align-items:center;gap:10px;padding:0 12px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+              <span style="color:var(--ks-ink);font-weight:600">On the curve</span>
+              <span>the same markers as a legend you can switch off</span>
+              <div style="flex:1"></div>
+              <span>click one to take the whole frame there</span>
+            </div>
+            <sc-for list="{{ ribbon }}" as="r" hint-placeholder-count="5">
+              <div style="height:26px;display:grid;grid-template-columns:136px 1fr 112px;align-items:center;gap:12px;padding:0 12px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="width:11px;height:11px;background:{{ r.tone }};flex:none"></span>
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ r.labelInk }}">{{ r.label }}</span>
+                </div>
+                <div style="position:relative;height:11px;background:var(--ks-line-soft)">
+                  <sc-for list="{{ r.marks }}" as="m" hint-placeholder-count="3">
+                    <div title="{{ m.title }}" style="position:absolute;left:{{ m.x }};top:0;bottom:0;width:3px;background:{{ r.tone }}"></div>
+                  </sc-for>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);text-align:right">{{ r.count }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--ks-line);display:flex;flex-direction:column;min-height:0">
+          <div style="height:22px;display:grid;grid-template-columns:1fr 68px 68px 68px 62px 74px;align-items:center;gap:10px;padding:0 12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:var(--ks-ink-3)">
+            <div>SERIES · 11 PODS</div><div style="text-align:right">AT CURSOR</div><div style="text-align:right">MIN</div><div style="text-align:right">MAX</div><div style="text-align:right">P95</div><div style="text-align:right">KILLS</div>
+          </div>
+          <div style="max-height:198px;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ seriesRows }}" as="s" hint-placeholder-count="11">
+              <div style="height:22px;display:grid;grid-template-columns:1fr 68px 68px 68px 62px 74px;align-items:center;gap:10px;padding:0 12px;background:{{ s.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:11px">
+                <div style="display:flex;align-items:center;gap:8px;min-width:0"><span style="width:9px;height:2px;background:{{ s.tone }};flex:none"></span><span style="color:{{ s.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span></div>
+                <div style="text-align:right;color:{{ s.nowInk }}">{{ s.now }}</div>
+                <div style="text-align:right;color:var(--ks-ink-3)">{{ s.min }}</div>
+                <div style="text-align:right;color:{{ s.maxInk }}">{{ s.max }}</div>
+                <div style="text-align:right;color:var(--ks-ink-2)">{{ s.p95 }}</div>
+                <div style="text-align:right;color:{{ s.killInk }}">{{ s.kills }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:30px;display:flex;align-items:center;gap:12px;padding:0 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+          <span style="color:var(--ks-ink-2)">14:12:30</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span>memory <span style="color:var(--ks-ink)">511Mi</span></span>
+          <span>cpu <span style="color:var(--ks-ink)">910m</span></span>
+          <span style="color:#f0b5b0">OOMKilled 4s later</span>
+          <div style="flex:1"></div>
+          <span>drag to zoom · double click resets · ⌥click pins a crosshair</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">●</span>prod-eu-west</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink)">Query</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">11 series</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ok)">412ms</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;display:flex;flex-direction:column" data-scroll="dense">
+          <sc-for list="{{ builder }}" as="b" hint-placeholder-count="5">
+            <div style="padding:10px 12px;box-shadow:inset 0 -1px 0 var(--ks-line-soft);display:flex;flex-direction:column;gap:7px">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ b.tone }};width:74px;flex:none;padding-top:5px">{{ b.k }}</span>
+                <div style="flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-width:0">
+                  <sc-for list="{{ b.chips }}" as="c" hint-placeholder-count="2">
+                    <span style="display:flex;align-items:center;gap:6px;padding:3px 8px;border:1px solid {{ c.line }};background:{{ c.bg }};font-family:var(--ks-mono);font-size:11px;color:{{ c.ink }};max-width:100%;min-width:0">
+                      <span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</span><span style="color:var(--ks-ink-3);flex:none">{{ c.x }}</span>
+                    </span>
+                  </sc-for>
+                </div>
+              </div>
+              <sc-if value="{{ b.hasHelp }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);padding-left:83px;text-wrap:pretty">{{ b.help }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--ks-line)">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ok)">THE QUERY</span>
+              <span style="font-size:11px;color:var(--ks-ink-3)">always visible, always editable</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-info)">copy</span>
+            </div>
+            <div style="padding:10px 11px;background:var(--ks-field);border:1px solid var(--ks-line-strong);font-family:var(--ks-mono);font-size:11.5px;line-height:1.62">
+              <sc-for list="{{ promql }}" as="p" hint-placeholder-count="6">
+                <div style="white-space:pre-wrap;word-break:break-all;color:{{ p.ink }}">{{ p.t }}</div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="padding:5px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink-2)">Reset</span>
+              <span style="padding:5px 11px;border:1px solid var(--ks-line);font-size:11.5px;color:var(--ks-ink)">Save as…</span>
+              <div style="flex:1"></div>
+              <span style="padding:5px 11px;border:1px solid #22503c;background:rgba(62,207,142,.12);font-size:11.5px;color:var(--ks-ok);font-weight:600">Run · ⏎</span>
+            </div>
+          </div>
+
+          <div style="padding:11px 12px;display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">METRIC BROWSER · WHAT EXISTS HERE</div>
+            <div style="display:flex;align-items:center;gap:9px;height:26px;padding:0 10px;border:1px solid var(--ks-line-strong);background:var(--ks-field)">
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">/</span>
+              <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink)">memory</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">14 of 2 418</span>
+            </div>
+            <sc-for list="{{ browser }}" as="m" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;gap:10px;padding:5px 9px;background:{{ m.bg }};border-left:2px solid {{ m.bar }}">
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ m.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.name }}</span>
+                  <span style="font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.help }}</span>
+                </div>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ m.type }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="height:28px;display:flex;align-items:center;gap:10px;padding:0 12px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+          <span>saved: “payments memory”</span><span style="color:var(--ks-line)">│</span><span>3 recent</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-info)">run on 3 clusters ▸</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Three other shapes of the same pane, and one honest failure</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="min-height:276px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <sc-if value="{{ v.hasChart }}" hint-placeholder-val="{{ false }}">
+              <div style="background:var(--ks-field);border-bottom:1px solid var(--ks-line-soft)">
+                <svg width="100%" height="104" viewBox="0 0 380 104" preserveAspectRatio="none" style="display:block">
+                  <line x1="0" y1="26" x2="380" y2="26" stroke="#1a2028"></line>
+                  <line x1="0" y1="52" x2="380" y2="52" stroke="#1a2028"></line>
+                  <line x1="0" y1="78" x2="380" y2="78" stroke="#1a2028"></line>
+                  <sc-for list="{{ v.events }}" as="e" hint-placeholder-count="0">
+                    <line x1="{{ e.x }}" y1="0" x2="{{ e.x }}" y2="104" stroke="{{ e.tone }}" stroke-width="1"></line>
+                  </sc-for>
+                  <sc-for list="{{ v.series }}" as="s" hint-placeholder-count="2">
+                    <polyline points="{{ s.points }}" fill="none" stroke="{{ s.stroke }}" stroke-width="1.5" stroke-linejoin="round"></polyline>
+                  </sc-for>
+                </svg>
+              </div>
+            </sc-if>
+            <sc-if value="{{ v.hasEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px">
+                <span style="font-size:14px;color:{{ v.emptyTone }}">{{ v.emptyGlyph }}</span>
+                <div style="font-size:12.5px;line-height:1.5;color:var(--ks-ink);text-align:center;text-wrap:pretty">{{ v.emptyLine1 }}</div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-align:center;text-wrap:pretty">{{ v.emptyLine2 }}</div>
+                <span style="margin-top:2px;padding:5px 11px;border:1px solid {{ v.emptyLine }};background:{{ v.emptyBg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ v.emptyInk }}">{{ v.emptyAction }}</span>
+              </div>
+            </sc-if>
+            <div style="flex:1 0 auto;min-height:0">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="4">
+                <div style="min-height:22px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:3px 9px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};color:{{ c.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:8px 9px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-size:11px;line-height:1.45;color:{{ v.footInk }};text-wrap:pretty">{{ v.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', LINE_S = '#2c3542';
+
+function series(n, seed, lo, hi) {
+  let s = seed;
+  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const out = []; let v = (lo + hi) / 2;
+  for (let i = 0; i < n; i++) { v += (rnd() - 0.48) * (hi - lo) * 0.24; v = Math.max(lo, Math.min(hi, v)); out.push(v); }
+  return out;
+}
+function poly(vals, w, h, max, pad) {
+  const p = pad || 0, step = w / (vals.length - 1);
+  return vals.map((v, i) => (i * step).toFixed(1) + ',' + (h - p - (v / max) * (h - p * 2)).toFixed(1)).join(' ');
+}
+function area(vals, w, h, max, pad) { return '0,' + h + ' ' + poly(vals, w, h, max, pad) + ' ' + w + ',' + h; }
+
+class Component extends DCLogic {
+  renderVals() {
+    const W = 740;
+    const mem = series(60, 991, 300, 470);
+    for (let i = 0; i < 60; i++) mem[i] = 300 + i * 3.6 + (mem[i] - 385) * 0.3;
+    mem[41] = 511; mem[42] = 96; mem[43] = 190; mem[44] = 280;
+    mem[50] = 509; mem[51] = 88; mem[52] = 205; mem[53] = 300;
+    mem[57] = 511; mem[58] = 102; mem[59] = 182;
+    const cpu = series(60, 313, 780, 960);
+    const net = series(60, 77, 40, 180);
+
+    const ev = [
+      { x: 148, bx: 144, tone: INFO, dash: '0' },
+      { x: 330, bx: 326, tone: WARN, dash: '3 3' },
+      { x: 506, bx: 502, tone: BAD, dash: '0' },
+      { x: 617, bx: 613, tone: BAD, dash: '0' },
+      { x: 703, bx: 699, tone: BAD, dash: '0' }
+    ];
+    const mk = (title, query, h, vals, max, stroke, areaFill, legend, now, nowTone, limitVal, bands) => {
+      const limY = limitVal ? (h - 8 - (limitVal / max) * (h - 16)) : 0;
+      return {
+        title, query, h: h + 'px', hNum: h, w: W, viewBox: '0 0 ' + W + ' ' + h,
+        grid: [{ y: (h * 0.25).toFixed(0) }, { y: (h * 0.5).toFixed(0) }, { y: (h * 0.75).toFixed(0) }],
+        bands: bands || [],
+        points: poly(vals, W, h, max, 8), area: area(vals, W, h, max, 8), stroke, areaFill,
+        limits: limitVal ? [{ y: limY.toFixed(1), tone: BAD }] : [],
+        events: ev, cursorX: 506, legend, now, nowTone,
+        hasLimitLabel: !!limitVal, limitLabel: 'limit 512Mi', limitTop: (limY - 6).toFixed(0) + 'px',
+        xLabels: [{ t: '13:52' }, { t: '14:02' }, { t: '14:12' }, { t: '14:22' }]
+      };
+    };
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, justify: 'flex-start' }, o || {});
+    const vr = (cells, bg) => ({ cells, bg: bg || 'transparent' });
+    const emptyOff = { hasEmpty: false, emptyTone: INK3, emptyGlyph: '', emptyLine1: '', emptyLine2: '', emptyAction: '', emptyLine: LINE, emptyBg: 'transparent', emptyInk: INK };
+
+    return {
+      facts: [
+        { k: 'MARKERS ON THE CURVE', v: '11', tone: BAD },
+        { k: 'SERIES', v: '11', tone: INK },
+        { k: 'THE QUERY', v: 'always visible', tone: OK },
+        { k: 'ZOOM', v: 'moves every pane', tone: INFO }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      kpis: [
+        { label: 'MEMORY NOW', v: '182Mi', sub: 'restarting', tone: INK },
+        { label: 'PEAK', v: '511Mi', sub: 'of 512', tone: BAD },
+        { label: 'P95 · 7D', v: '318Mi', sub: 'size by this', tone: INK },
+        { label: 'KILLS · 30M', v: '3', sub: 'all OOM', tone: BAD }
+      ],
+      charts: [
+        mk('memory', 'container_memory_working_set_bytes{pod=~"checkout-api-.*"}', 150, mem, 560, INFO, 'rgba(74,168,255,.14)',
+          [{ label: 'working set', tone: INFO }, { label: 'limit', tone: BAD }], '182Mi', INK, 512,
+          [{ x: 500, w: 14, fill: 'rgba(255,95,95,.12)' }, { x: 611, w: 14, fill: 'rgba(255,95,95,.12)' }, { x: 697, w: 14, fill: 'rgba(255,95,95,.12)' }]),
+        mk('cpu', 'rate(container_cpu_usage_seconds_total{pod=~"checkout-api-.*"}[5m])', 104, cpu, 1100, OK, 'rgba(62,207,142,.10)',
+          [{ label: 'usage', tone: OK }, { label: 'limit 1 core', tone: INK3 }], '910m', INK2, 0, []),
+        mk('network', 'rate(container_network_receive_bytes_total[5m])', 104, net, 220, PURPLE, 'rgba(180,140,255,.08)',
+          [{ label: 'received', tone: PURPLE }], '48 KB/s', INK2, 0, [])
+      ],
+      seriesRows: [
+        ['checkout-api-7f9c8d4b6-k8n1p', '511Mi', '96Mi', '511Mi', '498Mi', '3', 'bad'],
+        ['checkout-api-7f9c8d4b6-x2m4q', '486Mi', '102Mi', '509Mi', '474Mi', '2', 'bad'],
+        ['checkout-api-7f9c8d4b6-p91md', '441Mi', '188Mi', '478Mi', '452Mi', '1', 'warn'],
+        ['checkout-api-7f9c8d4b6-z0mq4', '398Mi', '204Mi', '442Mi', '418Mi', '1', 'warn'],
+        ['checkout-api-7f9c8d4b6-b71ka', '362Mi', '298Mi', '388Mi', '374Mi', '\u2014', 'ok'],
+        ['checkout-api-7f9c8d4b6-m4kd2', '344Mi', '286Mi', '371Mi', '358Mi', '\u2014', 'ok'],
+        ['checkout-api-7f9c8d4b6-q7wz9', '338Mi', '281Mi', '366Mi', '351Mi', '\u2014', 'ok'],
+        ['checkout-api-7f9c8d4b6-t2n8v', '331Mi', '277Mi', '359Mi', '344Mi', '\u2014', 'ok'],
+        ['checkout-api-5d8f9c74c-9plmz', '\u2014', '\u2014', '\u2014', '\u2014', '\u2014', 'gone'],
+        ['checkout-api-5d8f9c74c-2wq7t', '\u2014', '\u2014', '\u2014', '\u2014', '\u2014', 'gone'],
+        ['sum of all pods', '3 211Mi', '1 902Mi', '3 604Mi', '3 369Mi', '7', 'sum']
+      ].map(r => {
+        const k = r[6];
+        return {
+          name: r[0], now: r[1], min: r[2], max: r[3], p95: r[4], kills: r[5],
+          tone: k === 'bad' ? BAD : k === 'warn' ? WARN : k === 'gone' ? '#3f4855' : k === 'sum' ? INK2 : 'rgba(74,168,255,.55)',
+          nameInk: k === 'gone' ? INK3 : k === 'sum' ? INK : k === 'bad' ? INK : '#c8d1dd',
+          nowInk: k === 'bad' ? '#ffb3b3' : k === 'gone' ? INK3 : INK,
+          maxInk: k === 'bad' ? '#ffb3b3' : k === 'warn' ? '#f3d08a' : INK2,
+          killInk: k === 'bad' ? BAD : k === 'warn' ? WARN : INK3,
+          bg: k === 'bad' ? 'rgba(255,95,95,.07)' : k === 'sum' ? 'var(--ks-field)' : 'transparent'
+        };
+      }),
+      ribbon: [
+        { label: 'OOMKilled', tone: BAD, labelInk: '#ffb3b3', count: '3', bg: 'rgba(255,95,95,.06)',
+          marks: [{ x: '68%', title: '14:12:34' }, { x: '83%', title: '14:16:02' }, { x: '95%', title: '14:20:41' }] },
+        { label: 'restart', tone: WARN, labelInk: '#f3d08a', count: '3', bg: 'transparent',
+          marks: [{ x: '69%', title: '14:12:38' }, { x: '84%', title: '14:16:06' }, { x: '96%', title: '14:20:45' }] },
+        { label: 'scheduled', tone: INFO, labelInk: '#8ac6ff', count: '2', bg: 'transparent',
+          marks: [{ x: '20%', title: '13:56 hpa 6 → 8' }, { x: '45%', title: '14:07 rescheduled' }] },
+        { label: 'deploy', tone: PURPLE, labelInk: '#d0b8ff', count: '1', bg: 'transparent',
+          marks: [{ x: '20%', title: '13:56 image 2026.8.3' }] },
+        { label: 'config change', tone: '#4fc3b0', labelInk: '#8fdccf', count: '1', bg: 'rgba(79,195,176,.06)',
+          marks: [{ x: '2%', title: '13:52 TIMEOUT_MS 2000 → 500' }] }
+      ],
+      builder: [
+        {
+          k: 'METRIC', tone: INFO, hasHelp: true,
+          help: 'Picked from the browser below — 2 418 metrics exist here and nobody remembers their names.',
+          chips: [{ t: 'container_memory_working_set_bytes', x: '▾', ink: INK, line: '#2f4356', bg: 'rgba(74,168,255,.08)' }]
+        },
+        {
+          k: 'FILTERS', tone: INFO, hasHelp: true,
+          help: 'Label values come from the cluster, so a typo is impossible — and the pod filter arrived from the pane’s scope.',
+          chips: [
+            { t: 'namespace="payments"', x: '×', ink: INK, line: LINE_S, bg: 'transparent' },
+            { t: 'pod=~"checkout-api-.*"', x: '×', ink: INK, line: LINE_S, bg: 'transparent' },
+            { t: 'container!=""', x: '×', ink: INK2, line: LINE, bg: 'transparent' },
+            { t: '+ label', x: '', ink: INK3, line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'FUNCTION', tone: WARN, hasHelp: true,
+          help: 'A gauge needs no rate; a counter always does. The builder knows which this is and greys the wrong answer.',
+          chips: [
+            { t: 'none', x: '', ink: INK, line: '#2f4356', bg: 'var(--ks-sel)' },
+            { t: 'rate', x: '', ink: '#4a545f', line: LINE, bg: 'transparent' },
+            { t: 'increase', x: '', ink: '#4a545f', line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'AGGREGATE', tone: WARN, hasHelp: false, help: '',
+          chips: [
+            { t: 'none', x: '', ink: INK2, line: LINE, bg: 'transparent' },
+            { t: 'by (pod)', x: '', ink: INK, line: '#2f4356', bg: 'var(--ks-sel)' },
+            { t: 'sum', x: '', ink: INK2, line: LINE, bg: 'transparent' },
+            { t: 'avg', x: '', ink: INK2, line: LINE, bg: 'transparent' }
+          ]
+        },
+        {
+          k: 'WINDOW', tone: OK, hasHelp: true,
+          help: 'Shared with every other chart pane — changing it here moves them all.',
+          chips: [
+            { t: 'last 30m', x: '▾', ink: INK, line: '#22503c', bg: 'rgba(62,207,142,.08)' },
+            { t: 'step 15s', x: '▾', ink: INK2, line: LINE, bg: 'transparent' }
+          ]
+        }
+      ],
+      promql: [
+        { t: 'container_memory_working_set_bytes{', ink: '#8ac6ff' },
+        { t: '  namespace="payments",', ink: '#a8e6c8' },
+        { t: '  pod=~"checkout-api-.*",', ink: '#a8e6c8' },
+        { t: '  container!=""', ink: '#a8e6c8' },
+        { t: '}', ink: '#8ac6ff' },
+        { t: 'by (pod)', ink: '#e6cd9e' }
+      ],
+      browser: [
+        { name: 'container_memory_working_set_bytes', help: 'what the kernel counts against the limit — the one that kills you', type: 'gauge', ink: INK, bg: 'var(--ks-sel)', bar: INFO },
+        { name: 'container_memory_usage_bytes', help: 'includes page cache; almost never the number you want', type: 'gauge', ink: '#c8d1dd', bg: 'transparent', bar: 'transparent' },
+        { name: 'container_memory_rss', help: 'resident set, excludes cache', type: 'gauge', ink: '#c8d1dd', bg: 'transparent', bar: 'transparent' },
+        { name: 'container_memory_max_usage_bytes', help: 'high-water mark since the container started', type: 'gauge', ink: '#c8d1dd', bg: 'transparent', bar: 'transparent' },
+        { name: 'kube_pod_container_resource_limits', help: 'the configured limit as a series — this draws the dashed line', type: 'gauge', ink: '#c8d1dd', bg: 'transparent', bar: 'transparent' },
+        { name: 'container_memory_failcnt', help: 'how many times an allocation hit the limit', type: 'counter', ink: '#c8d1dd', bg: 'transparent', bar: 'transparent' }
+      ],
+      variants: [
+        Object.assign({
+          title: 'Cross-cluster', cap: 'MET-06 · XC-07', edge: OK, scope: 'same query · 3 clusters', scopeTone: OK, state: '● live', stateTone: OK,
+          hasChart: true,
+          series: [
+            { points: poly(series(40, 11, 280, 340), 380, 104, 560, 6), stroke: INFO },
+            { points: poly(series(40, 22, 260, 320), 380, 104, 560, 6), stroke: PURPLE },
+            { points: poly(series(40, 33, 400, 520), 380, 104, 560, 6), stroke: WARN }
+          ],
+          events: [],
+          cols: '1fr 62px 30px',
+          rows: [
+            vr([c('prod-eu-west', { ink: INFO }), c('511Mi', { ink: '#ffb3b3', justify: 'flex-end' }), c('▲', { ink: BAD, justify: 'flex-end' })]),
+            vr([c('prod-us-east', { ink: PURPLE }), c('298Mi', { justify: 'flex-end' }), c('●', { ink: OK, justify: 'flex-end' })]),
+            vr([c('prod-ap-south', { ink: WARN }), c('486Mi', { ink: '#f3d08a', justify: 'flex-end' }), c('◐', { ink: WARN, justify: 'flex-end' })])
+          ],
+          hasFoot: true, footBg: 'rgba(62,207,142,.06)', footInk: '#a8e6c8',
+          foot: 'One line per cluster in that cluster’s reserved colour — and no area fills, because three filled shapes are unreadable.',
+          note: 'The comparison that makes a fleet tool worth having: same workload, same query, one cluster visibly unlike its siblings.'
+        }, emptyOff),
+        Object.assign({
+          title: 'Node', cap: 'MET-02 · DIAG-04', edge: WARN, scope: 'ip-10-0-3-19', scopeTone: WARN, state: '◆ pressure', stateTone: WARN,
+          hasChart: true,
+          series: [
+            { points: poly(series(40, 44, 380, 470), 380, 104, 560, 6), stroke: WARN },
+            { points: poly(series(40, 55, 180, 240), 380, 104, 560, 6), stroke: OK }
+          ],
+          events: [{ x: 240, tone: BAD }, { x: 312, tone: BAD }],
+          cols: '1fr 74px',
+          rows: [
+            vr([c('allocatable', { ink: INK3 }), c('62Gi', { justify: 'flex-end', ink: INK })]),
+            vr([c('requested', { ink: INK3 }), c('91%', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.07)'),
+            vr([c('actually used', { ink: INK3 }), c('74%', { justify: 'flex-end', ink: '#f3d08a' })]),
+            vr([c('evictions · 24h', { ink: INK3 }), c('2', { justify: 'flex-end', ink: '#ffb3b3' })])
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'The two red lines are the evictions — on a node chart the markers are what the node did to its pods.',
+          note: 'Same pane, node scope. Requests against real usage is the pair that predicts an eviction; the marker says when it last happened.'
+        }, emptyOff),
+        Object.assign({
+          title: 'Ad-hoc PromQL', cap: 'MET-03 · MET-11', edge: INFO, scope: 'your query · unsaved', scopeTone: INFO, state: '4 series', stateTone: INK2,
+          hasChart: true,
+          series: [
+            { points: poly(series(40, 66, 60, 200), 380, 104, 260, 6), stroke: INFO },
+            { points: poly(series(40, 77, 40, 120), 380, 104, 260, 6), stroke: '#4fc3b0' }
+          ],
+          events: [],
+          cols: '1fr 66px',
+          rows: [
+            vr([c('sum(rate(http_requests_total[5m]))', { ink: '#8ac6ff' }), c('by (code)', { justify: 'flex-end', ink: '#e6cd9e' })]),
+            vr([c('code="200"', { ink: INK2 }), c('1 840/s', { justify: 'flex-end', ink: INK })]),
+            vr([c('code="503"', { ink: INK2 }), c('41/s', { justify: 'flex-end', ink: '#ffb3b3' })], 'rgba(255,95,95,.06)'),
+            vr([c('save this ▸', { ink: INFO }), c('⌘S', { justify: 'flex-end', ink: INK3 })])
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'No object scope, so no event markers — nothing owns this query, and inventing markers for it would be a guess.',
+          note: 'The escape hatch. Everything the builder produces can be typed here instead, and a saved query becomes a first-class thing you can run on three clusters.'
+        }, emptyOff),
+        {
+          title: 'No Prometheus', cap: 'MET-08', edge: WARN, scope: 'prod-ap-south', scopeTone: WARN, state: '◆ fallback', stateTone: WARN,
+          hasChart: false, series: [], events: [],
+          hasEmpty: true, emptyTone: WARN, emptyGlyph: '◆',
+          emptyLine1: 'No Prometheus here, so there are no curves.',
+          emptyLine2: 'Falling back to metrics-server: instant values only, no history, no markers.',
+          emptyAction: 'set the endpoint ▸', emptyLine: '#5a4520', emptyBg: 'rgba(240,180,41,.10)', emptyInk: WARN,
+          cols: '1fr 66px',
+          rows: [
+            vr([c('memory now', { ink: INK3 }), c('486Mi', { justify: 'flex-end', ink: INK })]),
+            vr([c('cpu now', { ink: INK3 }), c('740m', { justify: 'flex-end', ink: INK })])
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: '#f3d08a',
+          foot: 'Two numbers instead of three charts, and it says which it is — never a chart drawn from two points.',
+          note: 'The honest degradation. metrics-server gives you now and nothing else, so the pane shows now and nothing else rather than faking a shape.'
+        }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE MARKERS ARE THE PRODUCT', t: 'Grafana can draw these curves. What it will not do is put your restarts, OOMKills, schedules, deploys and ConfigMap edits on them, because it does not know about them — we do, from the change stream and the event store. The ribbon under the charts is the same set as a legend, so you can switch a kind off when five markers crowd one minute.' },
+        { tone: OK, k: 'THE BUILDER TEACHES, IT DOES NOT HIDE', t: 'Metric, filters, function, aggregation, window — and the generated PromQL sits under it, always visible and always editable. The label values come from the cluster, so you cannot mistype one; the function row greys `rate` on a gauge. The point is that after a week of clicking you can write the query yourself, which is the opposite of what a query builder usually does.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'No dashboards. There is no saved grid of twelve charts, no templating, no variables — a pane is one object or one query, and the layout is the workspace’s job. We also draw a maximum of one series set per chart with up to about a dozen lines; beyond that the answer is an aggregation, not a legend. And without Prometheus the pane degrades to two numbers and says so.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

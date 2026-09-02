@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-over:#161a21;--ks-over-line:#2c3542;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-brand:#1e63ff;--ks-brand-2:#1da1ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-shadow-1:0 12px 26px rgba(0,0,0,.55);--ks-shadow-2:0 18px 40px rgba(0,0,0,.6);--ks-shadow-3:0 30px 70px rgba(0,0,0,.7);--ks-sans:'IBM Plex Sans',system-ui,sans-serif;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:40px;width:1800px">
+
+  <div style="display:flex;align-items:flex-end;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:900px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · OVERLAYS</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">Popups, dialogs, confirmations</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Eight overlay kinds, and the rule for which one a thing gets. Every specimen is real markup at real size — the confirmations are 520px wide because that is what they are in the app.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;align-items:center;gap:16px;padding:14px 18px;background:var(--ks-panel);border:1px solid var(--ks-line)">
+      <img src="kubescope-logo.png" width="72" height="72" alt="KubeScope" style="display:block;border-radius:3px">
+      <div style="display:flex;flex-direction:column;gap:4px">
+        <div style="font-size:15px;font-weight:700;letter-spacing:-.01em">Kube<span style="color:#24c8ff">Scope</span></div>
+        <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:var(--ks-ink-3);max-width:320px">your finished dark logo, used as supplied · brand blues #2f6bff → #24c8ff</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">LADDER</div>
+      <div style="font-size:19px;font-weight:600">Which overlay does a thing get?</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">the more it can hurt, the more screen it takes and the more it asks of your hands</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+      <sc-for list="{{ ladder }}" as="l" hint-placeholder-count="8">
+        <div style="background:var(--ks-panel);padding:13px;display:flex;flex-direction:column;gap:8px;border-top:2px solid {{ l.tone }}">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:{{ l.tone }}">{{ l.name }}</div>
+          <div style="height:40px;display:flex;align-items:center;justify-content:center;background:var(--ks-field);border:1px solid var(--ks-line-soft);position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;top:0;right:0;bottom:0;background:{{ l.scrim }}"></div>
+            <div style="width:{{ l.w }};height:{{ l.h }};background:var(--ks-over);border:1px solid {{ l.tone }};box-shadow:var(--ks-shadow-1)"></div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink);text-wrap:pretty">{{ l.what }}</div>
+          <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ l.dismiss }}</div>
+          <div style="font-size:10.5px;line-height:1.45;color:{{ l.tone }};text-wrap:pretty">{{ l.use }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">01–03</div>
+      <div style="font-size:19px;font-weight:600">Menu, hover card, toast</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">no scrim, no focus trap — dismissed by looking away</div>
+    </div>
+    <div style="display:grid;grid-template-columns:296px 348px 1fr;gap:22px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">CONTEXT MENU · 262px</div>
+        <div style="width:262px;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-2);padding:4px 0">
+          <div style="padding:6px 11px 7px;font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3);border-bottom:1px solid var(--ks-line);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">CRASHLOOP · checkout-api-…-k8n1p</div>
+          <sc-for list="{{ menu }}" as="m" hint-placeholder-count="9">
+            <div style="display:flex;align-items:center;gap:12px;padding:5px 11px;background:{{ m.bg }};box-shadow:{{ m.sep }}">
+              <span style="width:9px;font-size:8px;color:{{ m.tone }}">{{ m.glyph }}</span>
+              <span style="font-size:12px;color:{{ m.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.label }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ m.keyInk }}">{{ m.key }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">The title says what you hit. Primary tinted and first; destructive behind a rule and last. Submenus only for genuinely long lists — containers, revisions, clusters — never to hide a verb.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">HOVER CARD · 600ms IN, 120ms OUT</div>
+        <div style="width:318px;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-1);padding:12px 13px;display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:8px;color:var(--ks-warn)">◐</span>
+            <span style="font-family:var(--ks-mono);font-size:12.5px;font-weight:600">prod-ap-south</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">k8s 1.28.9</span>
+          </div>
+          <sc-for list="{{ hover }}" as="h" hint-placeholder-count="5">
+            <div style="display:flex;align-items:baseline;gap:10px;font-family:var(--ks-mono);font-size:11px">
+              <span style="color:var(--ks-ink-3);width:88px;flex:none">{{ h.k }}</span>
+              <span style="color:{{ h.ink }}">{{ h.v }}</span>
+            </div>
+          </sc-for>
+          <div style="font-size:11.5px;line-height:1.5;color:#f3d08a;text-wrap:pretty">Answering slowly. Two nodes NotReady since 14:04.</div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Read-only, never holds a control, never takes focus. If a hover card needs a button it is the wrong overlay — that is a popover.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">TOAST · BOTTOM CENTRE · 4s, 10s WITH UNDO</div>
+        <div style="display:flex;flex-direction:column;gap:9px;align-items:flex-start">
+          <sc-for list="{{ toasts }}" as="t" hint-placeholder-count="5">
+            <div style="display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--ks-sel);border:1px solid {{ t.line }};box-shadow:var(--ks-shadow-1);max-width:100%">
+              <span style="font-size:9px;color:{{ t.tone }};flex:none">{{ t.glyph }}</span>
+              <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.t }}</span>
+              <span style="font-family:var(--ks-mono);font-size:11px;color:{{ t.actionInk }};flex:none">{{ t.action }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">One at a time; a second replaces the first and adds a counter. Never for errors that need a decision, and never for something a pane can say about itself — a stale pane says so in its own header, not in a toast.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-bad)">04</div>
+      <div style="font-size:19px;font-weight:600">Confirmations — three tiers, at size</div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">520px · scrim 62% · focus trapped · Esc cancels · ⏎ never confirms tier 3</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start">
+      <sc-for list="{{ confirms }}" as="c" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:{{ c.tone }}">{{ c.tier }}</div>
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-3)">
+            <div style="padding:14px 18px 12px;border-bottom:1px solid var(--ks-line);display:flex;align-items:flex-start;gap:10px">
+              <span style="font-size:11px;color:{{ c.tone }};padding-top:3px">{{ c.glyph }}</span>
+              <div style="display:flex;flex-direction:column;gap:3px">
+                <div style="font-size:15px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ c.title }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ c.sub }}</div>
+              </div>
+            </div>
+            <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ c.lines }}" as="l" hint-placeholder-count="3">
+                <div style="font-family:{{ l.font }};font-size:{{ l.size }};line-height:1.5;color:{{ l.ink }};text-wrap:pretty">{{ l.t }}</div>
+              </sc-for>
+              <sc-if value="{{ c.hasImpact }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px;padding:10px 11px;background:var(--ks-field);border-left:2px solid var(--ks-info)">
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-info)">WHAT THIS WOULD DO</div>
+                  <sc-for list="{{ c.impact }}" as="i" hint-placeholder-count="3">
+                    <div style="display:flex;gap:9px;font-size:11.5px;line-height:1.45;color:{{ i.ink }}">
+                      <span style="font-size:8px;color:{{ i.tone }};padding-top:3px;flex:none">{{ i.glyph }}</span>
+                      <span style="text-wrap:pretty">{{ i.t }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ c.hasType }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.45">Type <span style="font-family:var(--ks-mono);color:var(--ks-ink)">{{ c.typeTarget }}</span> to confirm</div>
+                  <div style="padding:7px 10px;border:1px solid {{ c.tone }};background:#0d1015;font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink)">{{ c.typed }}<span style="color:var(--ks-ink-3)">▏</span></div>
+                </div>
+              </sc-if>
+            </div>
+            <div style="padding:12px 18px;border-top:1px solid var(--ks-line);display:flex;align-items:center;gap:9px;background:#0d1015">
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ c.footInk }}">{{ c.foot }}</span>
+              <div style="flex:1"></div>
+              <span style="padding:6px 13px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Cancel</span>
+              <span style="padding:6px 13px;border:1px solid {{ c.ctaLine }};background:{{ c.ctaBg }};font-size:12px;color:{{ c.tone }};font-weight:600;opacity:{{ c.ctaOpacity }}">{{ c.cta }}</span>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ c.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">05–08</div>
+      <div style="font-size:19px;font-weight:600">Palette, editor sheet, progress, first run</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">COMMAND PALETTE · 560px · SCRIM 50% · NO CHROME</div>
+        <div style="width:560px;background:var(--ks-panel);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-3)">
+          <div style="padding:12px 14px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:11px;font-family:var(--ks-mono);font-size:13px">
+            <span style="color:var(--ks-ink-3);font-size:11px">⌘K</span><span style="color:var(--ks-ink)">restart</span><span style="color:var(--ks-ink-3)">▏</span>
+            <div style="flex:1"></div><span style="font-size:10.5px;color:var(--ks-ink-3)">6 of 118</span>
+          </div>
+          <sc-for list="{{ palette }}" as="p" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;gap:12px;padding:7px 14px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:{{ p.catTone }};width:62px;flex:none">{{ p.cat }}</span>
+              <span style="font-size:12.5px;color:var(--ks-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.label }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);flex:none">{{ p.hint }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Ranked by scope: the selection first, then the pane, the cluster, the fleet, and documentation last. The scope label on the left is what makes it safe — you always know what a command would act on before you press ⏎.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">EDITOR SHEET · 720px · RIGHT-ANCHORED · SURVIVES A PANE SWITCH</div>
+        <div style="width:100%;background:var(--ks-panel);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-3)">
+          <div style="padding:13px 16px 11px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:10px">
+            <span style="font-size:10px;color:var(--ks-warn)">◆</span>
+            <div style="display:flex;flex-direction:column;gap:2px">
+              <div style="font-size:14.5px;font-weight:600">Requests and limits · checkout-api</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">prod-eu-west · payments · container api</div>
+            </div>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">esc discards · ⌘⏎ previews the diff</span>
+          </div>
+          <div style="padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{ editor }}" as="f" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:118px 128px 1fr;gap:12px;align-items:center">
+                <div style="font-size:12px;color:var(--ks-ink-2)">{{ f.label }}</div>
+                <div style="padding:6px 9px;border:1px solid {{ f.line }};background:var(--ks-field);font-family:var(--ks-mono);font-size:12px;color:{{ f.ink }}">{{ f.value }}</div>
+                <div style="display:flex;align-items:center;gap:10px">
+                  <div style="flex:1;height:6px;background:var(--ks-line-soft);position:relative">
+                    <div style="position:absolute;left:0;top:0;bottom:0;width:{{ f.usedW }};background:{{ f.usedTone }}"></div>
+                    <div style="position:absolute;left:{{ f.markX }};top:-3px;width:2px;height:12px;background:var(--ks-ink-2)"></div>
+                  </div>
+                  <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ f.noteTone }};width:180px;flex:none">{{ f.note }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <div style="padding:10px 11px;background:var(--ks-field);border-left:2px solid var(--ks-warn);font-size:11.5px;line-height:1.5;color:#f3d08a;text-wrap:pretty">Applying this restarts every pod of the Deployment, one at a time. The sheet says so here, before the diff, not in the confirmation afterwards.</div>
+          </div>
+          <div style="padding:12px 16px;border-top:1px solid var(--ks-line);display:flex;align-items:center;gap:9px;background:#0d1015">
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">3 fields changed</span>
+            <div style="flex:1"></div>
+            <span style="padding:6px 13px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Discard</span>
+            <span style="padding:6px 13px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink)">Show YAML diff</span>
+            <span style="padding:6px 13px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:12px;color:var(--ks-warn);font-weight:600">Apply…</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">A sheet, not a dialog: it is a workspace, it can stay open while you look at something else, and it never confirms anything by itself — Apply hands over to a tier-2 confirmation.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">PROGRESS · REPLACES THE CONFIRMATION IN PLACE</div>
+        <div style="width:520px;background:var(--ks-panel);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow-3)">
+          <div style="padding:13px 18px 11px;border-bottom:1px solid var(--ks-line);display:flex;align-items:center;gap:10px">
+            <span style="font-size:10px;color:var(--ks-warn)">◐</span>
+            <div style="font-size:14.5px;font-weight:600">Draining ip-10-0-3-19</div>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">18 of 24 · 1m12s</span>
+          </div>
+          <div style="padding:13px 18px;display:flex;flex-direction:column;gap:9px">
+            <div style="height:6px;background:var(--ks-line-soft);position:relative">
+              <div style="position:absolute;left:0;top:0;bottom:0;width:75%;background:var(--ks-warn)"></div>
+            </div>
+            <sc-for list="{{ progress }}" as="p" hint-placeholder-count="4">
+              <div style="display:flex;align-items:baseline;gap:10px;font-family:var(--ks-mono);font-size:11px">
+                <span style="font-size:8px;color:{{ p.tone }};flex:none">{{ p.glyph }}</span>
+                <span style="color:{{ p.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.t }}</span>
+                <div style="flex:1"></div>
+                <span style="color:var(--ks-ink-3);flex:none">{{ p.at }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="padding:12px 18px;border-top:1px solid var(--ks-line);display:flex;align-items:center;gap:9px;background:#0d1015">
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">closing this keeps the drain running</span>
+            <div style="flex:1"></div>
+            <span style="padding:6px 13px;border:1px solid #54262b;font-size:12px;color:#ffb3b3">Stop after this pod</span>
+            <span style="padding:6px 13px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Run in the background</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">A long write never becomes a toast. The confirmation turns into progress in the same box, so the thing you agreed to and the thing you are watching are visibly the same object.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">FIRST RUN · FULL WINDOW, NOT AN OVERLAY · THE ONLY PLACE THE LOCKUP APPEARS</div>
+        <div style="width:100%;height:326px;background:var(--ks-bg);border:1px solid var(--ks-line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:26px">
+          <img src="kubescope-logo.png" width="188" height="188" alt="KubeScope" style="display:block">
+          <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);max-width:440px;text-align:center;text-wrap:pretty">No clusters yet. Point us at a kubeconfig and we will probe every context in it — nothing is watched until you open a pane.</div>
+          <div style="display:flex;align-items:center;gap:9px">
+            <span style="padding:8px 15px;border:1px solid #1e63ff;background:rgba(30,99,255,.14);font-size:12.5px;color:#7fb4ff;font-weight:600">Use ~/.kube/config</span>
+            <span style="padding:8px 15px;border:1px solid var(--ks-line);font-size:12.5px;color:var(--ks-ink)">Choose a file…</span>
+            <span style="padding:8px 15px;border:1px solid var(--ks-line);font-size:12.5px;color:var(--ks-ink-2)">Paste a kubeconfig</span>
+          </div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">10 contexts found · none contacted yet</div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">The supplied dark logo, used as it is. The brand blue (#2f6bff → #24c8ff) lives here and in the window icon only — inside the app that blue would compete with the per-cluster colours, so status and identity keep the palette and the brand stays at the door.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:13px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">RULES</div>
+      <div style="font-size:19px;font-weight:600">Nine rules that apply to every overlay</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <sc-for list="{{ rules }}" as="r" hint-placeholder-count="9">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ r.h }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      ladder: [
+        { name: 'MENU', tone: INFO, scrim: 'transparent', w: '46%', h: '68%', what: 'The action set for the thing you clicked.', dismiss: 'click away · Esc · pick one', use: 'never confirms anything by itself' },
+        { name: 'HOVER CARD', tone: INFO, scrim: 'transparent', w: '58%', h: '52%', what: 'Facts you would otherwise have to open a pane for.', dismiss: 'move the pointer away', use: 'read-only, no controls' },
+        { name: 'TOAST', tone: OK, scrim: 'transparent', w: '70%', h: '26%', what: 'Something happened; here is one line and maybe an undo.', dismiss: '4s, or 10s with undo', use: 'never for a decision' },
+        { name: 'POPOVER', tone: INFO, scrim: 'transparent', w: '54%', h: '62%', what: 'A small set of controls attached to a thing — a container picker, a time window.', dismiss: 'click away · Esc', use: 'controls, but no writes' },
+        { name: 'CONFIRMATION', tone: BAD, scrim: 'rgba(4,6,9,.62)', w: '66%', h: '54%', what: 'A write is about to happen. Says which cluster, and what breaks.', dismiss: 'Esc cancels · never click-away', use: 'the only modal writes go through' },
+        { name: 'PALETTE', tone: WARN, scrim: 'rgba(4,6,9,.5)', w: '76%', h: '46%', what: 'Every capability, ranked by what is in front of you.', dismiss: 'Esc · pick one', use: 'launches, never performs' },
+        { name: 'SHEET', tone: WARN, scrim: 'rgba(4,6,9,.4)', w: '84%', h: '76%', what: 'An editor. A workspace you can leave open.', dismiss: 'Esc discards, and says so', use: 'hands over to a confirmation' },
+        { name: 'FULL WINDOW', tone: IDLE, scrim: 'transparent', w: '100%', h: '100%', what: 'First run, and re-authentication. There is no app behind it yet.', dismiss: 'only by finishing', use: 'twice in the product, no more' }
+      ],
+      menu: [
+        { label: 'Overview', key: '⏎', glyph: '●', tone: INFO, ink: INK, keyInk: INFO, bg: 'rgba(74,168,255,.08)', sep: 'none' },
+        { label: 'Logs', key: 'L', glyph: '●', tone: INFO, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'none' },
+        { label: 'Previous instance logs', key: '⇧L', glyph: '●', tone: INFO, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'none' },
+        { label: 'YAML', key: 'Y', glyph: '●', tone: INFO, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'none' },
+        { label: 'Go to owner', key: 'O', glyph: '→', tone: IDLE, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'inset 0 1px 0 #242b35' },
+        { label: 'Shell', key: 'S', glyph: '◆', tone: WARN, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'inset 0 1px 0 #242b35' },
+        { label: 'Requests / limits…', key: '', glyph: '◆', tone: WARN, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'none' },
+        { label: 'Copy name', key: '⌘C', glyph: '⧉', tone: IDLE, ink: '#c8d1dd', keyInk: INK3, bg: 'transparent', sep: 'inset 0 1px 0 #242b35' },
+        { label: 'Delete…', key: '⌫', glyph: '▲', tone: BAD, ink: '#ffb3b3', keyInk: INK3, bg: 'transparent', sep: 'inset 0 1px 0 #2c3542' }
+      ],
+      hover: [
+        { k: 'connection', v: 'slow · 610ms p95', ink: WARN },
+        { k: 'last probe', v: '14:22:07 · 8s ago', ink: INK2 },
+        { k: 'nodes', v: '18 · 2 NotReady', ink: '#ffb3b3' },
+        { k: 'pods', v: '431 · 29 not running', ink: INK2 },
+        { k: 'api groups', v: '54 · 22 CRDs', ink: INK2 }
+      ],
+      toasts: [
+        { glyph: '●', tone: OK, t: 'Cordoned ip-10-0-3-19', action: 'undo', actionInk: OK, line: '#22503c' },
+        { glyph: '◆', tone: WARN, t: 'Rollout restarted · checkout-api in prod-eu-west', action: '', actionInk: INK3, line: '#4a3a12' },
+        { glyph: '⧉', tone: IDLE, t: 'Copied · checkout-api-7f9c8d4b6-k8n1p', action: '', actionInk: INK3, line: '#2c3542' },
+        { glyph: '▲', tone: BAD, t: 'Deleted · kafka-2 in prod-us-east', action: 'undo not possible', actionInk: INK3, line: '#54262b' },
+        { glyph: '●', tone: INFO, t: 'Logs pane opened by splitting right · scope pinned', action: '', actionInk: INK3, line: '#2c3542' }
+      ],
+      confirms: [
+        {
+          tier: 'TIER 1 · NO DIALOG', tone: OK, glyph: '●', title: 'Nothing to confirm', sub: 'reversible, cheap, undoable for 10s',
+          lines: [
+            { t: 'Cordon, suspend, pause a rollout, pause a watch: these go through on the click and appear as a toast with an undo. A dialog here would only teach people to dismiss dialogs.', font: SANS, size: '12.5px', ink: INK2 },
+            { t: 'The specimen on the right is the whole interaction — there is no modal at all.', font: SANS, size: '12.5px', ink: INK3 }
+          ],
+          hasImpact: false, hasType: false, foot: 'no scrim · no focus trap', footInk: INK3,
+          cta: 'Undo', ctaLine: '#22503c', ctaBg: 'rgba(62,207,142,.12)', ctaOpacity: '1',
+          note: 'The undo is real: we hold the inverse operation for ten seconds, we do not merely delay the write.'
+        },
+        {
+          tier: 'TIER 2 · ONE CONFIRMATION', tone: WARN, glyph: '◆', title: 'Restart rollout checkout-api?', sub: 'prod-eu-west · payments · writable',
+          lines: [
+            { t: 'kubectl rollout restart deployment/checkout-api -n payments', font: MONO, size: '11.5px', ink: INK2 }
+          ],
+          hasImpact: true,
+          impact: [
+            { glyph: '●', tone: OK, t: 'Pods are replaced one at a time; six of eight stay ready throughout.', ink: INK2 },
+            { glyph: '●', tone: INFO, t: 'Traffic keeps flowing — payments/checkout keeps at least one endpoint.', ink: INK2 },
+            { glyph: '▲', tone: WARN, t: 'The current CrashLoop will most likely return: the memory limit is unchanged.', ink: '#f3d08a' }
+          ],
+          hasType: false, foot: 'prod-eu-west · production', footInk: WARN,
+          cta: 'Restart rollout', ctaLine: '#5a4520', ctaBg: 'rgba(240,180,41,.12)', ctaOpacity: '1',
+          note: 'Always names the cluster in the subtitle, always shows the equivalent kubectl, and always says what happens to traffic. Enter confirms; Esc cancels.'
+        },
+        {
+          tier: 'TIER 3 · TYPE THE NAME', tone: BAD, glyph: '▲', title: 'Drain ip-10-0-3-19?', sub: 'prod-eu-west · production · irreversible in effect',
+          lines: [
+            { t: 'kubectl drain ip-10-0-3-19 --ignore-daemonsets --delete-emptydir-data', font: MONO, size: '11.5px', ink: INK2 }
+          ],
+          hasImpact: true,
+          impact: [
+            { glyph: '▲', tone: BAD, t: 'Two pods have nowhere to go — ledger-worker needs 2Gi, the best candidate node has 1.1Gi free.', ink: '#ffb3b3' },
+            { glyph: '▲', tone: WARN, t: 'One PodDisruptionBudget would block the eviction rather than fail it.', ink: '#f3d08a' },
+            { glyph: '●', tone: OK, t: 'Twenty-one pods reschedule cleanly across two nodes.', ink: INK2 }
+          ],
+          hasType: true, typeTarget: 'ip-10-0-3-19', typed: 'ip-10-0-3-1',
+          foot: 'the button stays inert until the name matches', footInk: '#ffb3b3',
+          cta: 'Drain node', ctaLine: '#54262b', ctaBg: 'rgba(255,95,95,.14)', ctaOpacity: '0.45',
+          note: 'Paste is allowed, autofill is not, and ⏎ never confirms this tier — the hands have to agree with the eyes. A production cluster promotes every tier-2 action to this one.'
+        }
+      ],
+      palette: [
+        { cat: 'SELECTION', label: 'Restart rollout of checkout-api — 8 pods, one at a time', hint: 'R', bg: '#1d2937', catTone: OK },
+        { cat: 'SELECTION', label: 'Restart just this pod (delete and let it come back)', hint: '', bg: 'transparent', catTone: OK },
+        { cat: 'PANE', label: 'Restart every unhealthy workload in this list', hint: '4 workloads', bg: 'transparent', catTone: INFO },
+        { cat: 'CLUSTER', label: 'Restart a Deployment in prod-eu-west…', hint: 'picker', bg: 'transparent', catTone: INFO },
+        { cat: 'FLEET', label: 'Restart checkout-api on all three production clusters', hint: '3 writes', bg: 'transparent', catTone: WARN },
+        { cat: 'HELP', label: 'What does a rolling restart actually do?', hint: 'docs', bg: 'transparent', catTone: IDLE }
+      ],
+      editor: [
+        { label: 'memory request', value: '256Mi', ink: INK, line: '#242b35', usedW: '62%', usedTone: 'rgba(62,207,142,.5)', markX: '62%', note: 'p95 used 318Mi · under-requested', noteTone: WARN },
+        { label: 'memory limit', value: '512Mi', ink: '#ffb3b3', line: '#54262b', usedW: '99%', usedTone: BAD, markX: '99%', note: 'peak 511Mi · this is the OOMKill', noteTone: BAD },
+        { label: 'cpu request', value: '200m', ink: INK, line: '#242b35', usedW: '44%', usedTone: 'rgba(62,207,142,.5)', markX: '44%', note: 'p95 used 88m · over-requested', noteTone: INK3 },
+        { label: 'cpu limit', value: '1', ink: INK, line: '#242b35', usedW: '31%', usedTone: 'rgba(62,207,142,.5)', markX: '31%', note: 'no throttling in 7 days', noteTone: OK }
+      ],
+      progress: [
+        { glyph: '●', tone: OK, t: 'evicted payments/fraud-scorer-9c1b7a5e2-2wq7t', at: '14:24:02', ink: INK2 },
+        { glyph: '●', tone: OK, t: 'evicted observability/otel-collector-7d5c8f9a1-p04qz', at: '14:24:14', ink: INK2 },
+        { glyph: '◐', tone: WARN, t: 'waiting on payments/checkout-api — PDB minAvailable 6', at: '31s', ink: '#f3d08a' },
+        { glyph: '▲', tone: BAD, t: 'payments/ledger-worker cannot be scheduled anywhere', at: '—', ink: '#ffb3b3' }
+      ],
+      rules: [
+        { tone: INFO, h: 'One overlay at a time, except progress.', t: 'A menu closes when a dialog opens. Nothing ever stacks two scrims — if a flow needs two steps, they happen in the same box, one after the other.' },
+        { tone: INFO, h: 'The scrim is proportional to the risk.', t: 'None for menus and hover cards, 40% for a sheet, 50% for the palette, 62% for a confirmation. The screen dims exactly as much as the decision is worth.' },
+        { tone: BAD, h: 'A modal that can write is never dismissed by clicking away.', t: 'Esc cancels, Cancel cancels, the click-away does nothing. A misplaced click must never be able to confirm or to lose typed input.' },
+        { tone: WARN, h: 'Focus is trapped and returned.', t: 'Tab cycles inside the overlay; on close, focus goes back to the exact row or chip it came from, so the keyboard never loses its place.' },
+        { tone: INFO, h: 'Every overlay names its cluster.', t: 'If an overlay can act on anything, its subtitle carries cluster · namespace · object. Four panes from three clusters means a nameless dialog is a coin toss.' },
+        { tone: WARN, h: 'The button carries the verb.', t: '“Restart rollout”, “Drain node”, “Delete 8 pods” — never OK, never Yes. The label alone should be enough to know what you agreed to.' },
+        { tone: OK, h: 'Overlays are keyboard-first.', t: 'Everything reachable by mouse has a key: the menu is arrow-navigable, the palette is typed, ⌘⏎ previews a diff, Esc always goes back one step.' },
+        { tone: IDLE, h: 'Position follows the pointer, then gets clamped.', t: 'Menus and popovers open at the cursor and flip rather than overflow. Dialogs are centred on the window, never on the pane, because they concern the whole app.' },
+        { tone: OK, h: 'Nothing appears faster than 120ms or slower than 180ms.', t: 'Menus and toasts fade and move 4px; dialogs fade with a 2% scale. Overlays never bounce or slide from an edge — a tool must not feel like a phone.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  input { font: inherit; color: inherit; background: none; border: none; outline: none; }
+  input::placeholder { color: #5e6a79; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:40px;display:flex;flex-direction:column;gap:24px;width:1680px">
+
+  <div style="display:flex;align-items:flex-end;gap:28px">
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;color:#5e6a79">KUBESCOPE — ROUND 02 · CLICKABLE PROTOTYPE</div>
+      <div style="font-size:26px;font-weight:600;letter-spacing:-.02em">Instrument, working</div>
+      <div style="font-size:13.5px;line-height:1.5;color:#98a4b4;max-width:820px;text-wrap:pretty">Real interaction, fake data. Right-click a pane header or any row. Every gesture below is live; nothing is a picture.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 22px;font-size:12px;color:#98a4b4;font-family:'IBM Plex Mono',monospace">
+      <div><span style="color:#4aa8ff">right-click row</span> → open logs / yaml / shell / events, restart, delete</div>
+      <div><span style="color:#4aa8ff">right-click header</span> → split, duplicate, change cluster, close</div>
+      <div><span style="color:#4aa8ff">click row</span> → select · then <span style="color:#e7ecf3">L Y S E</span></div>
+      <div><span style="color:#4aa8ff">cluster / ns chip</span> → change a question pane's scope</div>
+      <div><span style="color:#4aa8ff">1 2 3 4</span> → workspaces · <span style="color:#e7ecf3">⌘K</span> commands</div>
+      <div><span style="color:#4aa8ff">right-click rail</span> → pause watch, probe, open pods</div>
+    </div>
+  </div>
+
+  <div data-screen-label="prototype window" style="position:relative;width:1600px;height:1000px;background:#0a0c10;display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid #242b35;box-shadow:0 30px 80px rgba(0,0,0,.6)" onContextMenu="{{ onWindowCtx }}" onClick="{{ closeMenus }}">
+
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:#07090c;border-bottom:1px solid #242b35">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.18em;color:#98a4b4;border-right:1px solid #1a2028">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div onClick="{{ t.onClick }}" style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }};cursor:pointer">
+            <span style="font-family:'IBM Plex Mono',monospace;color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+            <span style="width:5px;height:5px;border-radius:50%;background:{{ t.dot }}"></span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5e6a79">
+        <span style="display:flex;align-items:center;gap:7px"><span style="color:#3ecf8e">●</span>8<span style="color:#242b35">·</span><span style="color:#f0b429">◐</span>1<span style="color:#242b35">·</span><span style="color:#ff5f5f">▲</span>1</span>
+        <span onClick="{{ onToggleStale }}" style="padding:3px 7px;border:1px solid {{ staleBtnLine }};color:{{ staleBtnInk }};cursor:pointer">{{ staleBtnLabel }}</span>
+        <span onClick="{{ onToggleDensity }}" style="padding:3px 7px;border:1px solid #242b35;color:#98a4b4;cursor:pointer">{{ densityLabel }}</span>
+        <span onClick="{{ onPalette }}" style="padding:3px 7px;border:1px solid #242b35;color:#98a4b4;cursor:pointer">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid #242b35;background:#07090c;display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.title }}" onClick="{{ c.onClick }}" onContextMenu="{{ c.onCtx }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }};cursor:pointer">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>
+          {{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div onClick="{{ onAddCluster }}" style="height:30px;display:flex;align-items:center;justify-content:center;color:#5e6a79;font-size:15px;cursor:pointer">+</div>
+    </div>
+
+    <div style="min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:1px;background:#242b35">
+      <sc-for list="{{ panes }}" as="p" hint-placeholder-count="1">
+        <div onClick="{{ p.onFocus }}" style="grid-column:{{ p.gc }};grid-row:{{ p.gr }};min-height:0;display:flex;flex-direction:column;background:{{ p.paneBg }};border-left:2px solid {{ p.edge }};cursor:default">
+
+          <div onContextMenu="{{ p.onHeaderCtx }}" style="height:24px;display:flex;align-items:center;gap:9px;padding:0 9px;border-bottom:1px solid #1a2028;font-size:11px;font-family:'IBM Plex Mono',monospace;background:{{ p.headBg }}">
+            <span onClick="{{ p.onClusterClick }}" style="display:flex;align-items:center;gap:6px;color:{{ p.clTone }};font-weight:600;cursor:pointer"><span style="font-size:7px">{{ p.clGlyph }}</span>{{ p.cluster }}<span style="color:#5e6a79">{{ p.clCaret }}</span></span>
+            <span style="color:#242b35">│</span>
+            <span style="color:#e7ecf3">{{ p.typeLabel }}</span>
+            <span onClick="{{ p.onNsClick }}" style="display:flex;align-items:center;gap:5px;color:#98a4b4;cursor:pointer">{{ p.scopeKey }}<span style="color:#e7ecf3">{{ p.scopeVal }}</span><span style="color:#5e6a79">{{ p.nsCaret }}</span></span>
+            <sc-if value="{{ p.canFilter }}" hint-placeholder-val="{{ true }}">
+              <span style="display:flex;align-items:center;gap:5px;color:#5e6a79">/<input value="{{ p.filter }}" onChange="{{ p.onFilter }}" placeholder="filter…" style="width:112px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#e7ecf3"></span>
+            </sc-if>
+            <div style="flex:1"></div>
+            <span style="color:#98a4b4">{{ p.count }}</span>
+            <span style="color:#242b35">│</span>
+            <span style="display:flex;align-items:center;gap:5px;color:{{ p.streamTone }}"><span style="font-size:7px">{{ p.streamGlyph }}</span>{{ p.streamWord }}</span>
+            <span onClick="{{ p.onMenu }}" style="color:#98a4b4;cursor:pointer;padding:0 2px">⋮</span>
+          </div>
+
+          <sc-if value="{{ p.stale }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:8px;padding:5px 9px;background:rgba(240,180,41,.09);border-bottom:1px solid #4a3a12;font-size:11px;color:#f0b429;font-family:'IBM Plex Mono',monospace">
+              <span>◐</span><span>{{ p.staleText }}</span><div style="flex:1"></div><span onClick="{{ p.onRetry }}" style="padding:1px 6px;border:1px solid #4a3a12;cursor:pointer">retry now</span>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ p.isTable }}" hint-placeholder-val="{{ true }}">
+            <div style="min-height:0;display:flex;flex-direction:column;flex:1">
+              <sc-if value="{{ p.showColBar }}" hint-placeholder-val="{{ true }}">
+                <div style="height:20px;display:grid;grid-template-columns:{{ p.gridCols }};align-items:center;padding:0 9px;gap:9px;background:#07090c;border-bottom:1px solid #242b35;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.09em;color:#5e6a79">
+                  <sc-for list="{{ p.cols }}" as="c" hint-placeholder-count="5">
+                    <div style="text-align:{{ c.align }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.label }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;overflow-x:hidden">
+                <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="20">
+                  <div onClick="{{ r.onClick }}" onContextMenu="{{ r.onCtx }}" style="height:{{ p.rowH }};display:grid;grid-template-columns:{{ p.gridCols }};align-items:center;padding:0 9px;gap:9px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 #1a2028;font-size:12px;cursor:pointer">
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="5">
+                      <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:6px;font-family:{{ c.font }};font-size:{{ c.size }};font-weight:{{ c.weight }};color:{{ c.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                        <span style="font-size:8px;color:{{ c.gtone }}">{{ c.glyph }}</span>{{ c.t }}
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ p.emptyResult }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:14px 10px;font-size:12px;color:#98a4b4;font-family:'IBM Plex Mono',monospace">{{ p.emptyResultText }}</div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ p.hasSel }}" hint-placeholder-val="{{ false }}">
+                <div style="height:30px;display:flex;align-items:center;gap:10px;padding:0 9px;background:#1d2937;border-top:1px solid #242b35;font-family:'IBM Plex Mono',monospace;font-size:11px">
+                  <span style="color:#98a4b4">selected</span>
+                  <span style="color:#e7ecf3;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.selName }}</span>
+                  <div style="flex:1"></div>
+                  <sc-for list="{{ p.selActions }}" as="a" hint-placeholder-count="5">
+                    <span onClick="{{ a.onClick }}" style="display:flex;align-items:center;gap:6px;color:{{ a.ink }};cursor:pointer"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ p.isLines }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;min-height:0;overflow:hidden;padding:7px 9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.5">
+              <sc-for list="{{ p.lines }}" as="l" hint-placeholder-count="20">
+                <div style="display:flex;gap:10px;white-space:pre;overflow:hidden;text-overflow:ellipsis">
+                  <span style="color:#3a4553;flex:none;width:{{ p.gutterW }};text-align:right">{{ l.n }}</span>
+                  <span style="color:{{ l.ink }}">{{ l.t }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ p.isFleet }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;min-height:0;padding:9px;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;gap:9px">
+              <sc-for list="{{ p.fleet }}" as="c" hint-placeholder-count="10">
+                <div onClick="{{ c.onClick }}" onContextMenu="{{ c.onCtx }}" style="min-height:0;display:flex;flex-direction:column;background:#07090c;border:1px solid {{ c.line }};border-left:3px solid {{ c.tone }};cursor:pointer">
+                  <div style="padding:8px 10px 7px;display:flex;flex-direction:column;gap:5px;border-bottom:1px solid #1a2028;background:{{ c.headBg }}">
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;color:#e7ecf3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+                      <div style="flex:1"></div><span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:#5e6a79">{{ c.plat }}</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:7px;color:{{ c.tone }};font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600"><span style="font-size:9px">{{ c.glyph }}</span>{{ c.state }}<div style="flex:1"></div><span style="color:#98a4b4;font-weight:400">{{ c.rtt }}</span></div>
+                  </div>
+                  <div style="padding:8px 10px;display:flex;flex-direction:column;gap:7px;flex:1;min-height:0">
+                    <sc-for list="{{ c.stats }}" as="s" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:baseline;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:11px">
+                        <span style="color:#5e6a79;width:44px;flex:none">{{ s.k }}</span><span style="color:#e7ecf3">{{ s.v }}</span>
+                        <div style="flex:1"></div><span style="color:{{ s.tone }}">{{ s.note }}</span>
+                      </div>
+                    </sc-for>
+                    <div style="flex:1"></div>
+                    <div style="font-size:10.5px;line-height:1.4;color:{{ c.noteTone }};text-wrap:pretty">{{ c.note }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ p.isEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:18px">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;color:#5e6a79">EMPTY PANE — WHAT SHOULD IT ASK?</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+                <sc-for list="{{ p.pickers }}" as="k" hint-placeholder-count="4">
+                  <div onClick="{{ k.onClick }}" style="padding:9px 14px;border:1px solid #242b35;background:#161a21;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#e7ecf3;cursor:pointer;display:flex;align-items:center;gap:8px">{{ k.label }}<span style="color:#5e6a79;font-size:10px">{{ k.key }}</span></div>
+                </sc-for>
+              </div>
+              <div style="font-size:11.5px;line-height:1.5;color:#5e6a79;max-width:320px;text-align:center;text-wrap:pretty">Logs, manifest and shell are object panes — they open from a row, so their scope is fixed to that object.</div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ menu.open }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:{{ menu.x }};top:{{ menu.y }};min-width:{{ menu.w }};background:#161a21;border:1px solid #2c3542;box-shadow:0 18px 40px rgba(0,0,0,.65);padding:4px 0;z-index:40">
+        <sc-if value="{{ menu.hasTitle }}" hint-placeholder-val="{{ false }}">
+          <div style="padding:6px 11px 7px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.11em;color:#5e6a79;border-bottom:1px solid #242b35;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ menu.title }}</div>
+        </sc-if>
+        <sc-for list="{{ menu.items }}" as="i" hint-placeholder-count="5">
+          <div onClick="{{ i.onClick }}" style="display:flex;align-items:center;gap:14px;padding:5px 11px;font-size:12px;color:{{ i.ink }};cursor:{{ i.cursor }};background:{{ i.bg }}">
+            <span style="width:9px;font-size:8px;color:{{ i.gtone }}">{{ i.glyph }}</span>
+            <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.label }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5e6a79">{{ i.hint }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ dialog.open }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgba(4,6,9,.62);display:flex;align-items:center;justify-content:center;z-index:60">
+        <div style="width:520px;background:#11141a;border:1px solid #2c3542;box-shadow:0 30px 70px rgba(0,0,0,.7)">
+          <div style="padding:14px 18px 12px;border-bottom:1px solid #242b35;display:flex;align-items:center;gap:9px">
+            <span style="font-size:11px;color:{{ dialog.tone }}">{{ dialog.glyph }}</span>
+            <span style="font-size:15px;font-weight:600">{{ dialog.title }}</span>
+          </div>
+          <div style="padding:14px 18px;display:flex;flex-direction:column;gap:9px">
+            <sc-for list="{{ dialog.lines }}" as="l" hint-placeholder-count="3">
+              <div style="font-size:12.5px;line-height:1.5;color:{{ l.ink }};font-family:{{ l.font }};text-wrap:pretty">{{ l.t }}</div>
+            </sc-for>
+          </div>
+          <div style="padding:12px 18px;border-top:1px solid #242b35;display:flex;align-items:center;gap:9px;background:#0d1015">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5e6a79">{{ dialog.foot }}</span>
+            <div style="flex:1"></div>
+            <span onClick="{{ dialog.onCancel }}" style="padding:6px 13px;border:1px solid #242b35;font-size:12px;color:#98a4b4;cursor:pointer">Cancel</span>
+            <span onClick="{{ dialog.onConfirm }}" style="padding:6px 13px;border:1px solid {{ dialog.ctaLine }};background:{{ dialog.ctaBg }};font-size:12px;color:{{ dialog.ctaInk }};cursor:pointer;font-weight:600">{{ dialog.cta }}</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ palette.open }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgba(4,6,9,.5);display:flex;align-items:flex-start;justify-content:center;padding-top:120px;z-index:70">
+        <div style="width:560px;background:#11141a;border:1px solid #2c3542;box-shadow:0 30px 70px rgba(0,0,0,.7)">
+          <div style="padding:12px 14px;border-bottom:1px solid #242b35;display:flex;align-items:center;gap:10px">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#5e6a79">⌘K</span>
+            <input value="{{ palette.q }}" onChange="{{ palette.onQuery }}" placeholder="what do you want to do?" style="flex:1;font-size:14px;color:#e7ecf3">
+          </div>
+          <div style="max-height:300px;overflow:hidden;padding:5px 0">
+            <sc-for list="{{ palette.items }}" as="i" hint-placeholder-count="6">
+              <div onClick="{{ i.onClick }}" style="display:flex;align-items:center;gap:12px;padding:7px 14px;font-size:12.5px;color:#e7ecf3;cursor:pointer;background:{{ i.bg }}">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;color:{{ i.catTone }};width:52px;flex:none">{{ i.cat }}</span>
+                <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.label }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#5e6a79">{{ i.hint }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ toast.open }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:50%;bottom:22px;transform:translateX(-50%);background:#1d2937;border:1px solid #2c3542;padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:{{ toast.ink }};z-index:80;box-shadow:0 12px 30px rgba(0,0,0,.5)">{{ toast.t }}</div>
+    </sc-if>
+  </div>
+
+  <div style="display:flex;gap:26px;font-size:12px;color:#5e6a79;font-family:'IBM Plex Mono',monospace">
+    <span>Not simulated: dragging split handles, tabs in a pane slot, real streaming.</span>
+    <div style="flex:1"></div>
+    <span>{{ paneSummary }}</span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1680,&quot;height&quot;:1240}}">
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace";
+const SANS = "'IBM Plex Sans',sans-serif";
+
+const PH = {
+  Running: { glyph: '\u25cf', word: 'Running', tone: OK },
+  CrashLoop: { glyph: '\u25b2', word: 'CrashLoop', tone: BAD },
+  Failed: { glyph: '\u25b2', word: 'Failed', tone: BAD },
+  Pending: { glyph: '\u25c6', word: 'Pending', tone: WARN },
+  Degraded: { glyph: '\u25b2', word: 'Degraded', tone: WARN },
+  Terminating: { glyph: '\u25a0', word: 'Terminating', tone: IDLE },
+  Unknown: { glyph: '\u25cb', word: 'Unknown', tone: IDLE }
+};
+const CONN = {
+  live: { glyph: '\u25cf', tone: OK, word: 'live' },
+  slow: { glyph: '\u25d0', tone: WARN, word: 'slow' },
+  down: { glyph: '\u25b2', tone: BAD, word: 'no response' },
+  paused: { glyph: '\u25a0', tone: IDLE, word: 'paused' }
+};
+const CLUSTERS = [
+  { name: 'prod-eu-west', code: 'EW', hue: INFO, conn: 'live', rtt: '41ms', plat: 'k8s 1.29.4', nodes: 24, pods: 612 },
+  { name: 'prod-us-east', code: 'UE', hue: '#b48cff', conn: 'live', rtt: '58ms', plat: 'k8s 1.29.4', nodes: 24, pods: 588 },
+  { name: 'prod-ap-south', code: 'AS', hue: WARN, conn: 'slow', rtt: '610ms', plat: 'k8s 1.28.9', nodes: 18, pods: 431 },
+  { name: 'staging-eu', code: 'SE', hue: OK, conn: 'live', rtt: '22ms', plat: 'k8s 1.30.1', nodes: 12, pods: 288 },
+  { name: 'staging-us', code: 'SU', hue: '#5ad2c4', conn: 'live', rtt: '31ms', plat: 'k8s 1.30.1', nodes: 12, pods: 274 },
+  { name: 'dev-sandbox', code: 'DS', hue: '#8a94a6', conn: 'live', rtt: '12ms', plat: 'k8s 1.31.0', nodes: 6, pods: 141 },
+  { name: 'edge-01', code: 'E1', hue: BAD, conn: 'down', rtt: '\u2014', plat: 'ocp 4.15.9', nodes: 3, pods: 0 },
+  { name: 'edge-02', code: 'E2', hue: '#ff8a5c', conn: 'live', rtt: '180ms', plat: 'ocp 4.15.9', nodes: 3, pods: 62 },
+  { name: 'ci-runners', code: 'CI', hue: '#9ad04a', conn: 'live', rtt: '44ms', plat: 'k8s 1.29.4', nodes: 40, pods: 894 },
+  { name: 'analytics', code: 'AN', hue: '#c9a227', conn: 'paused', rtt: 'paused', plat: 'k8s 1.30.0', nodes: 6, pods: 122 }
+];
+const CL = {};
+CLUSTERS.forEach(c => { CL[c.name] = c; });
+const FLEET_NOTE = {
+  'prod-eu-west': ['2 pods unhealthy in payments \u2014 checkout-api OOMKilled 47\u00d7', 'warn'],
+  'prod-us-east': ['Healthy. Ledger queue elevated but recovering.', 'ok'],
+  'prod-ap-south': ['Apiserver p95 610ms \u00b7 watch reconnecting, data 47s old', 'warn'],
+  'staging-eu': ['Healthy. 1 node cordoned for kernel upgrade.', 'ok'],
+  'staging-us': ['Healthy.', 'ok'],
+  'dev-sandbox': ['Healthy. 41 pods Completed, not reaped.', 'ok'],
+  'edge-01': ['No response for 4m12s. Last good probe 14:17:55.', 'bad'],
+  'edge-02': ['Healthy. Route ingress-tls expires in 11 days.', 'warn'],
+  'ci-runners': ['12 pods Pending \u2014 build queue, expected.', 'ok'],
+  'analytics': ['Watch paused by you at 09:12. Read-only context.', 'idle']
+};
+
+const NS_BY_CLUSTER = {
+  default: ['payments', 'ingress', 'observability', 'platform', 'kube-system', 'data', 'jobs'],
+  'ci-runners': ['ci', 'ingress', 'observability', 'platform', 'kube-system'],
+  'edge-02': ['ingress', 'platform', 'kube-system', 'openshift-monitoring'],
+  'analytics': ['analytics', 'platform', 'kube-system']
+};
+const nsOf = c => NS_BY_CLUSTER[c] || NS_BY_CLUSTER.default;
+
+const WORKLOADS = {
+  payments: [['checkout-api', '7f9c8d4b6', 4, 2], ['ledger-worker', '5d8f9c74c', 3, 1], ['fraud-scorer', '9c1b7a5e2', 2, 2], ['payout-batcher', '4e7c9b2d5', 2, 1]],
+  ingress: [['envoy-gateway', '6b4d9f7c8', 3, 1], ['cert-manager', '58c7d9b41', 1, 1]],
+  observability: [['otel-collector', '7d5c8f9a1', 3, 1], ['loki-ingester', '4b8d2c7f6', 3, 2], ['grafana', '6f9a3c5d8', 1, 1]],
+  platform: [['argocd-repo-server', '8d4c7b9e1', 2, 1], ['external-secrets', '5a9c3d8f2', 2, 1], ['vault-agent-injector', '7b2e9c4a6', 1, 2]],
+  'kube-system': [['coredns', '9f4b7c2d8', 2, 1], ['cilium-operator', '6c8a4f9b3', 2, 1], ['metrics-server', '5d7c9b4a2', 1, 1]],
+  data: [['kafka', null, 3, 1], ['clickhouse', null, 3, 1], ['redis-cache', '7c4b9d2f8', 2, 1]],
+  jobs: [['nightly-export', '3f8c5d9b2', 2, 1]],
+  ci: [['runner', '4d9c7b2e8', 12, 1], ['buildkit', '9b3c7d4a1', 4, 1]],
+  analytics: [['spark-executor', '6d4b9c2f7', 6, 1], ['airflow-scheduler', '3c8d5b9a4', 1, 2]],
+  'openshift-monitoring': [['prometheus', null, 2, 3], ['alertmanager', null, 2, 2]]
+};
+// trouble lives on specific cluster + workload + replica
+const TROUBLE = {
+  'prod-eu-west': {
+    'checkout-api/1': ['CrashLoop', '1/2', 47, 'OOMKilled \u00b7 limit 512Mi, peak 511Mi'],
+    'checkout-api/3': ['Pending', '0/2', 0, 'Insufficient memory \u00b7 hpa scaled to 8'],
+    'ledger-worker/0': ['Terminating', '1/1', 0, 'Replaced by rollout 2026.8.3'],
+    'ledger-worker/2': ['Pending', '0/1', 0, 'Insufficient memory on 3 of 6 nodes'],
+    'fraud-scorer/0': ['Degraded', '1/2', 3, 'Sidecar envoy not ready 2m'],
+    'payout-batcher/0': ['Failed', '0/1', 5, 'Exit 2 \u00b7 config sha mismatch'],
+    'loki-ingester/0': ['Degraded', '1/2', 8, 'Readiness probe failed 3\u00d7 in 90s'],
+    'otel-collector/1': ['Unknown', '2/2', 0, 'Node ip-10-0-4-8 stopped reporting'],
+    'nightly-export/0': ['Failed', '0/1', 5, 'Exit 137 \u00b7 deadline exceeded']
+  },
+  'prod-us-east': { 'kafka/2': ['CrashLoop', '0/1', 12, 'Back-off restarting failed container'] },
+  'prod-ap-south': { 'checkout-api/0': ['Degraded', '1/2', 2, 'Readiness flapping \u00b7 apiserver slow'], 'coredns/1': ['Pending', '0/1', 0, 'Node NotReady \u00b7 ip-10-0-4-8'] },
+  'staging-eu': { 'cilium-operator/1': ['Terminating', '1/1', 0, 'Node drained \u00b7 ip-10-0-2-44'] },
+  'ci-runners': { 'runner/6': ['Pending', '0/1', 0, 'Waiting for build queue'], 'runner/7': ['Pending', '0/1', 0, 'Waiting for build queue'], 'runner/8': ['Pending', '0/1', 0, 'Waiting for build queue'] }
+};
+const NODES = ['ip-10-0-3-19', 'ip-10-0-1-204', 'ip-10-0-2-44', 'ip-10-0-4-8', 'ip-10-0-3-91', 'ip-10-0-1-17'];
+const AGES = ['4d2h', '12d', '31d', '6h14m', '2d9h', '18d', '54m', '9d', '3d17h', '21d'];
+
+function rngFrom(str) {
+  let seed = 7;
+  for (let i = 0; i < str.length; i++) seed = (seed * 31 + str.charCodeAt(i)) & 0x7fffffff;
+  return () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+}
+const PODS_CACHE = {};
+function podsOf(cluster) {
+  if (PODS_CACHE[cluster]) return PODS_CACHE[cluster];
+  const rnd = rngFrom(cluster);
+  const hash = n => Array.from({ length: n }, () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(rnd() * 36)]).join('');
+  const trouble = TROUBLE[cluster] || {};
+  const out = [];
+  nsOf(cluster).forEach(ns => {
+    (WORKLOADS[ns] || []).forEach(w => {
+      for (let i = 0; i < w[2]; i++) {
+        const t = trouble[w[0] + '/' + i];
+        const phase = t ? t[0] : 'Running';
+        out.push({
+          ns, phase,
+          name: w[1] ? w[0] + '-' + w[1] + '-' + hash(5) : w[0] + '-' + i,
+          ready: t ? t[1] : w[3] + '/' + w[3],
+          rs: t ? t[2] : (rnd() < 0.15 ? Math.floor(rnd() * 3) : 0),
+          why: t ? t[3] : '',
+          node: NODES[Math.floor(rnd() * NODES.length)],
+          age: AGES[Math.floor(rnd() * AGES.length)],
+          ctr: w[0].split('-')[0]
+        });
+      }
+    });
+  });
+  PODS_CACHE[cluster] = out;
+  return out;
+}
+const EVENTS = [
+  ['14:21', 'Error', 'FailedScheduling', '0/6 nodes available: 3 Insufficient memory, 3 taint', 41],
+  ['14:20', 'Warning', 'BackOff', 'Back-off restarting failed container api', 47],
+  ['14:20', 'Warning', 'Unhealthy', 'Readiness probe failed: HTTP 503 from /healthz', 62],
+  ['14:19', 'Error', 'OOMKilling', 'Memory cgroup out of memory: killed process 1 (api)', 47],
+  ['14:18', 'Warning', 'NodeNotReady', 'Node ip-10-0-4-8 status is now NotReady', 2],
+  ['14:17', 'Normal', 'Killing', 'Stopping container api', 47],
+  ['14:17', 'Warning', 'FailedMount', 'Unable to attach volume ledger-wal: timed out after 2m', 3],
+  ['14:15', 'Normal', 'Pulled', 'Container image checkout-api:2026.8.3 already present', 88],
+  ['14:14', 'Warning', 'Evicted', 'The node was low on resource: memory', 6],
+  ['14:12', 'Warning', 'ProbeWarning', 'Startup probe took 41s (threshold 30s)', 9],
+  ['14:11', 'Normal', 'ScalingReplicaSet', 'Scaled up replica set checkout-api-7f9c8d4b6 to 8', 4],
+  ['14:09', 'Warning', 'CertificateExpiring', 'Certificate api-tls expires in 11 days', 1],
+  ['14:07', 'Normal', 'LeaderElection', 'external-secrets became leader', 1],
+  ['14:04', 'Warning', 'FailedCreate', 'pods "nightly-export-" is forbidden: exceeded quota', 12]
+];
+const SEV = { Warning: { glyph: '\u25b2', tone: WARN }, Error: { glyph: '\u25b2', tone: BAD }, Normal: { glyph: '\u25cf', tone: IDLE } };
+const LOG_TPL = [
+  ['ERROR', 'context deadline exceeded calling ledger.grpc:8443 after 2.00s'],
+  ['WARN', 'heap 498Mi of 512Mi limit, GC pause 214ms'],
+  ['ERROR', '3 consecutive failures, opening circuit for ledger.grpc'],
+  ['INFO', 'config reloaded, sha 4bd91c, 8 workers'],
+  ['WARN', 'upstream 503 rate 41% over 30s window'],
+  ['ERROR', 'container killed \u2014 exit 137 (OOMKilled), restart #47'],
+  ['INFO', 'kubelet: pulling registry.internal image'],
+  ['WARN', 'retry budget 82% consumed'],
+  ['ERROR', 'readiness probe failed \u2014 /healthz 503'],
+  ['INFO', 'starting, 8 workers, listen :8080'],
+  ['WARN', 'clock skew 41ms vs ntp peer, tolerated'],
+  ['ERROR', 'heap 511Mi of 512Mi \u2014 allocation failed in json.Decode'],
+  ['INFO', 'checkpoint written, 41MB, 612ms'],
+  ['WARN', '12 requests queued, oldest 4.2s'],
+  ['ERROR', 'pod evicted \u2014 node memory pressure'],
+  ['INFO', '0 errors in last 30s'],
+  ['WARN', 'slow query 1.81s \u2014 SELECT balance FROM accounts_eu'],
+  ['ERROR', 'connection refused talking to checkout-api.payments:8080'],
+  ['INFO', 'back-off 40s restarting failed container'],
+  ['WARN', 'pg pool 29/32, waiters 4, p95 812ms']
+];
+const LVL = { ERROR: BAD, WARN: WARN, INFO: INFO };
+
+let UID = 1;
+const uid = () => 'p' + (UID++);
+
+function mkPane(o) {
+  return Object.assign({ id: uid(), kind: 'empty', cluster: 'prod-eu-west', ns: 'all', filter: '', sel: null, obj: null, stale: false, c: 1, r: 1, cs: 4, rs: 4 }, o);
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const fleetPane = mkPane({ kind: 'fleet', cluster: 'all clusters' });
+    const podsPane = mkPane({ kind: 'pods', cluster: 'prod-eu-west', ns: 'all' });
+    const incA = mkPane({ kind: 'pods', cluster: 'prod-eu-west', ns: 'payments', filter: '!running', c: 1, r: 1, cs: 2, rs: 2 });
+    const incB = mkPane({ kind: 'logs', cluster: 'prod-us-east', obj: { ns: 'payments', name: 'ledger-worker-5d8f9c74c-2wq7t', ctr: 'worker' }, c: 3, r: 1, cs: 2, rs: 2 });
+    const incC = mkPane({ kind: 'events', cluster: 'prod-ap-south', ns: 'all', stale: true, c: 1, r: 3, cs: 2, rs: 2 });
+    const incD = mkPane({ kind: 'shell', cluster: 'prod-us-east', obj: { ns: 'payments', name: 'ledger-worker-5d8f9c74c-2wq7t', ctr: 'worker' }, c: 3, r: 3, cs: 2, rs: 2 });
+    this.state = {
+      ws: 2,
+      workspaces: {
+        1: { name: 'fleet', panes: [fleetPane] },
+        2: { name: 'payments', panes: [podsPane] },
+        3: { name: 'incident', panes: [incA, incB, incC, incD] },
+        4: { name: 'scratch', panes: [mkPane({})] }
+      },
+      active: podsPane.id,
+      density: 22,
+      menu: null, dialog: null, palette: null, toast: null,
+      gone: {}
+    };
+    this.onKey = this.onKey.bind(this);
+  }
+  componentDidMount() { document.addEventListener('keydown', this.onKey); }
+  componentWillUnmount() { document.removeEventListener('keydown', this.onKey); clearTimeout(this._t); }
+
+  // ---- helpers ----
+  ws() { return this.state.workspaces[this.state.ws]; }
+  panes() { return this.ws().panes; }
+  activePane() { return this.panes().filter(p => p.id === this.state.active)[0] || this.panes()[0]; }
+  setPanes(panes, extra) {
+    const workspaces = Object.assign({}, this.state.workspaces);
+    workspaces[this.state.ws] = Object.assign({}, workspaces[this.state.ws], { panes });
+    this.setState(Object.assign({ workspaces, menu: null }, extra || {}));
+  }
+  patch(id, patch, extra) {
+    this.setPanes(this.panes().map(p => p.id === id ? Object.assign({}, p, patch) : p), extra);
+  }
+  toast(t, ink) {
+    clearTimeout(this._t);
+    this.setState({ toast: { open: true, t, ink: ink || INK } });
+    this._t = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+  isObjectKind(k) { return k === 'logs' || k === 'yaml' || k === 'shell'; }
+
+  split(pane, dir, newPane) {
+    const panes = this.panes();
+    if (dir === 'right' && pane.cs < 2) { this.toast('minimum pane width reached \u2014 320px', WARN); return; }
+    if (dir === 'down' && pane.rs < 2) { this.toast('minimum pane height reached \u2014 180px', WARN); return; }
+    const half = dir === 'right' ? Math.floor(pane.cs / 2) : Math.floor(pane.rs / 2);
+    const a = dir === 'right'
+      ? Object.assign({}, pane, { cs: half })
+      : Object.assign({}, pane, { rs: half });
+    const b = mkPane(Object.assign({
+      c: dir === 'right' ? pane.c + half : pane.c,
+      r: dir === 'down' ? pane.r + half : pane.r,
+      cs: dir === 'right' ? pane.cs - half : pane.cs,
+      rs: dir === 'down' ? pane.rs - half : pane.rs,
+      cluster: pane.cluster, ns: pane.ns
+    }, newPane || {}));
+    this.setPanes(panes.map(p => p.id === pane.id ? a : p).concat([b]), { active: b.id });
+    return b;
+  }
+  openFrom(pane, row, kind) {
+    const obj = { ns: row.ns, name: row.name, ctr: row.ctr };
+    const empty = this.panes().filter(p => p.kind === 'empty')[0];
+    const patchObj = { kind, obj, cluster: pane.cluster, sel: null, stale: false };
+    if (empty) {
+      this.patch(empty.id, patchObj, { active: empty.id });
+      this.toast(kind + ' pane filled the empty slot \u00b7 scope pinned to ' + row.name, INFO);
+      return;
+    }
+    const dir = pane.cs >= 2 ? 'right' : 'down';
+    const b = this.split(pane, dir, patchObj);
+    if (b) this.toast(kind + ' pane opened by splitting ' + dir + ' \u00b7 scope pinned', INFO);
+  }
+  closePane(pane) {
+    const rest = this.panes().filter(p => p.id !== pane.id);
+    if (!rest.length) { this.setPanes([mkPane({})], { active: null }); return; }
+    // give the space to a neighbour: grow the first pane that touches it
+    const grown = rest.map(p => {
+      if (p.r === pane.r && p.rs === pane.rs && p.c + p.cs === pane.c) return Object.assign({}, p, { cs: p.cs + pane.cs });
+      if (p.r === pane.r && p.rs === pane.rs && pane.c + pane.cs === p.c) return Object.assign({}, p, { c: pane.c, cs: p.cs + pane.cs });
+      if (p.c === pane.c && p.cs === pane.cs && p.r + p.rs === pane.r) return Object.assign({}, p, { rs: p.rs + pane.rs });
+      if (p.c === pane.c && p.cs === pane.cs && pane.r + pane.rs === p.r) return Object.assign({}, p, { r: pane.r, rs: p.rs + pane.rs });
+      return p;
+    });
+    let used = false;
+    const out = grown.map(p => {
+      const orig = rest.filter(q => q.id === p.id)[0];
+      if (!used && (p.cs !== orig.cs || p.rs !== orig.rs)) { used = true; return p; }
+      return orig;
+    });
+    this.setPanes(out, { active: out[0].id });
+    this.toast('pane closed \u00b7 space given to ' + out[0].kind, INK2);
+  }
+
+  onKey(e) {
+    const tag = (e.target && e.target.tagName) || '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA') { if (e.key === 'Escape') e.target.blur(); return; }
+    const k = e.key;
+    if (k === 'Escape') { this.setState({ menu: null, dialog: null, palette: null }); return; }
+    if (k >= '1' && k <= '4') { this.setState({ ws: Number(k), menu: null, active: this.state.workspaces[Number(k)].panes[0].id }); return; }
+    if (k === 'k' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); this.setState({ palette: { open: true, q: '' } }); return; }
+    const p = this.activePane();
+    if (!p || !p.sel) return;
+    const map = { l: 'logs', y: 'yaml', s: 'shell', e: 'events' };
+    const kind = map[k.toLowerCase()];
+    if (!kind) return;
+    const row = this.rowsFor(p).filter(r => r.name === p.sel)[0];
+    if (!row) return;
+    if (kind === 'events') { this.openFrom(p, row, 'events'); } else { this.openFrom(p, row, kind); }
+  }
+
+  rowsFor(pane) {
+    let rows = podsOf(pane.cluster);
+    if (pane.ns !== 'all') rows = rows.filter(r => r.ns === pane.ns);
+    const f = (pane.filter || '').trim().toLowerCase();
+    if (f === '!running') rows = rows.filter(r => r.phase !== 'Running');
+    else if (f) rows = rows.filter(r => (r.name + ' ' + r.ns + ' ' + r.phase + ' ' + r.why).toLowerCase().indexOf(f) >= 0);
+    const gone = this.state.gone;
+    return rows.filter(r => !gone[pane.cluster + '/' + r.name]);
+  }
+
+  // ---- menus ----
+  openMenu(e, menu) {
+    e.preventDefault();
+    e.stopPropagation();
+    const host = e.currentTarget.closest('[data-screen-label]');
+    const box = host ? host.getBoundingClientRect() : { left: 0, top: 0, width: 1600, height: 1000 };
+    const w = menu.wpx || 250;
+    const x = Math.min(e.clientX - box.left, box.width - w - 8);
+    const y = Math.min(e.clientY - box.top, box.height - (menu.items.length * 27 + 40));
+    this.setState({ menu: Object.assign({ open: true, x: Math.max(4, x) + 'px', y: Math.max(4, y) + 'px', w: w + 'px' }, menu) });
+  }
+  item(label, hint, onClick, o) {
+    return Object.assign({ label, hint: hint || '', onClick: e => { if (e) e.stopPropagation(); this.setState({ menu: null }); onClick(); }, ink: INK, glyph: '', gtone: INK3, cursor: 'pointer', bg: 'transparent' }, o || {});
+  }
+  paneMenu(e, pane) {
+    const items = [
+      this.item('Split right', '\u2318\u21e2', () => this.split(pane, 'right'), { glyph: '\u2b62' }),
+      this.item('Split down', '\u2318\u21e3', () => this.split(pane, 'down'), { glyph: '\u2b63' }),
+      this.item('Duplicate pane', '', () => { const b = this.split(pane, pane.cs >= 2 ? 'right' : 'down', { kind: pane.kind, cluster: pane.cluster, ns: pane.ns, filter: pane.filter, obj: pane.obj }); if (b) this.toast('duplicated \u00b7 same question, own scope', INFO); }, { glyph: '\u29c9' })
+    ];
+    if (!this.isObjectKind(pane.kind) && pane.kind !== 'fleet') {
+      items.push(this.item('Change cluster\u2026', '', () => this.clusterMenuAt(pane, e), { glyph: '\u25c9' }));
+      items.push(this.item('Change namespace\u2026', '', () => this.nsMenuAt(pane, e), { glyph: '\u25cc' }));
+      items.push(this.item(pane.kind === 'pods' ? 'Ask for nodes instead' : 'Ask for pods instead', '', () => this.patch(pane.id, { kind: pane.kind === 'pods' ? 'nodes' : 'pods', sel: null }), { glyph: '\u21c4' }));
+    }
+    if (this.isObjectKind(pane.kind)) {
+      items.push(this.item('Scope is fixed to this object', '', () => this.toast('an object pane cannot be re-pointed \u2014 open a new pane instead', WARN), { glyph: '\u25c9', ink: INK3, cursor: 'default' }));
+    }
+    items.push(this.item(pane.stale ? 'Resume watch' : 'Pause watch', '', () => this.patch(pane.id, { stale: !pane.stale }), { glyph: pane.stale ? '\u25b6' : '\u25a0' }));
+    items.push(this.item('Close pane', '\u2318W', () => this.closePane(pane), { glyph: '\u00d7', ink: '#ffb3b3' }));
+    this.openMenu(e, { items, hasTitle: true, title: pane.cluster + ' \u00b7 ' + pane.kind, wpx: 262 });
+  }
+  clusterMenuAt(pane, e) {
+    const items = CLUSTERS.map(c => this.item(c.name, c.rtt, () => {
+      this.patch(pane.id, { cluster: c.name, ns: 'all', sel: null, stale: c.conn === 'down' || c.conn === 'paused' });
+      this.toast('same question, asked of ' + c.name, c.hue);
+    }, { glyph: CONN[c.conn].glyph, gtone: CONN[c.conn].tone, ink: c.name === pane.cluster ? INK : INK2, bg: c.name === pane.cluster ? '#1d2937' : 'transparent' }));
+    this.openMenu(e, { items, hasTitle: true, title: 'ASK THIS OF', wpx: 240 });
+  }
+  nsMenuAt(pane, e) {
+    const list = ['all'].concat(nsOf(pane.cluster));
+    const items = list.map(n => this.item(n, '', () => this.patch(pane.id, { ns: n, sel: null }), { glyph: n === pane.ns ? '\u2713' : '', gtone: INFO, ink: n === pane.ns ? INK : INK2 }));
+    this.openMenu(e, { items, hasTitle: true, title: 'NAMESPACE \u00b7 ' + pane.cluster, wpx: 232 });
+  }
+  rowMenu(e, pane, row) {
+    const m = PH[row.phase];
+    const items = [
+      this.item('Open logs', 'L', () => this.openFrom(pane, row, 'logs'), { glyph: '\u2261' }),
+      this.item('Open manifest', 'Y', () => this.openFrom(pane, row, 'yaml'), { glyph: '\u25a4' }),
+      this.item('Open shell', 'S', () => this.openFrom(pane, row, 'shell'), { glyph: '\u232b' }),
+      this.item('Open events for this pod', 'E', () => this.openFrom(pane, row, 'events'), { glyph: '\u26a1' }),
+      this.item('Previous instance logs', '', () => this.openFrom(pane, row, 'logs'), { glyph: '\u21ba', ink: row.rs > 0 ? INK : INK3, cursor: row.rs > 0 ? 'pointer' : 'default' }),
+      this.item('Same pod on other clusters', '', () => this.toast('cross-cluster view \u2014 sketched in round 02, not in this prototype', INK2), { glyph: '\u229e' }),
+      this.item('Copy name', '\u2318C', () => this.toast('copied \u00b7 ' + row.name, INK2), { glyph: '\u29c9' }),
+      this.item('Restart rollout\u2026', 'R', () => this.confirmRestart(pane, row), { glyph: '\u21bb', ink: WARN }),
+      this.item('Delete pod\u2026', '', () => this.confirmDelete(pane, row), { glyph: '\u00d7', ink: '#ffb3b3' })
+    ];
+    this.setState({ active: pane.id });
+    this.patch(pane.id, { sel: row.name });
+    this.openMenu(e, { items, hasTitle: true, title: m.word.toUpperCase() + ' \u00b7 ' + row.name, wpx: 286 });
+  }
+  railMenu(e, c) {
+    const items = [
+      this.item('Open pods in a new pane', '', () => { const p = this.activePane(); const empty = this.panes().filter(q => q.kind === 'empty')[0]; if (empty) { this.patch(empty.id, { kind: 'pods', cluster: c.name, ns: 'all', sel: null }); } else { this.split(p, p.cs >= 2 ? 'right' : 'down', { kind: 'pods', cluster: c.name, ns: 'all' }); } }, { glyph: '\u25a6' }),
+      this.item('Probe now', '', () => this.toast('probing ' + c.name + '\u2026 ' + (c.conn === 'down' ? 'still no response' : c.rtt), c.conn === 'down' ? BAD : OK), { glyph: '\u21bb' }),
+      this.item(c.conn === 'paused' ? 'Resume watching' : 'Pause watching', '', () => this.toast(c.name + (c.conn === 'paused' ? ' resumed' : ' paused \u00b7 panes will say their data is old'), INK2), { glyph: '\u25a0' }),
+      this.item('Reveal in kubeconfig', '', () => this.toast('~/.kube/config \u00b7 context ' + c.name, INK2), { glyph: '\u2197' })
+    ];
+    this.openMenu(e, { items, hasTitle: true, title: c.name + ' \u00b7 ' + CONN[c.conn].word + ' \u00b7 ' + c.plat, wpx: 268 });
+  }
+  confirmRestart(pane, row) {
+    const base = row.name.split('-').slice(0, -2).join('-') || row.name;
+    this.setState({
+      menu: null,
+      dialog: {
+        open: true, glyph: '\u21bb', tone: WARN, title: 'Restart rollout ' + base + '?',
+        lines: [
+          { t: 'This is a write to ' + pane.cluster + ', a production cluster.', ink: INK, font: SANS },
+          { t: 'kubectl rollout restart deployment/' + base + ' -n ' + row.ns, ink: INK2, font: MONO },
+          { t: 'Pods are replaced one at a time. Traffic keeps flowing while at least one replica stays ready \u2014 checkout-api currently has one.', ink: INK2, font: SANS }
+        ],
+        foot: pane.cluster + ' \u00b7 writable', cta: 'Restart rollout', ctaLine: '#5a4520', ctaBg: 'rgba(240,180,41,.12)', ctaInk: WARN,
+        onCancel: () => this.setState({ dialog: null }),
+        onConfirm: () => { this.setState({ dialog: null }); this.toast('rollout restarted \u00b7 ' + base + ' in ' + pane.cluster, WARN); }
+      }
+    });
+  }
+  confirmDelete(pane, row) {
+    this.setState({
+      menu: null,
+      dialog: {
+        open: true, glyph: '\u25b2', tone: BAD, title: 'Delete pod ' + row.name + '?',
+        lines: [
+          { t: 'This is a write to ' + pane.cluster + '. The pod is deleted immediately; its controller will create a replacement.', ink: INK, font: SANS },
+          { t: 'kubectl delete pod ' + row.name + ' -n ' + row.ns, ink: INK2, font: MONO },
+          { t: 'If this pod is the last ready replica, the service drops requests until the replacement passes its readiness probe.', ink: '#ffb3b3', font: SANS }
+        ],
+        foot: pane.cluster + ' \u00b7 writable', cta: 'Delete pod', ctaLine: '#54262b', ctaBg: 'rgba(255,95,95,.14)', ctaInk: '#ffb3b3',
+        onCancel: () => this.setState({ dialog: null }),
+        onConfirm: () => {
+          const gone = Object.assign({}, this.state.gone);
+          gone[pane.cluster + '/' + row.name] = true;
+          this.setState({ dialog: null, gone });
+          this.patch(pane.id, { sel: null });
+          this.toast('deleted \u00b7 ' + row.name, BAD);
+        }
+      }
+    });
+  }
+
+  // ---- pane content builders ----
+  cell(t, o) {
+    return Object.assign({ t, ink: INK2, weight: '400', font: MONO, size: '11.5px', justify: 'flex-start', glyph: '', gtone: INK3 }, o || {});
+  }
+  buildTable(pane) {
+    const wide = pane.cs >= 3 && pane.rs >= 3;
+    if (pane.kind === 'pods' || pane.kind === 'nodes') {
+      const rows = this.rowsFor(pane);
+      const cols = wide
+        ? [{ label: 'STATUS', w: '112px' }, { label: 'NAMESPACE', w: '124px' }, { label: 'NAME', w: '1fr' }, { label: 'READY', w: '44px' }, { label: 'RS', w: '40px', align: 'right' }, { label: 'NODE', w: '128px' }, { label: 'AGE', w: '52px', align: 'right' }, { label: 'WHY', w: '250px' }]
+        : [{ label: 'STATUS', w: '104px' }, { label: 'NAME', w: '1fr' }, { label: 'READY', w: '40px' }, { label: 'RS', w: '34px', align: 'right' }, { label: 'AGE', w: '50px', align: 'right' }];
+      return {
+        cols, rows: rows.map(r => {
+          const m = PH[r.phase];
+          const bad = r.phase === 'CrashLoop' || r.phase === 'Failed';
+          const warn = r.phase === 'Pending' || r.phase === 'Degraded';
+          const dim = r.phase === 'Terminating' || r.phase === 'Unknown';
+          const selected = pane.sel === r.name;
+          const nameCell = this.cell(r.name, { ink: bad || warn ? '#fff' : dim ? INK3 : '#c8d1dd', weight: bad || warn ? '600' : '400', size: '12px' });
+          const st = this.cell(m.word, { ink: m.tone, weight: '500', glyph: m.glyph, gtone: m.tone, size: '11px' });
+          const cells = wide
+            ? [st, this.cell(r.ns, { ink: INK3, size: '11px' }), nameCell, this.cell(r.ready, { ink: r.ready.split('/')[0] !== r.ready.split('/')[1] ? m.tone : INK3, size: '11px' }), this.cell(r.rs, { ink: r.rs > 10 ? BAD : r.rs > 0 ? WARN : INK3, justify: 'flex-end', size: '11px' }), this.cell(r.node, { ink: INK3, size: '11px' }), this.cell(r.age, { ink: INK3, justify: 'flex-end', size: '11px' }), this.cell(r.why, { ink: bad ? '#ffb3b3' : warn ? '#f3d08a' : INK3, font: SANS, size: '11px' })]
+            : [st, nameCell, this.cell(r.ready, { ink: r.ready.split('/')[0] !== r.ready.split('/')[1] ? m.tone : INK3, size: '11px' }), this.cell(r.rs, { ink: r.rs > 10 ? BAD : r.rs > 0 ? WARN : INK3, justify: 'flex-end', size: '11px' }), this.cell(r.age, { ink: INK3, justify: 'flex-end', size: '11px' })];
+          return {
+            name: r.name, ns: r.ns, ctr: r.ctr, cells,
+            bg: selected ? '#1d2937' : bad ? 'rgba(255,95,95,.10)' : warn ? 'rgba(240,180,41,.07)' : 'transparent',
+            onClick: e => { e.stopPropagation(); this.setState({ active: pane.id }); this.patch(pane.id, { sel: r.name }); },
+            onCtx: e => this.rowMenu(e, pane, r)
+          };
+        }),
+        count: rows.length + ' of ' + podsOf(pane.cluster).length
+      };
+    }
+    if (pane.kind === 'events') {
+      const f = (pane.filter || '').toLowerCase();
+      const src = EVENTS.filter(e => !f || (e[2] + ' ' + e[3]).toLowerCase().indexOf(f) >= 0);
+      const cols = wide
+        ? [{ label: 'TIME', w: '50px' }, { label: 'SEV', w: '60px' }, { label: 'REASON', w: '150px' }, { label: 'MESSAGE', w: '1fr' }, { label: '\u00d7', w: '30px', align: 'right' }]
+        : [{ label: 'TIME', w: '46px' }, { label: 'SEV', w: '58px' }, { label: 'REASON', w: '112px' }, { label: 'MESSAGE', w: '1fr' }, { label: '\u00d7', w: '28px', align: 'right' }];
+      return {
+        cols, rows: src.map(e => ({
+          name: e[2], ns: pane.ns, ctr: '',
+          cells: [this.cell(e[0], { ink: INK3, size: '11px' }), this.cell(e[1], { ink: SEV[e[1]].tone, weight: '600', glyph: SEV[e[1]].glyph, gtone: SEV[e[1]].tone, size: '10.5px' }), this.cell(e[2], { ink: INK, size: '11px' }), this.cell(e[3], { ink: INK2, font: SANS, size: '11.5px' }), this.cell(e[4] + '\u00d7', { ink: INK3, justify: 'flex-end', size: '11px' })],
+          bg: e[1] === 'Error' ? 'rgba(255,95,95,.09)' : 'transparent',
+          onClick: ev => { ev.stopPropagation(); this.setState({ active: pane.id }); },
+          onCtx: ev => this.openMenu(ev, { hasTitle: true, title: e[2], wpx: 240, items: [this.item('Show the object', '', () => this.toast('would open the object this event is about', INK2), { glyph: '\u2197' }), this.item('Filter to this reason', '', () => this.patch(pane.id, { filter: e[2] }), { glyph: '\u2261' }), this.item('Copy message', '', () => this.toast('copied', INK2), { glyph: '\u29c9' })] })
+        })),
+        count: src.length + ' of ' + EVENTS.length
+      };
+    }
+    // logs
+    const obj = pane.obj || { name: '\u2014', ns: '\u2014', ctr: '\u2014' };
+    const rnd = rngFrom(pane.cluster + obj.name);
+    const f = (pane.filter || '').toLowerCase();
+    let lines = LOG_TPL.concat(LOG_TPL).map((l, i) => {
+      const sec = 4 + Math.floor(i * 1.7);
+      return { t: '14:22:' + String(sec % 60).padStart(2, '0') + '.' + String(Math.floor(rnd() * 900) + 100), lvl: l[0], msg: obj.ctr + ': ' + l[1] };
+    });
+    if (f) lines = lines.filter(l => (l.msg + ' ' + l.lvl).toLowerCase().indexOf(f) >= 0);
+    const cols = [{ label: 'TIME', w: '80px' }, { label: 'LEVEL', w: '44px' }, { label: 'MESSAGE', w: '1fr' }];
+    return {
+      cols, rows: lines.map(l => ({
+        name: l.msg, ns: obj.ns, ctr: obj.ctr,
+        cells: [this.cell(l.t, { ink: INK3, size: '11px' }), this.cell(l.lvl, { ink: LVL[l.lvl], weight: '600', size: '10.5px' }), this.cell(l.msg, { ink: l.lvl === 'ERROR' ? '#ffd7d7' : l.lvl === 'WARN' ? '#e9dcc0' : INK2, size: '11.5px' })],
+        bg: l.lvl === 'ERROR' ? 'rgba(255,95,95,.09)' : 'transparent',
+        onClick: e => { e.stopPropagation(); this.setState({ active: pane.id }); },
+        onCtx: e => this.openMenu(e, { hasTitle: true, title: 'LOG LINE', wpx: 252, items: [this.item('Copy line', '', () => this.toast('copied', INK2), { glyph: '\u29c9' }), this.item('Filter to this level', '', () => this.patch(pane.id, { filter: l.lvl }), { glyph: '\u2261' }), this.item('Show events around this time', '', () => this.openFrom(pane, { ns: obj.ns, name: obj.name, ctr: obj.ctr }, 'events'), { glyph: '\u26a1' })] })
+      })),
+      count: lines.length + ' lines'
+    };
+  }
+  buildLines(pane) {
+    const obj = pane.obj || { name: 'nothing', ns: '\u2014', ctr: '\u2014' };
+    if (pane.kind === 'yaml') {
+      const src = [
+        ['apiVersion: v1', INK2], ['kind: Pod', INK2], ['metadata:', INK],
+        ['  name: ' + obj.name, '#c8d1dd'], ['  namespace: ' + obj.ns, '#c8d1dd'],
+        ['  labels:', INK], ['    app: ' + obj.ctr, INK2], ['    version: 2026.8.3', INK2],
+        ['  ownerReferences:', INK], ['    - kind: ReplicaSet', INK2], ['      name: ' + obj.name.split('-').slice(0, -1).join('-'), INK2],
+        ['spec:', INK], ['  nodeName: ip-10-0-3-19', INK2], ['  containers:', INK],
+        ['    - name: ' + obj.ctr, INK2], ['      image: registry.internal/' + obj.ctr + ':2026.8.3', INK2],
+        ['      resources:', INK], ['        requests:', INK2], ['          memory: 256Mi', INK2], ['          cpu: 200m', INK2],
+        ['        limits:', INK2], ['          memory: 512Mi', '#ffb3b3'], ['          cpu: "1"', INK2],
+        ['      readinessProbe:', INK], ['        httpGet: { path: /healthz, port: 8080 }', INK2],
+        ['        periodSeconds: 5', INK2], ['status:', INK], ['  phase: Running', INK2],
+        ['  containerStatuses:', INK], ['    - restartCount: 47', '#ffb3b3'], ['      lastState:', INK2],
+        ['        terminated: { reason: OOMKilled, exitCode: 137 }', '#ffb3b3']
+      ];
+      return { lines: src.map((l, i) => ({ n: i + 1, t: l[0], ink: l[1] })), gutterW: '26px', count: src.length + ' lines' };
+    }
+    const src = [
+      ['$ kubectl exec -it ' + obj.name + ' -c ' + obj.ctr + ' -- sh', INK3],
+      ['/app # ps -o pid,rss,comm', INK], ['  PID   RSS COMMAND', INK2],
+      ['    1  412M ' + obj.ctr, INK2], ['   28   19M wal-shipper', INK2],
+      ['/app # cat /sys/fs/cgroup/memory.max', INK], ['536870912', INK2],
+      ['/app # cat /sys/fs/cgroup/memory.peak', INK], ['535822336', '#ffb3b3'],
+      ['/app # ./ledgerctl queue stat', INK], ['depth        6109', INK2], ['inflight      182', INK2],
+      ['oldest      4.21s', '#f3d08a'], ['/app # ./ledgerctl pool stat', INK],
+      ['pg  29/32  waiters 4  p95 812ms', INK2],
+      ['/app # nc -zv checkout-api.payments 8080', INK],
+      ['checkout-api.payments: connection refused', '#ffb3b3'],
+      ['/app # \u2588', INK]
+    ];
+    return { lines: src.map(l => ({ n: '', t: l[0], ink: l[1] })), gutterW: '0px', count: 'attached' };
+  }
+  buildFleet(pane) {
+    return CLUSTERS.map(c => {
+      const note = FLEET_NOTE[c.name];
+      const k = note[1];
+      const tone = k === 'bad' ? BAD : k === 'warn' ? WARN : k === 'idle' ? IDLE : OK;
+      return {
+        name: c.name, plat: c.plat, rtt: c.rtt,
+        state: CONN[c.conn].word, glyph: CONN[c.conn].glyph, tone: c.conn === 'live' ? OK : CONN[c.conn].tone,
+        line: k === 'bad' ? '#54262b' : k === 'warn' ? '#4a3a12' : LINE,
+        headBg: k === 'bad' ? 'rgba(255,95,95,.10)' : k === 'warn' ? 'rgba(240,180,41,.06)' : 'transparent',
+        stats: [
+          { k: 'nodes', v: c.nodes, note: c.name === 'prod-ap-south' ? '2 NotReady' : '', tone: BAD },
+          { k: 'pods', v: c.pods, note: c.name === 'prod-eu-west' ? '2 unhealthy' : c.name === 'ci-runners' ? '12 pending' : '', tone: c.name === 'prod-eu-west' ? BAD : WARN },
+          { k: 'apis', v: c.plat.indexOf('ocp') === 0 ? '78 \u00b7 41 crd' : '54 \u00b7 22 crd', note: '', tone: INK3 }
+        ],
+        note: note[0], noteTone: k === 'bad' ? '#ffb3b3' : k === 'warn' ? '#f3d08a' : INK2,
+        onClick: e => { e.stopPropagation(); this.patch(pane.id, { kind: 'pods', cluster: c.name, ns: 'all', sel: null, stale: c.conn === 'down' }); this.toast('this pane now asks ' + c.name + ' for its pods', c.hue); },
+        onCtx: e => this.railMenu(e, c)
+      };
+    });
+  }
+
+  renderVals() {
+    const st = this.state;
+    const density = st.density;
+    const panes = this.panes().map(pane => {
+      const isObj = this.isObjectKind(pane.kind);
+      const c = CL[pane.cluster];
+      const isTable = pane.kind === 'pods' || pane.kind === 'nodes' || pane.kind === 'events' || pane.kind === 'logs';
+      const isLines = pane.kind === 'yaml' || pane.kind === 'shell';
+      const tbl = isTable ? this.buildTable(pane) : null;
+      const lines = isLines ? this.buildLines(pane) : null;
+      const active = pane.id === st.active;
+      const conn = c ? CONN[c.conn] : CONN.live;
+      const stream = pane.stale
+        ? { word: 'reconnecting', tone: WARN, glyph: '\u25d0' }
+        : pane.kind === 'shell' ? { word: 'attached', tone: OK, glyph: '\u25cf' }
+        : pane.kind === 'yaml' ? { word: 'read at 14:22', tone: INK3, glyph: '\u25a0' }
+        : { word: conn.word + (pane.kind === 'logs' ? ' \u00b7 214/s' : ' \u00b7 watch 2s'), tone: conn.tone, glyph: conn.glyph };
+      const selRow = pane.sel;
+      const mkSelAction = (key, label, kind, tone) => ({
+        key, label, ink: tone || INK2, keyInk: tone || INK, line: tone ? '#4a3a12' : LINE,
+        onClick: e => { e.stopPropagation(); const row = (tbl ? tbl.rows : []).filter(r => r.name === selRow)[0]; if (row) this.openFrom(pane, row, kind); }
+      });
+      return {
+        id: pane.id,
+        gc: pane.c + ' / span ' + pane.cs,
+        gr: pane.r + ' / span ' + pane.rs,
+        paneBg: pane.kind === 'shell' ? '#080a0d' : '#11141a',
+        edge: active ? (c ? c.hue : INFO) : '#1a2028',
+        headBg: active ? 'rgba(74,168,255,.05)' : 'transparent',
+        cluster: pane.kind === 'fleet' ? 'all clusters' : pane.cluster,
+        clTone: c ? c.hue : INK2,
+        clGlyph: isObj ? '\u25c9' : conn.glyph,
+        clCaret: isObj || pane.kind === 'fleet' ? '' : '\u25be',
+        typeLabel: { pods: 'Pods', nodes: 'Nodes', events: 'Events', logs: 'Logs', yaml: 'Manifest', shell: 'Shell', fleet: 'Fleet', empty: 'Empty' }[pane.kind],
+        scopeKey: isObj ? 'pinned' : pane.kind === 'fleet' ? 'probing' : 'ns',
+        scopeVal: isObj ? (pane.obj ? pane.obj.name + ' \u00b7 ' + pane.obj.ctr : '\u2014') : pane.kind === 'fleet' ? 'every 30s' : pane.ns,
+        nsCaret: isObj || pane.kind === 'fleet' ? '' : '\u25be',
+        canFilter: isTable,
+        filter: pane.filter,
+        count: tbl ? tbl.count : lines ? lines.count : pane.kind === 'fleet' ? '10 clusters' : '',
+        streamWord: stream.word, streamTone: stream.tone, streamGlyph: stream.glyph,
+        stale: pane.stale,
+        staleText: 'reconnecting \u2014 what you see is 47s old',
+        isTable, isLines, isFleet: pane.kind === 'fleet', isEmpty: pane.kind === 'empty',
+        showColBar: isTable && pane.cs >= 3 && pane.rs >= 3,
+        gridCols: tbl ? tbl.cols.map(k => k.w).join(' ') : '1fr',
+        cols: tbl ? tbl.cols.map(k => ({ label: k.label, align: k.align || 'left' })) : [],
+        rows: tbl ? tbl.rows : [],
+        rowH: density + 'px',
+        emptyResult: !!(tbl && tbl.rows.length === 0),
+        emptyResultText: 'nothing matches "' + pane.filter + '" \u00b7 clear the filter',
+        hasSel: !!(selRow && (pane.kind === 'pods' || pane.kind === 'nodes')),
+        selName: selRow || '',
+        selActions: [mkSelAction('L', 'logs', 'logs'), mkSelAction('Y', 'yaml', 'yaml'), mkSelAction('S', 'shell', 'shell'), mkSelAction('E', 'events', 'events'),
+          { key: 'R', label: 'restart', ink: WARN, keyInk: WARN, line: '#4a3a12', onClick: e => { e.stopPropagation(); const row = (tbl ? tbl.rows : []).filter(r => r.name === selRow)[0]; if (row) this.confirmRestart(pane, row); } }],
+        lines: lines ? lines.lines : [],
+        gutterW: lines ? lines.gutterW : '0px',
+        fleet: pane.kind === 'fleet' ? this.buildFleet(pane) : [],
+        pickers: [
+          { label: 'Pods', key: 'P', onClick: e => { e.stopPropagation(); this.patch(pane.id, { kind: 'pods', ns: 'all' }); } },
+          { label: 'Nodes', key: 'N', onClick: e => { e.stopPropagation(); this.patch(pane.id, { kind: 'nodes', ns: 'all' }); } },
+          { label: 'Events', key: 'V', onClick: e => { e.stopPropagation(); this.patch(pane.id, { kind: 'events', ns: 'all' }); } },
+          { label: 'Fleet', key: 'F', onClick: e => { e.stopPropagation(); this.patch(pane.id, { kind: 'fleet' }); } }
+        ],
+        onFocus: e => { this.setState({ active: pane.id }); },
+        onHeaderCtx: e => this.paneMenu(e, pane),
+        onMenu: e => this.paneMenu(e, pane),
+        onClusterClick: e => { e.stopPropagation(); if (isObj) { this.toast('an object pane keeps its cluster \u2014 it is this object, here', WARN); } else if (pane.kind !== 'fleet') this.clusterMenuAt(pane, e); },
+        onNsClick: e => { e.stopPropagation(); if (isObj) { this.toast('pinned to the row it was opened from', WARN); } else if (pane.kind !== 'fleet') this.nsMenuAt(pane, e); },
+        onFilter: e => this.patch(pane.id, { filter: e.target.value, sel: null }),
+        onRetry: e => { e.stopPropagation(); this.patch(pane.id, { stale: false }); this.toast('watch re-established \u00b7 ' + pane.cluster, OK); }
+      };
+    });
+
+    const tabs = [1, 2, 3, 4].map(n => {
+      const w = st.workspaces[n];
+      const on = st.ws === n;
+      const trouble = n === 3;
+      return {
+        n, name: w.name, bg: on ? '#161a21' : 'transparent',
+        shadow: on ? 'inset 0 -2px 0 ' + (trouble ? BAD : INFO) : 'none',
+        ink: on ? INK : INK2, numInk: on ? (trouble ? BAD : INFO) : INK3, weight: on ? '500' : '400',
+        dot: trouble ? BAD : 'transparent',
+        onClick: e => { e.stopPropagation(); this.setState({ ws: n, menu: null, active: st.workspaces[n].panes[0].id }); }
+      };
+    });
+
+    const active = this.activePane();
+    const rail = CLUSTERS.map(c => {
+      const on = this.panes().some(p => p.cluster === c.name);
+      return {
+        title: c.name + ' \u00b7 ' + CONN[c.conn].word, code: c.code,
+        ink: on ? INK : INK3, bg: on ? '#161a21' : 'transparent', bar: on ? c.hue : 'transparent',
+        glyph: CONN[c.conn].glyph, tone: CONN[c.conn].tone,
+        onClick: e => {
+          e.stopPropagation();
+          if (!active || this.isObjectKind(active.kind) || active.kind === 'fleet') { this.toast('pick a question pane first \u2014 object panes keep their cluster', WARN); return; }
+          this.patch(active.id, { cluster: c.name, ns: 'all', sel: null, stale: c.conn === 'down' || c.conn === 'paused' });
+          this.toast('active pane now asks ' + c.name, c.hue);
+        },
+        onCtx: e => this.railMenu(e, c)
+      };
+    });
+
+    const pal = st.palette;
+    const cmds = [
+      ['PANE', 'Split the active pane to the right', '\u2318\u21e2', () => this.split(active, 'right')],
+      ['PANE', 'Split the active pane downwards', '\u2318\u21e3', () => this.split(active, 'down')],
+      ['PANE', 'Close the active pane', '\u2318W', () => this.closePane(active)],
+      ['PANE', 'Open an empty pane picker', '', () => this.split(active, active.cs >= 2 ? 'right' : 'down')],
+      ['VIEW', 'Switch to workspace 1 \u00b7 fleet', '1', () => this.setState({ ws: 1, active: st.workspaces[1].panes[0].id })],
+      ['VIEW', 'Switch to workspace 3 \u00b7 incident', '3', () => this.setState({ ws: 3, active: st.workspaces[3].panes[0].id })],
+      ['VIEW', 'Toggle compact rows', '', () => this.setState({ density: st.density === 22 ? 26 : 22 })],
+      ['SCOPE', 'Ask this pane of prod-us-east', '', () => this.patch(active.id, { cluster: 'prod-us-east', ns: 'all' })],
+      ['SCOPE', 'Show only what is not Running', '', () => this.patch(active.id, { filter: '!running' })],
+      ['SCOPE', 'Clear this pane\u2019s filter', '', () => this.patch(active.id, { filter: '' })],
+      ['DATA', 'Simulate losing the watch here', '', () => this.patch(active.id, { stale: true })],
+      ['TIME', 'Look at this screen 30 minutes ago', '', () => this.toast('TIME-01 \u2014 sketched in round 02, not in this prototype', INK2)]
+    ];
+    const q = pal && pal.q ? pal.q.toLowerCase() : '';
+    const palItems = cmds.filter(c => !q || (c[0] + ' ' + c[1]).toLowerCase().indexOf(q) >= 0).slice(0, 8).map((c, i) => ({
+      cat: c[0], label: c[1], hint: c[2], bg: i === 0 ? '#1d2937' : 'transparent',
+      catTone: c[0] === 'PANE' ? INFO : c[0] === 'SCOPE' ? OK : c[0] === 'DATA' ? WARN : INK3,
+      onClick: e => { e.stopPropagation(); this.setState({ palette: null }); c[3](); }
+    }));
+
+    const staleAny = active && active.stale;
+    return {
+      panes, tabs, rail,
+      densityLabel: st.density === 22 ? 'compact' : 'roomy',
+      onToggleDensity: e => { e.stopPropagation(); this.setState({ density: st.density === 22 ? 26 : 22 }); },
+      staleBtnLabel: staleAny ? 'restore watch' : 'break watch',
+      staleBtnInk: staleAny ? WARN : INK2, staleBtnLine: staleAny ? '#4a3a12' : LINE,
+      onToggleStale: e => { e.stopPropagation(); if (!active) return; this.patch(active.id, { stale: !active.stale }); },
+      onPalette: e => { e.stopPropagation(); this.setState({ palette: { open: true, q: '' } }); },
+      onAddCluster: e => { e.stopPropagation(); this.toast('CONN-02 add a cluster \u2014 sketched in round 02', INK2); },
+      onWindowCtx: e => { e.preventDefault(); },
+      closeMenus: e => { if (st.menu || st.palette) this.setState({ menu: null, palette: null }); },
+      menu: st.menu || { open: false, items: [] },
+      dialog: st.dialog || { open: false, lines: [] },
+      palette: pal ? { open: true, q: pal.q, items: palItems, onQuery: e => this.setState({ palette: { open: true, q: e.target.value } }) } : { open: false, items: [] },
+      toast: st.toast || { open: false },
+      paneSummary: this.panes().length + ' panes \u00b7 ' + new Set(this.panes().map(p => p.cluster)).size + ' clusters \u00b7 workspace ' + st.ws + ' \u00b7 rows ' + st.density + 'px'
+    };
+  }
+}
+
+</script>
+</body>
+</html>

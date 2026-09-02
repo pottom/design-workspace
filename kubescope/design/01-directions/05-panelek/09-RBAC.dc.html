@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:940px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 09 / 30 · QUESTION PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">RBAC</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Two questions, one pane: <span style="color:var(--ks-ink)">what can this account do</span>, and <span style="color:var(--ks-ink)">who can do this here</span>. Every allowed cell traces back to the binding that granted it — an answer you cannot check is not an answer.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="rbac · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>computed from the live rules · not from a cache</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">●</span>prod-eu-west<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">RBAC</span>
+        <span style="color:var(--ks-ink-3)">subject</span><span style="color:var(--ks-ink-2)">sa payments/ci-bot<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">scope</span><span style="color:var(--ks-ink-2)">cluster-wide<span style="color:var(--ks-ink-3)">▾</span></span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">3 bindings · 2 roles</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+        <span style="font-size:13px;color:var(--ks-bad);padding-top:4px">▲</span>
+        <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+          <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">It can deploy in <span style="font-family:var(--ks-mono);font-size:17px">payments</span> — and read every Secret in the cluster, which nobody intended.</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">Two of its three bindings are what you would expect. The third, <span style="font-family:var(--ks-mono);color:#ffd7d7">viewer</span>, was widened at 12:41 today and now carries <span style="font-family:var(--ks-mono);color:#ffd7d7">get secrets</span> at cluster scope.</div>
+
+          <div style="display:flex;align-items:stretch;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line);margin-top:2px">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="5">
+              <div style="flex:1;background:var(--ks-panel);padding:7px 11px;display:flex;flex-direction:column;gap:3px;min-width:0">
+                <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.k }}</div>
+                <div style="display:flex;align-items:baseline;gap:6px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:15px;font-weight:600;line-height:1.1;color:{{ s.tone }}">{{ s.v }}</span>
+                  <span style="font-size:10.5px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.sub }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:4px;padding:11px 13px 10px;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;gap:7px">
+            <div style="display:flex;align-items:baseline;gap:12px;font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">
+              <span>WHAT IT CAN DO — RESOURCE × VERB</span>
+              <div style="flex:1"></div>
+              <span style="display:flex;align-items:center;gap:5px;letter-spacing:0"><span style="width:9px;height:9px;background:rgba(62,207,142,.16);border:1px solid #22503c"></span>allowed</span>
+              <span style="display:flex;align-items:center;gap:5px;letter-spacing:0"><span style="width:9px;height:9px;background:rgba(255,95,95,.22);border:1px solid #54262b"></span>escalating</span>
+              <span style="display:flex;align-items:center;gap:5px;letter-spacing:0"><span style="width:9px;height:9px;background:var(--ks-field);border:1px solid var(--ks-line)"></span>denied</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="display:grid;grid-template-columns:196px repeat(8,1fr) 148px;gap:3px;align-items:center">
+                <div></div>
+                <sc-for list="{{ verbs }}" as="v" hint-placeholder-count="8">
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);text-align:center">{{ v.t }}</div>
+                </sc-for>
+                <div style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);text-align:right">GRANTED BY</div>
+              </div>
+              <sc-for list="{{ matrix }}" as="m" hint-placeholder-count="8">
+                <div style="display:grid;grid-template-columns:196px repeat(8,1fr) 148px;gap:3px;align-items:center">
+                  <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                    <span style="width:2px;height:12px;background:{{ m.tone }};flex:none"></span>
+                    <span style="font-family:var(--ks-mono);font-size:11px;color:{{ m.nameInk }};font-weight:{{ m.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.name }}</span>
+                    <span style="font-family:var(--ks-mono);font-size:9px;color:{{ m.scopeInk }};flex:none">{{ m.scope }}</span>
+                  </div>
+                  <sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="8">
+                    <div title="{{ c.title }}" style="height:20px;background:{{ c.bg }};border:1px solid {{ c.line }};display:flex;align-items:center;justify-content:center;font-size:10px;color:{{ c.ink }}">{{ c.mark }}</div>
+                  </sc-for>
+                  <div style="font-family:var(--ks-mono);font-size:9.5px;color:{{ m.viaInk }};text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.via }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:7px;flex:none;width:330px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">WHERE IT COMES FROM</div>
+          <sc-for list="{{ chain }}" as="c" hint-placeholder-count="3">
+            <div style="padding:9px 11px;border:1px solid {{ c.line }};background:{{ c.bg }};display:flex;flex-direction:column;gap:5px">
+              <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                <span style="font-size:8px;color:{{ c.tone }};flex:none">{{ c.glyph }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ c.titleInk }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.binding }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ c.kind }}</span>
+              </div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">→ {{ c.role }}</div>
+              <div style="font-size:11px;line-height:1.4;color:{{ c.noteInk }};text-wrap:pretty">{{ c.note }}</div>
+            </div>
+          </sc-for>
+          <div style="padding:9px 11px;background:var(--ks-panel);border-left:2px solid var(--ks-bad);display:flex;flex-direction:column;gap:7px">
+            <div style="font-size:11.5px;line-height:1.45;color:#ffd7d7;text-wrap:pretty">Removing <span style="font-family:var(--ks-mono)">viewer</span> takes away {{ viewerCount }} of the {{ totalCount }} things it can do — and the pipeline uses none of them.</div>
+            <div style="display:flex;gap:7px;font-family:var(--ks-mono);font-size:10.5px">
+              <span style="padding:4px 9px;border:1px solid #54262b;color:#ffb3b3">remove the binding…</span>
+              <span style="padding:4px 9px;border:1px solid var(--ks-line);color:var(--ks-ink)">simulate ▸</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:grid;grid-template-columns:1fr 480px;gap:1px;background:var(--ks-line)">
+        <div style="min-height:0;display:flex;flex-direction:column;background:var(--ks-field)">
+          <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:11px">
+            <span style="color:var(--ks-ink)">The other direction</span>
+            <span style="color:var(--ks-ink-3)">who can delete pods in payments?</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-ink-2)">{{ subjectCount }}</span>
+          </div>
+          <div style="height:18px;display:grid;grid-template-columns:216px 92px 1fr 118px;align-items:center;padding:0 10px;gap:11px;border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+            <div>SUBJECT</div><div>KIND</div><div>THROUGH</div><div style="text-align:right">SCOPE</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;overflow-x:hidden">
+            <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="12">
+              <div style="height:24px;display:grid;grid-template-columns:216px 92px 1fr 118px;align-items:center;padding:0 10px;gap:11px;background:{{ s.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+                <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                  <span style="font-size:8px;color:{{ s.tone }};flex:none">{{ s.glyph }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ s.nameInk }};font-weight:{{ s.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ s.kind }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.via }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ s.scopeInk }};text-align:right">{{ s.scope }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="min-height:0;display:flex;flex-direction:column;background:var(--ks-panel)">
+          <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:11px">
+            <span style="color:var(--ks-ink)">Before you allow it</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-warn)">editing viewer · 2 changes</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;padding:11px;display:flex;flex-direction:column;gap:10px">
+            <div style="font-size:12.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">The editor states the effect of each rule in words before it is applied, and marks anything that escalates.</div>
+            <sc-for list="{{ preview }}" as="p" hint-placeholder-count="4">
+              <div style="display:flex;gap:10px;padding:9px 10px;background:{{ p.bg }};border-left:2px solid {{ p.tone }}">
+                <span style="font-size:8px;color:{{ p.tone }};padding-top:3px;flex:none">{{ p.glyph }}</span>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div style="font-size:12px;line-height:1.4;color:{{ p.ink }};text-wrap:pretty">{{ p.t }}</div>
+                  <div style="font-family:var(--ks-mono);font-size:10px;color:{{ p.metaInk }};text-wrap:pretty">{{ p.meta }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;flex-direction:column;gap:7px;padding:9px 10px;background:var(--ks-field);border:1px solid var(--ks-line)">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">SIMULATE WITHOUT APPLYING · SEC-10</div>
+              <div style="display:flex;align-items:center;gap:9px;font-family:var(--ks-mono);font-size:11px">
+                <span style="color:var(--ks-ink-3);flex:none">can-i</span>
+                <span style="flex:1;padding:5px 8px;border:1px solid var(--ks-line-strong);background:var(--ks-panel);color:var(--ks-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">delete pods -n payments --as sa/ci-bot</span>
+              </div>
+              <sc-for list="{{ simulate }}" as="s" hint-placeholder-count="3">
+                <div style="display:flex;align-items:baseline;gap:9px">
+                  <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);width:58px;flex:none">{{ s.k }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ s.ink }};line-height:1.4;text-wrap:pretty">{{ s.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:8px;font-family:var(--ks-mono);font-size:11px">
+              <span style="padding:5px 11px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">discard</span>
+              <span style="padding:5px 11px;border:1px solid var(--ks-line);color:var(--ks-ink)">show YAML diff</span>
+              <span style="padding:5px 11px;border:1px solid #54262b;background:rgba(255,95,95,.14);color:#ffb3b3;font-weight:600">apply — type the role name</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">The matrix editor, a human subject, and the fleet question</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:270px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.scopeTone }};font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.scope }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:4px 9px;gap:8px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.35;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:{{ c.wrap }}">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const VERBS = ['get', 'list', 'watch', 'create', 'update', 'patch', 'delete', 'exec'];
+    // resource, scope, [verb states] a=allowed, e=escalating, '' denied, granted by
+    const M = [
+      ['deployments', 'payments', 'aaaaaaa-', 'payments-deployer'],
+      ['pods', 'payments', 'aaaaaa a', 'payments-deployer'],
+      ['pods/log', 'payments', 'aa------', 'payments-deployer'],
+      ['configmaps', 'payments', 'aaaaaa--', 'payments-deployer'],
+      ['secrets', 'cluster', 'ee------', 'viewer'],
+      ['nodes', 'cluster', 'aa------', 'viewer'],
+      ['events', 'cluster', 'aaa-----', 'viewer'],
+      ['clusterroles', 'cluster', 'aa------', 'viewer']
+    ];
+    const countOf = pred => M.reduce((n, r) => n + r[2].split('').filter((ch, i) => (ch === 'a' || ch === 'e') && pred(r, i)).length, 0);
+    const totalAllowed = countOf(() => true);
+    const clusterAllowed = countOf(r => r[1] === 'cluster');
+    const viewerAllowed = countOf(r => r[3] === 'viewer');
+    const escalating = countOf(r => r[2].indexOf('e') >= 0 && true) && M.reduce((n, r) => n + r[2].split('').filter(ch => ch === 'e').length, 0);
+
+    const matrix = M.map(r => {
+      const esc = r[2].indexOf('e') >= 0;
+      const cells = VERBS.map((v, i) => {
+        const ch = r[2][i] || '';
+        if (ch === 'a') return { mark: '\u2713', bg: 'rgba(62,207,142,.16)', line: '#22503c', ink: OK, title: v + ' ' + r[0] + ' — allowed via ' + r[3] };
+        if (ch === 'e') return { mark: '\u2713', bg: 'rgba(255,95,95,.22)', line: '#54262b', ink: '#ffd7d7', title: v + ' ' + r[0] + ' — escalating, via ' + r[3] };
+        return { mark: '', bg: 'var(--ks-field)', line: LINE, ink: INK3, title: v + ' ' + r[0] + ' — denied' };
+      });
+      return {
+        name: r[0], scope: r[1] === 'cluster' ? 'cluster' : 'ns ' + r[1],
+        scopeInk: r[1] === 'cluster' ? WARN : INK3,
+        tone: esc ? BAD : OK, nameInk: esc ? INK : '#c8d1dd', weight: esc ? '600' : '400',
+        cells, via: r[3], viaInk: esc ? '#ffb3b3' : INK3
+      };
+    });
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const subjRaw = [
+      ['sa payments/ci-bot', 'ServiceAccount', 'payments-deployer → deployer', 'namespace', 'bot', 1],
+      ['sa payments/argocd', 'ServiceAccount', 'argocd-application-controller', 'cluster', 'bot', 0],
+      ['user admin@corp', 'User', 'cluster-admin', 'cluster', 'human', 2],
+      ['user hanna@corp', 'User', 'platform-oncall → editor', 'cluster', 'human', 0],
+      ['user marek@corp', 'User', 'platform-oncall → editor', 'cluster', 'human', 0],
+      ['group platform', 'Group', 'platform-oncall → editor', 'cluster', 'group', 0],
+      ['group payments-devs', 'Group', 'payments-deployer → deployer', 'namespace', 'group', 0],
+      ['sa kube-system/node-problem', 'ServiceAccount', 'system:node-problem-detector', 'cluster', 'system', 0],
+      ['sa flux/kustomize', 'ServiceAccount', 'flux-reconciler', 'cluster', 'bot', 0],
+      ['sa payments/backup', 'ServiceAccount', 'payments-backup → deleter', 'namespace', 'bot', 0],
+      ['user zsolt@corp', 'User', 'break-glass (expires 18:00)', 'cluster', 'human', 2],
+      ['sa velero/velero', 'ServiceAccount', 'velero-restore', 'cluster', 'bot', 0],
+      ['sa payments/e2e-runner', 'ServiceAccount', 'payments-deployer → deployer', 'namespace', 'bot', 0],
+      ['user dora@corp', 'User', 'platform-oncall → editor', 'cluster', 'human', 0],
+      ['user peter@corp', 'User', 'platform-oncall → editor', 'cluster', 'human', 0],
+      ['group sre', 'Group', 'platform-oncall → editor', 'cluster', 'group', 0],
+      ['sa kube-system/descheduler', 'ServiceAccount', 'descheduler → evictor', 'cluster', 'system', 0],
+      ['sa monitoring/kube-state', 'ServiceAccount', 'kube-state-metrics (read + delete)', 'cluster', 'bot', 0],
+      ['user gabor@corp', 'User', 'payments-deployer → deployer', 'namespace', 'human', 0]
+    ];
+    const kindMark = { bot: ['\u25a0', INFO], human: ['\u25cf', WARN], group: ['\u25c8', '#e08adf'], system: ['\u25cb', IDLE] };
+    const subjects = subjRaw.map(s => {
+      const m = kindMark[s[4]];
+      const hot = s[5] === 2;
+      return {
+        name: s[0], kind: s[1], via: s[2], scope: s[3],
+        glyph: m[0], tone: m[1],
+        nameInk: hot ? INK : s[5] === 1 ? INK : '#c8d1dd', weight: hot || s[5] === 1 ? '600' : '400',
+        scopeInk: s[3] === 'cluster' ? WARN : INK3,
+        bg: hot ? 'rgba(255,95,95,.08)' : s[5] === 1 ? 'var(--ks-sel)' : 'transparent'
+      };
+    });
+
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10px', wrap: 'nowrap' }, o || {});
+    const vr = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '24px' });
+
+    return {
+      facts: [
+        { k: 'IT CAN DO', v: totalAllowed + ' things', tone: INK },
+        { k: 'ESCALATING', v: escalating + '', tone: BAD },
+        { k: 'BINDINGS', v: '3', tone: INK },
+        { k: 'PRIMARY ELEMENT', v: 'the sentence', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      stats: [
+        { k: 'IT CAN DO', v: totalAllowed + '', sub: 'resource × verb pairs', tone: INK },
+        { k: 'ESCALATING', v: escalating + '', sub: 'get, list secrets', tone: BAD },
+        { k: 'CLUSTER-WIDE', v: clusterAllowed + '', sub: 'of the ' + totalAllowed, tone: WARN },
+        { k: 'FROM', v: '3', sub: 'bindings, 2 roles', tone: INK },
+        { k: 'WIDENED', v: '12:41', sub: 'today, by admin@corp', tone: BAD }
+      ],
+      verbs: VERBS.map(v => ({ t: v })),
+      viewerCount: viewerAllowed,
+      totalCount: totalAllowed,
+      matrix,
+      chain: [
+        { binding: 'payments-deployer', kind: 'RoleBinding', role: 'Role · deployer · ns payments', glyph: '\u25cf', tone: OK, line: LINE, bg: 'transparent', titleInk: INK, noteInk: INK3, note: 'Expected. Created with the namespace in March, unchanged since.' },
+        { binding: 'ci-bot-events', kind: 'ClusterRoleBinding', role: 'ClusterRole · event-reader', glyph: '\u25cf', tone: OK, line: LINE, bg: 'transparent', titleInk: INK, noteInk: INK3, note: 'Expected. Read-only events so the pipeline can wait for a rollout.' },
+        { binding: 'viewer-all', kind: 'ClusterRoleBinding', role: 'ClusterRole · viewer', glyph: '\u25b2', tone: BAD, line: '#54262b', bg: 'rgba(255,95,95,.09)', titleInk: '#ffd7d7', noteInk: '#f0b5b0', note: 'The problem. “viewer” gained get and list on secrets at 12:41, so every subject bound to it — including this one — can read every Secret in the cluster.' }
+      ],
+      subjectCount: subjects.length + ' subjects',
+      subjects,
+      preview: [
+        { glyph: '\u25b2', tone: BAD, bg: 'rgba(255,95,95,.09)', ink: '#ffd7d7', metaInk: '#8a5f62', t: 'This rule lets 11 subjects read every Secret in the cluster, including service-account tokens.', meta: 'secrets · get, list · cluster scope · escalating' },
+        { glyph: '\u25b2', tone: BAD, bg: 'rgba(255,95,95,.09)', ink: '#ffd7d7', metaInk: '#8a5f62', t: 'A token read this way can be used to act as any of those accounts.', meta: 'why we call it escalating' },
+        { glyph: '\u25c6', tone: WARN, bg: 'rgba(240,180,41,.07)', ink: INK, metaInk: INK3, t: 'It also grants read on nodes and events, which is what the role was originally for.', meta: 'nodes, events · get, list · not escalating' },
+        { glyph: '\u25cf', tone: INFO, bg: 'transparent', ink: INK2, metaInk: INK3, t: 'Nothing here grants write. The role cannot change anything, only see it.', meta: 'no create, update, patch or delete' }
+      ],
+      simulate: [
+        { k: 'now', v: 'yes — via payments-deployer', ink: '#a8e6c8' },
+        { k: 'if applied', v: 'yes — unchanged, this edit does not touch pods', ink: INK2 },
+        { k: 'and also', v: 'get secrets in every namespace — the thing you are trying to remove', ink: '#ffb3b3' }
+      ],
+      variants: [
+        {
+          title: 'Editing as a matrix', cap: 'SEC-07 · SEC-09', edge: BAD, scope: 'clusterrole · viewer', scopeTone: WARN, state: '◆ 2 changes', stateTone: WARN,
+          cols: '92px 1fr',
+          rows: [
+            vr([c('apiGroup', { ink: INK3 }), c('""  (core)  ·  apps  ·  rbac.authorization.k8s.io', { ink: INK })]),
+            vr([c('pods', {}), c('✓get  ✓list  ✓watch  ·  create  update  delete', { ink: OK })]),
+            vr([c('nodes', {}), c('✓get  ✓list  ·  watch  create  update  delete', { ink: OK })]),
+            vr([c('events', {}), c('✓get  ✓list  ·  watch  create  update  delete', { ink: OK })]),
+            vr([c('secrets', { ink: '#ffd7d7', weight: '600' }), c('✓get  ✓list  ·  watch  create  update  delete', { ink: '#ffd7d7', weight: '600' })], 'rgba(255,95,95,.12)', '26px'),
+            vr([c('', {}), c('▲ ticking get on secrets is an escalation', { ink: '#ffb3b3', font: SANS, size: '11px', wrap: 'normal' })], 'rgba(255,95,95,.09)', '32px'),
+            vr([c('clusterroles', {}), c('✓get  ✓list  ·  bind  escalate', { ink: OK })]),
+            vr([c('', {}), c('bind and escalate are always red before you tick them', { ink: INK3, font: SANS, size: '11px', wrap: 'normal' })], 'transparent', '32px')
+          ],
+          note: 'The grid is the editor. A cell turns red as you tick it, not after you apply — the escalation warning belongs to the gesture, not to a dialog afterwards.'
+        },
+        {
+          title: 'A person, not a robot', cap: 'SEC-01', edge: WARN, scope: 'user hanna@corp', scopeTone: WARN, state: '● 4 bindings', stateTone: OK,
+          cols: '104px 1fr',
+          rows: [
+            vr([c('via group', { ink: INK3 }), c('platform → editor · cluster', { ink: INK })]),
+            vr([c('via group', { ink: INK3 }), c('oncall → break-glass · expires 18:00', { ink: '#f3d08a' })], 'rgba(240,180,41,.07)'),
+            vr([c('direct', { ink: INK3 }), c('payments-deployer · ns payments', { ink: INK2 })]),
+            vr([c('direct', { ink: INK3 }), c('grafana-admin · ns observability', { ink: INK2 })]),
+            vr([c('', {}), c('she can do 61 things; 12 of them only until 18:00', { ink: INK, font: SANS, size: '11px', wrap: 'normal' })], 'transparent', '32px'),
+            vr([c('inherited', { ink: INK3 }), c('most of it comes from a group, not from her', { ink: INK2, font: SANS, size: '11px', wrap: 'normal' })], 'transparent', '32px'),
+            vr([c('', {}), c('removing her from platform removes 47 of the 61', { ink: '#f3d08a', font: SANS, size: '11px', wrap: 'normal' })], 'rgba(240,180,41,.07)', '32px')
+          ],
+          note: 'For a human the interesting column is where the permission comes from: almost always a group, and sometimes a time-boxed break-glass binding that nobody remembers granting.'
+        },
+        {
+          title: 'The same question, fleet-wide', cap: 'SEC-02 · XC-01', edge: WARN, scope: '8 clusters · who can delete pods', scopeTone: WARN, state: '◐ 6 of 8', stateTone: WARN,
+          cols: '78px 1fr 40px',
+          rows: [
+            vr([c('eu-west', { ink: INFO }), c('19 subjects · 13 cluster-wide', { ink: INK })]),
+            vr([c('us-east', { ink: PURPLE }), c('19 subjects · 13 cluster-wide', { ink: INK2 })]),
+            vr([c('ap-south', { ink: WARN }), c('22 subjects · 16 cluster-wide', { ink: '#f3d08a', weight: '600' }), c('▲', { justify: 'flex-end', ink: WARN })], 'rgba(240,180,41,.07)'),
+            vr([c('staging-eu', { ink: OK }), c('27 subjects · everyone in platform', { ink: INK2 })]),
+            vr([c('staging-us', { ink: '#5ad2c4' }), c('27 subjects · everyone in platform', { ink: INK2 })]),
+            vr([c('dev-sandbox', { ink: '#8a94a6' }), c('34 subjects · authenticated users', { ink: INK2 })]),
+            vr([c('edge-02', { ink: '#ff8a5c' }), c('9 subjects', { ink: INK2 })]),
+            vr([c('edge-01', { ink: '#8a5f62' }), c('cannot answer — unreachable', { ink: '#8a5f62' }), c('?', { justify: 'flex-end', ink: '#8a5f62' })], 'rgba(255,95,95,.06)'),
+            vr([c('', {}), c('ap-south has three subjects the others do not', { ink: '#f3d08a', font: SANS, size: '11px', wrap: 'normal' })], 'transparent', '32px')
+          ],
+          note: 'The same question asked of the whole fleet, one row per cluster. The finding is the difference: three extra subjects on ap-south that exist nowhere else, which is drift in permissions rather than in config.'
+        }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The sentence, again at 19px — and it names the thing nobody meant to grant. RBAC panes elsewhere show you rules; this one states the consequence first and puts the rules underneath as evidence.' },
+        { tone: INFO, k: 'DENSITY', t: 'Eight resource rows in the matrix and twelve subjects below it. The matrix is deliberately small: it shows the resources this subject actually touches, not the 340 kinds in the cluster. “Show everything” is a toggle, and it is off.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'It answers for the rules as written, not for what a webhook or an admission policy would do at the moment of the request — so a cluster with OPA or Kyverno can be more restrictive than this pane suggests, and the header says the answer comes from the rules. Aggregated ClusterRoles are resolved, but a role that changes while you read it is not re-checked until you refresh.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

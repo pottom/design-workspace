@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-over:#161a21;--ks-over-line:#2c3542;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-past:#a97bd6;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · LAYERS 2 AND 3 · BRIEF §2.4 · ACT-07 · ACT-16 · TIME-02</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The confirmation, and the time bar</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The two layers that exist to stop you being wrong. One says <span style="color:var(--ks-ink)">here is what you are about to break</span>; the other says <span style="color:var(--ks-ink)">what you are looking at is not now</span>. Both are frame-level, both take a colour nothing else may use, and neither can be turned off.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- LAYER 2: the confirmation -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-bad)">LAYER 2</div>
+      <div style="font-size:19px;font-weight:600">Not “are you sure?” — <span style="color:var(--ks-bad)">what you are about to break</span></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">ACT-07 · ACT-16 · three tiers</div>
+    </div>
+
+    <div data-screen-label="confirmation · tier 3" style="position:relative;width:1600px;height:920px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+      <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line);opacity:.45">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+          </div>
+        </sc-for>
+      </div>
+      <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px;opacity:.45">
+        <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+          <div style="height:34px;display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:var(--ks-ink-3)">{{ c.code }}</div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0;opacity:.38">
+        <sc-for list="{{ ghostPanes }}" as="g" hint-placeholder-count="4">
+          <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0;border-left:2px solid {{ g.edge }}">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)"><span style="color:{{ g.edge }}">{{ g.cluster }}</span>{{ g.kind }}</div>
+            <div style="flex:1;min-height:0;padding:5px 0;overflow:hidden">
+              <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="12">
+                <div style="height:20px;display:flex;align-items:center;gap:8px;padding:0 9px"><span style="width:5px;height:5px;background:{{ r.dot }}"></span><span style="height:4px;width:{{ r.w }};background:#232b36"></span></div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="position:absolute;inset:0;background:rgba(6,7,10,.7)"></div>
+
+      <div style="position:absolute;left:50%;top:52px;transform:translateX(-50%);width:1000px;background:var(--ks-over);border:1px solid #54262b;box-shadow:0 34px 90px rgba(0,0,0,.8);display:flex;flex-direction:column;overflow:hidden">
+        <div style="padding:15px 20px 14px;background:rgba(255,95,95,.10);border-bottom:1px solid #54262b;display:flex;align-items:flex-start;gap:14px">
+          <span style="font-size:15px;color:var(--ks-bad);padding-top:2px">▲</span>
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;min-width:0">
+            <div style="font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1.3">Scale <span style="font-family:var(--ks-mono);font-size:18px">checkout-api</span> to 0 on <span style="font-family:var(--ks-mono);font-size:18px">prod-eu-west</span></div>
+            <div style="font-size:13px;line-height:1.5;color:#f0b5b0;text-wrap:pretty">This is a production cluster. Eight pods stop, and the two things below stop with them.</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;flex:none">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">TIER 3 · TYPE THE NAME</span>
+            <span style="display:flex;align-items:center;gap:6px;font-family:var(--ks-mono);font-size:10.5px;color:#ffb3b3;padding:3px 8px;border:1px solid #54262b">● prod · write enabled 14:02</span>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line)">
+          <div style="background:var(--ks-over);padding:14px 18px;display:flex;flex-direction:column;gap:11px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-bad)">WHAT BREAKS</div>
+            <sc-for list="{{ breaks }}" as="b" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:11px;padding:9px 11px;background:{{ b.bg }};border-left:2px solid {{ b.tone }}">
+                <span style="font-size:9px;color:{{ b.tone }};padding-top:3px;flex:none">{{ b.glyph }}</span>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <div style="display:flex;align-items:baseline;gap:9px;min-width:0">
+                    <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ b.nameInk }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.name }}</span>
+                    <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none">{{ b.kind }}</span>
+                  </div>
+                  <div style="font-size:12px;line-height:1.45;color:{{ b.ink }};text-wrap:pretty">{{ b.t }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="background:var(--ks-over);padding:14px 18px;display:flex;flex-direction:column;gap:11px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">WHAT DOES NOT</div>
+            <sc-for list="{{ safe }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;align-items:flex-start;gap:11px;padding:8px 11px;border-left:2px solid {{ s.tone }}">
+                <span style="font-size:9px;color:{{ s.tone }};padding-top:3px;flex:none">{{ s.glyph }}</span>
+                <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink-2)">{{ s.name }}</span>
+                  <div style="font-size:12px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ s.t }}</div>
+                </div>
+              </div>
+            </sc-for>
+            <div style="margin-top:2px;padding:10px 12px;background:var(--ks-field);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-info)">REVERSIBLE</div>
+              <div style="font-size:12px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">Scaling back to 8 restores it in about 40 seconds. The image pull is warm on all six nodes.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--ks-line);background:var(--ks-field);padding:12px 20px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3);flex:none">THE DIFF</span>
+            <div style="flex:1;display:flex;align-items:center;gap:14px;font-family:var(--ks-mono);font-size:11.5px">
+              <span style="color:var(--ks-ink-3)">spec.replicas</span>
+              <span style="padding:2px 8px;background:rgba(255,95,95,.12);color:#ffb3b3;text-decoration:line-through">8</span>
+              <span style="color:var(--ks-ink-3)">→</span>
+              <span style="padding:2px 8px;background:rgba(62,207,142,.12);color:#a8e6c8">0</span>
+              <span style="color:var(--ks-ink-3)">· one field, one object</span>
+            </div>
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-info);flex:none">full YAML diff ▸</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:13px">
+            <div style="flex:1;display:flex;align-items:center;gap:10px;height:34px;padding:0 12px;border:1px solid #54262b;background:var(--ks-panel)">
+              <span style="font-size:12.5px;color:var(--ks-ink-3);flex:none">type</span>
+              <span style="font-family:var(--ks-mono);font-size:13px;color:#ffb3b3;flex:none">checkout-api</span>
+              <span style="font-size:12.5px;color:var(--ks-ink-3);flex:none">to confirm</span>
+              <span style="color:var(--ks-line)">│</span>
+              <span style="font-family:var(--ks-mono);font-size:13.5px;color:var(--ks-ink)">checkout-ap</span>
+              <span style="font-family:var(--ks-mono);font-size:13.5px;color:var(--ks-bad)">▏</span>
+            </div>
+            <span style="padding:8px 14px;border:1px solid var(--ks-line);font-size:12.5px;color:var(--ks-ink-2);flex:none">Cancel · Esc</span>
+            <span style="padding:8px 14px;border:1px solid #54262b;background:rgba(255,95,95,.10);font-size:12.5px;color:#8a5f62;font-weight:600;flex:none">Scale to 0</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+            <span>the button stays inert until the name matches</span>
+            <div style="flex:1"></div>
+            <span>audited as you · SEC-06</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ tiers }}" as="t" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ t.tone }}">{{ t.n }}</span>
+            <span style="font-size:13.5px;font-weight:600">{{ t.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ t.when }}</span>
+          </div>
+          <div style="background:var(--ks-over);border:1px solid {{ t.line }};box-shadow:0 16px 36px rgba(0,0,0,.5);display:flex;flex-direction:column;min-height:190px">
+            <div style="padding:11px 14px;background:{{ t.headBg }};border-bottom:1px solid {{ t.line }};display:flex;align-items:center;gap:10px">
+              <span style="font-size:11px;color:{{ t.tone }}">{{ t.glyph }}</span>
+              <span style="font-size:14px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ t.head }}</span>
+            </div>
+            <div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1">
+              <sc-for list="{{ t.lines }}" as="l" hint-placeholder-count="2">
+                <div style="font-size:12px;line-height:1.5;color:{{ l.ink }};font-family:{{ l.font }};text-wrap:pretty">{{ l.t }}</div>
+              </sc-for>
+              <div style="flex:1"></div>
+              <div style="display:flex;align-items:center;gap:8px">
+                <sc-for list="{{ t.buttons }}" as="b" hint-placeholder-count="2">
+                  <span style="padding:6px 12px;border:1px solid {{ b.line }};background:{{ b.bg }};font-size:12px;color:{{ b.ink }};font-weight:{{ b.weight }}">{{ b.t }}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">{{ t.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- LAYER 3: time -->
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-past)">LAYER 3</div>
+      <div style="font-size:19px;font-weight:600">Time travel — and every pane <span style="color:var(--ks-past)">shouting that this is not now</span></div>
+      <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">TIME-02 · the most dangerous feature in the product</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 430px;gap:16px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid var(--ks-past);padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+        <div style="font-size:16px;font-weight:600;line-height:1.4;text-wrap:pretty">One colour, reserved for the past, used in six places at once — so no single one of them has to carry the warning alone.</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Violet appears nowhere else in the product. It is not a status, not a cluster hue, not an accent. The moment the frame leaves the present, violet enters — on the window edge, in the time bar, on every pane header, on the clock in every row, on the disabled writes, and on the terminal that cannot come with you. Miss one and you have still seen five.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+        <sc-for list="{{ tells }}" as="t" hint-placeholder-count="6">
+          <div style="background:var(--ks-panel);padding:11px 13px;display:flex;flex-direction:column;gap:5px">
+            <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.11em;color:var(--ks-past)">{{ t.k }}</div>
+            <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ t.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div data-screen-label="time travel · engaged" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr 58px;overflow:hidden;border:2px solid var(--ks-past);box-shadow:0 30px 80px rgba(0,0,0,.6),inset 0 0 0 1px rgba(169,123,214,.25)">
+      <div style="grid-column:1/-1;display:flex;align-items:stretch;background:#1a1426;border-bottom:1px solid #3d2d52">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid #3d2d52">KUBESCOPE</div>
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.pastBg }};box-shadow:{{ t.pastShadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.pastNumInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+          </div>
+        </sc-for>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:0 14px">
+          <span style="display:flex;align-items:center;gap:8px;padding:4px 11px;background:rgba(169,123,214,.18);border:1px solid var(--ks-past);font-family:var(--ks-mono);font-size:11.5px;color:#d7bcf0;font-weight:600">◷ 13:52:00 · 30 MINUTES AGO</span>
+          <span style="font-family:var(--ks-mono);font-size:11px;color:#a97bd6">not live</span>
+          <span style="padding:3px 9px;border:1px solid var(--ks-past);font-family:var(--ks-mono);font-size:10.5px;color:#d7bcf0">return to now</span>
+        </div>
+      </div>
+
+      <div style="border-right:1px solid #3d2d52;background:#140f1c;display:flex;flex-direction:column;padding:6px 0;gap:2px">
+        <sc-for list="{{ railPast }}" as="c" hint-placeholder-count="10">
+          <div title="{{ c.title }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+            <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+            <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:#3d2d52;min-height:0">
+        <sc-for list="{{ pastPanes }}" as="p" hint-placeholder-count="4">
+          <div style="background:{{ p.bg }};display:flex;flex-direction:column;min-height:0;border-left:2px solid {{ p.edge }}">
+            <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;background:{{ p.headBg }};border-bottom:1px solid #3d2d52;font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:{{ p.clusterInk }};font-weight:600">{{ p.cluster }}</span>
+              <span style="color:#3d2d52">│</span>
+              <span style="color:var(--ks-ink)">{{ p.kind }}</span>
+              <div style="flex:1"></div>
+              <span style="display:flex;align-items:center;gap:5px;color:{{ p.stateInk }};font-weight:600">{{ p.state }}</span>
+            </div>
+            <sc-if value="{{ p.hasBanner }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:9px;padding:7px 10px;background:{{ p.bannerBg }};border-bottom:1px solid {{ p.bannerLine }};font-size:11.5px;color:{{ p.bannerInk }};line-height:1.4">
+                <span style="font-size:9px;flex:none">{{ p.bannerGlyph }}</span>
+                <span style="text-wrap:pretty">{{ p.banner }}</span>
+              </div>
+            </sc-if>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="12">
+                <div style="height:{{ r.h }};display:grid;grid-template-columns:{{ p.cols }};align-items:center;gap:9px;padding:0 10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 #241b30;font-family:var(--ks-mono);font-size:11px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;color:{{ c.ink }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ p.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;border-top:1px solid #3d2d52;background:{{ p.footBg }};font-family:var(--ks-mono);font-size:10px;color:{{ p.footInk }}">{{ p.foot }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- the bar itself -->
+      <div style="grid-column:1/-1;background:#1a1426;border-top:1px solid var(--ks-past);display:flex;align-items:center;gap:16px;padding:0 14px">
+        <div style="display:flex;flex-direction:column;gap:2px;flex:none;width:150px">
+          <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.12em;color:#8a6ba8">SHOWING</span>
+          <span style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:#d7bcf0">13:52:00</span>
+        </div>
+        <div style="flex:1;position:relative;height:36px;display:flex;flex-direction:column;justify-content:center;gap:5px;min-width:0">
+          <div style="position:relative;height:14px;background:#241b30;border:1px solid #3d2d52">
+            <div style="position:absolute;left:0;top:0;bottom:0;width:58%;background:rgba(169,123,214,.16)"></div>
+            <sc-for list="{{ ticks }}" as="k" hint-placeholder-count="9">
+              <div title="{{ k.title }}" style="position:absolute;left:{{ k.x }};top:{{ k.top }};width:2px;height:{{ k.h }};background:{{ k.tone }}"></div>
+            </sc-for>
+            <div style="position:absolute;left:58%;top:-5px;bottom:-5px;width:3px;background:#d7bcf0;box-shadow:0 0 0 1px rgba(169,123,214,.5)"></div>
+            <div style="position:absolute;right:0;top:0;bottom:0;width:2px;background:var(--ks-ok)"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--ks-mono);font-size:9.5px;color:#8a6ba8">
+            <span>13:22</span><span>13:37</span><span style="color:#d7bcf0">13:52 · you are here</span><span>14:07</span><span style="color:var(--ks-ok)">14:22 now</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px;flex:none">
+          <sc-for list="{{ timeBtns }}" as="b" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid {{ b.line }};background:{{ b.bg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ b.ink }}">{{ b.t }}</span>
+          </sc-for>
+        </div>
+        <div style="flex:none;display:flex;flex-direction:column;gap:2px;align-items:flex-end;width:210px">
+          <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.12em;color:#8a6ba8">NEAREST CHANGE</span>
+          <span style="font-family:var(--ks-mono);font-size:10.5px;color:#d7bcf0">13:52 · cm/checkout-config edited</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', PAST = '#a97bd6', LINE = '#242b35';
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3 }, o || {});
+    const row = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '20px' });
+    const ghostRows = (n, seed) => Array.from({ length: n }, (_, i) => {
+      const bad = (i + seed) % 7 === 2;
+      return { dot: bad ? BAD : (i + seed) % 5 === 1 ? WARN : 'rgba(62,207,142,.4)', w: (38 + ((i * 37 + seed * 11) % 46)) + '%' };
+    });
+
+    return {
+      facts: [
+        { k: 'CONFIRM TIERS', v: '3', tone: BAD },
+        { k: 'IMPACT SHOWN', v: 'always', tone: BAD },
+        { k: 'PAST COLOUR', v: 'reserved', tone: PAST },
+        { k: 'TELLS AT ONCE', v: '6', tone: PAST }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, pastBg: 'transparent', pastShadow: 'none', pastNumInk: '#8a6ba8' },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, pastBg: '#241b30', pastShadow: 'inset 0 -2px 0 ' + PAST, pastNumInk: '#d7bcf0' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, pastBg: 'transparent', pastShadow: 'none', pastNumInk: '#8a6ba8' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, pastBg: 'transparent', pastShadow: 'none', pastNumInk: '#8a6ba8' }
+      ],
+      rail: [['EW'], ['UE'], ['AS'], ['SE'], ['SU'], ['DS'], ['E1'], ['E2'], ['CI'], ['AN']].map(r => ({ code: r[0] })),
+      railPast: [['EW', INFO, '\u25cf', OK], ['UE', PURPLE, '\u25cf', OK], ['AS', WARN, '\u25cf', OK], ['SE', OK, '\u25cf', OK],
+        ['SU', '#5ad2c4', '\u25cf', OK], ['DS', '#8a94a6', '\u25cf', OK], ['E1', BAD, '\u25cf', OK], ['E2', '#ff8a5c', '\u25cf', OK],
+        ['CI', '#9ad04a', '\u25cf', OK], ['AN', '#c9a227', '\u25a0', IDLE]].map((r, i) => ({
+          code: r[0], title: r[0] + ' as it was at 13:52',
+          ink: i === 0 ? '#d7bcf0' : '#6b5a80', bg: i === 0 ? '#241b30' : 'transparent',
+          bar: i === 0 ? PAST : 'transparent', glyph: r[2], tone: '#6b5a80'
+        })),
+      ghostPanes: [
+        { cluster: 'prod-eu-west', kind: 'Pods', edge: INFO, rows: ghostRows(13, 0) },
+        { cluster: '2 clusters', kind: 'Logs', edge: PURPLE, rows: ghostRows(13, 3) },
+        { cluster: 'prod-ap-south', kind: 'Events', edge: WARN, rows: ghostRows(13, 5) },
+        { cluster: 'prod-us-east', kind: 'Shell', edge: PURPLE, rows: ghostRows(13, 2) }
+      ],
+      breaks: [
+        { glyph: '\u25b2', tone: BAD, bg: 'rgba(255,95,95,.09)', nameInk: '#ffd7d7', name: 'svc/checkout', kind: 'Service', ink: '#f0b5b0', t: 'Loses all three endpoints. Anything calling it gets connection refused, not a slow response.' },
+        { glyph: '\u25b2', tone: BAD, bg: 'rgba(255,95,95,.09)', nameInk: '#ffd7d7', name: 'route/checkout · pay.corp', kind: 'Route', ink: '#f0b5b0', t: 'Public checkout returns 503. This is the customer-facing path.' },
+        { glyph: '\u25c6', tone: WARN, bg: 'rgba(240,180,41,.07)', nameInk: INK, name: 'pdb/checkout-api', kind: 'PodDisruptionBudget', ink: '#f3d08a', t: 'minAvailable is 6. Scaling to 0 violates it — the API will accept this write, the budget only guards evictions.' },
+        { glyph: '\u25c6', tone: WARN, bg: 'rgba(240,180,41,.07)', nameInk: INK, name: 'ledger-worker', kind: 'in-flight work', ink: '#f3d08a', t: '182 requests are in flight right now. They will not be retried by anything.' }
+      ],
+      safe: [
+        { glyph: '\u25cf', tone: OK, name: 'prod-us-east · prod-ap-south', t: 'The other two production clusters keep serving checkout. This write is one cluster only.' },
+        { glyph: '\u25cf', tone: OK, name: 'the database and its data', t: 'No PVC is touched, nothing is deleted.' },
+        { glyph: '\u25cf', tone: OK, name: 'deploy/ledger-worker', t: 'Different workload, unaffected — it will simply have nothing to talk to.' }
+      ],
+      tiers: [
+        {
+          n: 'TIER 1', tone: INFO, line: LINE, headBg: 'transparent', glyph: '\u25cf', title: 'Just do it', when: 'reversible · no impact',
+          head: 'Pause the watch on prod-ap-south',
+          lines: [
+            { t: 'No dialog at all. The pane header changes, and a toast offers the undo for eight seconds.', ink: INK2, font: "'IBM Plex Sans',sans-serif" },
+            { t: 'sort · filter · columns · pause · zoom · cordon', ink: INK3, font: "'IBM Plex Mono',monospace" }
+          ],
+          buttons: [{ t: 'undone', line: LINE, bg: 'transparent', ink: INK2, weight: '400' }],
+          note: 'Anything that changes only what you see, or that one click reverses. A confirmation here is noise, and noise is what teaches people to click through the real ones.'
+        },
+        {
+          n: 'TIER 2', tone: WARN, line: '#5a4520', headBg: 'rgba(240,180,41,.08)', glyph: '\u25c6', title: 'Show the impact', when: 'writes · reversible',
+          head: 'Restart the rollout of checkout-api?',
+          lines: [
+            { t: '8 pods replaced one at a time. The service keeps at least 6 ready throughout, so no request is dropped.', ink: '#f3d08a', font: "'IBM Plex Sans',sans-serif" },
+            { t: 'takes about 90s · watch it in the change stream', ink: INK3, font: "'IBM Plex Mono',monospace" }
+          ],
+          buttons: [
+            { t: 'Cancel', line: LINE, bg: 'transparent', ink: INK2, weight: '400' },
+            { t: 'Restart rollout', line: '#5a4520', bg: 'rgba(240,180,41,.14)', ink: WARN, weight: '600' }
+          ],
+          note: 'One button, and above it the sentence that says what will happen to traffic. The impact preview is the content of the dialog — take it out and there is nothing left worth reading.'
+        },
+        {
+          n: 'TIER 3', tone: BAD, line: '#54262b', headBg: 'rgba(255,95,95,.10)', glyph: '\u25b2', title: 'Type the name', when: 'prod · irreversible · fleet',
+          head: 'Delete namespace payments?',
+          lines: [
+            { t: '412 objects, 4 PVCs holding 240Gi, and 3 Routes. Nothing here is recoverable from us.', ink: '#f0b5b0', font: "'IBM Plex Sans',sans-serif" },
+            { t: 'type: payments', ink: '#ffb3b3', font: "'IBM Plex Mono',monospace" }
+          ],
+          buttons: [
+            { t: 'Cancel', line: LINE, bg: 'transparent', ink: INK2, weight: '400' },
+            { t: 'Delete namespace', line: '#54262b', bg: 'rgba(255,95,95,.08)', ink: '#8a5f62', weight: '600' }
+          ],
+          note: 'Typing is not friction for its own sake: it forces you to read the name, which is the one check that catches the wrong-cluster mistake. A fleet write of N clusters is always tier 3, whatever the verb.'
+        }
+      ],
+      tells: [
+        { k: '1 · WINDOW', t: 'A 2px violet border around the whole frame. Visible from across the room, and the only time the window has a coloured edge.' },
+        { k: '2 · APP BAR', t: 'The bar turns violet and states the moment: “13:52:00 · 30 minutes ago”, with “not live” beside it and one button back.' },
+        { k: '3 · PANE HEADERS', t: 'Every header’s live dot becomes a violet clock. No pane can look live while the frame is not.' },
+        { k: '4 · THE DATA', t: 'Row surfaces cool towards violet, and ages are printed as they were then — “4d2h as of 13:52”, never a live counter.' },
+        { k: '5 · WRITES', t: 'Every write is disabled and says why: “you are looking at 13:52 — return to now to act”. The past is read-only, structurally.' },
+        { k: '6 · THE TERMINAL', t: 'It cannot travel. The pane keeps its transcript, greys it, and says so — a shell is a live connection, not a record.' }
+      ],
+      pastPanes: [
+        {
+          cluster: 'prod-eu-west', clusterInk: '#d7bcf0', kind: 'Pods · ns payments', edge: PAST, bg: '#191322', headBg: '#241b30',
+          state: '◷ 13:52', stateInk: '#d7bcf0', cols: '1fr 44px 96px 40px 56px',
+          hasBanner: true, bannerBg: 'rgba(169,123,214,.12)', bannerLine: '#3d2d52', bannerInk: '#d7bcf0', bannerGlyph: '◷',
+          banner: 'As it was 30 minutes ago. checkout-api had 6 restarts here, not 47.',
+          rows: [
+            row([c('checkout-api-7f9c8d4b6-k8n1p', { ink: '#e0d4ef', weight: '600' }), c('2/2', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('6\u00d7', { ink: '#c9a4e0', justify: 'flex-end' }), c('3d17h', { ink: '#7a6b8f', justify: 'flex-end' })], '#1f1729'),
+            row([c('checkout-api-7f9c8d4b6-x2m4q', { ink: '#c9bcd8' }), c('2/2', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('3d17h', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('checkout-api-7f9c8d4b6-p91md', { ink: '#c9bcd8' }), c('2/2', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('3d17h', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('ledger-worker-5d8f9c74c-2wq7t', { ink: '#c9bcd8' }), c('1/1', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('12d', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('ledger-worker-5d8f9c74c-9plmz', { ink: '#c9bcd8' }), c('1/1', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('12d', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('fraud-scorer-9c1b7a5e2-2wq7t', { ink: '#c9bcd8' }), c('2/2', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('9d', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('payout-batcher-4e7c9b2d5-f5flv', { ink: '#c9bcd8' }), c('1/1', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('21d', { ink: '#7a6b8f', justify: 'flex-end' })]),
+            row([c('envoy-gateway-6b4d9f7c8-abc12', { ink: '#c9bcd8' }), c('1/1', { ink: '#a894bd' }), c('Running', { ink: '#9d8cb0', glyph: '\u25cf', gtone: '#7a6b8f' }), c('0', { ink: '#7a6b8f', justify: 'flex-end' }), c('31d', { ink: '#7a6b8f', justify: 'flex-end' })])
+          ],
+          hasFoot: true, footBg: '#241b30', footInk: '#a894bd', foot: 'R restart · ⌫ delete — disabled: you are looking at 13:52'
+        },
+        {
+          cluster: '2 clusters', clusterInk: '#d7bcf0', kind: 'Logs · replayed', edge: PAST, bg: '#191322', headBg: '#241b30',
+          state: '◷ 13:52', stateInk: '#d7bcf0', cols: '54px 66px 1fr',
+          hasBanner: true, bannerBg: 'rgba(169,123,214,.12)', bannerLine: '#3d2d52', bannerInk: '#d7bcf0', bannerGlyph: '◷',
+          banner: 'Replayed from the local store, not the cluster. Only what we captured is here.',
+          rows: [
+            row([c('13:51:58', { ink: '#7a6b8f' }), c('eu-west', { ink: '#9d8cb0' }), c('checkout: 200 OK in 41ms', { ink: '#a894bd' })]),
+            row([c('13:51:59', { ink: '#7a6b8f' }), c('us-east', { ink: '#9d8cb0' }), c('ledger: queue depth 210, nominal', { ink: '#a894bd' })]),
+            row([c('13:52:00', { ink: '#d7bcf0' }), c('eu-west', { ink: '#c9a4e0' }), c('config reloaded: TIMEOUT_MS 2000 → 500', { ink: '#e0d4ef', weight: '600' })], '#2a2036'),
+            row([c('13:52:01', { ink: '#7a6b8f' }), c('eu-west', { ink: '#9d8cb0' }), c('checkout: 200 OK in 38ms', { ink: '#a894bd' })]),
+            row([c('13:52:03', { ink: '#7a6b8f' }), c('eu-west', { ink: '#9d8cb0' }), c('checkout: context deadline exceeded', { ink: '#c9a4e0' })]),
+            row([c('13:52:04', { ink: '#7a6b8f' }), c('eu-west', { ink: '#9d8cb0' }), c('checkout: retry 1 of 3', { ink: '#a894bd' })]),
+            row([c('13:52:06', { ink: '#7a6b8f' }), c('us-east', { ink: '#9d8cb0' }), c('ledger: queue depth 480, rising', { ink: '#a894bd' })]),
+            row([c('13:52:09', { ink: '#7a6b8f' }), c('eu-west', { ink: '#9d8cb0' }), c('checkout: heap 302Mi of 512Mi', { ink: '#a894bd' })])
+          ],
+          hasFoot: true, footBg: '#241b30', footInk: '#a894bd', foot: 'no follow while travelling · 4 200 lines stored for this window'
+        },
+        {
+          cluster: 'prod-eu-west', clusterInk: '#d7bcf0', kind: 'Change stream', edge: PAST, bg: '#191322', headBg: '#241b30',
+          state: '◷ 13:52', stateInk: '#d7bcf0', cols: '54px 84px 1fr',
+          hasBanner: false, bannerBg: '', bannerLine: '', bannerInk: '', bannerGlyph: '', banner: '',
+          rows: [
+            row([c('13:52', { ink: '#d7bcf0' }), c('configmap', { ink: '#c9a4e0' }), c('checkout-config · TIMEOUT_MS 2000 → 500 · by ci-bot', { ink: '#e0d4ef', weight: '600' })], '#2a2036', '26px'),
+            row([c('13:41', { ink: '#7a6b8f' }), c('node', { ink: '#9d8cb0' }), c('ip-10-0-4-8 became NotReady', { ink: '#a894bd' })], 'transparent', '26px'),
+            row([c('13:22', { ink: '#7a6b8f' }), c('rbac', { ink: '#9d8cb0' }), c('payments-deployer gained sa/ci-bot', { ink: '#a894bd' })], 'transparent', '26px'),
+            row([c('12:04', { ink: '#7a6b8f' }), c('deploy', { ink: '#9d8cb0' }), c('checkout-api 2026.8.2 → 2026.8.3 · by argocd', { ink: '#a894bd' })], 'transparent', '26px'),
+            row([c('11:38', { ink: '#7a6b8f' }), c('scale', { ink: '#9d8cb0' }), c('hpa scaled checkout-api 4 → 6', { ink: '#a894bd' })], 'transparent', '26px'),
+            row([c('10:11', { ink: '#7a6b8f' }), c('oomkill', { ink: '#9d8cb0' }), c('checkout-api first kill', { ink: '#a894bd' })], 'transparent', '26px')
+          ],
+          hasFoot: true, footBg: '#241b30', footInk: '#c9a4e0', foot: 'the marker under the handle is this ConfigMap edit'
+        },
+        {
+          cluster: 'prod-us-east', clusterInk: '#8a6ba8', kind: 'Shell · ledger-worker', edge: '#3d2d52', bg: '#14101b', headBg: '#1d1727',
+          state: '◷ cannot travel', stateInk: '#c9a4e0', cols: '1fr',
+          hasBanner: true, bannerBg: 'rgba(169,123,214,.16)', bannerLine: '#4a3563', bannerInk: '#e0d4ef', bannerGlyph: '\u25b2',
+          banner: 'A shell is a live connection — it cannot show you 13:52. The session is still open; this is the transcript.',
+          rows: [
+            row([c('$ kubectl exec -it ledger-worker-…-2wq7t -- sh', { ink: '#5c5170' })], 'transparent', '19px'),
+            row([c('/app # ./ledgerctl queue stat', { ink: '#5c5170' })], 'transparent', '19px'),
+            row([c('depth 6109   inflight 182   oldest 4.21s', { ink: '#5c5170' })], 'transparent', '19px'),
+            row([c('/app # cat /sys/fs/cgroup/memory.peak', { ink: '#5c5170' })], 'transparent', '19px'),
+            row([c('535822336', { ink: '#5c5170' })], 'transparent', '19px'),
+            row([c('', {})], 'transparent', '19px'),
+            row([c('input is blocked while the frame is in the past', { ink: '#8a6ba8' })], 'transparent', '19px'),
+            row([c('return to now to keep typing', { ink: '#c9a4e0' })], 'transparent', '19px')
+          ],
+          hasFoot: true, footBg: '#1d1727', footInk: '#8a6ba8', foot: 'session alive · keyboard released'
+        }
+      ],
+      ticks: [
+        { x: '4%', h: '8px', top: '3px', tone: '#6b5a80', title: '12:04 deploy' },
+        { x: '17%', h: '8px', top: '3px', tone: '#6b5a80', title: '13:22 rbac' },
+        { x: '31%', h: '12px', top: '1px', tone: WARN, title: '13:41 node NotReady' },
+        { x: '58%', h: '14px', top: '0px', tone: '#d7bcf0', title: '13:52 configmap edited' },
+        { x: '66%', h: '10px', top: '2px', tone: WARN, title: '14:02 first timeout' },
+        { x: '74%', h: '12px', top: '1px', tone: BAD, title: '14:12 oomkill' },
+        { x: '81%', h: '12px', top: '1px', tone: BAD, title: '14:16 oomkill' },
+        { x: '88%', h: '12px', top: '1px', tone: BAD, title: '14:20 oomkill' },
+        { x: '94%', h: '8px', top: '3px', tone: WARN, title: '14:21 scaled 6 → 8' }
+      ],
+      timeBtns: [
+        { t: '◀ change', line: '#3d2d52', bg: 'transparent', ink: '#d7bcf0' },
+        { t: 'change ▶', line: '#3d2d52', bg: 'transparent', ink: '#d7bcf0' },
+        { t: 'window 1h', line: '#3d2d52', bg: 'transparent', ink: '#a894bd' },
+        { t: 'export this window', line: '#3d2d52', bg: 'transparent', ink: '#a894bd' },
+        { t: 'return to now', line: PAST, bg: 'rgba(169,123,214,.18)', ink: '#e0d4ef' }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE CONFIRMATION IS TWO COLUMNS', t: 'What breaks, and what does not. The right column is the one people do not build, and it is why the dialog gets read: a list of only bad news is skimmed, a list that also says “the other two clusters keep serving” is checked. Under both, the diff — one field, one object — because the sentence and the change must agree.' },
+        { tone: PAST, k: 'SIX TELLS, NOT ONE BANNER', t: 'A single banner is dismissed by the eye within a day. The window edge, the app bar, every pane header, the row surfaces, the disabled writes and the terminal all change together, so travelling looks like a different application rather than the same one with a note on top.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'The past is strictly read-only — you cannot even queue a write to run on return, which some tools allow and which we consider a trap. Replay is limited to what we captured, so a log pane in the past says how many lines it holds rather than pretending to be complete. And the terminal simply refuses: the honest answer to “show me this shell 30 minutes ago” is that no such thing exists.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

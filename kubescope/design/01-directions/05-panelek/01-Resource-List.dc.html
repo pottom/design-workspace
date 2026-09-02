@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;--ks-sans:'IBM Plex Sans',system-ui,sans-serif;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:900px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 01 / 30 · QUESTION PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Resource list</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The pane the product is mostly made of. Any kind, any cluster, any namespace — columns come from the kind, and for a CRD from its own printer columns. Everything else in the app is reached from a row of this.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="resource list · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:7px"><span style="color:var(--ks-ok)">●</span>8<span style="color:var(--ks-line)">·</span><span style="color:var(--ks-warn)">◐</span>1<span style="color:var(--ks-bad)">▲</span>1</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <!-- 24px header: everything on one line -->
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">●</span>prod-eu-west<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Pods</span>
+        <span style="color:var(--ks-ink-3)">ns</span><span style="color:var(--ks-ink-2)">all<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">/</span><span style="color:var(--ks-warn)">!kube-system</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ink-2);padding:1px 6px;border:1px solid var(--ks-line)">app=checkout ×</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">32 of 41</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>live · watch 2s</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- 20px column bar, wide enough to earn it -->
+      <div style="height:20px;display:grid;grid-template-columns:20px 1fr 44px 108px 44px 52px 122px 128px 226px;align-items:center;padding:0 10px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div style="display:flex;align-items:center;justify-content:center"><span style="width:11px;height:11px;border:1px solid var(--ks-line);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ks-warn)">–</span></div>
+        <div>NAME</div><div>READY</div><div style="color:var(--ks-ink-2)">STATUS ↓</div><div style="text-align:right">RESTARTS</div><div style="text-align:right">AGE</div><div>NAMESPACE</div><div>NODE</div><div>WHY</div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow:hidden">
+        <sc-for list="{{ rows }}" as="r" hint-placeholder-count="38">
+          <div style="height:22px;display:grid;grid-template-columns:20px 1fr 44px 108px 44px 52px 122px 128px 226px;align-items:center;padding:0 10px;gap:10px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:12px">
+            <div style="display:flex;align-items:center;justify-content:center"><span style="width:11px;height:11px;border:1px solid {{ r.checkLine }};background:{{ r.checkBg }};display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ks-warn)">{{ r.check }}</span></div>
+            <div style="font-family:var(--ks-mono);font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.nameWeight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.readyInk }}">{{ r.ready }}</div>
+            <div style="display:flex;align-items:center;gap:6px;color:{{ r.tone }};font-weight:500"><span style="font-size:8px;width:8px">{{ r.glyph }}</span><span style="font-size:11px;font-family:var(--ks-mono)">{{ r.word }}</span></div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.rsInk }};text-align:right">{{ r.rs }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);text-align:right">{{ r.age }}</div>
+            <div style="color:var(--ks-ink-3);font-family:var(--ks-mono);font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.ns }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.node }}</div>
+            <div style="font-size:11px;color:{{ r.whyInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.why }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- buffered updates: the table must not move under the cursor -->
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;background:rgba(240,180,41,.09);border-top:1px solid #4a3a12;font-family:var(--ks-mono);font-size:11px;color:var(--ks-warn)">
+        <span>◐</span><span>3 rows want to move · your pointer is over the table</span>
+        <div style="flex:1"></div>
+        <span style="padding:1px 7px;border:1px solid #4a3a12">apply now</span>
+      </div>
+
+      <!-- selection strip -->
+      <div style="height:30px;display:flex;align-items:center;gap:11px;padding:0 10px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-warn);font-weight:600">3 selected</span>
+        <span style="color:var(--ks-ink-3)">1 hidden by the filter</span>
+        <div style="flex:1"></div>
+        <sc-for list="{{ actions }}" as="a" hint-placeholder-count="6">
+          <span style="display:flex;align-items:center;gap:6px;color:{{ a.ink }}"><span style="padding:2px 6px;border:1px solid {{ a.line }};color:{{ a.keyInk }}">{{ a.key }}</span>{{ a.label }}</span>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">The same pane, narrow — and as three other kinds</div>
+    </div>
+    <div style="display:grid;grid-template-columns:330px 1fr 1fr 1fr;gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.sub }}</span>
+          </div>
+          <div style="height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:24px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:{{ v.clTone }};font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.cluster }}</span>
+              <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">{{ v.kind }}</span>
+              <div style="flex:1"></div><span style="color:var(--ks-ink-2);flex:none">{{ v.count }}</span>
+            </div>
+            <sc-if value="{{ v.hasCols }}" hint-placeholder-val="{{ false }}">
+              <div style="height:18px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:0 9px;gap:8px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+                <sc-for list="{{ v.headers }}" as="h" hint-placeholder-count="4">
+                  <div style="text-align:{{ h.align }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ h.t }}</div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="10">
+                <div style="height:22px;display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:0 9px;gap:8px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="4">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:8px;color:{{ c.gtone }}">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">STATES</div>
+      <div style="font-size:18px;font-weight:600">The eight, as this pane says them</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+      <sc-for list="{{ states }}" as="s" hint-placeholder-count="8">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ s.tone }}">{{ s.name }}</div>
+          <div style="height:120px;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ s.headTone }};font-weight:600">{{ s.head }}</span>
+              <div style="flex:1"></div><span style="color:{{ s.tone }};font-size:9.5px">{{ s.chip }}</span>
+            </div>
+            <sc-if value="{{ s.hasBanner }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:4px 9px;background:{{ s.bannerBg }};border-bottom:1px solid {{ s.bannerLine }};font-family:var(--ks-mono);font-size:9.5px;color:{{ s.tone }};line-height:1.4">{{ s.banner }}</div>
+            </sc-if>
+            <div style="flex:1;min-height:0;display:flex;flex-direction:column;padding:{{ s.pad }};gap:{{ s.gap }};justify-content:{{ s.justify }};align-items:{{ s.align }}">
+              <sc-for list="{{ s.lines }}" as="l" hint-placeholder-count="4">
+                <div style="height:{{ l.h }};width:{{ l.w }};background:{{ l.bg }};display:flex;align-items:center;font-size:10.5px;color:{{ l.ink }};line-height:1.4;text-wrap:pretty">{{ l.t }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35', MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+const PH = {
+  Running: ['\u25cf', 'Running', OK], CrashLoop: ['\u25b2', 'CrashLoop', BAD], Failed: ['\u25b2', 'Failed', BAD],
+  Pending: ['\u25c6', 'Pending', WARN], Degraded: ['\u25b2', 'Degraded', WARN],
+  Terminating: ['\u25a0', 'Terminating', IDLE], Unknown: ['\u25cb', 'Unknown', IDLE]
+};
+
+class Component extends DCLogic {
+  renderVals() {
+    let seed = 20260901;
+    const rnd = () => (seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const hash = n => Array.from({ length: n }, () => 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(rnd() * 36)]).join('');
+    const nodes = ['ip-10-0-3-19', 'ip-10-0-1-204', 'ip-10-0-2-44', 'ip-10-0-4-8', 'ip-10-0-3-91'];
+    const ages = ['4d2h', '12d', '31d', '6h14m', '2d9h', '18d', '54m', '9d', '3d17h', '21d'];
+
+    const spec = {
+      'checkout-api/1': ['CrashLoop', '1/2', 47, 'OOMKilled \u00b7 limit 512Mi, peak 511Mi'],
+      'checkout-api/3': ['Pending', '0/2', 0, 'Insufficient memory \u00b7 hpa scaled to 8'],
+      'ledger-worker/0': ['Terminating', '1/1', 0, 'Replaced by rollout 2026.8.3'],
+      'ledger-worker/2': ['Pending', '0/1', 0, 'Insufficient memory on 3 of 6 nodes'],
+      'fraud-scorer/0': ['Degraded', '1/2', 3, 'Sidecar envoy not ready 2m'],
+      'payout-batcher/0': ['Failed', '0/1', 5, 'Exit 2 \u00b7 config sha mismatch'],
+      'loki-ingester/0': ['Degraded', '1/2', 8, 'Readiness probe failed 3\u00d7 in 90s'],
+      'otel-collector/1': ['Unknown', '2/2', 0, 'Node ip-10-0-4-8 stopped reporting'],
+      'nightly-export/0': ['Failed', '0/1', 5, 'Exit 137 \u00b7 deadline exceeded']
+    };
+    const groups = [
+      ['payments', 'checkout-api', '7f9c8d4b6', 4, 2], ['payments', 'ledger-worker', '5d8f9c74c', 3, 1],
+      ['payments', 'fraud-scorer', '9c1b7a5e2', 2, 2], ['payments', 'payout-batcher', '4e7c9b2d5', 2, 1],
+      ['ingress', 'envoy-gateway', '6b4d9f7c8', 3, 1], ['ingress', 'cert-manager', '58c7d9b41', 1, 1],
+      ['observability', 'otel-collector', '7d5c8f9a1', 3, 1], ['observability', 'loki-ingester', '4b8d2c7f6', 3, 2],
+      ['observability', 'grafana', '6f9a3c5d8', 1, 1], ['platform', 'argocd-repo-server', '8d4c7b9e1', 2, 1],
+      ['platform', 'external-secrets', '5a9c3d8f2', 2, 1], ['platform', 'vault-agent-injector', '7b2e9c4a6', 1, 2],
+      ['data', 'kafka', null, 3, 1], ['data', 'clickhouse', null, 3, 1], ['data', 'redis-cache', '7c4b9d2f8', 2, 1],
+      ['jobs', 'nightly-export', '3f8c5d9b2', 2, 1]
+    ];
+    const sevRank = { CrashLoop: 0, Failed: 0, Pending: 1, Degraded: 1, Unknown: 2, Terminating: 3, Running: 4 };
+    let pods = [];
+    groups.forEach(g => {
+      for (let i = 0; i < g[3]; i++) {
+        const s = spec[g[1] + '/' + i];
+        const phase = s ? s[0] : 'Running';
+        pods.push({
+          ns: g[0], phase,
+          name: g[2] ? g[1] + '-' + g[2] + '-' + hash(5) : g[1] + '-' + i,
+          ready: s ? s[1] : g[4] + '/' + g[4],
+          rs: s ? s[2] : (rnd() < 0.15 ? Math.floor(rnd() * 3) : 0),
+          why: s ? s[3] : '',
+          node: nodes[Math.floor(rnd() * nodes.length)],
+          age: ages[Math.floor(rnd() * ages.length)]
+        });
+      }
+    });
+    // default sort: worst first, then restarts, then age — never alphabetical
+    pods.sort((a, b) => (sevRank[a.phase] - sevRank[b.phase]) || (b.rs - a.rs));
+    pods = pods.slice(0, 38);
+    const selected = { 0: true, 1: true, 3: true };
+
+    const rows = pods.map((p, i) => {
+      const m = PH[p.phase];
+      const bad = p.phase === 'CrashLoop' || p.phase === 'Failed';
+      const warn = p.phase === 'Pending' || p.phase === 'Degraded';
+      const dim = p.phase === 'Terminating' || p.phase === 'Unknown';
+      const sel = !!selected[i];
+      return {
+        ns: p.ns, name: p.name, ready: p.ready, rs: p.rs, node: p.node, age: p.age, why: p.why,
+        glyph: m[0], word: m[1], tone: m[2],
+        check: sel ? '\u2713' : '', checkBg: sel ? 'rgba(240,180,41,.16)' : 'transparent', checkLine: sel ? '#5a4520' : LINE,
+        bg: sel ? '#221d1c' : bad ? 'rgba(255,95,95,.10)' : warn ? 'rgba(240,180,41,.07)' : 'transparent',
+        nameInk: bad || warn ? '#ffffff' : dim ? INK3 : '#c8d1dd',
+        nameWeight: bad || warn ? '600' : '400',
+        readyInk: p.ready.split('/')[0] !== p.ready.split('/')[1] ? m[2] : INK3,
+        rsInk: p.rs > 10 ? BAD : p.rs > 0 ? WARN : INK3,
+        whyInk: bad ? '#ffb3b3' : warn ? '#f3d08a' : INK3
+      };
+    });
+
+    const CL = [['prod-eu-west', 'EW', INFO, 'live', OK, '\u25cf'], ['prod-us-east', 'UE', '#b48cff', 'live', OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, 'slow', WARN, '\u25d0'], ['staging-eu', 'SE', OK, 'live', OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', 'live', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', 'live', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, 'down', BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', 'live', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', 'live', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', 'paused', IDLE, '\u25a0']];
+
+    const cell = (t, o) => Object.assign({ t, font: MONO, size: '11px', ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3 }, o || {});
+
+    return {
+      facts: [
+        { k: 'ROWS AT 1000PX', v: '38', tone: INK },
+        { k: 'CHROME', v: '44px', tone: INK },
+        { k: 'ROW HEIGHT', v: '22px', tone: INK },
+        { k: 'PRIMARY ELEMENT', v: 'the unhealthy rows', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '2', name: 'payments', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: CL.map((c, i) => ({
+        name: c[0] + ' \u00b7 ' + c[3], code: c[1], ink: i === 0 ? INK : INK3,
+        bg: i === 0 ? '#161a21' : 'transparent', bar: i === 0 ? c[2] : 'transparent',
+        glyph: c[5], tone: c[4]
+      })),
+      rows,
+      actions: [
+        { key: 'L', label: 'logs \u00d73', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'Y', label: 'yaml', ink: INK3, line: LINE, keyInk: INK3 },
+        { key: 'S', label: 'shell', ink: INK3, line: LINE, keyInk: INK3 },
+        { key: '\u2318C', label: 'copy \u00d73', ink: INK2, line: LINE, keyInk: INK },
+        { key: 'R', label: 'restart \u00d73', ink: WARN, line: '#4a3a12', keyInk: WARN },
+        { key: '\u2326', label: 'delete \u00d73', ink: '#ffb3b3', line: '#54262b', keyInk: '#ffb3b3' }
+      ],
+      variants: [
+        {
+          title: 'Narrow — 320px', sub: 'one of four panes', edge: INFO, clTone: INFO, cluster: 'prod-eu-west', kind: 'Pods', count: '6 of 41',
+          hasCols: true, cols: '1fr 82px 38px',
+          headers: [{ t: 'NAME', align: 'left' }, { t: 'STATUS', align: 'left' }, { t: 'RS', align: 'right' }],
+          rows: [
+            { bg: 'rgba(255,95,95,.10)', cells: [cell('checkout-api-\u2026-k8n1p', { ink: '#fff', weight: '600' }), cell('CrashLoop', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10.5px' }), cell('47\u00d7', { ink: BAD, justify: 'flex-end' })] },
+            { bg: 'rgba(240,180,41,.07)', cells: [cell('checkout-api-\u2026-p91md', { ink: '#fff', weight: '600' }), cell('Pending', { ink: WARN, glyph: '\u25c6', gtone: WARN, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'rgba(240,180,41,.07)', cells: [cell('ledger-worker-\u2026-9plmz', { ink: '#fff', weight: '600' }), cell('Pending', { ink: WARN, glyph: '\u25c6', gtone: WARN, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('fraud-scorer-\u2026-2wq7t', { ink: '#fff' }), cell('Degraded', { ink: WARN, glyph: '\u25b2', gtone: WARN, size: '10.5px' }), cell('3\u00d7', { ink: WARN, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('payout-batcher-\u2026-f5flv', { ink: '#fff' }), cell('Failed', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10.5px' }), cell('5\u00d7', { ink: WARN, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('ledger-worker-\u2026-2wq7t', { ink: INK3 }), cell('Terminating', { ink: IDLE, glyph: '\u25a0', gtone: IDLE, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('envoy-gateway-\u2026-abc12', { ink: '#c8d1dd' }), cell('Running', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('coredns-\u2026-4kd9v', { ink: '#c8d1dd' }), cell('Running', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('grafana-\u2026-m21kd', { ink: '#c8d1dd' }), cell('Running', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] },
+            { bg: 'transparent', cells: [cell('redis-cache-\u2026-8plz1', { ink: '#c8d1dd' }), cell('Running', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('\u2014', { ink: INK3, justify: 'flex-end' })] }
+          ],
+          note: 'The name stays leftmost at every width — the column that identifies the row never moves. Namespace, node and the reason drop out in that order; the name is truncated in the middle so two replicas never look identical.'
+        },
+        {
+          title: 'Nodes', sub: 'same pane, other kind', edge: INFO, clTone: INFO, cluster: 'prod-ap-south', kind: 'Nodes', count: '18',
+          hasCols: true, cols: '1fr 92px 58px 54px',
+          headers: [{ t: 'NAME', align: 'left' }, { t: 'STATUS', align: 'left' }, { t: 'CPU', align: 'right' }, { t: 'MEM', align: 'right' }],
+          rows: [
+            { bg: 'rgba(255,95,95,.10)', cells: [cell('ip-10-0-4-8', { ink: '#fff', weight: '600' }), cell('NotReady', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10.5px' }), cell('\u2014', { justify: 'flex-end', ink: INK3 }), cell('\u2014', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'rgba(255,95,95,.10)', cells: [cell('ip-10-0-4-11', { ink: '#fff', weight: '600' }), cell('NotReady', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10.5px' }), cell('\u2014', { justify: 'flex-end', ink: INK3 }), cell('\u2014', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'rgba(240,180,41,.07)', cells: [cell('ip-10-0-3-19', { ink: '#fff' }), cell('Pressure', { ink: WARN, glyph: '\u25c6', gtone: WARN, size: '10.5px' }), cell('74%', { justify: 'flex-end', ink: WARN }), cell('91%', { justify: 'flex-end', ink: BAD })] },
+            { bg: 'transparent', cells: [cell('ip-10-0-1-204', { ink: '#c8d1dd' }), cell('Ready', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('41%', { justify: 'flex-end', ink: INK2 }), cell('54%', { justify: 'flex-end', ink: INK2 })] },
+            { bg: 'transparent', cells: [cell('ip-10-0-3-91', { ink: '#c8d1dd' }), cell('Ready', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('38%', { justify: 'flex-end', ink: INK2 }), cell('61%', { justify: 'flex-end', ink: INK2 })] },
+            { bg: 'transparent', cells: [cell('ip-10-0-2-44', { ink: INK3 }), cell('Cordoned', { ink: IDLE, glyph: '\u25a0', gtone: IDLE, size: '10.5px' }), cell('12%', { justify: 'flex-end', ink: INK3 }), cell('22%', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'transparent', cells: [cell('ip-10-0-1-17', { ink: '#c8d1dd' }), cell('Ready', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('44%', { justify: 'flex-end', ink: INK2 }), cell('58%', { justify: 'flex-end', ink: INK2 })] },
+            { bg: 'transparent', cells: [cell('ip-10-0-2-88', { ink: '#c8d1dd' }), cell('Ready', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('29%', { justify: 'flex-end', ink: INK2 }), cell('47%', { justify: 'flex-end', ink: INK2 })] }
+          ],
+          note: 'Nothing about the pane changes — only the column set, which belongs to the kind. Usage columns come from metrics-server and are dashes, not zeros, when it is absent.'
+        },
+        {
+          title: 'A CRD we have never seen', sub: 'columns from the CRD itself', edge: INFO, clTone: OK, cluster: 'staging-eu', kind: 'KafkaTopics', count: '24',
+          hasCols: true, cols: '1fr 84px 50px 62px',
+          headers: [{ t: 'NAME', align: 'left' }, { t: 'READY', align: 'left' }, { t: 'PARTS', align: 'right' }, { t: 'AGE', align: 'right' }],
+          rows: [
+            { bg: 'rgba(255,95,95,.10)', cells: [cell('payments.ledger.v2', { ink: '#fff', weight: '600' }), cell('False', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10.5px' }), cell('12', { justify: 'flex-end' }), cell('4d2h', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'transparent', cells: [cell('payments.checkout.v1', { ink: '#c8d1dd' }), cell('True', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('24', { justify: 'flex-end' }), cell('31d', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'transparent', cells: [cell('audit.events', { ink: '#c8d1dd' }), cell('True', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('6', { justify: 'flex-end' }), cell('92d', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'transparent', cells: [cell('analytics.clicks', { ink: INK3 }), cell('Unknown', { ink: IDLE, glyph: '\u25cb', gtone: IDLE, size: '10.5px' }), cell('48', { justify: 'flex-end' }), cell('12d', { justify: 'flex-end', ink: INK3 })] },
+            { bg: 'transparent', cells: [cell('platform.dlq', { ink: '#c8d1dd' }), cell('True', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10.5px' }), cell('3', { justify: 'flex-end' }), cell('118d', { justify: 'flex-end', ink: INK3 })] }
+          ],
+          note: 'The columns are the CRD’s own additionalPrinterColumns; the first condition becomes the status glyph. We know nothing else about this kind, so the action set shrinks to read, navigate by owner, edit YAML, delete.'
+        },
+        {
+          title: 'Merged across clusters', sub: 'group scope · XC-08', edge: WARN, clTone: WARN, cluster: '8 clusters', kind: 'Deployments · merged', count: '46',
+          hasCols: true, cols: '84px 1fr 92px',
+          headers: [{ t: 'SPREAD', align: 'left' }, { t: 'NAME', align: 'left' }, { t: 'VERDICT', align: 'left' }],
+          rows: [
+            { bg: 'rgba(240,180,41,.09)', cells: [cell('8 / 2 differ', { ink: WARN, glyph: '\u25c8', gtone: WARN, size: '10px' }), cell('checkout-api', { ink: '#fff', weight: '600' }), cell('image 2 versions', { ink: '#f3d08a', font: SANS, size: '11px' })] },
+            { bg: 'rgba(255,95,95,.09)', cells: [cell('6 of 8', { ink: BAD, glyph: '\u25b2', gtone: BAD, size: '10px' }), cell('ledger-worker', { ink: '#fff', weight: '600' }), cell('missing on 2', { ink: '#ffb3b3', font: SANS, size: '11px' })] },
+            { bg: 'transparent', cells: [cell('8 / same', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10px' }), cell('envoy-gateway', { ink: '#c8d1dd' }), cell('identical', { ink: INK3, font: SANS, size: '11px' })] },
+            { bg: 'transparent', cells: [cell('8 / same', { ink: OK, glyph: '\u25cf', gtone: OK, size: '10px' }), cell('coredns', { ink: '#c8d1dd' }), cell('identical', { ink: INK3, font: SANS, size: '11px' })] },
+            { bg: 'rgba(240,180,41,.09)', cells: [cell('8 / 3 differ', { ink: WARN, glyph: '\u25c8', gtone: WARN, size: '10px' }), cell('otel-collector', { ink: '#fff', weight: '600' }), cell('replicas 2/3/5', { ink: '#f3d08a', font: SANS, size: '11px' })] },
+            { bg: 'transparent', cells: [cell('2 of 8', { ink: INK2, glyph: '\u25cb', gtone: IDLE, size: '10px' }), cell('canary-router', { ink: INK3 }), cell('staging only', { ink: INK3, font: SANS, size: '11px' })] }
+          ],
+          note: 'The same pane in group scope: one row per name rather than per object, with the verdict in words. Clicking a differing row opens the field-level diff — this is the entry point to XC-03.'
+        }
+      ],
+      states: [
+        { name: 'LOADING', tone: IDLE, head: 'prod-eu-west · Pods', headTone: INFO, chip: 'connecting', hasBanner: false, pad: '6px 9px', gap: '5px', justify: 'flex-start', align: 'stretch',
+          lines: [{ h: '9px', w: '92%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '78%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '85%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '64%', bg: '#161a21', t: '', ink: INK3 }],
+          note: 'Skeleton rows, no count — we do not know it yet, and a fake number would be read as real.' },
+        { name: 'EMPTY', tone: INK3, head: 'prod-eu-west · Pods', headTone: INFO, chip: '0 of 41', hasBanner: false, pad: '12px', gap: '7px', justify: 'center', align: 'flex-start',
+          lines: [{ h: 'auto', w: '100%', bg: 'transparent', t: 'Nothing matches “!kube-system app=nope”.', ink: INK2 }, { h: 'auto', w: '100%', bg: 'transparent', t: 'clear the filter · clear the selector', ink: INFO }],
+          note: 'Empty always says which filter emptied it, and offers to remove exactly that one.' },
+        { name: 'FORBIDDEN', tone: WARN, head: 'prod-ap-south · Secrets', headTone: WARN, chip: '403', hasBanner: false, pad: '12px', gap: '7px', justify: 'center', align: 'flex-start',
+          lines: [{ h: 'auto', w: '100%', bg: 'transparent', t: 'You may not list secrets in this namespace.', ink: INK }, { h: 'auto', w: '100%', bg: 'transparent', t: 'who can? → RBAC · show the raw error', ink: INFO }],
+          note: 'Never “an error occurred”. The verb that failed, and a route to the RBAC answer.' },
+        { name: 'PARTIAL', tone: WARN, head: '8 clusters · Pods', headTone: WARN, chip: '6 of 8', hasBanner: true, bannerBg: 'rgba(240,180,41,.09)', bannerLine: '#4a3a12', banner: '6 of 8 answered · edge-01 silent, analytics paused · retry both',
+          pad: '5px 9px', gap: '4px', justify: 'flex-start', align: 'stretch',
+          lines: [{ h: '9px', w: '88%', bg: '#1a2028', t: '', ink: INK3 }, { h: '9px', w: '72%', bg: '#1a2028', t: '', ink: INK3 }, { h: '9px', w: '80%', bg: 'rgba(255,95,95,.10)', t: '', ink: INK3 }],
+          note: 'Rows are shown; the missing clusters are named and keep a row of their own.' },
+        { name: 'STALE', tone: WARN, head: 'prod-ap-south · Pods', headTone: WARN, chip: '◐ 47s old', hasBanner: true, bannerBg: 'rgba(240,180,41,.09)', bannerLine: '#4a3a12', banner: '◐ reconnecting — what you see is 47s old · retry now',
+          pad: '5px 9px', gap: '4px', justify: 'flex-start', align: 'stretch',
+          lines: [{ h: '9px', w: '86%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '70%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '78%', bg: '#161a21', t: '', ink: INK3 }],
+          note: 'The rows stay and dim 15%. True, just not now — that is not an error state.' },
+        { name: 'DISCONNECTED', tone: BAD, head: 'edge-01 · Pods', headTone: BAD, chip: '▲ 4m12s', hasBanner: true, bannerBg: 'rgba(255,95,95,.10)', bannerLine: '#54262b', banner: '▲ no response for 4m12s · last good probe 14:17:55 · retry',
+          pad: '5px 9px', gap: '4px', justify: 'flex-start', align: 'stretch',
+          lines: [{ h: '9px', w: '80%', bg: '#14161c', t: '', ink: INK3 }, { h: '9px', w: '66%', bg: '#14161c', t: '', ink: INK3 }],
+          note: 'The last rows are kept and frozen at 55% — deleting them would hide what we last knew.' },
+        { name: 'ERROR', tone: BAD, head: 'prod-us-east · Pods', headTone: '#b48cff', chip: 'failed', hasBanner: false, pad: '11px', gap: '6px', justify: 'center', align: 'flex-start',
+          lines: [{ h: 'auto', w: '100%', bg: 'transparent', t: 'The cluster accepted the request but did not finish it in time.', ink: INK }, { h: 'auto', w: '100%', bg: 'transparent', t: 'retry · show the original (etcdserver: request timed out)', ink: INFO }],
+          note: 'One sentence, one next step, and the raw string one click away — rule 2.' },
+        { name: 'GONE', tone: BAD, head: 'prod-eu-west · Pods', headTone: INFO, chip: 'live', hasBanner: false, pad: '6px 9px', gap: '4px', justify: 'flex-start', align: 'stretch',
+          lines: [{ h: 'auto', w: '100%', bg: 'rgba(255,95,95,.08)', t: '  ▲ kafka-2 · deleted 2s ago', ink: '#8a5f62' }, { h: '9px', w: '84%', bg: '#161a21', t: '', ink: INK3 }, { h: '9px', w: '72%', bg: '#161a21', t: '', ink: INK3 }],
+          note: 'A deleted row stays struck through for ten seconds so a queued action fails loudly.' }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The unhealthy rows. They carry their own tinted surface and a white semibold name, so the eye lands on them before it reads a single column header. Everything else in the pane is deliberately quiet — namespace, node and age are all one step dimmer than the name.' },
+        { tone: INFO, k: 'DENSITY', t: '38 rows at 1000px with the selection strip and the buffered-update bar both visible; 41 without them, 46 at 1080p. Row height 22px, data type 12px, monospace for anything you would paste into a terminal. The list is virtualised — only what fits is in the DOM.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'The WHY column truncates at four panes, and it is the first column to go. That is the accepted cost of showing the reason at all in the wide case — the alternative was a second line per row, which would have halved the density.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

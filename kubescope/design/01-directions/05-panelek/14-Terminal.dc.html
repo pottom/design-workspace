@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  @keyframes ksCaret { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-term:#080a0d;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 14 / 30 · OBJECT PANE · ACT-05 · ACT-09 · ACT-11</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Terminal</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The only pane that <span style="color:var(--ks-ink)">takes the keyboard away from the app</span>. Everything else here is designed around that one fact: you must always know whether the next key you press goes to a container in production or to the pane manager — and the terminal has no undo.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="terminal · focused, keyboard captured" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px">
+        <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;background:rgba(240,180,41,.14);border:1px solid #5a4520;color:var(--ks-warn);font-weight:600">⌨ keys go to the container · ⌃⎋ to leave</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-3)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0">
+
+      <!-- the focused terminal, spanning the left column -->
+      <div style="grid-row:1/3;display:flex;flex-direction:column;min-height:0;background:var(--ks-term);border:2px solid var(--ks-warn);box-shadow:inset 0 0 0 1px rgba(240,180,41,.18)">
+        <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 10px;background:rgba(240,180,41,.09);border-bottom:1px solid #5a4520;font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+          <span style="color:#5a4520">│</span>
+          <span style="color:var(--ks-ink)">Shell</span>
+          <span style="color:var(--ks-ink-3)">payments/ledger-worker-…-2wq7t</span>
+          <span style="color:var(--ks-ink-2)">ctr worker<span style="color:var(--ks-ink-3)">▾</span></span>
+          <div style="flex:1"></div>
+          <span style="display:flex;align-items:center;gap:5px;color:var(--ks-warn);font-weight:600">⌨ has the keyboard</span>
+          <span style="color:#5a4520">│</span>
+          <span style="color:var(--ks-ok)">● attached 4m12s</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;background:rgba(255,95,95,.08);border-bottom:1px solid #54262b;font-family:var(--ks-mono);font-size:10.5px;color:#f0b5b0">
+          <span style="font-size:9px">▲</span>
+          <span>production · this session is recorded in the audit log as you</span>
+          <div style="flex:1"></div>
+          <span style="color:#8a5f62">started 14:18 by you · SEC-06</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;padding:9px 11px;font-family:var(--ks-mono);font-size:12px;line-height:1.55" data-scroll="dense">
+          <sc-for list="{{ term }}" as="t" hint-placeholder-count="30">
+            <div style="display:flex;align-items:flex-start;gap:0;min-height:19px;background:{{ t.bg }}"><span style="color:{{ t.promptInk }};flex:none;white-space:pre">{{ t.prompt }}</span><span style="color:{{ t.ink }};min-width:0;white-space:pre-wrap;word-break:break-all">{{ t.s }}</span><sc-if value="{{ t.caret }}" hint-placeholder-val="{{ false }}"><span style="color:var(--ks-warn);animation:ksCaret 1.05s step-end infinite;flex:none">█</span></sc-if></div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;height:28px;padding:0 10px;border-top:1px solid var(--ks-line);background:var(--ks-panel);font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">
+          <span style="color:var(--ks-warn)">⌃⎋ release the keyboard</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span>⌘F search</span><span>⌘K clear</span><span>⌘+ − zoom 100%</span>
+          <div style="flex:1"></div>
+          <span>80×34 · utf-8 · sh</span>
+        </div>
+      </div>
+
+      <!-- attach -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-term);border-left:2px solid var(--ks-line-strong)">
+        <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:#b48cff;font-weight:600">● prod-us-east</span>
+          <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">Attach</span>
+          <span style="color:var(--ks-ink-3)">pid 1 · not a new shell</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">⌨ not focused</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;background:rgba(240,180,41,.07);border-bottom:1px solid #4a3a12;font-family:var(--ks-mono);font-size:10px;color:#f3d08a">
+          <span style="font-size:8px">◆</span><span>you are on the process’s own stdin — ⌃C would kill the container, not a command</span>
+        </div>
+        <div style="flex:1;min-height:0;overflow:hidden;padding:8px 10px;font-family:var(--ks-mono);font-size:11px;line-height:1.5">
+          <sc-for list="{{ attach }}" as="t" hint-placeholder-count="14">
+            <div style="color:{{ t.ink }};white-space:pre-wrap;word-break:break-all;min-height:17px">{{ t.s }}</div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- node debug -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-term);border-left:2px solid #54262b">
+        <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;background:rgba(255,95,95,.07);border-bottom:1px solid #54262b;font-family:var(--ks-mono);font-size:10.5px">
+          <span style="color:var(--ks-info);font-weight:600">● prod-eu-west</span>
+          <span style="color:#54262b">│</span><span style="color:var(--ks-ink)">Node debug</span>
+          <span style="color:#f0b5b0">ip-10-0-3-19 · privileged</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-3)">⌨ not focused</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 10px;background:rgba(255,95,95,.10);border-bottom:1px solid #54262b;font-family:var(--ks-mono);font-size:10px;color:#f0b5b0">
+          <span style="font-size:8px">▲</span><span>a privileged pod in the host namespaces · created by you at 14:24 · deletes itself on close</span>
+        </div>
+        <div style="flex:1;min-height:0;overflow:hidden;padding:8px 10px;font-family:var(--ks-mono);font-size:11px;line-height:1.5">
+          <sc-for list="{{ nodeDebug }}" as="t" hint-placeholder-count="14">
+            <div style="color:{{ t.ink }};white-space:pre-wrap;word-break:break-all;min-height:17px">{{ t.s }}</div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">FOCUS</div>
+      <div style="font-size:19px;font-weight:600">Who has the keyboard — the whole design turns on this</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ focusStates }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ f.tone }}">{{ f.k }}</span>
+            <div style="flex:1"></div>
+            <span style="font-size:12.5px;font-weight:600">{{ f.title }}</span>
+          </div>
+          <div style="height:172px;background:var(--ks-term);border:{{ f.border }};box-shadow:{{ f.glow }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:8px;padding:0 9px;background:{{ f.headBg }};border-bottom:1px solid {{ f.headLine }};font-family:var(--ks-mono);font-size:9.5px">
+              <span style="color:var(--ks-info)">● prod-eu-west</span><div style="flex:1"></div><span style="color:{{ f.stateTone }};font-weight:600">{{ f.state }}</span>
+            </div>
+            <div style="flex:1;min-height:0;padding:7px 9px;font-family:var(--ks-mono);font-size:10.5px;line-height:1.5;overflow:hidden">
+              <sc-for list="{{ f.lines }}" as="l" hint-placeholder-count="6">
+                <div style="color:{{ l.ink }};white-space:pre-wrap;word-break:break-all">{{ l.t }}</div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ f.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:6px 9px;border-top:1px solid {{ f.headLine }};background:{{ f.footBg }};font-family:var(--ks-mono);font-size:9.5px;color:{{ f.footInk }};line-height:1.45">{{ f.foot }}</div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ f.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-bad)">RULES</div>
+      <div style="font-size:19px;font-weight:600">Nine decisions a terminal in a tiling app has to make</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <sc-for list="{{ rules }}" as="r" hint-placeholder-count="9">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:12.5px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ r.h }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ r.ref }}</span>
+          </div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+const GREEN = '#a8e6c8', RED = '#ffb3b3', AMBER = '#e9dcc0', DIM = '#5c6673';
+
+class Component extends DCLogic {
+  renderVals() {
+    const t = (s, o) => Object.assign({ s, ink: INK2, prompt: '', promptInk: DIM, bg: 'transparent', caret: false }, o || {});
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    return {
+      facts: [
+        { k: 'KEYBOARD', v: 'captured', tone: WARN },
+        { k: 'AUDITED', v: 'every session', tone: BAD },
+        { k: 'TIME TRAVEL', v: 'refuses', tone: PURPLE },
+        { k: 'UNDO', v: 'none — ever', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      term: [
+        t('kubectl exec -it ledger-worker-5d8f9c74c-2wq7t -c worker -- sh', { prompt: '$ ', promptInk: DIM, ink: DIM }),
+        t('', {}),
+        t('ps -o pid,rss,comm', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('  PID   RSS COMMAND', { ink: INK2 }),
+        t('    1  412M worker', { ink: INK2 }),
+        t('   28   19M wal-shipper', { ink: INK2 }),
+        t('  104    2M sh', { ink: INK2 }),
+        t('', {}),
+        t('cat /sys/fs/cgroup/memory.max', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('536870912', { ink: INK2 }),
+        t('', {}),
+        t('cat /sys/fs/cgroup/memory.peak', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('535822336', { ink: RED }),
+        t('', {}),
+        t('./ledgerctl queue stat', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('depth        6109', { ink: INK2 }),
+        t('inflight      182', { ink: INK2 }),
+        t('oldest      4.21s', { ink: AMBER }),
+        t('shedding      off', { ink: INK2 }),
+        t('', {}),
+        t('./ledgerctl pool stat', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('pg  29/32  waiters 4  p95 812ms', { ink: INK2 }),
+        t('', {}),
+        t('nc -zv ledger.grpc 8443', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('ledger.grpc (10.44.2.19:8443) open', { ink: GREEN }),
+        t('', {}),
+        t('nc -zv checkout-api.payments 8080', { prompt: '/app # ', promptInk: OK, ink: INK }),
+        t('checkout-api.payments: connection refused', { ink: RED }),
+        t('', {}),
+        t('', { prompt: '/app # ', promptInk: OK, ink: INK, caret: true })
+      ],
+      attach: [
+        { s: '$ kubectl attach ledger-worker-…-2wq7t -c worker', ink: DIM },
+        { s: 'Defaulting container name to worker.', ink: DIM },
+        { s: '', ink: INK2 },
+        { s: '14:22:04 INFO  wal segment 000731 replayed (1204 entries)', ink: INK2 },
+        { s: '14:22:06 WARN  pg pool exhausted (32/32), 18 waiting', ink: AMBER },
+        { s: '14:22:07 ERROR tx 0x9f21 aborted: deadlock on accounts_eu', ink: RED },
+        { s: '14:22:09 INFO  queue depth 6109, under soft limit', ink: INK2 },
+        { s: '14:22:11 INFO  checkpoint written, 41MB, 612ms', ink: INK2 },
+        { s: '14:22:14 WARN  clock skew 41ms vs ntp peer, tolerated', ink: AMBER },
+        { s: '14:22:18 INFO  queue depth 5980', ink: INK2 },
+        { s: '', ink: INK2 },
+        { s: 'stdin is attached — anything you type reaches pid 1', ink: DIM },
+        { s: 'nothing typed this session', ink: DIM }
+      ],
+      nodeDebug: [
+        { s: '$ kubectl debug node/ip-10-0-3-19 -it --image=busybox', ink: DIM },
+        { s: 'Creating debugging pod node-debug-4kd9v ...', ink: DIM },
+        { s: '', ink: INK2 },
+        { s: 'chroot /host', ink: INK },
+        { s: '', ink: INK2 },
+        { s: 'free -m', ink: INK },
+        { s: '        total    used    free', ink: INK2 },
+        { s: 'Mem:    64256   58420    1204', ink: RED },
+        { s: '', ink: INK2 },
+        { s: 'dmesg | tail -3', ink: INK },
+        { s: 'Memory cgroup out of memory: Killed process 1 (api)', ink: RED },
+        { s: 'oom_reaper: reaped process 4127 (api)', ink: RED },
+        { s: 'Out of memory: Killed process 4198 (api)', ink: RED },
+        { s: '# ', ink: INK }
+      ],
+      focusStates: [
+        {
+          k: 'FOCUSED', tone: WARN, title: 'It has the keyboard',
+          border: '2px solid #f0b429', glow: 'inset 0 0 0 1px rgba(240,180,41,.18)',
+          headBg: 'rgba(240,180,41,.09)', headLine: '#5a4520', state: '⌨ captured', stateTone: WARN,
+          lines: [
+            { t: '/app # ./ledgerctl queue stat', ink: INK },
+            { t: 'depth 6109  inflight 182', ink: INK2 },
+            { t: '/app # █', ink: INK }
+          ],
+          hasFoot: true, footBg: 'rgba(240,180,41,.07)', footInk: WARN, foot: '⌃⎋ release · the app bar says the same thing',
+          note: 'A 2px amber frame, an amber header, and an amber line in the app bar — three places, because pressing ⌘W expecting to close a pane and instead typing it into a production shell is the failure this prevents.'
+        },
+        {
+          k: 'ALIVE, NOT FOCUSED', tone: OK, title: 'Still running',
+          border: '1px solid #242b35', glow: 'none',
+          headBg: 'transparent', headLine: '#1a2028', state: '● attached', stateTone: OK,
+          lines: [
+            { t: '/app # tail -f /var/log/app.log', ink: DIM },
+            { t: '14:22:09 INFO queue depth 6109', ink: INK2 },
+            { t: '14:22:11 INFO checkpoint written', ink: INK2 }
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3, foot: 'click to take the keyboard back',
+          note: 'The session keeps running and keeps printing while you work elsewhere. No frame, ordinary header — it is just another pane until you click into it.'
+        },
+        {
+          k: 'DEAD', tone: BAD, title: 'The pod went away',
+          border: '1px solid #54262b', glow: 'none',
+          headBg: 'rgba(255,95,95,.07)', headLine: '#54262b', state: '■ closed', stateTone: BAD,
+          lines: [
+            { t: '/app # ./ledgerctl queue stat', ink: '#4a5361' },
+            { t: 'depth 6109  inflight 182', ink: '#4a5361' },
+            { t: '', ink: DIM },
+            { t: 'container killed at 14:20 (OOMKilled)', ink: RED },
+            { t: 'transcript kept · a new pod is running', ink: INK2 }
+          ],
+          hasFoot: true, footBg: 'rgba(255,95,95,.08)', footInk: RED, foot: 'attach to the new pod ▸',
+          note: 'The scrollback greys but stays — it is often the evidence of what happened. One offer, and it is the one thing you want: the same shell on the replacement pod.'
+        },
+        {
+          k: 'TIME TRAVEL', tone: PURPLE, title: 'It cannot come with you',
+          border: '1px solid #4a3563', glow: 'none',
+          headBg: '#1d1727', state: '◷ cannot travel', stateTone: '#c9a4e0', headLine: '#3d2d52',
+          lines: [
+            { t: '/app # ./ledgerctl queue stat', ink: '#5c5170' },
+            { t: 'depth 6109  inflight 182', ink: '#5c5170' },
+            { t: '', ink: DIM },
+            { t: 'a shell is a live connection', ink: '#c9a4e0' },
+            { t: 'input blocked while the frame is in the past', ink: '#8a6ba8' }
+          ],
+          hasFoot: true, footBg: '#1d1727', footInk: '#8a6ba8', foot: 'session alive · keyboard released',
+          note: 'The honest refusal from the time-travel layer. It does not fake a past shell and it does not close the session — it releases the keyboard and says why, which is the only truthful state available.'
+        }
+      ],
+      rules: [
+        { tone: WARN, ref: 'rule 8', h: 'The keyboard is visibly borrowed, never silently.', t: 'Amber frame, amber pane header, amber strip in the app bar. Three signals for one fact, because the cost of being wrong is a keystroke landing in production.' },
+        { tone: WARN, ref: 'ACT-05', h: '⌃⎋ is the only way out, and it is always printed.', t: 'Not Esc — vim needs Esc. Not ⌘W — that closes panes everywhere else and would be a trap here. One chord, shown in the footer of every terminal pane.' },
+        { tone: BAD, ref: 'SEC-06', h: 'Opening a shell on production is announced.', t: 'A red strip naming the audit entry, at the top of the pane, for the whole session. Not a toast that fades — the fact stays true as long as the session does.' },
+        { tone: BAD, ref: 'ACT-11', h: 'Node debug looks different from a container shell.', t: 'Red edge and a permanent line saying it is a privileged pod in the host namespaces, created by you, deleted on close. It is the most dangerous thing in the product and must never be mistaken for an ordinary exec.' },
+        { tone: WARN, ref: 'ACT-09', h: 'Attach warns about ⌃C.', t: 'On an exec shell ⌃C kills your command; on an attach it kills pid 1 and the container with it. Same key, opposite consequence — so the pane says so before you find out.' },
+        { tone: INFO, ref: 'rule 11', h: 'Copy is copy, and the mouse belongs to the terminal.', t: 'Drag selects text and never moves the pane; the pane moves by its header. Right-click pastes. No resource actions in this menu — the terminal owns its own mouse.' },
+        { tone: INFO, ref: 'APP-15', h: 'Zoom is per pane, and shows the size.', t: '⌘+ and ⌘− change this terminal only, 80% to 140%, and the footer prints the grid: 80×34. A terminal that lies about its columns breaks every TUI you run in it.' },
+        { tone: OK, ref: 'LOG-06', h: 'The scrollback survives the pod.', t: 'When the container dies the transcript is kept, greyed, and exportable. During an incident it is often the only record of what the process said before it stopped.' },
+        { tone: IDLE, ref: 'CONN-08', h: 'On a read-only cluster there is no terminal.', t: 'Exec is a write — it can do anything a shell can do. The action is greyed in the menu with “read-only context” where its shortcut would be, and no pane opens.' }
+      ],
+      closing: [
+        { tone: WARN, k: 'THE FRAME IS THE FEATURE', t: 'Everything about this pane is about keyboard ownership. In a single-window terminal app the question never comes up; in a tiling tool with ⌘W, ⌘K and single-letter actions, a shell that quietly swallows keys is a live hazard. Hence the doubled amber frame, the app-bar strip, and one printed way out.' },
+        { tone: BAD, k: 'THREE MODES, THREE APPEARANCES', t: 'Exec is neutral, attach is amber and warns about ⌃C, node debug is red and says it created a privileged pod in your name. They are the same widget with different consequences, and the consequence is what the design makes visible.' },
+        { tone: IDLE, k: 'WHAT WE GIVE UP', t: 'No tabs inside a terminal, no split inside it, no session persistence across an app restart — the pane manager already does those things and a second, terminal-only version of them would compete with it. There is also no command history across sessions: it would have to be stored, and a stored history of production shell commands is a security asset nobody asked us to keep.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 16 / 30 · OBJECT PANE · XC-03 · ACT-16 · DIAG-08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">What would happen</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Three panes that share one job and therefore one look: <span style="color:var(--ks-ink)">showing you the future before you commit to it</span>. Diff, impact and drain simulation all answer “if I do this, what changes?” — and all three obey the same rule: <span style="color:var(--ks-info)">blue is what is not true yet</span>.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="drain simulation · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px">
+        <span style="display:flex;align-items:center;gap:7px;padding:4px 10px;background:rgba(74,168,255,.12);border:1px solid #2f4356;color:#8ac6ff">◷ a forecast · nothing has been sent</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-3)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◉</span>prod-eu-west</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Drain simulation</span>
+        <span style="color:var(--ks-ink-3)">node/ip-10-0-3-19</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">24 pods to move</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:#8ac6ff">computed 6s ago</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <div style="padding:14px 18px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);display:flex;align-items:stretch;gap:18px">
+        <span style="font-size:13px;color:var(--ks-warn);padding-top:4px">◆</span>
+        <div style="display:flex;flex-direction:column;gap:9px;flex:1;min-width:0">
+          <div style="font-size:19px;font-weight:600;line-height:1.35;letter-spacing:-.01em;text-wrap:pretty">Twenty-two of the twenty-four pods would find a home. <span style="color:#f3d08a">Two would not</span>, and one of those breaks a disruption budget.</div>
+          <div style="font-size:13px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">The drain would take about <span style="font-family:var(--ks-mono);color:var(--ks-ink)">4 minutes</span> and push two other nodes past 80% memory. <span style="font-family:var(--ks-mono);color:#f3d08a">ledger-worker</span> needs 2Gi and no node has it; <span style="font-family:var(--ks-mono);color:#f3d08a">kafka-1</span> would leave its StatefulSet below <span style="font-family:var(--ks-mono);color:var(--ks-ink)">minAvailable: 2</span>.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;flex:none;width:300px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">BEFORE YOU DRAIN</div>
+          <sc-for list="{{ before }}" as="b" hint-placeholder-count="3">
+            <div style="display:flex;align-items:center;gap:9px;padding:7px 10px;border:1px solid {{ b.line }};background:{{ b.bg }}">
+              <span style="font-size:8px;color:{{ b.tone }};flex:none">{{ b.glyph }}</span>
+              <span style="font-size:11.5px;line-height:1.4;color:{{ b.ink }};text-wrap:pretty">{{ b.t }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--ks-line);flex:1;min-height:0">
+
+        <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0">
+          <div style="height:22px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-ink);font-weight:600">Where the pods would go</span>
+            <div style="flex:1"></div>
+            <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="width:8px;height:8px;background:rgba(62,207,142,.45)"></span>now</span>
+            <span style="display:flex;align-items:center;gap:5px;color:#8ac6ff"><span style="width:8px;height:8px;background:rgba(74,168,255,.5)"></span>would arrive</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="7">
+              <div style="min-height:44px;display:grid;grid-template-columns:132px 1fr 96px;align-items:center;gap:11px;padding:7px 12px;background:{{ n.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ n.nameInk }};font-weight:{{ n.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.name }}</span>
+                  <span style="font-size:10px;color:{{ n.noteInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.note }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <div style="height:12px;background:var(--ks-line-soft);position:relative;min-width:0">
+                    <div style="position:absolute;left:0;top:0;bottom:0;width:{{ n.now }};background:{{ n.nowTone }}"></div>
+                    <div style="position:absolute;left:{{ n.now }};top:0;bottom:0;width:{{ n.incoming }};background:rgba(74,168,255,.5)"></div>
+                    <div style="position:absolute;left:80%;top:-2px;bottom:-2px;width:1px;background:rgba(240,180,41,.7)"></div>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">
+                    <span>{{ n.nowLabel }}</span><span style="color:#8ac6ff">{{ n.afterLabel }}</span>
+                  </div>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:11px;color:{{ n.takesInk }};text-align:right">{{ n.takes }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0">
+          <div style="height:22px;display:flex;align-items:center;gap:10px;padding:0 12px;background:var(--ks-panel-hi);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-ink);font-weight:600">Pod by pod</span>
+            <span style="color:var(--ks-ink-3)">worst first</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-bad)">2 have nowhere to go</span>
+          </div>
+          <div style="height:18px;display:grid;grid-template-columns:1fr 122px 82px;align-items:center;gap:10px;padding:0 12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+            <div>POD</div><div>WOULD GO TO</div><div style="text-align:right">DOWNTIME</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable" data-scroll="dense">
+            <sc-for list="{{ pods }}" as="p" hint-placeholder-count="14">
+              <div style="min-height:24px;display:grid;grid-template-columns:1fr 122px 82px;align-items:center;gap:10px;padding:3px 12px;background:{{ p.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+                <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                  <span style="font-size:7px;color:{{ p.tone }};flex:none">{{ p.glyph }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ p.nameInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.name }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ p.destInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.dest }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ p.downInk }};text-align:right">{{ p.down }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:11px 14px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:12px">
+        <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+          <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:#8ac6ff">A FORECAST · NOTHING HAS BEEN SENT</span>
+          <span style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.35">recomputed as the cluster changes · last at 14:24:06</span>
+        </div>
+        <div style="flex:1"></div>
+        <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Close</span>
+        <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink)">Cordon only</span>
+        <span style="padding:6px 12px;border:1px solid #5a4520;background:rgba(240,180,41,.12);font-size:12px;color:var(--ks-warn)">Drain, skipping the two</span>
+        <span style="padding:6px 12px;border:1px solid #54262b;background:rgba(255,95,95,.14);font-size:12px;color:#ffb3b3;font-weight:600">Drain anyway…</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE OTHER TWO</div>
+      <div style="font-size:19px;font-weight:600">Same grammar, different question</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <span style="font-size:13.5px;font-weight:600">Cross-cluster diff</span>
+          <span style="font-size:12px;color:var(--ks-ink-3)">the same object on two clusters</span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">XC-03</span>
+        </div>
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-info);font-weight:600">prod-eu-west</span>
+            <span style="color:var(--ks-ink-3)">↔</span>
+            <span style="color:#b48cff;font-weight:600">prod-us-east</span>
+            <span style="color:var(--ks-line)">│</span>
+            <span style="color:var(--ks-ink)">deploy/checkout-api</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-warn)">4 fields differ</span>
+          </div>
+          <div style="height:20px;display:grid;grid-template-columns:210px 1fr 1fr;align-items:center;gap:11px;padding:0 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+            <div>FIELD</div><div>PROD-EU-WEST</div><div>PROD-US-EAST</div>
+          </div>
+          <sc-for list="{{ diff }}" as="d" hint-placeholder-count="9">
+            <div style="min-height:24px;display:grid;grid-template-columns:210px 1fr 1fr;align-items:center;gap:11px;padding:3px 11px;background:{{ d.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-family:var(--ks-mono);font-size:11px">
+              <div style="color:{{ d.fieldInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.field }}</div>
+              <div style="color:{{ d.aInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.a }}</div>
+              <div style="color:{{ d.bInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.b }}</div>
+            </div>
+          </sc-for>
+          <div style="padding:9px 11px;border-top:1px solid var(--ks-line);background:var(--ks-field);display:flex;align-items:center;gap:10px">
+            <span style="font-size:11.5px;color:var(--ks-ink-2);line-height:1.4;text-wrap:pretty">Identical fields are collapsed — 41 of them. The answer is the four rows, not the object.</span>
+            <div style="flex:1"></div>
+            <span style="padding:5px 10px;border:1px solid #5a4520;font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-warn);flex:none">make eu match us…</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Field level, not text level: a reordered YAML key is not a difference, and a changed replica count is. Managed fields, timestamps and UIDs never appear — they differ on every object and mean nothing.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:9px">
+          <span style="font-size:13.5px;font-weight:600">Impact preview</span>
+          <span style="font-size:12px;color:var(--ks-ink-3)">what this write touches</span>
+          <div style="flex:1"></div>
+          <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">ACT-16</span>
+        </div>
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-warn);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 11px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+            <span style="color:var(--ks-info);font-weight:600">prod-eu-west</span>
+            <span style="color:var(--ks-line)">│</span>
+            <span style="color:var(--ks-ink)">Impact</span>
+            <span style="color:var(--ks-ink-3)">delete cm/checkout-config</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-bad)">8 pods affected</span>
+          </div>
+          <sc-for list="{{ impact }}" as="i" hint-placeholder-count="7">
+            <div style="min-height:26px;display:grid;grid-template-columns:26px 1fr 128px;align-items:center;gap:10px;padding:4px 11px;background:{{ i.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);text-align:center">{{ i.depth }}</div>
+              <div style="display:flex;align-items:center;gap:8px;min-width:0">
+                <span style="font-size:7px;color:{{ i.tone }};flex:none">{{ i.glyph }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ i.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.name }}</span>
+                <span style="font-size:10.5px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.note }}</span>
+              </div>
+              <div style="font-family:var(--ks-mono);font-size:10px;color:{{ i.effectInk }};text-align:right">{{ i.effect }}</div>
+            </div>
+          </sc-for>
+          <div style="padding:9px 11px;border-top:1px solid var(--ks-line);background:rgba(255,95,95,.07);display:flex;align-items:center;gap:10px">
+            <span style="font-size:11.5px;color:#f0b5b0;line-height:1.4;text-wrap:pretty">Nothing here restarts on its own — the pods keep the old values in memory until something else restarts them. That is the dangerous part, and it is why this pane exists.</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Walks the ownership and mount graph outward from the object and reports each hop. The indent is the distance: what you are touching, what refers to it, what that runs.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+
+class Component extends DCLogic {
+  renderVals() {
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    // node, current %, incoming %, takes, note, kind
+    const nodeRaw = [
+      ['ip-10-0-1-204', 54, 24, '9 pods', 'most room · 8.4Gi free', 'ok'],
+      ['ip-10-0-3-91', 61, 17, '6 pods', 'would cross 78%', 'ok'],
+      ['ip-10-0-1-17', 48, 21, '5 pods', 'would cross 69%', 'ok'],
+      ['ip-10-0-2-88', 52, 30, '2 pods', 'would cross 82% — over the line', 'warn'],
+      ['ip-10-0-2-44', 24, 0, '\u2014', 'cordoned by you at 12:54', 'idle'],
+      ['ip-10-0-4-8', 0, 0, '\u2014', 'NotReady since 13:58 · capacity unknown', 'down'],
+      ['nowhere', 0, 0, '2 pods', 'ledger-worker needs 2Gi · kafka-1 breaks a PDB', 'bad']
+    ];
+    const nodes = nodeRaw.map(n => {
+      const [name, now, inc, takes, note, kind] = n;
+      const unknown = kind === 'down';
+      return {
+        name, note, takes,
+        nameInk: kind === 'bad' ? '#ffb3b3' : kind === 'down' ? '#8a5f62' : kind === 'idle' ? INK3 : INK,
+        weight: kind === 'bad' || kind === 'warn' ? '600' : '400',
+        noteInk: kind === 'bad' ? '#f0b5b0' : kind === 'warn' ? '#f3d08a' : kind === 'down' ? '#8a5f62' : INK3,
+        now: (kind === 'bad' ? 0 : now) + '%',
+        nowTone: unknown ? 'rgba(255,95,95,.14)' : kind === 'idle' ? '#2c3542' : 'rgba(62,207,142,.45)',
+        incoming: inc + '%',
+        nowLabel: unknown ? 'unknown' : kind === 'bad' ? '' : now + '% now',
+        afterLabel: inc ? '\u2192 ' + (now + inc) + '% after' : '',
+        takesInk: kind === 'bad' ? BAD : kind === 'warn' ? WARN : inc ? '#8ac6ff' : INK3,
+        bg: kind === 'bad' ? 'rgba(255,95,95,.10)' : kind === 'warn' ? 'rgba(240,180,41,.06)' : kind === 'down' ? 'rgba(255,95,95,.05)' : 'transparent'
+      };
+    });
+
+    const pod = (name, dest, down, kind) => ({
+      name, dest, down,
+      glyph: kind === 'bad' ? '\u25b2' : kind === 'warn' ? '\u25c6' : '\u25cf',
+      tone: kind === 'bad' ? BAD : kind === 'warn' ? WARN : OK,
+      nameInk: kind === 'bad' ? INK : kind === 'warn' ? INK : '#c8d1dd',
+      destInk: kind === 'bad' ? '#ffb3b3' : kind === 'warn' ? '#f3d08a' : INK2,
+      downInk: kind === 'bad' ? BAD : down === 'none' ? INK3 : WARN,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.09)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+    });
+
+    return {
+      facts: [
+        { k: 'PODS TO MOVE', v: '24', tone: INK },
+        { k: 'WOULD NOT FIT', v: '2', tone: BAD },
+        { k: 'ESTIMATED', v: '4 min', tone: INK },
+        { k: 'SENT', v: 'nothing', tone: OK }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      before: [
+        { glyph: '\u25b2', tone: BAD, ink: '#f0b5b0', line: '#54262b', bg: 'rgba(255,95,95,.08)', t: 'kafka-1 would break minAvailable: 2 — the drain will block on it' },
+        { glyph: '\u25c6', tone: WARN, ink: '#f3d08a', line: '#4a3a12', bg: 'rgba(240,180,41,.07)', t: 'ip-10-0-2-88 would pass 80% memory and become the next problem' },
+        { glyph: '\u25cf', tone: OK, ink: INK2, line: LINE, bg: 'transparent', t: 'the other 22 have somewhere to go with room to spare' }
+      ],
+      nodes,
+      pods: [
+        pod('ledger-worker-5d8f9c74c-9plmz', 'nowhere · 2Gi', 'indefinite', 'bad'),
+        pod('kafka-1', 'blocked by PDB', 'indefinite', 'bad'),
+        pod('clickhouse-0', 'ip-10-0-1-204', '~90s', 'warn'),
+        pod('loki-ingester-4b8d2c7f6-x71vd', 'ip-10-0-1-204', '~40s', 'warn'),
+        pod('checkout-api-7f9c8d4b6-k8n1p', 'ip-10-0-3-91', 'none · 8 replicas', 'ok'),
+        pod('checkout-api-7f9c8d4b6-x2m4q', 'ip-10-0-1-17', 'none · 8 replicas', 'ok'),
+        pod('fraud-scorer-9c1b7a5e2-2wq7t', 'ip-10-0-1-204', 'none', 'ok'),
+        pod('otel-collector-7d5c8f9a1-4mzq1', 'ip-10-0-3-91', 'none', 'ok'),
+        pod('envoy-gateway-6b4d9f7c8-abc12', 'ip-10-0-1-17', 'none', 'ok'),
+        pod('coredns-9f4b7c2d8-4kd9v', 'ip-10-0-1-204', 'none', 'ok'),
+        pod('external-secrets-5a9c3d8f2-p2mq1', 'ip-10-0-3-91', 'none', 'ok'),
+        pod('redis-cache-7c4b9d2f8-8plz1', 'ip-10-0-2-88', '~20s', 'warn'),
+        pod('grafana-6f9a3c5d8-m21kd', 'ip-10-0-1-17', '~15s', 'ok'),
+        pod('cilium-operator-6c8a4f9b3-mm4kd', 'stays · DaemonSet', 'none', 'ok')
+      ],
+      diff: [
+        { field: 'spec.replicas', a: '8', b: '6', fieldInk: INK, aInk: '#f3d08a', bInk: '#f3d08a', bg: 'rgba(240,180,41,.07)' },
+        { field: '…resources.limits.memory', a: '512Mi', b: '1Gi', fieldInk: INK, aInk: '#ffb3b3', bInk: '#a8e6c8', bg: 'rgba(240,180,41,.07)' },
+        { field: '…livenessProbe.initialDelay', a: '30', b: '60', fieldInk: INK, aInk: '#ffb3b3', bInk: '#a8e6c8', bg: 'rgba(240,180,41,.07)' },
+        { field: '…env.TIMEOUT_MS', a: '500', b: '2000', fieldInk: INK, aInk: '#f3d08a', bInk: INK2, bg: 'rgba(240,180,41,.07)' },
+        { field: 'spec.template.spec.image', a: '2026.8.3', b: '2026.8.3', fieldInk: INK3, aInk: INK3, bInk: INK3, bg: 'transparent' },
+        { field: '…resources.requests.cpu', a: '200m', b: '200m', fieldInk: INK3, aInk: INK3, bInk: INK3, bg: 'transparent' },
+        { field: '…strategy.rollingUpdate', a: '25% / 25%', b: '25% / 25%', fieldInk: INK3, aInk: INK3, bInk: INK3, bg: 'transparent' },
+        { field: '+ 41 identical fields', a: '', b: '', fieldInk: INK3, aInk: INK3, bInk: INK3, bg: 'transparent' }
+      ],
+      impact: [
+        { depth: '·', name: 'cm/checkout-config', note: 'the object you are deleting', glyph: '\u25b2', tone: BAD, ink: INK, effect: 'deleted', effectInk: '#ffb3b3', bg: 'rgba(255,95,95,.10)' },
+        { depth: '→', name: 'deploy/checkout-api', note: 'envFrom', glyph: '\u25c6', tone: WARN, ink: INK, effect: 'loses 4 vars', effectInk: '#f3d08a', bg: 'rgba(240,180,41,.06)' },
+        { depth: '→→', name: '8 pods', note: 'running now with the old values', glyph: '\u25c6', tone: WARN, ink: INK, effect: 'break on restart', effectInk: '#f3d08a', bg: 'rgba(240,180,41,.06)' },
+        { depth: '→', name: 'cronjob/nightly-export', note: 'envFrom', glyph: '\u25c6', tone: WARN, ink: INK2, effect: 'fails at 00:00', effectInk: '#f3d08a', bg: 'rgba(240,180,41,.06)' },
+        { depth: '→', name: 'deploy/fraud-scorer', note: 'volume mount /etc/config', glyph: '\u25b2', tone: BAD, ink: INK, effect: 'pods stay Pending', effectInk: '#ffb3b3', bg: 'rgba(255,95,95,.09)' },
+        { depth: '→', name: 'the same name on 7 clusters', note: 'not touched by this — this is one cluster', glyph: '\u25cb', tone: IDLE, ink: INK2, effect: 'untouched', effectInk: INK3, bg: 'transparent' }
+      ],
+      closing: [
+        { tone: INFO, k: 'BLUE MEANS NOT YET TRUE', t: 'One colour rule across all three panes, and it is the only place blue carries meaning beyond identity: the incoming allocation on a node bar, the forecast strip in the app bar, the “would” column. Green is what is, blue is what would be. Once you learn it in one pane you have learned it in the others.' },
+        { tone: BAD, k: 'THE ANSWER IS THE OBSTACLE', t: 'Every one of these panes leads with what will go wrong, not with a summary. “Two would not fit” before “twenty-two would”; the four differing fields before the forty-one identical ones; the pods that break before the ones that move cleanly. If nothing is wrong these panes are three lines long, which is the correct size for good news.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'It is our arithmetic, not the scheduler’s — we replay the predicates against the current snapshot, so a race is possible and the footer says the calculation is ours and when it ran. We cannot see what an admission webhook would reject, and we cannot know whether a pod that “moves with no downtime” actually serves traffic during the move. The estimate of four minutes is a guess from termination grace periods, and it says “about”.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-over:#161a21;--ks-over-line:#2c3542;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-shadow:0 18px 40px rgba(0,0,0,.6);--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:40px;width:1800px">
+
+  <div style="display:flex;align-items:flex-end;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:940px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 04 · OVERLAYS · PART 2</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">Dropdowns</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Seven of them, and they are not one control seven times. A dropdown that picks a cluster must show health; one that picks a namespace must be searchable; one that picks columns is a checklist that stays open. What they share is the shell: same surface, same 24px rows, same keyboard.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;max-width:330px">
+      <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">THE TRIGGER IS ALWAYS A CHIP</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ks-ink);text-wrap:pretty">Value plus a caret, no box around it. The chip <span style="color:var(--ks-ink-2)">is</span> the current answer — the border only appears while the menu is open.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+    <sc-for list="{{ triggers }}" as="t" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);padding:14px 16px;display:flex;flex-direction:column;gap:9px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:{{ t.tone }}">{{ t.state }}</div>
+        <div style="display:flex;align-items:center;gap:7px;height:24px;padding:0 8px;border:1px solid {{ t.line }};background:{{ t.bg }};box-shadow:{{ t.shadow }};font-family:var(--ks-mono);font-size:11px;color:{{ t.ink }};width:fit-content">
+          <span style="font-size:7px;color:{{ t.dotTone }}">{{ t.dot }}</span>{{ t.label }}<span style="color:{{ t.caretInk }}">▾</span>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ t.note }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">01–04</div>
+      <div style="font-size:20px;font-weight:600">Pickers that change what a pane is asking</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-items:start">
+      <sc-for list="{{ menus }}" as="m" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ m.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ m.cap }}</span>
+          </div>
+          <div style="width:100%;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow);display:flex;flex-direction:column;overflow:hidden">
+            <sc-if value="{{ m.hasSearch }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">/</span>
+                <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink)">{{ m.query }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink-3)">▏</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">{{ m.count }}</span>
+              </div>
+            </sc-if>
+            <div style="max-height:{{ m.maxH }};overflow-y:auto;padding:4px 0" data-scroll="dense">
+              <sc-for list="{{ m.items }}" as="i" hint-placeholder-count="10">
+                <sc-if value="{{ i.isHeader }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:7px 10px 4px;font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3);box-shadow:{{ i.sep }}">{{ i.label }}</div>
+                </sc-if>
+                <sc-if value="{{ i.isItem }}" hint-placeholder-val="{{ true }}">
+                  <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;background:{{ i.bg }}">
+                    <span style="width:9px;font-size:8px;color:{{ i.markTone }};flex:none">{{ i.mark }}</span>
+                    <span style="font-family:{{ i.font }};font-size:11.5px;color:{{ i.ink }};font-weight:{{ i.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.label }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:10px;color:{{ i.metaInk }};flex:none">{{ i.meta }}</span>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </div>
+            <sc-if value="{{ m.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:9px;height:26px;padding:0 10px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+                <span style="color:{{ m.footTone }}">{{ m.foot }}</span>
+                <div style="flex:1"></div>
+                <span>{{ m.footKey }}</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ m.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">05–07</div>
+      <div style="font-size:20px;font-weight:600">Dropdowns that are not pickers</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start">
+      <sc-for list="{{ menus2 }}" as="m" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13.5px;font-weight:600">{{ m.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ m.cap }}</span>
+          </div>
+          <div style="width:100%;background:var(--ks-over);border:1px solid var(--ks-over-line);box-shadow:var(--ks-shadow);display:flex;flex-direction:column;overflow:hidden">
+            <sc-if value="{{ m.hasSearch }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:8px;height:30px;padding:0 10px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+                <span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">/</span>
+                <span style="font-family:var(--ks-mono);font-size:11.5px;color:var(--ks-ink)">{{ m.query }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2)">{{ m.count }}</span>
+              </div>
+            </sc-if>
+            <div style="max-height:{{ m.maxH }};overflow-y:auto;padding:4px 0" data-scroll="dense">
+              <sc-for list="{{ m.items }}" as="i" hint-placeholder-count="10">
+                <sc-if value="{{ i.isHeader }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:7px 10px 4px;font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3);box-shadow:{{ i.sep }}">{{ i.label }}</div>
+                </sc-if>
+                <sc-if value="{{ i.isItem }}" hint-placeholder-val="{{ true }}">
+                  <div style="min-height:24px;display:flex;align-items:center;gap:9px;padding:3px 10px;background:{{ i.bg }}">
+                    <span style="width:11px;height:11px;flex:none;border:1px solid {{ i.boxLine }};background:{{ i.boxBg }};display:flex;align-items:center;justify-content:center;font-size:8px;color:{{ i.markTone }}">{{ i.mark }}</span>
+                    <span style="font-family:{{ i.font }};font-size:11.5px;color:{{ i.ink }};font-weight:{{ i.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ i.label }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:10px;color:{{ i.metaInk }};flex:none">{{ i.meta }}</span>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </div>
+            <sc-if value="{{ m.hasFoot }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:9px;height:26px;padding:0 10px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+                <span style="color:{{ m.footTone }}">{{ m.foot }}</span>
+                <div style="flex:1"></div>
+                <span>{{ m.footKey }}</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ m.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">RULES</div>
+      <div style="font-size:20px;font-weight:600">Nine rules, so seven dropdowns stay one control</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <sc-for list="{{ rules }}" as="r" hint-placeholder-count="9">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:13px;font-weight:600;line-height:1.35;text-wrap:pretty">{{ r.h }}</div>
+          <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10px;color:{{ r.tone }};line-height:1.5">{{ r.spec }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:20px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+    <span>7 dropdowns · one shell · 24px rows · same scrollbar, dense lane</span>
+    <div style="flex:1"></div>
+    <span>tokens: <span style="color:var(--ks-ink-2)">--ks-*</span></span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35', MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+const hdr = (label, sep) => ({ isHeader: true, isItem: false, label, sep: sep ? 'inset 0 1px 0 #242b35' : 'none' });
+const item = (label, o) => Object.assign({
+  isHeader: false, isItem: true, label, mark: '', markTone: INFO, meta: '', metaInk: INK3,
+  ink: '#c8d1dd', weight: '400', font: MONO, bg: 'transparent', boxLine: LINE, boxBg: 'transparent'
+}, o || {});
+
+class Component extends DCLogic {
+  renderVals() {
+    const clusters = [
+      ['prod-eu-west', INFO, '\u25cf', OK, '41ms', 1],
+      ['prod-us-east', PURPLE, '\u25cf', OK, '58ms', 0],
+      ['prod-ap-south', WARN, '\u25d0', WARN, '610ms', 0],
+      ['staging-eu', OK, '\u25cf', OK, '22ms', 0],
+      ['staging-us', '#5ad2c4', '\u25cf', OK, '31ms', 0],
+      ['dev-sandbox', '#8a94a6', '\u25cf', OK, '12ms', 0],
+      ['edge-01', BAD, '\u25b2', BAD, 'no answer', 0],
+      ['edge-02', '#ff8a5c', '\u25cf', OK, '180ms', 0],
+      ['ci-runners', '#9ad04a', '\u25cf', OK, '44ms', 0],
+      ['analytics', '#c9a227', '\u25a0', IDLE, 'paused', 0]
+    ];
+    const clusterItems = [hdr('GROUPS')]
+      .concat([
+        item('all clusters', { mark: '\u25c8', markTone: INFO, meta: '10', ink: INK }),
+        item('prod', { mark: '\u25c8', markTone: INFO, meta: '3', ink: '#c8d1dd' }),
+        item('staging', { mark: '\u25c8', markTone: INFO, meta: '3', ink: '#c8d1dd' }),
+        item('edge', { mark: '\u25c8', markTone: INFO, meta: '2', ink: '#c8d1dd' })
+      ])
+      .concat([hdr('CLUSTERS', true)])
+      .concat(clusters.map(c => item(c[0], {
+        mark: c[5] ? '\u2713' : c[2], markTone: c[5] ? INFO : c[3],
+        meta: c[4], metaInk: c[3] === WARN ? WARN : c[3] === BAD ? BAD : INK3,
+        ink: c[5] ? INK : c[3] === BAD ? '#8a5f62' : '#c8d1dd',
+        weight: c[5] ? '600' : '400',
+        bg: c[5] ? 'var(--ks-sel)' : 'transparent'
+      })));
+
+    const nsItems = [hdr('RECENT')]
+      .concat([
+        item('payments', { mark: '\u2713', meta: '41 pods', ink: INK, weight: '600', bg: 'var(--ks-sel)' }),
+        item('observability', { meta: '19 pods' })
+      ])
+      .concat([hdr('MATCHING “PAY”', true)])
+      .concat([
+        item('payments', { meta: '41 pods', ink: INK }),
+        item('payments-canary', { meta: '4 pods' }),
+        item('payments-old', { meta: '0 pods', ink: INK3, metaInk: INK3 }),
+        item('payment-gateway', { meta: '7 pods' })
+      ])
+      .concat([hdr('ALL · 34 MORE', true)])
+      .concat([
+        item('all namespaces', { mark: '\u25c8', markTone: INFO, meta: '412 pods', ink: '#c8d1dd' }),
+        item('argocd', { meta: '6 pods' }),
+        item('cert-manager', { meta: '3 pods' })
+      ]);
+
+    const kindItems = [hdr('MOST USED')]
+      .concat([
+        item('pods', { mark: '\u2713', meta: 'po', ink: INK, weight: '600', bg: 'var(--ks-sel)' }),
+        item('deployments', { meta: 'deploy' }),
+        item('nodes', { meta: 'no' }),
+        item('events', { meta: 'ev' })
+      ])
+      .concat([hdr('CORE', true)])
+      .concat([
+        item('services', { meta: 'svc' }),
+        item('configmaps', { meta: 'cm' }),
+        item('secrets', { meta: 'secret', metaInk: WARN })
+      ])
+      .concat([hdr('THIS CLUSTER · 41 CRDS', true)])
+      .concat([
+        item('kafkatopics', { meta: 'kafka.strimzi.io', metaInk: INK3 }),
+        item('routes', { meta: 'route.openshift.io', metaInk: INK3 }),
+        item('clusterissuers', { meta: 'cert-manager.io', metaInk: INK3 })
+      ]);
+
+    const timeItems = [hdr('LIVE')]
+      .concat([
+        item('following', { mark: '\u2713', meta: 'live', ink: INK, weight: '600', bg: 'var(--ks-sel)', metaInk: OK })
+      ])
+      .concat([hdr('WINDOW', true)])
+      .concat([
+        item('last 15 minutes', { meta: '15m' }),
+        item('last hour', { meta: '1h' }),
+        item('last 3 hours', { meta: '3h' }),
+        item('last shift', { meta: '8h' }),
+        item('today', { meta: '24h' })
+      ])
+      .concat([hdr('A MOMENT', true)])
+      .concat([
+        item('13:52 — before the deploy', { meta: '30m ago', ink: '#f3d08a', metaInk: WARN }),
+        item('pick a time…', { meta: '⇧T', ink: '#8ac6ff' })
+      ]);
+
+    const colItems = [hdr('SHOWN · DRAG TO REORDER')]
+      .concat([
+        item('name', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK, meta: 'pinned' }),
+        item('ready', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK }),
+        item('status', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK }),
+        item('restarts', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK }),
+        item('age', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK }),
+        item('node', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK })
+      ])
+      .concat([hdr('AVAILABLE', true)])
+      .concat([
+        item('ip'), item('qos class'), item('service account'),
+        item('memory used', { meta: 'metrics', metaInk: INK3 }),
+        item('cpu used', { meta: 'metrics', metaInk: INK3 }),
+        item('owner', {})
+      ]);
+
+    const sevItems = [hdr('SEVERITY')]
+      .concat([
+        item('error', { mark: '\u2713', markTone: BAD, boxLine: '#54262b', boxBg: 'rgba(255,95,95,.2)', ink: '#ffd7d7', meta: '41' }),
+        item('warning', { mark: '\u2713', markTone: WARN, boxLine: '#5a4520', boxBg: 'rgba(240,180,41,.16)', ink: INK, meta: '187' }),
+        item('normal', { meta: '184', ink: INK2 })
+      ])
+      .concat([hdr('REASON · 12 SEEN', true)])
+      .concat([
+        item('OOMKilling', { mark: '\u2713', markTone: BAD, boxLine: '#54262b', boxBg: 'rgba(255,95,95,.2)', ink: '#ffd7d7', meta: '47' }),
+        item('BackOff', { meta: '47' }),
+        item('FailedScheduling', { meta: '41' }),
+        item('Unhealthy', { meta: '62' }),
+        item('NodeNotReady', { meta: '2' })
+      ])
+      .concat([hdr('AUTHOR', true)])
+      .concat([
+        item('a person', { meta: '9' }),
+        item('a bot', { meta: '18' }),
+        item('the system', { meta: '4' })
+      ]);
+
+    const sortItems = [hdr('SORT BY')]
+      .concat([
+        item('worst first', { mark: '\u2713', markTone: INFO, meta: 'default', ink: INK, weight: '600', bg: 'var(--ks-sel)', metaInk: OK }),
+        item('newest first', { meta: 'age ↓' }),
+        item('most restarts', { meta: 'restarts ↓' }),
+        item('name', { meta: 'a → z', ink: INK2 })
+      ])
+      .concat([hdr('THEN BY', true)])
+      .concat([
+        item('restarts', { mark: '\u2713', markTone: INFO, ink: INK }),
+        item('age', { mark: '\u2713', markTone: INFO, ink: INK }),
+        item('namespace', {})
+      ])
+      .concat([hdr('WHILE THE POINTER IS OVER THE TABLE', true)])
+      .concat([
+        item('hold the order', { mark: '\u2713', markTone: INFO, ink: INK, meta: 'rule 5', metaInk: WARN })
+      ]);
+
+    return {
+      triggers: [
+        { state: 'REST', tone: INK3, label: 'prod-eu-west', dot: '\u25cf', dotTone: OK, line: 'transparent', bg: 'transparent', shadow: 'none', ink: INFO, caretInk: INK3, note: 'No box. In a pane header there may be four of these in a row; boxing them would build a toolbar out of chips.' },
+        { state: 'HOVER', tone: INFO, label: 'prod-eu-west', dot: '\u25cf', dotTone: OK, line: LINE, bg: '#161a21', shadow: 'none', ink: INFO, caretInk: INK2, note: 'A 1px border appears — the same border every control gets on hover, so the chip announces itself as pressable.' },
+        { state: 'OPEN', tone: INFO, label: 'prod-eu-west', dot: '\u25cf', dotTone: OK, line: INFO, bg: '#1d2937', shadow: 'inset 0 0 0 1px rgba(74,168,255,.4)', ink: INK, caretInk: INFO, note: 'The trigger keeps the focus ring while the menu is open, so you can see which of the four chips you are editing.' },
+        { state: 'FIXED', tone: IDLE, label: 'pinned · …-k8n1p', dot: '\u25c9', dotTone: INK3, line: 'transparent', bg: 'transparent', shadow: 'none', ink: INK3, caretInk: 'transparent', note: 'An object pane has no caret at all. Clicking it explains why the scope cannot change rather than doing nothing.' }
+      ],
+      menus: [
+        {
+          title: 'Cluster', cap: 'CONN-02 · RES-01', hasSearch: true, query: '', count: '10 of 10', maxH: '360px',
+          items: clusterItems, hasFoot: true, foot: 'edge-01 unreachable — still selectable', footTone: BAD, footKey: '⌘1…0',
+          note: 'Health lives in the picker: the glyph on the left is the connection state, the number on the right is the RTT. An unreachable cluster stays in the list and stays selectable — you often want to look at what it last said.'
+        },
+        {
+          title: 'Namespace', cap: 'RES-01', hasSearch: true, query: 'pay', count: '4 of 38', maxH: '360px',
+          items: nsItems, hasFoot: true, foot: 'type to filter · ⏎ takes the first', footTone: INK3, footKey: '38 total',
+          note: 'Search appears above six items, always. Recents first, then matches, then everything — and a namespace with no pods is dimmed rather than hidden, because “empty” is an answer too.'
+        },
+        {
+          title: 'Kind', cap: 'RES-02 · RES-03 · APP-09', hasSearch: true, query: '', count: '54 kinds', maxH: '360px',
+          items: kindItems, hasFoot: true, foot: 'shorthands work: po, deploy, svc', footTone: INK3, footKey: '41 CRDs',
+          note: 'The right column is the kubectl shorthand, so the menu teaches the shortcut while you use the mouse. CRDs are grouped last and labelled with their API group — the same name can exist twice.'
+        },
+        {
+          title: 'Time window', cap: 'MET-05 · TIME-02', hasSearch: false, query: '', count: '', maxH: '360px',
+          items: timeItems, hasFoot: true, foot: 'this moves every pane', footTone: WARN, footKey: '⇧T',
+          note: 'Live sits above the windows, because “following” is a different mode, not a longer window. The amber entry at the bottom leaves the present entirely and is the only item that repaints the whole frame.'
+        }
+      ],
+      menus2: [
+        {
+          title: 'Columns', cap: 'RES-08', hasSearch: true, query: '', count: '6 of 12', maxH: '330px',
+          items: colItems, hasFoot: true, foot: 'stays open · changes apply live', footTone: OK, footKey: 'save as a view',
+          note: 'A checklist, not a picker: it does not close when you tick something, and the table behind it updates as you go. Shown columns keep their order and can be dragged; name is pinned and cannot be removed.'
+        },
+        {
+          title: 'Filter', cap: 'RES-12 · LOG-03', hasSearch: true, query: '', count: '3 active', maxH: '330px',
+          items: sevItems, hasFoot: true, foot: '3 filters · 228 of 412 rows', footTone: WARN, footKey: 'clear all',
+          note: 'Every option carries its own count, which is what makes it a decision rather than a guess. Ticks are the colour of the thing they filter — red for error, amber for warning — so the menu reads like the table.'
+        },
+        {
+          title: 'Sort', cap: 'rule 5', hasSearch: false, query: '', count: '', maxH: '330px',
+          items: sortItems, hasFoot: true, foot: 'a third click on a header restores the default', footTone: INK3, footKey: 'rule 5',
+          note: 'Sort is a menu and not just a header click, because the product has a second sort key and a freeze rule. The last item is that rule, exposed as a setting instead of hidden as behaviour.'
+        }
+      ],
+      rules: [
+        { tone: INFO, h: 'The trigger is the answer.', t: 'A chip showing the current value with a caret. There is no separate label — “ns payments ▾” says what it is and what it holds in three words.', spec: 'value + caret · no box at rest' },
+        { tone: INFO, h: 'Search appears above six items.', t: 'Under six, a search field is noise. Over six it is mandatory, and it filters as you type with no delay and no spinner.', spec: '> 6 items → search' },
+        { tone: OK, h: 'Group, then order by use.', t: 'Recents and groups first, matches second, everything else last, each behind a small caps header. Alphabetical is never the top-level order.', spec: 'recent · matching · all' },
+        { tone: OK, h: 'Every row carries a number.', t: 'Pod counts, RTT, event counts, shorthand. A menu of bare names makes you guess; a menu with counts makes the choice for you.', spec: 'right column = evidence' },
+        { tone: WARN, h: 'Pickers close, checklists stay.', t: 'Choosing a cluster closes the menu; ticking a column does not. The difference is whether the action is singular — and it is never a surprise, because checklists show checkboxes and pickers show ticks.', spec: 'single → close · multi → stay' },
+        { tone: WARN, h: 'Nothing is hidden for being empty.', t: 'A namespace with no pods, a cluster that will not answer, a kind with no instances: all present, dimmed, still selectable. Hiding them answers a question you did not ask.', spec: 'dim, never remove' },
+        { tone: BAD, h: 'A dropdown never writes.', t: 'It changes what a pane is asking, or what it shows. Anything that changes the cluster goes through a confirmation instead — no menu item is ever destructive.', spec: 'scope and view only' },
+        { tone: INFO, h: 'Keyboard first, mouse also.', t: 'Type to filter, arrows to move, ⏎ to take, Esc to cancel and restore the previous value. Every picker also has a direct key: ⌘1…0 for clusters, ⇧T for time.', spec: 'type · ↑↓ · ⏎ · Esc' },
+        { tone: IDLE, h: 'It opens at the chip and flips, never overflows.', t: 'Anchored to the trigger’s left edge, 4px below it; if there is no room below it opens upward, and if there is no room either way it scrolls inside its own 360px. It may leave the pane — a 180px pane cannot hold a menu.', spec: '360px max · flip · may overlap panes' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

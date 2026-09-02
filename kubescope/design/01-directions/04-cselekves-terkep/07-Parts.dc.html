@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  @keyframes ksShimmer { 0% { opacity: .28; } 50% { opacity: .62; } 100% { opacity: .28; } }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-past:#a97bd6;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:48px;display:flex;flex-direction:column;gap:40px;width:1800px">
+
+  <div style="display:flex;align-items:flex-end;gap:36px">
+    <div style="display:flex;flex-direction:column;gap:9px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PARTS SHEET 2 · THE REST OF THE M-2 CATALOGUE</div>
+      <div style="font-size:31px;font-weight:600;letter-spacing:-.02em">Parts — tabs, tree, table, splitter, skeleton, empty</div>
+      <div style="font-size:14.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">What the first catalogue did not draw. Two of these are the ones nobody specifies and everybody improvises: the <span style="color:var(--ks-ink)">table row anatomy</span>, which every pane in the product inherits, and the <span style="color:var(--ks-ink)">empty state per pane type</span> — rule 1, the reason a log pane and a YAML pane must not fail the same way.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;max-width:300px">
+      <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">SIZES ARE REAL</div>
+      <div style="font-size:13px;line-height:1.55;color:var(--ks-ink);text-wrap:pretty">22px rows, 24px controls, 26px tabs, 4px splitters. Every internal length in em, so a pane can zoom.</div>
+    </div>
+  </div>
+
+  <!-- TABLE ANATOMY -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">01</div>
+      <div style="font-size:20px;font-weight:600">Table header and row</div>
+      <div style="font-size:13px;color:var(--ks-ink-3)">the most reused object in the product — every list is this</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 430px;gap:16px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+        <div style="height:20px;display:grid;grid-template-columns:20px 1fr 46px 104px 52px 56px 116px;align-items:center;padding:0 10px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.09em;color:var(--ks-ink-3)">
+          <div style="display:flex;align-items:center;justify-content:center"><span style="width:11px;height:11px;border:1px solid var(--ks-line);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ks-warn)">–</span></div>
+          <div>NAME</div><div>READY</div><div style="color:var(--ks-ink-2)">STATUS ↓</div><div style="text-align:right">RESTARTS</div><div style="text-align:right">AGE</div><div>NODE</div>
+        </div>
+        <sc-for list="{{ tableRows }}" as="r" hint-placeholder-count="8">
+          <div style="height:22px;display:grid;grid-template-columns:20px 1fr 46px 104px 52px 56px 116px;align-items:center;padding:0 10px;gap:10px;background:{{ r.bg }};box-shadow:{{ r.ring }};font-size:12px">
+            <div style="display:flex;align-items:center;justify-content:center"><span style="width:11px;height:11px;border:1px solid {{ r.checkLine }};background:{{ r.checkBg }};display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--ks-warn)">{{ r.check }}</span></div>
+            <div style="font-family:var(--ks-mono);font-size:12px;color:{{ r.nameInk }};font-weight:{{ r.nameWeight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.readyInk }}">{{ r.ready }}</div>
+            <div style="display:flex;align-items:center;gap:6px;color:{{ r.tone }};font-weight:500"><span style="font-size:8px;width:8px">{{ r.glyph }}</span><span style="font-size:11px;font-family:var(--ks-mono)">{{ r.word }}</span></div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ r.rsInk }};text-align:right">{{ r.rs }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);text-align:right">{{ r.age }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.node }}</div>
+          </div>
+        </sc-for>
+        <div style="height:26px;display:flex;align-items:center;gap:10px;padding:0 10px;border-top:1px solid var(--ks-line);background:var(--ks-field);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+          <span>rows 22px · header 20px · checkbox column 20px</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-warn)">2 selected of 41</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ tableRules }}" as="r" hint-placeholder-count="6">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:11px 13px;display:flex;flex-direction:column;gap:5px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-size:12.5px;font-weight:600;line-height:1.3">{{ r.h }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);flex:none">{{ r.ref }}</span>
+            </div>
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS + TREE + SPLITTER -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">02–04</div>
+      <div style="font-size:20px;font-weight:600">Tabs, tree, splitter</div>
+      <div style="font-size:13px;color:var(--ks-ink-3)">the three parts that make the tiling model visible</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;align-items:start">
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13.5px;font-weight:600">Pane tabs</span><div style="flex:1"></div><span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">26px · one slot, several views</span></div>
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;height:250px;overflow:hidden">
+          <div style="height:26px;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+            <sc-for list="{{ paneTabs }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:7px;padding:0 11px;background:{{ t.bg }};box-shadow:{{ t.shadow }};min-width:0">
+                <span style="font-size:7px;color:{{ t.dotTone }};flex:none">{{ t.dot }}</span>
+                <span style="font-size:11.5px;color:{{ t.ink }};font-weight:{{ t.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.label }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ t.metaInk }};flex:none">{{ t.meta }}</span>
+              </div>
+            </sc-for>
+            <div style="flex:1"></div>
+            <div style="display:flex;align-items:center;padding:0 9px;color:var(--ks-ink-3);font-size:13px">+</div>
+          </div>
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+            <span style="color:var(--ks-info)">● prod-eu-west</span><span>Logs · container api</span><div style="flex:1"></div><span style="color:var(--ks-ok)">live</span>
+          </div>
+          <div style="flex:1;min-height:0;padding:6px 10px;font-family:var(--ks-mono);font-size:10.5px;line-height:1.6;color:var(--ks-ink-2);overflow:hidden">
+            <sc-for list="{{ tabBody }}" as="l" hint-placeholder-count="8">
+              <div style="color:{{ l.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.t }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">Tabs exist because four panes will not fit on a laptop, not because we like tabs. Every tab keeps its watch open — the dot on an inactive tab is live, and it turns red if that view goes bad while you are looking elsewhere. Dragging one out makes it a pane again.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13.5px;font-weight:600">Tree</span><div style="flex:1"></div><span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">RES-05 · owner chain</span></div>
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;height:250px;overflow:hidden">
+          <div style="height:22px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+            <span style="color:var(--ks-ink)">Owner tree</span><span>deploy/checkout-api</span><div style="flex:1"></div><span>12 objects</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden;padding:3px 0">
+            <sc-for list="{{ tree }}" as="n" hint-placeholder-count="11">
+              <div style="height:20px;display:flex;align-items:center;gap:0;padding:0 10px;background:{{ n.bg }}">
+                <span style="font-family:var(--ks-mono);font-size:10px;color:#2f3945;white-space:pre;flex:none">{{ n.guide }}</span>
+                <span style="width:11px;font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);flex:none">{{ n.twisty }}</span>
+                <span style="font-size:7px;color:{{ n.tone }};width:11px;flex:none">{{ n.glyph }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:{{ n.ink }};font-weight:{{ n.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.name }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ n.metaInk }};flex:none">{{ n.meta }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">Guides in the darkest line colour, one twisty column, and the status glyph before the name so a broken leaf is findable at depth. An ancestor of something unhealthy is marked too — otherwise you must expand every branch to find the one that matters.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13.5px;font-weight:600">Splitter</span><div style="flex:1"></div><span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">4px · 9px hit area</span></div>
+        <div style="background:var(--ks-bg);border:1px solid var(--ks-line);display:flex;flex-direction:column;height:250px;overflow:hidden">
+          <div style="flex:1;display:grid;grid-template-columns:1fr 4px 1fr;min-height:0">
+            <div style="background:var(--ks-panel);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;min-height:0">
+              <div style="height:20px;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">Pods · 41</div>
+              <div style="flex:1;padding:4px 0;overflow:hidden">
+                <sc-for list="{{ splitRowsA }}" as="r" hint-placeholder-count="7">
+                  <div style="height:18px;display:flex;align-items:center;gap:7px;padding:0 8px"><span style="width:4px;height:4px;background:{{ r.dot }}"></span><span style="height:3px;width:{{ r.w }};background:#232b36"></span></div>
+                </sc-for>
+              </div>
+            </div>
+            <div title="drag to resize · double click to even · right click for more" style="background:var(--ks-line);position:relative;cursor:col-resize">
+              <div style="position:absolute;left:-3px;right:-3px;top:0;bottom:0"></div>
+              <div style="position:absolute;left:1px;right:1px;top:50%;transform:translateY(-50%);height:26px;background:var(--ks-line-strong)"></div>
+            </div>
+            <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0">
+              <div style="height:20px;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">Logs · 214/s</div>
+              <div style="flex:1;padding:4px 0;overflow:hidden">
+                <sc-for list="{{ splitRowsB }}" as="r" hint-placeholder-count="7">
+                  <div style="height:18px;display:flex;align-items:center;gap:7px;padding:0 8px"><span style="height:3px;width:{{ r.w }};background:#232b36"></span></div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="height:4px;background:var(--ks-info);position:relative">
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:2px;background:#8ac6ff"></div>
+          </div>
+          <div style="height:64px;background:var(--ks-panel);display:flex;align-items:center;gap:10px;padding:0 10px">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-info)">dragging · 38% / 62%</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">min 320×180 stops the drag</span>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">A splitter is a 4px line with a 9px invisible hit area and a short centre mark that only appears on hover. While dragging it takes the focus blue and prints the ratio — and it refuses to shrink a pane below 320×180 rather than letting you make an unusable one.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING + EMPTY, PER PANE TYPE -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">05–06 · RULE 1</div>
+      <div style="font-size:20px;font-weight:600">Skeleton and empty — one per pane type, not one for the app</div>
+      <div style="font-size:13px;color:var(--ks-ink-3)">an empty log and an empty table are different facts</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ states }}" as="s" hint-placeholder-count="8">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ s.tone }}">{{ s.kind }}</span>
+            <div style="flex:1"></div>
+            <span style="font-size:12.5px;font-weight:600;color:var(--ks-ink)">{{ s.title }}</span>
+          </div>
+          <div style="height:200px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ s.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:20px;display:flex;align-items:center;gap:8px;padding:0 9px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:9.5px">
+              <span style="color:{{ s.headTone }}">{{ s.head }}</span><div style="flex:1"></div><span style="color:{{ s.stateTone }}">{{ s.state }}</span>
+            </div>
+            <sc-if value="{{ s.isSkeleton }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;min-height:0;padding:6px 9px;display:flex;flex-direction:column;gap:{{ s.skelGap }};overflow:hidden">
+                <sc-for list="{{ s.skel }}" as="k" hint-placeholder-count="8">
+                  <div style="display:flex;align-items:center;gap:8px;animation:ksShimmer 1.5s ease-in-out infinite;animation-delay:{{ k.delay }}">
+                    <sc-for list="{{ k.bars }}" as="b" hint-placeholder-count="3">
+                      <div style="height:{{ b.h }};width:{{ b.w }};background:{{ b.bg }};flex:none"></div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ s.isEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:16px">
+                <span style="font-size:14px;color:{{ s.glyphTone }}">{{ s.glyph }}</span>
+                <div style="font-size:12.5px;line-height:1.5;color:var(--ks-ink);text-align:center;text-wrap:pretty">{{ s.line1 }}</div>
+                <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-align:center;text-wrap:pretty">{{ s.line2 }}</div>
+                <sc-if value="{{ s.hasAction }}" hint-placeholder-val="{{ false }}">
+                  <span style="margin-top:2px;padding:5px 11px;border:1px solid {{ s.actionLine }};background:{{ s.actionBg }};font-family:var(--ks-mono);font-size:10.5px;color:{{ s.actionInk }}">{{ s.action }}</span>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ s.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- TIME SLIDER AS A COMPONENT -->
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-past)">07</div>
+      <div style="font-size:20px;font-weight:600">Time slider</div>
+      <div style="font-size:13px;color:var(--ks-ink-3)">the same track at three sizes — frame, pane header, inline in a chart</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 380px;gap:16px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:1px;background:var(--ks-line);border:1px solid var(--ks-line)">
+        <sc-for list="{{ sliders }}" as="s" hint-placeholder-count="3">
+          <div style="background:var(--ks-panel);padding:13px 16px;display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ s.tone }}">{{ s.k }}</span>
+              <span style="font-size:12px;color:var(--ks-ink-2)">{{ s.t }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ s.spec }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px">
+              <sc-if value="{{ s.hasLabel }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family:var(--ks-mono);font-size:{{ s.labelSize }};color:{{ s.labelInk }};width:96px;flex:none;font-weight:600">{{ s.label }}</span>
+              </sc-if>
+              <div style="flex:1;position:relative;height:{{ s.h }};background:{{ s.trackBg }};border:1px solid {{ s.trackLine }};min-width:0">
+                <div style="position:absolute;left:0;top:0;bottom:0;width:{{ s.fill }};background:{{ s.fillBg }}"></div>
+                <sc-for list="{{ s.ticks }}" as="k" hint-placeholder-count="8">
+                  <div title="{{ k.title }}" style="position:absolute;left:{{ k.x }};top:{{ k.top }};width:2px;height:{{ k.h }};background:{{ k.tone }}"></div>
+                </sc-for>
+                <div style="position:absolute;left:{{ s.handle }};top:{{ s.handleTop }};width:3px;height:{{ s.handleH }};background:{{ s.handleTone }}"></div>
+                <div style="position:absolute;right:0;top:0;bottom:0;width:2px;background:var(--ks-ok)"></div>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:78px;flex:none;text-align:right">{{ s.right }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <sc-for list="{{ sliderRules }}" as="r" hint-placeholder-count="4">
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ r.tone }};padding:11px 13px;display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:12.5px;font-weight:600;line-height:1.3">{{ r.h }}</div>
+            <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:20px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+    <span>with sheet 1: 9 controls · 9 indicators · 6 charts · 7 dropdowns · 7 parts · 8 pane states · 1 scrollbar</span>
+    <div style="flex:1"></div>
+    <span>tokens: <span style="color:var(--ks-ink-2)">--ks-*</span> · the M-2 catalogue is complete</span>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1800,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PAST = '#a97bd6', LINE = '#242b35', LINE_S = '#2c3542', SKEL = '#1c2husk';
+
+class Component extends DCLogic {
+  renderVals() {
+    const bar = (w, h, bg) => ({ w, h: h || '9px', bg: bg || '#1e2530' });
+
+    return {
+      tableRows: [
+        { name: 'checkout-api-7f9c8d4b6-k8n1p', ready: '1/2', word: 'CrashLoop', glyph: '\u25b2', tone: BAD, rs: '47\u00d7', age: '4d2h', node: 'ip-10-0-3-19',
+          nameInk: '#ffffff', nameWeight: '600', readyInk: BAD, rsInk: BAD, bg: 'var(--ks-sel)', ring: 'inset 2px 0 0 #4aa8ff, inset 0 -1px 0 #1a2028', check: '\u2713', checkLine: '#5a4520', checkBg: 'rgba(240,180,41,.16)' },
+        { name: 'checkout-api-7f9c8d4b6-p91md', ready: '0/2', word: 'Pending', glyph: '\u25c6', tone: WARN, rs: '\u2014', age: '38m', node: '\u2014',
+          nameInk: '#ffffff', nameWeight: '600', readyInk: WARN, rsInk: INK3, bg: 'rgba(240,180,41,.06)', ring: 'inset 0 -1px 0 #1a2028', check: '\u2713', checkLine: '#5a4520', checkBg: 'rgba(240,180,41,.16)' },
+        { name: 'ledger-worker-5d8f9c74c-2wq7t', ready: '1/1', word: 'Running', glyph: '\u25cf', tone: OK, rs: '\u2014', age: '12d', node: 'ip-10-0-1-204',
+          nameInk: '#c8d1dd', nameWeight: '400', readyInk: INK3, rsInk: INK3, bg: 'rgba(255,255,255,.012)', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' },
+        { name: 'fraud-scorer-9c1b7a5e2-2wq7t', ready: '2/2', word: 'Running', glyph: '\u25cf', tone: OK, rs: '\u2014', age: '9d', node: 'ip-10-0-3-91',
+          nameInk: '#c8d1dd', nameWeight: '400', readyInk: INK3, rsInk: INK3, bg: 'transparent', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' },
+        { name: 'payout-batcher-4e7c9b2d5-f5flv', ready: '0/1', word: 'Failed', glyph: '\u25b2', tone: BAD, rs: '5\u00d7', age: '21d', node: 'ip-10-0-1-17',
+          nameInk: '#ffffff', nameWeight: '600', readyInk: BAD, rsInk: WARN, bg: 'rgba(255,95,95,.10)', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' },
+        { name: 'envoy-gateway-6b4d9f7c8-abc12', ready: '1/1', word: 'Running', glyph: '\u25cf', tone: OK, rs: '\u2014', age: '31d', node: 'ip-10-0-2-88',
+          nameInk: '#c8d1dd', nameWeight: '400', readyInk: INK3, rsInk: INK3, bg: 'rgba(255,255,255,.012)', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' },
+        { name: 'cilium-operator-6c8a4f9b3-mm4kd', ready: '1/1', word: 'Terminating', glyph: '\u25a0', tone: IDLE, rs: '\u2014', age: '9m', node: 'ip-10-0-2-44',
+          nameInk: INK3, nameWeight: '400', readyInk: INK3, rsInk: INK3, bg: 'transparent', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' },
+        { name: 'otel-collector-7d5c8f9a1-4mzq1', ready: '2/2', word: 'Unknown', glyph: '\u25cb', tone: IDLE, rs: '\u2014', age: '12d', node: 'ip-10-0-4-8',
+          nameInk: INK3, nameWeight: '400', readyInk: INK3, rsInk: INK3, bg: 'rgba(255,255,255,.012)', ring: 'inset 0 -1px 0 #1a2028', check: '', checkLine: LINE, checkBg: 'transparent' }
+      ],
+      tableRules: [
+        { tone: INFO, ref: 'kubectl', h: 'Name is always the first column.', t: 'Same order as kubectl — name, ready, status, restarts, age — then our own columns. The column that identifies the row never moves, at any width.' },
+        { tone: WARN, ref: 'rule 4', h: 'Truncation is in the middle.', t: 'Pod names differ in their middle: api-7f8d9-abcde and api-7f8d9-xyzab are identical for 14 characters. Cutting the end makes two rows look the same, and then you act on the wrong one.' },
+        { tone: BAD, ref: 'rule 5', h: 'Zebra is 1.2% white, not a colour.', t: 'Alternate rows carry a barely-there lift so the eye can track across seven columns — and it must be faint enough that a tinted unhealthy row still reads as tinted.' },
+        { tone: BAD, ref: 'RES-02', h: 'A bad row is a surface, not just red text.', t: 'Unhealthy rows get their own background and a white, semibold name. That is what makes a 41-row table scannable in one pass instead of read.' },
+        { tone: WARN, ref: 'RES-11', h: 'Selection is amber and lives in a 20px gutter.', t: 'Never blue — blue is identity and links. The header checkbox shows the mixed state as an en dash, and the count includes rows the filter is hiding.' },
+        { tone: INFO, ref: 'rule 5', h: 'The table does not re-sort under the cursor.', t: 'A live table freezes its order while the pointer is over it and shows “3 rows moved” when you leave. Otherwise you click a row that arrived a frame ago.' }
+      ],
+      paneTabs: [
+        { label: 'Logs', meta: '', dot: '\u25cf', dotTone: OK, bg: 'var(--ks-panel)', shadow: 'inset 0 -2px 0 #4aa8ff', ink: INK, weight: '600', metaInk: INK3 },
+        { label: 'YAML', meta: '', dot: '\u25cb', dotTone: INK3, bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 },
+        { label: 'Events', meta: '3', dot: '\u25b2', dotTone: BAD, bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: BAD },
+        { label: 'Describe', meta: '', dot: '\u25cb', dotTone: INK3, bg: 'transparent', shadow: 'none', ink: INK2, weight: '400', metaInk: INK3 }
+      ],
+      tabBody: [
+        { t: '14:22:04  ERROR  context deadline exceeded', ink: '#ffd7d7' },
+        { t: '14:22:04  WARN   circuit opening for ledger', ink: '#e9dcc0' },
+        { t: '14:22:05  INFO   retry 1 of 3', ink: INK2 },
+        { t: '14:22:05  WARN   heap 498Mi of 512Mi', ink: '#e9dcc0' },
+        { t: '14:22:06  ERROR  exit 137 (OOMKilled)', ink: '#ffd7d7' },
+        { t: '14:22:07  INFO   starting, config sha 4bd91c', ink: INK2 },
+        { t: '14:22:08  WARN   readiness 503', ink: '#e9dcc0' },
+        { t: '14:22:09  INFO   8 workers ready', ink: INK2 }
+      ],
+      tree: [
+        { guide: '', twisty: '\u25be', glyph: '\u25b2', tone: WARN, name: 'deploy/checkout-api', ink: INK, weight: '600', meta: '8 replicas', metaInk: INK3, bg: 'transparent' },
+        { guide: '  ', twisty: '\u25be', glyph: '\u25b2', tone: WARN, name: 'rs/checkout-api-7f9c8d4b6', ink: '#c8d1dd', weight: '400', meta: 'current', metaInk: INK3, bg: 'transparent' },
+        { guide: '  \u2502 ', twisty: '', glyph: '\u25b2', tone: BAD, name: 'pod/…-k8n1p', ink: INK, weight: '600', meta: '47\u00d7', metaInk: BAD, bg: 'rgba(255,95,95,.09)' },
+        { guide: '  \u2502 ', twisty: '', glyph: '\u25c6', tone: WARN, name: 'pod/…-p91md', ink: INK, weight: '600', meta: 'Pending', metaInk: WARN, bg: 'rgba(240,180,41,.06)' },
+        { guide: '  \u2502 ', twisty: '', glyph: '\u25cf', tone: OK, name: 'pod/…-x2m4q', ink: '#c8d1dd', weight: '400', meta: '', metaInk: INK3, bg: 'transparent' },
+        { guide: '  \u2502 ', twisty: '', glyph: '\u25cf', tone: OK, name: 'pod/…-z0mq4', ink: '#c8d1dd', weight: '400', meta: '', metaInk: INK3, bg: 'transparent' },
+        { guide: '  \u2514 ', twisty: '\u25b8', glyph: '\u25cf', tone: OK, name: '4 more running', ink: INK3, weight: '400', meta: '', metaInk: INK3, bg: 'transparent' },
+        { guide: '  ', twisty: '\u25b8', glyph: '\u25a0', tone: IDLE, name: 'rs/checkout-api-5d8f9c74c', ink: INK3, weight: '400', meta: 'old \u00b7 0', metaInk: INK3, bg: 'transparent' },
+        { guide: '', twisty: '\u25be', glyph: '\u25cf', tone: OK, name: 'in front of it', ink: INK2, weight: '400', meta: '', metaInk: INK3, bg: 'transparent' },
+        { guide: '  ', twisty: '', glyph: '\u25cf', tone: OK, name: 'svc/checkout', ink: '#c8d1dd', weight: '400', meta: '3 eps', metaInk: INK3, bg: 'transparent' },
+        { guide: '  ', twisty: '', glyph: '\u25cf', tone: OK, name: 'route/checkout', ink: '#c8d1dd', weight: '400', meta: 'pay.corp', metaInk: INK3, bg: 'transparent' }
+      ],
+      splitRowsA: [
+        { dot: BAD, w: '62%' }, { dot: WARN, w: '48%' }, { dot: 'rgba(62,207,142,.4)', w: '71%' },
+        { dot: 'rgba(62,207,142,.4)', w: '54%' }, { dot: 'rgba(62,207,142,.4)', w: '66%' },
+        { dot: 'rgba(62,207,142,.4)', w: '43%' }, { dot: 'rgba(62,207,142,.4)', w: '58%' }
+      ],
+      splitRowsB: [
+        { w: '84%' }, { w: '61%' }, { w: '77%' }, { w: '52%' }, { w: '69%' }, { w: '88%' }, { w: '46%' }
+      ],
+      states: [
+        {
+          kind: 'TABLE · LOADING', tone: INFO, title: 'Skeleton', edge: INFO, head: '● prod-eu-west · Pods', headTone: INFO, state: 'listing…', stateTone: INK3,
+          isSkeleton: true, isEmpty: false, skelGap: '4px',
+          skel: Array.from({ length: 9 }, (_, i) => ({
+            delay: (i * 0.07).toFixed(2) + 's',
+            bars: [bar('44%'), bar('30px'), bar('58px'), bar('26px')]
+          })),
+          note: 'Skeleton rows are the real row height with the real column widths, so nothing jumps when data lands. Never a spinner in a table — a spinner tells you to wait, a skeleton tells you what is coming.'
+        },
+        {
+          kind: 'TABLE · EMPTY', tone: IDLE, title: 'Nothing matches', edge: IDLE, head: '● prod-eu-west · Pods', headTone: INFO, state: '0 of 41', stateTone: INK3,
+          isSkeleton: false, isEmpty: true, glyph: '\u25cb', glyphTone: INK3,
+          line1: 'No pod matches “crashlop”.', line2: 'Forty-one pods are here; the filter is hiding all of them.',
+          hasAction: true, action: 'clear the filter', actionLine: LINE, actionBg: 'transparent', actionInk: INK,
+          note: 'An empty table always says which of the two empties it is: no objects, or none that match. The count of what is hidden is the difference, and it is the thing people actually need.'
+        },
+        {
+          kind: 'LOG · EMPTY', tone: OK, title: 'Connected, silent', edge: OK, head: '● prod-eu-west · Logs', headTone: INFO, state: 'live · 0/s', stateTone: OK,
+          isSkeleton: false, isEmpty: true, glyph: '\u25cf', glyphTone: OK,
+          line1: 'Attached to container api. It has not logged anything for 4 minutes.',
+          line2: 'This is not an error — the stream is open and waiting.',
+          hasAction: true, action: 'show the previous instance', actionLine: LINE, actionBg: 'transparent', actionInk: INK,
+          note: 'The one empty state most tools get wrong. A silent log looks identical to a broken one unless the pane says the connection is fine and counts the silence.'
+        },
+        {
+          kind: 'YAML · DENIED', tone: BAD, title: 'Forbidden', edge: BAD, head: '● prod-eu-west · YAML', headTone: INFO, state: '403', stateTone: BAD,
+          isSkeleton: false, isEmpty: true, glyph: '\u25b2', glyphTone: BAD,
+          line1: 'You may list secrets here, but not read them.',
+          line2: 'rolebinding payments-viewer grants get on pods, not on secrets.',
+          hasAction: true, action: 'show me what I can do', actionLine: '#54262b', actionBg: 'rgba(255,95,95,.08)', actionInk: '#ffb3b3',
+          note: 'Rule 2 in one pane: the raw error is one click away, but the first line is a sentence naming the binding that stopped you — and the action opens the RBAC pane, already scoped to you.'
+        },
+        {
+          kind: 'TERMINAL · DEAD', tone: BAD, title: 'The pod went away', edge: BAD, head: '● prod-eu-west · Shell', headTone: INFO, state: 'closed', stateTone: BAD,
+          isSkeleton: false, isEmpty: true, glyph: '\u25a0', glyphTone: BAD,
+          line1: 'The container was killed at 14:20 while you were attached.',
+          line2: 'The transcript is kept. A new pod is running under the same workload.',
+          hasAction: true, action: 'attach to the new pod', actionLine: LINE, actionBg: 'transparent', actionInk: INK,
+          note: 'A terminal cannot show “no data”; it either has a connection or it does not. When the pod dies it keeps the scrollback, greys it, and offers the one thing you want next.'
+        },
+        {
+          kind: 'METRICS · NO SOURCE', tone: WARN, title: 'Nothing to query', edge: WARN, head: '◐ prod-ap-south · Metrics', headTone: WARN, state: 'unconfigured', stateTone: WARN,
+          isSkeleton: false, isEmpty: true, glyph: '\u25c6', glyphTone: WARN,
+          line1: 'No Prometheus is configured for this cluster.',
+          line2: 'We found thanos-query.observability:9090 — it answered in 41ms.',
+          hasAction: true, action: 'use it', actionLine: '#5a4520', actionBg: 'rgba(240,180,41,.10)', actionInk: WARN,
+          note: 'An empty state that can fix itself should offer to. The discovery runs whether or not you open this pane, so the offer is already true when you arrive.'
+        },
+        {
+          kind: 'FLEET · PARTIAL', tone: WARN, title: 'Two did not answer', edge: WARN, head: '◈ all clusters', headTone: INFO, state: '8 of 10', stateTone: WARN,
+          isSkeleton: true, isEmpty: false, skelGap: '3px',
+          skel: [
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('40%', '9px', '#1e2530')] },
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('34%', '9px', '#1e2530')] },
+            { delay: '.1s', bars: [bar('28%', '9px', 'rgba(255,95,95,.18)'), bar('72px', '9px', 'rgba(255,95,95,.12)')] },
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('44%', '9px', '#1e2530')] },
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('38%', '9px', '#1e2530')] },
+            { delay: '.2s', bars: [bar('28%', '9px', 'rgba(240,180,41,.16)'), bar('64px', '9px', 'rgba(240,180,41,.10)')] },
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('50%', '9px', '#1e2530')] },
+            { delay: '0s', bars: [bar('30%', '9px', '#1e2530'), bar('54px', '9px', '#1e2530'), bar('42%', '9px', '#1e2530')] }
+          ],
+          note: 'Partial loading keeps a row for every source. The two tinted rows are the clusters still out — a list that simply omits them would read as a clean fleet, which is the dangerous lie.'
+        },
+        {
+          kind: 'ANY PANE · STALE', tone: PAST, title: 'True, but old', edge: WARN, head: '◐ prod-ap-south · Pods', headTone: WARN, state: '47s old', stateTone: WARN,
+          isSkeleton: false, isEmpty: true, glyph: '\u25d0', glyphTone: WARN,
+          line1: 'The watch dropped 47 seconds ago and is reconnecting.',
+          line2: 'These rows were true then. Nothing here is a guess — it is just not now.',
+          hasAction: true, action: 'retry now', actionLine: '#5a4520', actionBg: 'rgba(240,180,41,.10)', actionInk: WARN,
+          note: 'Between healthy and broken, and the state the brief says has no vocabulary yet. Amber, never red: nothing failed, and the rows on screen are still worth reading.'
+        }
+      ],
+      sliders: [
+        {
+          k: 'FRAME', t: 'the time bar, 58px tall — the whole interface moves with it', tone: PAST, spec: '14px track · 3px handle',
+          hasLabel: true, label: '13:52:00', labelSize: '15px', labelInk: '#d7bcf0',
+          h: '14px', trackBg: '#241b30', trackLine: '#3d2d52', fill: '58%', fillBg: 'rgba(169,123,214,.16)',
+          handle: '58%', handleTop: '-5px', handleH: '24px', handleTone: '#d7bcf0',
+          ticks: [
+            { x: '4%', h: '8px', top: '3px', tone: '#6b5a80', title: 'deploy' },
+            { x: '17%', h: '8px', top: '3px', tone: '#6b5a80', title: 'rbac' },
+            { x: '31%', h: '12px', top: '1px', tone: WARN, title: 'node NotReady' },
+            { x: '58%', h: '14px', top: '0', tone: '#d7bcf0', title: 'configmap edited' },
+            { x: '66%', h: '10px', top: '2px', tone: WARN, title: 'first timeout' },
+            { x: '74%', h: '12px', top: '1px', tone: BAD, title: 'oomkill' },
+            { x: '88%', h: '12px', top: '1px', tone: BAD, title: 'oomkill' },
+            { x: '94%', h: '8px', top: '3px', tone: WARN, title: 'scaled' }
+          ],
+          right: 'now 14:22'
+        },
+        {
+          k: 'PANE', t: 'a window chip in a pane header — this pane only, everyone else stays live', tone: INFO, spec: '8px track · 2px handle',
+          hasLabel: true, label: 'last 30m', labelSize: '11px', labelInk: INK2,
+          h: '8px', trackBg: '#141922', trackLine: LINE, fill: '42%', fillBg: 'rgba(74,168,255,.18)',
+          handle: '42%', handleTop: '-3px', handleH: '14px', handleTone: INFO,
+          ticks: [
+            { x: '31%', h: '8px', top: '0', tone: 'rgba(240,180,41,.6)', title: 'warn' },
+            { x: '74%', h: '8px', top: '0', tone: 'rgba(255,95,95,.6)', title: 'oomkill' }
+          ],
+          right: '30m window'
+        },
+        {
+          k: 'CHART', t: 'the brush under a metric curve — dragging it moves every chart pane', tone: OK, spec: '6px track · no handle',
+          hasLabel: false, label: '', labelSize: '10px', labelInk: INK3,
+          h: '6px', trackBg: '#141922', trackLine: LINE, fill: '68%', fillBg: 'rgba(62,207,142,.14)',
+          handle: '68%', handleTop: '-2px', handleH: '10px', handleTone: OK,
+          ticks: [
+            { x: '20%', h: '6px', top: '0', tone: 'rgba(74,168,255,.5)', title: 'deploy' },
+            { x: '52%', h: '6px', top: '0', tone: 'rgba(240,180,41,.5)', title: 'restart' },
+            { x: '68%', h: '6px', top: '0', tone: 'rgba(255,95,95,.5)', title: 'oomkill' }
+          ],
+          right: 'MET-05'
+        }
+      ],
+      sliderRules: [
+        { tone: PAST, h: 'One track, three sizes, one behaviour.', t: 'Drag the handle, click a tick to jump to that event, wheel to zoom the window. Learn it on the frame bar and the chart brush needs no explanation.' },
+        { tone: BAD, h: 'The ticks are the point.', t: 'A time control with an empty track is a scrollbar. Ours carries the deploys, restarts and OOMKills, so you aim at a moment that matters instead of scrubbing for it.' },
+        { tone: PAST, h: 'Only the frame bar turns violet.', t: 'It is the only one that leaves the present. A pane window and a chart brush still show live data, so they keep the ordinary palette — the colour marks the danger, not the widget.' },
+        { tone: OK, h: 'Now is a green line at the right edge.', t: 'Always drawn, on all three sizes, so “how far back am I?” is answered by a distance rather than by reading two timestamps.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #2c3542; border: 2px solid transparent; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-ask:#4fc3b0;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:960px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 06 · PANE 11 / 30 · OBJECT PANE · ASK-01…08</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">The assistant</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Not a chatbot — a pane that reads the panes beside it. Three things decide whether it is trustworthy: <span style="color:var(--ks-ink)">every claim points at what it came from</span>, <span style="color:var(--ks-ink)">every suggestion is shown before anyone accepts it</span>, and its best answers are not prose at all but a pane, a filter, a moment in time.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="assistant · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+          <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span>{{ t.name }}
+        </div>
+      </sc-for>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-ask)"><span style="font-size:7px">◇</span>local model · ollama · nothing leaves this machine</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 620px;gap:1px;background:var(--ks-line);min-height:0">
+      <!-- the panes it is reading -->
+      <div style="display:grid;grid-template-rows:1fr 1fr;gap:1px;background:var(--ks-line);min-height:0">
+        <sc-for list="{{ sourcePanes }}" as="p" hint-placeholder-count="2">
+          <div style="background:var(--ks-panel);display:flex;flex-direction:column;min-height:0;border-left:2px solid {{ p.edge }}">
+            <div style="height:24px;display:flex;align-items:center;gap:9px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:{{ p.edge }};font-weight:600">{{ p.cluster }}</span>
+              <span style="color:var(--ks-line)">│</span><span style="color:var(--ks-ink)">{{ p.kind }}</span>
+              <span style="color:var(--ks-ink-3)">{{ p.scope }}</span>
+              <div style="flex:1"></div>
+              <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ask);font-size:10px"><span style="font-size:7px">◇</span>{{ p.cited }}</span>
+            </div>
+            <div style="flex:1;min-height:0;overflow:hidden">
+              <sc-for list="{{ p.rows }}" as="r" hint-placeholder-count="12">
+                <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ p.cols }};align-items:center;gap:9px;padding:0 10px;background:{{ r.bg }};box-shadow:{{ r.ring }};font-family:var(--ks-mono);font-size:11px">
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                    <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;color:{{ c.ink }};font-weight:{{ c.weight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                      <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                    </div>
+                  </sc-for>
+                  <sc-if value="{{ r.hasCite }}" hint-placeholder-val="{{ false }}">
+                    <div style="justify-self:end;display:flex;align-items:center"><span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ask);padding:1px 5px;border:1px solid #245c54;background:rgba(79,195,176,.10);white-space:nowrap">{{ r.cite }}</span></div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- the assistant pane -->
+      <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-ask)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+          <span style="display:flex;align-items:center;gap:6px;color:var(--ks-ask);font-weight:600"><span style="font-size:7px">◇</span>Assistant</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink-3)">reading</span><span style="color:var(--ks-ink-2)">2 panes · prod-eu-west</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ok)">local</span>
+          <span style="color:var(--ks-line)">│</span>
+          <span style="color:var(--ks-ink-3)">2.4s · 8.1k tokens</span>
+          <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:9px;padding:7px 11px;background:rgba(79,195,176,.06);border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+          <span style="letter-spacing:.11em;color:var(--ks-ink-3)">CONTEXT SENT</span>
+          <sc-for list="{{ contextChips }}" as="c" hint-placeholder-count="5">
+            <span style="display:flex;align-items:center;gap:5px;padding:2px 7px;border:1px solid {{ c.line }};color:{{ c.ink }}">{{ c.t }}</span>
+          </sc-for>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ask)">review before sending ▸</span>
+        </div>
+
+        <div style="flex:1;min-height:0;overflow-y:auto;scrollbar-gutter:stable;padding:12px 13px;display:flex;flex-direction:column;gap:13px" data-scroll="dense">
+
+          <div style="display:flex;align-items:flex-start;gap:10px">
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);padding-top:3px;flex:none">you</span>
+            <div style="font-size:13.5px;line-height:1.5;color:var(--ks-ink);text-wrap:pretty">Why does checkout-api keep dying, and did we do it to ourselves?</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="font-size:14px;line-height:1.6;color:var(--ks-ink);text-wrap:pretty">
+              It is being killed for memory, and yes — the trigger was a config change at 13:52.<sc-for list="{{ c1 }}" as="x" hint-placeholder-count="1"><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ask);padding:1px 5px;border:1px solid #245c54;background:rgba(79,195,176,.10);margin-left:5px">{{ x.t }}</span></sc-for>
+            </div>
+            <div style="font-size:13px;line-height:1.65;color:var(--ks-ink-2);text-wrap:pretty">
+              <span style="font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink)">TIMEOUT_MS</span> went from 2000 to 500 in <span style="font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink)">cm/checkout-config</span>.<sc-for list="{{ c2 }}" as="x" hint-placeholder-count="1"><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ask);padding:1px 5px;border:1px solid #245c54;background:rgba(79,195,176,.10);margin:0 5px">{{ x.t }}</span></sc-for>
+              Requests to the ledger now time out after half a second and are retried, so each pod holds four times as many in-flight bodies as before. Heap crossed the 512Mi limit ten minutes later and has been hitting it since.<sc-for list="{{ c3 }}" as="x" hint-placeholder-count="1"><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ask);padding:1px 5px;border:1px solid #245c54;background:rgba(79,195,176,.10);margin-left:5px">{{ x.t }}</span></sc-for>
+            </div>
+            <div style="font-size:13px;line-height:1.65;color:var(--ks-ink-2);text-wrap:pretty">
+              The same ConfigMap on <span style="font-family:var(--ks-mono);font-size:12px;color:var(--ks-ink)">prod-us-east</span> still says 2000, and that cluster has zero restarts today.<sc-for list="{{ c4 }}" as="x" hint-placeholder-count="1"><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ask);padding:1px 5px;border:1px solid #245c54;background:rgba(79,195,176,.10);margin-left:5px">{{ x.t }}</span></sc-for>
+            </div>
+
+            <div style="padding:10px 12px;background:var(--ks-field);border-left:2px solid var(--ks-ink-3);display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:var(--ks-ink-3)">WHAT I CANNOT TELL YOU</div>
+              <div style="font-size:12.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">Whether 500ms was deliberate. The change is attributed to <span style="font-family:var(--ks-mono);color:var(--ks-ink-2)">ci-bot</span>, and I cannot see what merged it — that is outside this app.</div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ask)">EVIDENCE · EVERY CLAIM ABOVE, CLICKABLE</div>
+            <sc-for list="{{ evidence }}" as="e" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;padding:6px 9px;background:var(--ks-field);border:1px solid var(--ks-line);border-left:2px solid var(--ks-ask)">
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ask);flex:none;width:26px">{{ e.n }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none;width:76px">{{ e.kind }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ e.t }}</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-info);flex:none">{{ e.go }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-warn)">A SUGGESTION — NOTHING HAS HAPPENED YET</div>
+            <div style="border:1px solid #5a4520;background:rgba(240,180,41,.06);display:flex;flex-direction:column">
+              <div style="padding:10px 12px;border-bottom:1px solid #5a4520;display:flex;align-items:center;gap:10px">
+                <span style="font-size:10px;color:var(--ks-warn)">◆</span>
+                <span style="font-size:13.5px;font-weight:600;color:var(--ks-ink)">Put TIMEOUT_MS back to 2000</span>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">1 field · 1 object</span>
+              </div>
+              <div style="padding:10px 12px;display:flex;flex-direction:column;gap:9px">
+                <div style="display:flex;align-items:center;gap:12px;font-family:var(--ks-mono);font-size:11.5px">
+                  <span style="color:var(--ks-ink-3)">data.TIMEOUT_MS</span>
+                  <span style="padding:2px 8px;background:rgba(255,95,95,.12);color:#ffb3b3;text-decoration:line-through">500</span>
+                  <span style="color:var(--ks-ink-3)">→</span>
+                  <span style="padding:2px 8px;background:rgba(62,207,142,.12);color:#a8e6c8">2000</span>
+                </div>
+                <div style="font-size:12px;line-height:1.5;color:#f3d08a;text-wrap:pretty">This is envFrom, so no restart happens — the pods pick it up on their next read. It does not fix the memory limit, only the thing that started this.</div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink-2)">Dismiss</span>
+                  <span style="padding:6px 12px;border:1px solid var(--ks-line);font-size:12px;color:var(--ks-ink)">Open in the editor</span>
+                  <span style="padding:6px 12px;border:1px solid #5a4520;background:rgba(240,180,41,.14);font-size:12px;color:var(--ks-warn);font-weight:600">Review and apply…</span>
+                  <div style="flex:1"></div>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">goes to the normal confirmation</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:9px;padding:6px 9px;border:1px solid var(--ks-line);background:var(--ks-field)">
+              <span style="font-size:9px;color:var(--ks-ink-3)">○</span>
+              <span style="font-size:12px;color:var(--ks-ink-3);line-height:1.45;text-wrap:pretty">Second suggestion — raise the limit to 768Mi — withheld: I cannot see whether the 511Mi peak is the leak or the load.</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-info)">OR LET ME BUILD THE VIEW</div>
+            <sc-for list="{{ panelAnswers }}" as="p" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--ks-field);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info)">
+                <span style="font-size:9px;color:var(--ks-info);flex:none">{{ p.glyph }}</span>
+                <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                  <span style="font-size:12.5px;color:var(--ks-ink);line-height:1.35">{{ p.t }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ p.spec }}</span>
+                </div>
+                <div style="flex:1"></div>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-info);flex:none">{{ p.key }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--ks-line);background:var(--ks-field);padding:9px 11px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:center;gap:10px;height:30px;padding:0 10px;border:1px solid var(--ks-line);background:var(--ks-panel)">
+            <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ask)">◇</span>
+            <span style="font-size:12.5px;color:var(--ks-ink-3)">Ask about what is in these panes</span>
+            <span style="font-family:var(--ks-mono);font-size:12.5px;color:var(--ks-ask)">▏</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+            <span>⏎ ask</span><span>⇧⏎ new line</span><span style="color:var(--ks-ask)">◇ suggests, never acts</span>
+            <div style="flex:1"></div>
+            <span>0.00 · local model, no cost</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ask)">THE THREE THINGS</div>
+      <div style="font-size:19px;font-weight:600">Citation, suggestion, and the answer that is a pane</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start">
+      <sc-for list="{{ three }}" as="t" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ t.tone }}">{{ t.n }}</span>
+            <span style="font-size:14px;font-weight:600">{{ t.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ t.cap }}</span>
+          </div>
+          <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ t.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:9px;min-height:210px">
+            <div style="font-size:14px;font-weight:600;line-height:1.4;text-wrap:pretty">{{ t.rule }}</div>
+            <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ t.why }}</div>
+            <div style="flex:1"></div>
+            <sc-for list="{{ t.points }}" as="p" hint-placeholder-count="3">
+              <div style="display:flex;align-items:flex-start;gap:9px">
+                <span style="font-size:8px;color:{{ t.tone }};padding-top:4px;flex:none">{{ p.glyph }}</span>
+                <span style="font-size:12px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ p.t }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:19px;font-weight:600">Four answers, and only one of them is prose</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:300px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="padding:8px 10px;border-bottom:1px solid var(--ks-line-soft);background:var(--ks-field)">
+              <div style="font-size:11.5px;line-height:1.4;color:var(--ks-ink);text-wrap:pretty">{{ v.q }}</div>
+            </div>
+            <div style="flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden">
+              <sc-if value="{{ v.hasLead }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:9px 10px;border-bottom:1px solid var(--ks-line-soft);font-size:12px;line-height:1.5;color:{{ v.leadInk }};text-wrap:pretty">{{ v.lead }}</div>
+              </sc-if>
+              <div style="flex:1;min-height:0;overflow:hidden">
+                <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="9">
+                  <div style="min-height:{{ r.h }};display:grid;grid-template-columns:{{ v.cols }};align-items:center;padding:3px 10px;gap:8px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                    <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+                      <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;font-family:{{ c.font }};font-size:{{ c.size }};color:{{ c.ink }};font-weight:{{ c.weight }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+                        <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>{{ c.t }}
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ v.hasFoot }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:8px 10px;border-top:1px solid var(--ks-line);background:{{ v.footBg }};font-family:var(--ks-mono);font-size:10px;color:{{ v.footInk }};line-height:1.5">{{ v.foot }}</div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', ASK = '#4fc3b0', LINE = '#242b35';
+const MONO = "'IBM Plex Mono',monospace", SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({ t, ink: INK2, weight: '400', justify: 'flex-start', glyph: '', gtone: INK3, font: MONO, size: '10.5px' }, o || {});
+    const row = (cells, o) => Object.assign({ cells, bg: 'transparent', h: '22px', ring: 'inset 0 -1px 0 #1a2028', hasCite: false, cite: '' }, o || {});
+    const vr = (cells, bg, h) => ({ cells, bg: bg || 'transparent', h: h || '22px' });
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    return {
+      facts: [
+        { k: 'CLAIMS', v: '4', tone: INK },
+        { k: 'CITED', v: '4 of 4', tone: ASK },
+        { k: 'WRITES PERFORMED', v: '0', tone: OK },
+        { k: 'DATA LEAVING', v: 'none · local', tone: OK }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3 }
+      ],
+      rail: CL.map((x, i) => ({
+        name: x[0], code: x[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? x[2] : 'transparent', glyph: x[4], tone: x[3]
+      })),
+      contextChips: [
+        { t: 'selected pod', ink: INK2, line: LINE },
+        { t: '62 events', ink: INK2, line: LINE },
+        { t: '200 log lines', ink: INK2, line: LINE },
+        { t: 'change stream · 1h', ink: INK2, line: LINE },
+        { t: 'secrets masked', ink: OK, line: '#22503c' },
+        { t: 'no YAML sent', ink: OK, line: '#22503c' }
+      ],
+      sourcePanes: [
+        {
+          cluster: 'prod-eu-west', kind: 'Change stream', scope: 'last hour', edge: INFO, cited: '2 rows cited',
+          cols: '48px 78px 1fr 60px',
+          rows: [
+            row([c('14:22', {}), c('oomkill', { ink: '#f0b5b0' }), c('checkout-api killed \u00b7 47th today', { ink: '#ffd7d7', weight: '600' })], { bg: 'rgba(79,195,176,.10)', ring: 'inset 2px 0 0 #4fc3b0, inset 0 -1px 0 #1a2028', hasCite: true, cite: '3' }),
+            row([c('14:20', {}), c('scale', { ink: '#f3d08a' }), c('hpa scaled checkout-api 6 \u2192 8', {})]),
+            row([c('14:02', {}), c('event', { ink: INK3 }), c('first ledger timeout logged', {})]),
+            row([c('13:52', {}), c('configmap', { ink: '#8ac6ff' }), c('checkout-config \u00b7 TIMEOUT_MS 2000 \u2192 500 \u00b7 ci-bot', { ink: INK, weight: '600' })], { bg: 'rgba(79,195,176,.10)', ring: 'inset 2px 0 0 #4fc3b0, inset 0 -1px 0 #1a2028', hasCite: true, cite: '1 2' }),
+            row([c('13:41', {}), c('node', { ink: INK3 }), c('ip-10-0-4-8 became NotReady', {})]),
+            row([c('12:04', {}), c('deploy', { ink: INK3 }), c('checkout-api 2026.8.2 \u2192 2026.8.3 \u00b7 argocd', {})]),
+            row([c('11:38', {}), c('scale', { ink: INK3 }), c('hpa scaled checkout-api 4 \u2192 6', {})]),
+            row([c('10:11', {}), c('oomkill', { ink: INK3 }), c('checkout-api first kill', {})]),
+            row([c('09:52', {}), c('rbac', { ink: INK3 }), c('payments-deployer gained sa/ci-bot', {})])
+          ]
+        },
+        {
+          cluster: 'prod-eu-west', kind: 'Metrics', scope: 'checkout-api \u00b7 memory \u00b7 30m', edge: INFO, cited: '1 series cited',
+          cols: '62px 1fr 74px 58px',
+          rows: [
+            row([c('13:52', {}), c('302Mi \u00b7 steady, before the change', { ink: INK2 }), c('limit 512Mi', { ink: INK3, justify: 'flex-end' })]),
+            row([c('13:58', {}), c('344Mi \u00b7 retries begin', { ink: INK2 }), c('', {})]),
+            row([c('14:02', {}), c('411Mi \u00b7 in-flight bodies pile up', { ink: '#e9dcc0' }), c('', {})], { bg: 'rgba(240,180,41,.05)' }),
+            row([c('14:08', {}), c('478Mi', { ink: '#e9dcc0' }), c('', {})], { bg: 'rgba(240,180,41,.05)' }),
+            row([c('14:12', {}), c('511Mi \u00b7 first kill after the change', { ink: '#ffd7d7', weight: '600' }), c('', {})], { bg: 'rgba(79,195,176,.10)', ring: 'inset 2px 0 0 #4fc3b0, inset 0 -1px 0 #1a2028', hasCite: true, cite: '3' }),
+            row([c('14:16', {}), c('509Mi \u00b7 killed', { ink: '#f0b5b0' }), c('', {})]),
+            row([c('14:20', {}), c('511Mi \u00b7 killed', { ink: '#f0b5b0' }), c('', {})]),
+            row([c('14:22', {}), c('182Mi \u00b7 restarting', { ink: INK2 }), c('', {})]),
+            row([c('us-east', { ink: '#c9a4e0' }), c('same workload \u00b7 298Mi \u00b7 0 restarts today', { ink: INK2 }), c('', {})], { bg: 'rgba(79,195,176,.10)', ring: 'inset 2px 0 0 #4fc3b0, inset 0 -1px 0 #1a2028', hasCite: true, cite: '4' })
+          ]
+        }
+      ],
+      c1: [{ t: '1' }], c2: [{ t: '2' }], c3: [{ t: '3' }], c4: [{ t: '4' }],
+      evidence: [
+        { n: '1', kind: 'change', t: '13:52 · cm/checkout-config edited by ci-bot', go: 'go to the row ▸' },
+        { n: '2', kind: 'diff', t: 'data.TIMEOUT_MS · "2000" → "500"', go: 'open the diff ▸' },
+        { n: '3', kind: 'metric', t: 'memory 302Mi → 511Mi between 13:52 and 14:12, 3 OOMKills on the curve', go: 'open metrics ▸' },
+        { n: '4', kind: 'fleet', t: 'prod-us-east · same ConfigMap, TIMEOUT_MS 2000, 0 restarts', go: 'compare ▸' }
+      ],
+      panelAnswers: [
+        { glyph: '\u25a4', t: 'Put the two clusters side by side, memory on one axis', spec: 'metrics · checkout-api · eu-west + us-east · 30m', key: 'build it' },
+        { glyph: '\u25c8', t: 'Every pod on the fleet that reads this ConfigMap', spec: 'search · mounts cm/checkout-config · 10 clusters', key: 'build it' },
+        { glyph: '\u25f7', t: 'Take the whole frame back to 13:51, just before the edit', spec: 'time travel · 13:51:00', key: 'go there' }
+      ],
+      three: [
+        {
+          n: 'ONE', tone: ASK, cap: 'ASK-06', title: 'Evidence or silence',
+          rule: 'Every sentence carries a numbered chip, and the chip is the row it came from.',
+          why: 'A model that is confidently wrong during an incident is worse than no model. So the citation is not a footnote — it is the unit the answer is built from, and a claim that cannot point at a row is not printed at all.',
+          points: [
+            { glyph: '\u25c6', t: 'Clicking a chip scrolls the source pane to that row and rings it in the same teal. The proof is in the app, not in the answer.' },
+            { glyph: '\u25c6', t: 'The cited rows are marked in the source panes too, so you can see the reach of the answer without reading it.' },
+            { glyph: '\u25c6', t: 'And it says what it cannot know — “I cannot see what merged it” — in its own block, because the limits are part of the answer.' }
+          ]
+        },
+        {
+          n: 'TWO', tone: WARN, cap: 'ASK-07',
+          title: 'Suggests, never acts',
+          rule: 'A suggestion is a diff in an amber card, and accepting it opens the ordinary confirmation.',
+          why: 'It gets no private route to the cluster. “Review and apply” hands over to exactly the dialog a human click would have opened, with the same impact preview and the same typed name on prod — the assistant can only ever save you the typing.',
+          points: [
+            { glyph: '\u25c6', t: 'The card shows the field, both values, and the consequence — here, that envFrom means no restart.' },
+            { glyph: '\u25c6', t: 'On a read-only cluster it cannot even suggest a write; it says so instead of offering a button that fails.' },
+            { glyph: '\u25c6', t: 'A withheld suggestion is shown as a withheld suggestion. Silence about an idea it had is its own kind of lie.' }
+          ]
+        },
+        {
+          n: 'THREE', tone: INFO, cap: 'ASK-02',
+          title: 'The answer is often a pane',
+          rule: 'The best reply to “which pods restarted most this week” is a sorted list, not a paragraph about it.',
+          why: 'It speaks the action map: it can open a pane with a scope, set a filter, move the time bar, assemble a layout. Prose is what it falls back to when there is no view that answers the question.',
+          points: [
+            { glyph: '\u25c6', t: 'Each offer names exactly what it would build, in the app’s own vocabulary, before you press it.' },
+            { glyph: '\u25c6', t: 'Building a view is not a write, so it needs no confirmation — but it never replaces your panes, it splits.' },
+            { glyph: '\u25c6', t: 'The layout it builds is an ordinary layout: you can save it, drag it apart, or ignore it entirely.' }
+          ]
+        }
+      ],
+      variants: [
+        {
+          title: 'A list, not a paragraph', cap: 'ASK-02', edge: INFO, q: '“which pods restarted most this week?”',
+          hasLead: true, leadInk: INK2, lead: 'Built you a list instead of describing one:',
+          cols: '1fr 44px 52px',
+          rows: [
+            vr([c('checkout-api-…-k8n1p', { ink: INK, weight: '600' }), c('47\u00d7', { ink: '#ffb3b3', justify: 'flex-end' }), c('eu-west', { ink: INFO, size: '9.5px', justify: 'flex-end' })], 'rgba(255,95,95,.07)'),
+            vr([c('kafka-2', { ink: '#c8d1dd' }), c('12\u00d7', { ink: '#f3d08a', justify: 'flex-end' }), c('us-east', { ink: PURPLE, size: '9.5px', justify: 'flex-end' })]),
+            vr([c('loki-ingester-…-x71vd', { ink: '#c8d1dd' }), c('8\u00d7', { ink: '#f3d08a', justify: 'flex-end' }), c('eu-west', { ink: INFO, size: '9.5px', justify: 'flex-end' })]),
+            vr([c('nightly-export-…-2', { ink: '#c8d1dd' }), c('5\u00d7', { ink: INK2, justify: 'flex-end' }), c('eu-west', { ink: INFO, size: '9.5px', justify: 'flex-end' })]),
+            vr([c('fraud-scorer-…-2wq7t', { ink: '#c8d1dd' }), c('3\u00d7', { ink: INK2, justify: 'flex-end' }), c('ap-south', { ink: WARN, size: '9.5px', justify: 'flex-end' })]),
+            vr([c('otel-collector-…-4mzq1', { ink: '#c8d1dd' }), c('2\u00d7', { ink: INK2, justify: 'flex-end' }), c('ap-south', { ink: WARN, size: '9.5px', justify: 'flex-end' })]),
+            vr([c('cilium-operator-…-mm4kd', { ink: '#c8d1dd' }), c('1\u00d7', { ink: INK3, justify: 'flex-end' }), c('staging', { ink: OK, size: '9.5px', justify: 'flex-end' })])
+          ],
+          hasFoot: true, footBg: 'rgba(74,168,255,.06)', footInk: '#8ac6ff',
+          foot: 'this is a real pane · sort it, filter it, act on the rows',
+          note: 'No summary sentence at the top, because the list is the summary. The one line it does write says only what it did.'
+        },
+        {
+          title: 'A translation', cap: 'ASK-03 · MET-10', edge: INFO, q: '“memory per pod in payments, 5 minute average”',
+          hasLead: true, leadInk: INK2, lead: 'PromQL, editable — the language stays visible:',
+          cols: '1fr',
+          rows: [
+            vr([c('avg_over_time(', { ink: '#8ac6ff', size: '10px' })], 'transparent', '17px'),
+            vr([c('  container_memory_working_set_bytes{', { ink: '#8ac6ff', size: '10px' })], 'transparent', '17px'),
+            vr([c('    namespace="payments",', { ink: '#a8e6c8', size: '10px' })], 'transparent', '17px'),
+            vr([c('    container!=""', { ink: '#a8e6c8', size: '10px' })], 'transparent', '17px'),
+            vr([c('  }[5m]', { ink: '#8ac6ff', size: '10px' })], 'transparent', '17px'),
+            vr([c(')', { ink: '#8ac6ff', size: '10px' })], 'transparent', '17px'),
+            vr([c('by (pod)', { ink: '#f3d08a', size: '10px' })], 'transparent', '17px'),
+            vr([c('', {})], 'transparent', '10px'),
+            vr([c('11 series \u00b7 run it, or edit and run', { ink: INK3, size: '10px' })], 'transparent', '18px')
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'same field as the query builder · it teaches the language',
+          note: 'It never hides the query it wrote. You can correct one label and run it, which is the difference between a tool and an oracle.'
+        },
+        {
+          title: 'A moment in time', cap: 'ASK-05 · TIME-02', edge: '#a97bd6', q: '“what happened between 13:55 and 14:10?”',
+          hasLead: true, leadInk: '#d7bcf0', lead: 'Four things, in order — and I can take you there:',
+          cols: '48px 1fr',
+          rows: [
+            vr([c('13:52', { ink: '#a97bd6' }), c('TIMEOUT_MS 2000 → 500', { ink: INK, weight: '600' })], 'rgba(169,123,214,.08)'),
+            vr([c('13:58', { ink: INK3 }), c('retry rate begins climbing', { ink: INK2 })]),
+            vr([c('14:02', { ink: INK3 }), c('first ledger timeout logged', { ink: INK2 })]),
+            vr([c('14:08', { ink: INK3 }), c('memory crosses 478Mi', { ink: INK2 })]),
+            vr([c('14:12', { ink: INK3 }), c('first OOMKill of the sequence', { ink: '#f0b5b0' })], 'rgba(255,95,95,.06)'),
+            vr([c('', {})], 'transparent', '10px'),
+            vr([c('▸', { ink: '#a97bd6' }), c('take the frame back to 13:51', { ink: '#d7bcf0' })], 'rgba(169,123,214,.08)', '24px'),
+            vr([c('▸', { ink: '#a97bd6' }), c('export this window as an incident file', { ink: '#d7bcf0' })], 'transparent', '24px')
+          ],
+          hasFoot: true, footBg: 'rgba(169,123,214,.07)', footInk: '#c9a4e0',
+          foot: 'moving the time bar is not a write · no confirmation',
+          note: 'A narrative built from the change stream, the events and the curve — and the two offers below it are the actions that narrative implies.'
+        },
+        {
+          title: 'It refuses', cap: 'ASK-06 · ASK-08', edge: IDLE, q: '“is it safe to drain ip-10-0-3-19 right now?”',
+          hasLead: true, leadInk: '#f3d08a', lead: 'I will not answer that one from a guess.',
+          cols: '1fr',
+          rows: [
+            vr([c('I can see the node holds 24 pods and 91% of its', { ink: INK2, font: SANS, size: '11.5px' })], 'transparent', '18px'),
+            vr([c('memory is requested. What I cannot see is whether', { ink: INK2, font: SANS, size: '11.5px' })], 'transparent', '18px'),
+            vr([c('they would fit elsewhere — that is arithmetic across', { ink: INK2, font: SANS, size: '11.5px' })], 'transparent', '18px'),
+            vr([c('six nodes with taints and affinities, and the app', { ink: INK2, font: SANS, size: '11.5px' })], 'transparent', '18px'),
+            vr([c('does it exactly, without me.', { ink: INK2, font: SANS, size: '11.5px' })], 'transparent', '18px'),
+            vr([c('', {})], 'transparent', '10px'),
+            vr([c('▸ run the drain simulation', { ink: '#8ac6ff', font: SANS, size: '12px', weight: '600' })], 'rgba(74,168,255,.07)', '26px'),
+            vr([c('  DIAG-08 · deterministic, no model involved', { ink: INK3, size: '10px' })], 'transparent', '18px')
+          ],
+          hasFoot: true, footBg: 'transparent', footInk: INK3,
+          foot: 'the best answer is often “the app already knows”',
+          note: 'The refusal that matters most: when a deterministic pane can answer better, it hands over rather than approximating. That single behaviour is what makes the other answers credible.'
+        }
+      ],
+      closing: [
+        { tone: ASK, k: 'IT HAS ITS OWN COLOUR, AND IT IS NOT AN ACCENT', t: 'Teal, used only by the assistant: its pane edge, its citation chips, and the rings it puts on cited rows in other panes. That last one is the point — you can see what the answer touched without reading a word of it, and nothing else in the product is allowed to reach into another pane like that.' },
+        { tone: OK, k: 'OFF BY DEFAULT, LOCAL BY PREFERENCE', t: 'Per cluster, like read-only mode. The header always names where the model runs, the context strip lists exactly what would be sent with secrets masked, and it is reviewable before it goes. On a local model the cost line reads 0.00 — which is also the honest argument for shipping local support first.' },
+        { tone: WARN, k: 'WHAT WE GIVE UP', t: 'A conversation. There is no long thread here: the pane holds one question, its answer and its offers, and asking again replaces them — because a scrollback of stale answers about a cluster that has moved on is a liability, not a feature. It also cannot chain actions, cannot act while you are away, and on a read-only cluster it cannot even suggest one. If that makes it less impressive in a demo, it is the right trade for a tool people use at 2am.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

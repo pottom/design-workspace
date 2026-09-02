@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:920px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 04 / 30 · QUESTION PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Fleet</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The product’s calling card: ten clusters, one screen, sorted so the ones that need you are always at the top. One 34px row each — identity, connection, nodes, a proportional phase bar, and a sentence saying what it needs. Cards were tried and lost: ten cards cannot be compared, because the eye has to re-find the same number in ten different places.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="fleet · full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>probing every 30s · last sweep 14:22:07</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">◈</span>all clusters</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Fleet</span>
+        <span style="color:var(--ks-ink-3)">group</span><span style="color:var(--ks-ink-2)">all<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">sort</span><span style="color:var(--ks-ink-2)">needs you first<span style="color:var(--ks-ink-3)">▾</span></span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">10 clusters · 148 nodes · 3 412 pods</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>probing 30s</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- the verdict line: the primary element of the screen -->
+      <div style="padding:14px 16px 13px;display:flex;align-items:flex-end;gap:26px;border-bottom:1px solid var(--ks-line);background:var(--ks-field)">
+        <div style="display:flex;flex-direction:column;gap:5px;max-width:720px">
+          <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.13em;color:var(--ks-ink-3)">NEEDS ATTENTION</div>
+          <div style="display:flex;align-items:baseline;gap:11px">
+            <span style="font-size:30px;font-weight:600;line-height:1;color:var(--ks-bad)">2</span>
+            <span style="font-size:15px;color:var(--ks-ink)">clusters</span>
+            <span style="font-size:13.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty"><span style="color:#ffb3b3;font-family:var(--ks-mono);font-size:12.5px">edge-01</span> stopped answering four minutes ago · <span style="color:#f3d08a;font-family:var(--ks-mono);font-size:12.5px">prod-ap-south</span> is slow and two of its nodes are NotReady</span>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex;gap:24px">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:4px;padding-left:18px;border-left:1px solid var(--ks-line)">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ k.label }}</div>
+              <div style="display:flex;align-items:baseline;gap:7px">
+                <span style="font-family:var(--ks-mono);font-size:19px;font-weight:600;line-height:1.1;color:var(--ks-ink)">{{ k.v }}</span>
+                <span style="font-size:11px;color:{{ k.tone }}">{{ k.sub }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="height:20px;display:grid;grid-template-columns:168px 104px 62px 108px 132px 1fr 158px;align-items:center;padding:0 10px;gap:12px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div style="color:var(--ks-ink-2)">CLUSTER ↓</div><div>CONNECTION</div><div style="text-align:right">RTT</div><div>NODES</div><div>PODS BY PHASE</div><div>WHAT IT NEEDS</div><div>VERSION</div>
+      </div>
+
+      <div style="min-height:0">
+        <sc-for list="{{ fleet }}" as="c" hint-placeholder-count="10">
+          <div style="height:34px;display:grid;grid-template-columns:168px 104px 62px 108px 132px 1fr 158px;align-items:center;padding:0 10px;gap:12px;background:{{ c.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="display:flex;align-items:center;gap:9px;border-left:2px solid {{ c.hue }};padding-left:10px">
+              <span style="font-size:8px;color:{{ c.tone }}">{{ c.glyph }}</span>
+              <span style="font-family:var(--ks-mono);font-size:12px;color:{{ c.nameInk }};font-weight:{{ c.nameWeight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.name }}</span>
+            </div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ c.tone }}">{{ c.state }}</div>
+            <div style="font-family:var(--ks-mono);font-size:11px;color:{{ c.rttInk }};text-align:right">{{ c.rtt }}</div>
+            <div style="display:flex;align-items:baseline;gap:7px;font-family:var(--ks-mono);font-size:11px">
+              <span style="color:var(--ks-ink)">{{ c.nodes }}</span><span style="color:{{ c.nodeTone }};font-size:10px">{{ c.nodeNote }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="flex:1;display:flex;align-items:center;gap:1px;height:11px">
+                <sc-for list="{{ c.bars }}" as="s" hint-placeholder-count="3">
+                  <div title="{{ s.title }}" style="width:{{ s.w }};height:11px;background:{{ s.bg }}"></div>
+                </sc-for>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);flex:none">{{ c.podLabel }}</span>
+            </div>
+            <div style="font-size:11.5px;line-height:1.35;color:{{ c.needInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.need }}</div>
+            <div style="display:flex;align-items:center;gap:8px;font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:{{ c.verInk }}">{{ c.ver }}</span>
+              <span style="color:var(--ks-ink-3);font-size:9.5px">{{ c.verNote }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- across the fleet: everything not healthy, from all ten -->
+      <div style="flex:1;min-height:0;display:flex;flex-direction:column;border-top:1px solid var(--ks-line);background:var(--ks-field)">
+        <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:11px">
+          <span style="color:var(--ks-ink)">Across the fleet</span>
+          <span style="color:var(--ks-ink-3)">everything not healthy · all 10 clusters · one list</span>
+          <div style="flex:1"></div>
+          <span style="color:var(--ks-ink-2)">14 items</span>
+        </div>
+        <div style="height:18px;display:grid;grid-template-columns:132px 86px 108px 1fr 62px 92px;align-items:center;padding:0 10px;gap:10px;border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.08em;color:var(--ks-ink-3)">
+          <div>CLUSTER</div><div>KIND</div><div>NAMESPACE</div><div>OBJECT</div><div style="text-align:right">SINCE</div><div style="text-align:right">NEXT STEP</div>
+        </div>
+        <div style="flex:1;min-height:0;overflow:hidden">
+          <sc-for list="{{ attention }}" as="a" hint-placeholder-count="14">
+            <div style="height:22px;display:grid;grid-template-columns:132px 86px 108px 1fr 62px 92px;align-items:center;padding:0 10px;gap:10px;background:{{ a.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft);font-size:11.5px">
+              <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink)"><span style="width:2px;height:11px;background:{{ a.hue }}"></span>{{ a.cluster }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ a.kind }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3)">{{ a.ns }}</div>
+              <div style="display:flex;align-items:center;gap:9px;overflow:hidden">
+                <span style="display:flex;align-items:center;gap:5px;color:{{ a.tone }};font-family:var(--ks-mono);font-size:10.5px;font-weight:600;flex:none"><span style="font-size:8px">{{ a.glyph }}</span>{{ a.word }}</span>
+                <span style="font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:none;max-width:280px">{{ a.obj }}</span>
+                <span style="color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ a.why }}</span>
+              </div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);text-align:right">{{ a.since }}</div>
+              <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-info);text-align:right">{{ a.action }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">Narrow, grouped, and the version matrix</div>
+    </div>
+    <div style="display:grid;grid-template-columns:300px 1fr 1fr;gap:14px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13px;font-weight:600">Narrow — 300px</span><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">one of four panes</span></div>
+        <div style="height:284px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-info);font-weight:600">all clusters</span><div style="flex:1"></div><span style="color:var(--ks-bad)">▲ 2</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden">
+            <sc-for list="{{ narrow }}" as="n" hint-placeholder-count="10">
+              <div style="height:26px;display:grid;grid-template-columns:14px 1fr 54px;align-items:center;padding:0 8px;gap:8px;background:{{ n.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <div style="font-size:8px;color:{{ n.tone }};text-align:center">{{ n.glyph }}</div>
+                <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+                  <span style="font-family:var(--ks-mono);font-size:11px;color:{{ n.nameInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.name }}</span>
+                  <span style="font-size:9.5px;color:{{ n.needInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ n.need }}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:1px;height:8px">
+                  <sc-for list="{{ n.bars }}" as="s" hint-placeholder-count="3">
+                    <div style="width:{{ s.w }};height:8px;background:{{ s.bg }}"></div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">At 300px the row goes to two lines: name above, what it needs below. The phase bar survives at 54px because it is the only thing here that compares across rows — the RTT and the node count go first.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13px;font-weight:600">Grouped by cluster group</span><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">CONN-02</span></div>
+        <div style="height:284px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-info);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-info);font-weight:600">3 groups</span><span style="color:var(--ks-ink-3)">prod · staging · edge</span><div style="flex:1"></div><span style="color:var(--ks-ink-2)">roll-up per group</span>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden">
+            <sc-for list="{{ grouped }}" as="g" hint-placeholder-count="12">
+              <div style="height:{{ g.h }};display:grid;grid-template-columns:150px 78px 1fr 92px;align-items:center;padding:0 9px;gap:10px;background:{{ g.bg }};box-shadow:{{ g.shadow }}">
+                <div style="display:flex;align-items:center;gap:8px;padding-left:{{ g.indent }}">
+                  <span style="font-size:8px;color:{{ g.tone }}">{{ g.glyph }}</span>
+                  <span style="font-family:var(--ks-mono);font-size:{{ g.size }};color:{{ g.nameInk }};font-weight:{{ g.weight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.name }}</span>
+                </div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:{{ g.tone }}">{{ g.state }}</div>
+                <div style="font-size:11px;color:{{ g.needInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ g.need }}</div>
+                <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-3);text-align:right">{{ g.pods }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">A group is a row too, with the worst state of its members and a summed pod count — so “is prod healthy?” is one line, and expanding it is a choice rather than the default.</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:baseline;gap:9px"><span style="font-size:13px;font-weight:600">Version matrix</span><span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">XC-07 · OCP-07</span></div>
+        <div style="height:284px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-warn);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-warn);font-weight:600">versions</span><span style="color:var(--ks-ink-3)">k8s · argocd · cilium · cert-manager</span><div style="flex:1"></div><span style="color:var(--ks-warn)">4 differ</span>
+          </div>
+          <div style="height:18px;display:grid;grid-template-columns:112px repeat(4,1fr);align-items:center;padding:0 9px;gap:4px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.06em;color:var(--ks-ink-3)">
+            <div></div><div style="text-align:center">k8s</div><div style="text-align:center">argocd</div><div style="text-align:center">cilium</div><div style="text-align:center">cert-mgr</div>
+          </div>
+          <div style="flex:1;min-height:0;overflow:hidden;padding:2px 0">
+            <sc-for list="{{ matrix }}" as="m" hint-placeholder-count="10">
+              <div style="height:23px;display:grid;grid-template-columns:112px repeat(4,1fr);align-items:center;padding:0 9px;gap:4px">
+                <div style="display:flex;align-items:center;gap:7px"><span style="width:2px;height:11px;background:{{ m.hue }}"></span><span style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.name }}</span></div>
+                <sc-for list="{{ m.cells }}" as="c" hint-placeholder-count="4">
+                  <div style="height:17px;background:{{ c.bg }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:9.5px;color:{{ c.ink }}">{{ c.t }}</div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">Same pane, other columns: one cell per component. The majority version is quiet; anything that differs from it is amber, and anything missing is a dash on a dark cell — the drift is the only thing with colour.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+const CONN = { live: ['\u25cf', OK, 'live'], slow: ['\u25d0', WARN, 'slow'], down: ['\u25b2', BAD, 'no response'], paused: ['\u25a0', IDLE, 'paused'] };
+const PH = { CrashLoop: ['\u25b2', BAD], Failed: ['\u25b2', BAD], Pending: ['\u25c6', WARN], Degraded: ['\u25b2', WARN], Terminating: ['\u25a0', IDLE], Unknown: ['\u25cb', IDLE] };
+
+class Component extends DCLogic {
+  renderVals() {
+    // name, code, hue, conn, rtt, nodes, nodeNote, running, pending, failing, completed, need, needKind, k8s, verNote
+    const raw = [
+      ['edge-01', 'E1', BAD, 'down', '\u2014', '3', '', 0, 0, 0, 0, 'unreachable for 4m12s — last good probe 14:17:55', 'bad', 'ocp 4.15.9', 'as of 14:17'],
+      ['prod-ap-south', 'AS', WARN, 'slow', '610ms', '18', '2 NotReady', 402, 23, 6, 0, '2 nodes NotReady · apiserver p95 610ms · data 47s old', 'warn', 'k8s 1.28.9', '2 minor behind'],
+      ['prod-eu-west', 'EW', INFO, 'live', '41ms', '24', '', 598, 12, 2, 0, 'checkout-api OOMKilled 47× since 10:11', 'warn', 'k8s 1.29.4', ''],
+      ['edge-02', 'E2', '#ff8a5c', 'live', '180ms', '3', '', 62, 0, 0, 0, 'route ingress-tls certificate expires in 11 days', 'warn', 'ocp 4.15.9', ''],
+      ['ci-runners', 'CI', '#9ad04a', 'live', '44ms', '40', '', 880, 12, 0, 2, '12 pods pending — build queue, expected', 'idle', 'k8s 1.29.4', ''],
+      ['prod-us-east', 'UE', PURPLE, 'live', '58ms', '24', '', 586, 1, 1, 0, 'kafka-2 restarting — watch it, do not act yet', 'idle', 'k8s 1.29.4', ''],
+      ['staging-eu', 'SE', OK, 'live', '22ms', '12', '1 cordoned', 288, 0, 0, 0, 'nothing', 'ok', 'k8s 1.30.1', ''],
+      ['staging-us', 'SU', '#5ad2c4', 'live', '31ms', '12', '', 274, 0, 0, 0, 'nothing', 'ok', 'k8s 1.30.1', ''],
+      ['dev-sandbox', 'DS', '#8a94a6', 'live', '12ms', '6', '', 100, 0, 0, 41, '41 completed pods were never reaped', 'idle', 'k8s 1.31.0', 'newest'],
+      ['analytics', 'AN', '#c9a227', 'paused', 'paused', '6', '', 122, 0, 0, 0, 'watch paused by you at 09:12 · read-only context', 'idle', 'k8s 1.30.0', '']
+    ];
+    const seg = (n, total, bg, label) => n > 0 ? [{ w: ((n / total) * 100).toFixed(1) + '%', bg, title: label + ': ' + n }] : [];
+    const bars = c => {
+      const total = c[7] + c[8] + c[9] + c[10];
+      if (total === 0) return [{ w: '100%', bg: 'rgba(255,95,95,.16)', title: 'unknown — no answer' }];
+      return [].concat(
+        seg(c[9], total, BAD, 'failing'),
+        seg(c[8], total, WARN, 'pending or degraded'),
+        seg(c[7], total, 'rgba(62,207,142,.45)', 'running'),
+        seg(c[10], total, '#2c3542', 'completed')
+      );
+    };
+    const needInkOf = k => k === 'bad' ? '#ffb3b3' : k === 'warn' ? '#f3d08a' : k === 'ok' ? INK3 : INK2;
+
+    const fleet = raw.map(c => {
+      const m = CONN[c[3]];
+      const total = c[7] + c[8] + c[9] + c[10];
+      return {
+        name: c[0], hue: c[2], glyph: m[0], tone: c[3] === 'live' ? OK : m[1], state: m[2],
+        nameInk: c[12] === 'bad' || c[12] === 'warn' ? INK : '#c8d1dd',
+        nameWeight: c[12] === 'bad' || c[12] === 'warn' ? '600' : '400',
+        rtt: c[4], rttInk: c[3] === 'slow' ? WARN : c[3] === 'down' ? BAD : INK2,
+        nodes: c[5], nodeNote: c[6], nodeTone: c[6].indexOf('NotReady') >= 0 ? BAD : INK3,
+        bars: bars(c), podLabel: total > 0 ? total + '' : '?',
+        need: c[11], needInk: needInkOf(c[12]),
+        ver: c[13], verInk: c[14] === '2 minor behind' ? WARN : INK2, verNote: c[14],
+        bg: c[12] === 'bad' ? 'rgba(255,95,95,.10)' : c[12] === 'warn' ? 'rgba(240,180,41,.06)' : 'transparent'
+      };
+    });
+
+    const att = [
+      ['edge-01', BAD, 'Cluster', '\u2014', 'Failed', 'apiserver', 'dial tcp 10.4.0.1:6443: i/o timeout', '4m12s', 'retry'],
+      ['prod-eu-west', INFO, 'Pod', 'payments', 'CrashLoop', 'checkout-api-7f9c8d4b6-k8n1p', 'OOMKilled · 47 restarts · limit 512Mi', '4h11m', 'raise limit'],
+      ['prod-ap-south', WARN, 'Node', '\u2014', 'Degraded', 'ip-10-0-4-8', 'NotReady · kubelet stopped posting', '18m', 'drain'],
+      ['prod-ap-south', WARN, 'Node', '\u2014', 'Degraded', 'ip-10-0-4-11', 'NotReady · disk pressure', '12m', 'drain'],
+      ['prod-ap-south', WARN, 'Pod', 'payments', 'Degraded', 'checkout-api-7f9c8d4b6-z0mq4', 'readiness flapping · apiserver slow', '31m', 'logs'],
+      ['prod-eu-west', INFO, 'Pod', 'payments', 'Pending', 'ledger-worker-5d8f9c74c-9plmz', 'insufficient memory on 3 of 6 nodes', '22m', 'scale'],
+      ['prod-eu-west', INFO, 'Pod', 'observ.', 'Degraded', 'loki-ingester-4b8d2c7f6-x71vd', 'readiness failed 3× in 90s', '31m', 'logs'],
+      ['prod-eu-west', INFO, 'Job', 'jobs', 'Failed', 'nightly-export-3f8c5d9b2-2', 'exit 137 · activeDeadlineSeconds exceeded', '6h02m', 'rerun'],
+      ['prod-us-east', PURPLE, 'Pod', 'data', 'CrashLoop', 'kafka-2', 'back-off restarting failed container', '1h04m', 'logs'],
+      ['edge-02', '#ff8a5c', 'Route', 'ingress', 'Pending', 'ingress-tls', 'certificate expires in 11 days', '\u2014', 'renew'],
+      ['staging-eu', OK, 'Pod', 'kube-sys', 'Terminating', 'cilium-operator-6c8a4f9b3-mm4kd', 'node drained 9m ago, finalizer pending', '9m', 'force'],
+      ['ci-runners', '#9ad04a', 'Pod', 'ci', 'Pending', 'runner-4d9c7b2e8-k91zq', 'waiting for the build queue', '2m', 'ignore'],
+      ['dev-sandbox', '#8a94a6', 'Pod', 'data', 'Unknown', 'clickhouse-2', 'node stopped reporting 41m ago', '41m', 'probe'],
+      ['analytics', '#c9a227', 'Cluster', '\u2014', 'Unknown', 'watch', 'paused by you at 09:12', '5h10m', 'resume']
+    ];
+    const attention = att.map(a => {
+      const m = PH[a[4]];
+      return {
+        cluster: a[0], hue: a[1], kind: a[2], ns: a[3], glyph: m[0], word: a[4], tone: m[1],
+        obj: a[5], why: a[6], since: a[7], action: a[8],
+        bg: m[1] === BAD ? 'rgba(255,95,95,.08)' : 'transparent'
+      };
+    });
+
+    const narrow = raw.map(c => {
+      const m = CONN[c[3]];
+      return {
+        name: c[0], glyph: m[0], tone: c[3] === 'live' ? OK : m[1],
+        nameInk: c[12] === 'bad' || c[12] === 'warn' ? INK : '#c8d1dd',
+        need: c[11] === 'nothing' ? 'healthy' : c[11], needInk: needInkOf(c[12]),
+        bars: bars(c),
+        bg: c[12] === 'bad' ? 'rgba(255,95,95,.10)' : c[12] === 'warn' ? 'rgba(240,180,41,.06)' : 'transparent'
+      };
+    });
+
+    const gRow = (name, glyph, tone, state, need, needInk, pods, isGroup, bg) => ({
+      name, glyph, tone, state, need, needInk, pods,
+      h: isGroup ? '26px' : '22px', indent: isGroup ? '0px' : '14px',
+      size: isGroup ? '11.5px' : '10.5px', weight: isGroup ? '600' : '400',
+      nameInk: isGroup ? INK : '#c8d1dd',
+      bg: bg || 'transparent',
+      shadow: isGroup ? 'inset 0 -1px 0 #242b35' : 'inset 0 -1px 0 #1a2028'
+    });
+    const grouped = [
+      gRow('prod · 3 clusters', '\u25b2', WARN, 'degraded', '1 slow, 8 pods unhealthy', '#f3d08a', '1 601', true, 'rgba(240,180,41,.07)'),
+      gRow('prod-ap-south', '\u25d0', WARN, 'slow', '2 nodes NotReady', '#f3d08a', '431', false),
+      gRow('prod-eu-west', '\u25cf', OK, 'live', 'checkout-api OOMKilled', '#f3d08a', '612', false),
+      gRow('prod-us-east', '\u25cf', OK, 'live', 'kafka-2 restarting', INK2, '588', false),
+      gRow('staging · 3 clusters', '\u25cf', OK, 'healthy', 'nothing', INK3, '703', true, 'rgba(62,207,142,.05)'),
+      gRow('staging-eu', '\u25cf', OK, 'live', 'nothing', INK3, '288', false),
+      gRow('staging-us', '\u25cf', OK, 'live', 'nothing', INK3, '274', false),
+      gRow('dev-sandbox', '\u25cf', OK, 'live', '41 completed, not reaped', INK2, '141', false),
+      gRow('edge · 2 clusters', '\u25b2', BAD, 'one down', 'edge-01 unreachable 4m12s', '#ffb3b3', '62', true, 'rgba(255,95,95,.10)'),
+      gRow('edge-01', '\u25b2', BAD, 'no response', 'unreachable 4m12s', '#ffb3b3', '?', false),
+      gRow('edge-02', '\u25cf', OK, 'live', 'cert expires in 11 days', '#f3d08a', '62', false)
+    ];
+
+    const cellOf = (t, kind) => ({
+      t, bg: kind === 'drift' ? 'rgba(240,180,41,.18)' : kind === 'missing' ? '#141922' : 'rgba(255,255,255,.03)',
+      ink: kind === 'drift' ? '#f0c887' : kind === 'missing' ? '#3f4855' : INK2
+    });
+    const matrix = [
+      ['prod-eu-west', INFO, ['1.29.4', 'ok'], ['2.11.3', 'ok'], ['1.15.6', 'ok'], ['1.14.4', 'ok']],
+      ['prod-us-east', PURPLE, ['1.29.4', 'ok'], ['2.11.3', 'ok'], ['1.15.6', 'ok'], ['1.14.4', 'ok']],
+      ['prod-ap-south', WARN, ['1.28.9', 'drift'], ['2.9.1', 'drift'], ['1.15.6', 'ok'], ['1.13.2', 'drift']],
+      ['staging-eu', OK, ['1.30.1', 'drift'], ['2.11.3', 'ok'], ['1.16.1', 'drift'], ['1.14.4', 'ok']],
+      ['staging-us', '#5ad2c4', ['1.30.1', 'drift'], ['2.11.3', 'ok'], ['1.16.1', 'drift'], ['1.14.4', 'ok']],
+      ['dev-sandbox', '#8a94a6', ['1.31.0', 'drift'], ['2.12.0', 'drift'], ['1.16.1', 'drift'], ['\u2014', 'missing']],
+      ['edge-01', BAD, ['4.15.9', 'ok'], ['\u2014', 'missing'], ['\u2014', 'missing'], ['\u2014', 'missing']],
+      ['edge-02', '#ff8a5c', ['4.15.9', 'ok'], ['\u2014', 'missing'], ['\u2014', 'missing'], ['1.14.4', 'ok']],
+      ['ci-runners', '#9ad04a', ['1.29.4', 'ok'], ['2.11.3', 'ok'], ['1.15.6', 'ok'], ['1.14.4', 'ok']],
+      ['analytics', '#c9a227', ['1.30.0', 'drift'], ['\u2014', 'missing'], ['1.15.6', 'ok'], ['1.14.4', 'ok']]
+    ].map(m => ({ name: m[0], hue: m[1], cells: [cellOf(m[2][0], m[2][1]), cellOf(m[3][0], m[3][1]), cellOf(m[4][0], m[4][1]), cellOf(m[5][0], m[5][1])] }));
+
+    const CL = raw.map(c => [c[0], c[1], c[2], CONN[c[3]][1], CONN[c[3]][0]]);
+    const railOrder = ['prod-eu-west', 'prod-us-east', 'prod-ap-south', 'staging-eu', 'staging-us', 'dev-sandbox', 'edge-01', 'edge-02', 'ci-runners', 'analytics'];
+
+    return {
+      facts: [
+        { k: 'ROWS', v: '10 × 34px', tone: INK },
+        { k: 'ABOVE THE FOLD', v: '340px', tone: INK },
+        { k: 'SORT', v: 'needs you first', tone: OK },
+        { k: 'PRIMARY ELEMENT', v: 'the verdict line', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '500' },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '3', name: 'incident', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: railOrder.map(n => {
+        const c = CL.filter(x => x[0] === n)[0];
+        return { name: c[0], code: c[1], ink: INK3, bg: 'transparent', bar: 'transparent', glyph: c[4], tone: c[3] };
+      }),
+      kpis: [
+        { label: 'NODES', v: '148', sub: '2 NotReady', tone: BAD },
+        { label: 'PODS', v: '3 412', sub: '14 not running', tone: WARN },
+        { label: 'RESTARTS 24H', v: '63', sub: '47 one workload', tone: BAD },
+        { label: 'CERTS < 30D', v: '3', sub: 'soonest 11d', tone: WARN },
+        { label: 'VERSIONS', v: '6', sub: '4 components differ', tone: WARN }
+      ],
+      fleet, attention, narrow, grouped, matrix,
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The verdict line: “2 clusters” in 30px red, with both names spelled out beside it. You should be able to leave this screen after reading one line — the table below exists to answer the second question, not the first.' },
+        { tone: INFO, k: 'DENSITY', t: 'Ten clusters in 340px, then the fleet-wide attention list fills the rest with 14 rows at 22px. Forty clusters still work: the rows stay 34px and the list scrolls, because the sort guarantees the ones that matter are at the top.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'No sparklines and no history per cluster — every number here is now. A cluster that was unhealthy for an hour and recovered looks identical to one that has been fine all day; for that you open the change stream. Adding a trend column was tried and made ten rows unreadable.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+  /* scrollbars — one design for the whole app.
+     A scrollbar is information (there is more below), so it never auto-hides;
+     it is 10px of lane with a 6px thumb, inset by a transparent border, and the
+     gutter is reserved so content never shifts when it appears. */
+  * { scrollbar-width: thin; scrollbar-color: #2c3542 transparent; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #2c3542;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #3b4655; background-clip: padding-box; }
+  ::-webkit-scrollbar-thumb:active { background: #4aa8ff; background-clip: padding-box; }
+  ::-webkit-scrollbar-corner { background: transparent; }
+  /* dense panes (log, tables inside a split) get a narrower lane */
+  [data-scroll="dense"]::-webkit-scrollbar { width: 8px; height: 8px; }
+  [data-scroll="dense"]::-webkit-scrollbar-thumb { border-width: 2px; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-sel:#1d2937;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:920px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 05 · PANE 02 / 30 · OBJECT PANE</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Log</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">A container, a whole workload, or the same app across eight clusters — one stream, one clock. The two things that are not optional: the stream does not break during a rolling update, and JSON lines become columns you choose.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div data-screen-label="log · workload level, full workspace" style="width:1600px;height:1000px;background:var(--ks-bg);display:grid;grid-template-columns:46px 1fr;grid-template-rows:38px 1fr;overflow:hidden;border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6)">
+    <div style="grid-column:1/-1;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+      <div style="display:flex;align-items:stretch">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:16px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+        <span>rolling update in progress · 6 of 8 pods on 2026.8.3</span>
+        <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+      </div>
+    </div>
+
+    <div style="border-right:1px solid var(--ks-line);background:var(--ks-field);display:flex;flex-direction:column;padding:6px 0;gap:2px">
+      <sc-for list="{{ rail }}" as="c" hint-placeholder-count="10">
+        <div title="{{ c.name }}" style="height:34px;display:flex;align-items:center;justify-content:center;position:relative;font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ c.ink }};background:{{ c.bg }}">
+          <span style="position:absolute;left:0;top:4px;bottom:4px;width:2px;background:{{ c.bar }}"></span>{{ c.code }}
+          <span style="position:absolute;right:5px;bottom:5px;font-size:7px;color:{{ c.tone }}">{{ c.glyph }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;min-height:0;background:var(--ks-panel);border-left:2px solid var(--ks-info)">
+      <div style="height:24px;display:flex;align-items:center;gap:10px;padding:0 10px;border-bottom:1px solid var(--ks-line-soft);font-size:11px;font-family:var(--ks-mono)">
+        <span style="display:flex;align-items:center;gap:6px;color:var(--ks-info);font-weight:600"><span style="font-size:7px">●</span>prod-eu-west</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink)">Logs</span>
+        <span style="color:var(--ks-ink-3)">pinned</span><span style="color:var(--ks-ink-2)">deploy/checkout-api · 8 pods · ctr api<span style="color:var(--ks-ink-3)">▾</span></span>
+        <span style="color:var(--ks-ink-3)">/</span><span style="color:var(--ks-warn)">level=error|warn</span>
+        <span style="color:var(--ks-ink-3)">since</span><span style="color:var(--ks-ink-2)">30m</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">4 812 lines</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="display:flex;align-items:center;gap:5px;color:var(--ks-ok)"><span style="font-size:7px">●</span>following · 214/s</span>
+        <span style="color:var(--ks-ink-2);padding:0 2px">⋮</span>
+      </div>
+
+      <!-- rate histogram: three sparklines, not a chart -->
+      <div style="height:34px;display:flex;align-items:center;gap:16px;padding:0 10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+        <sc-for list="{{ sparks }}" as="s" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);width:52px">{{ s.label }}</span>
+            <svg width="132" height="22" viewBox="0 0 132 22" preserveAspectRatio="none" style="display:block">
+              <polygon points="{{ s.area }}" fill="{{ s.fill }}"></polygon>
+              <polyline points="{{ s.points }}" fill="none" stroke="{{ s.stroke }}" stroke-width="1.3"></polyline>
+            </svg>
+            <span style="font-family:var(--ks-mono);font-size:10.5px;color:{{ s.valueInk }};width:52px">{{ s.value }}</span>
+          </div>
+        </sc-for>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:7px;font-family:var(--ks-mono);font-size:10.5px">
+          <span style="padding:3px 8px;border:1px solid var(--ks-line);color:var(--ks-ink)">raw</span>
+          <span style="padding:3px 8px;border:1px solid #2f4356;background:rgba(74,168,255,.10);color:var(--ks-info)">json → columns</span>
+          <span style="padding:3px 8px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">wrap</span>
+          <span style="padding:3px 8px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⇩ export</span>
+        </div>
+      </div>
+
+      <!-- column bar: the chosen JSON fields -->
+      <div style="height:20px;display:grid;grid-template-columns:82px 118px 46px 74px 96px 1fr;align-items:center;padding:0 10px;gap:10px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.09em;color:var(--ks-ink-3)">
+        <div>TIME</div><div>POD</div><div>LEVEL</div><div>trace_id</div><div>route</div><div>MESSAGE</div>
+      </div>
+
+      <div style="flex:1;min-height:0;overflow:hidden">
+        <sc-for list="{{ lines }}" as="l" hint-placeholder-count="34">
+          <div style="min-height:{{ l.h }};display:grid;grid-template-columns:82px 118px 46px 74px 96px 1fr;align-items:baseline;padding:3px 10px;gap:10px;background:{{ l.bg }};box-shadow:{{ l.shadow }};font-family:var(--ks-mono);font-size:11.5px">
+            <div style="color:var(--ks-ink-3)">{{ l.t }}</div>
+            <div style="display:flex;align-items:center;gap:6px;overflow:hidden">
+              <span style="width:2px;height:11px;background:{{ l.podTone }};flex:none"></span>
+              <span style="color:{{ l.podInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.pod }}</span>
+            </div>
+            <div style="color:{{ l.lvlTone }};font-weight:600">{{ l.lvl }}</div>
+            <div style="color:{{ l.traceInk }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.trace }}</div>
+            <div style="color:var(--ks-ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.route }}</div>
+            <div style="color:{{ l.ink }};line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:{{ l.wrap }}">{{ l.msg }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- follow state -->
+      <div style="height:26px;display:flex;align-items:center;gap:11px;padding:0 10px;background:var(--ks-sel);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:11px">
+        <span style="color:var(--ks-ok);display:flex;align-items:center;gap:6px"><span style="font-size:7px">●</span>following the tail</span>
+        <span style="color:var(--ks-ink-3)">scroll up to pause · a pinned line pauses too</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--ks-ink-2)">2 pods joined the stream at 14:21 · 1 left</span>
+        <span style="color:var(--ks-line)">│</span>
+        <span style="color:var(--ks-ink-2)">⌘C copies with timestamps</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">VARIANTS</div>
+      <div style="font-size:18px;font-weight:600">Four ways this pane is used</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start">
+      <sc-for list="{{ variants }}" as="v" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-size:13px;font-weight:600">{{ v.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ v.cap }}</span>
+          </div>
+          <div style="height:270px;background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ v.edge }};display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:22px;display:flex;align-items:center;gap:7px;padding:0 8px;border-bottom:1px solid var(--ks-line-soft);font-family:var(--ks-mono);font-size:10px">
+              <span style="color:{{ v.clTone }};font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ v.cluster }}</span>
+              <div style="flex:1"></div><span style="color:{{ v.stateTone }};flex:none">{{ v.state }}</span>
+            </div>
+            <sc-if value="{{ v.hasBanner }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:4px 8px;background:{{ v.bannerBg }};border-bottom:1px solid {{ v.bannerLine }};font-family:var(--ks-mono);font-size:9.5px;color:{{ v.stateTone }};line-height:1.4">{{ v.banner }}</div>
+            </sc-if>
+            <div style="flex:1;min-height:0;overflow:hidden;padding:3px 0">
+              <sc-for list="{{ v.rows }}" as="r" hint-placeholder-count="12">
+                <div style="min-height:18px;display:flex;align-items:baseline;gap:7px;padding:2px 8px;background:{{ r.bg }};font-family:var(--ks-mono);font-size:10px">
+                  <span style="color:var(--ks-ink-3);flex:none">{{ r.t }}</span>
+                  <span style="width:2px;align-self:stretch;background:{{ r.tone }};flex:none"></span>
+                  <span style="color:{{ r.srcInk }};flex:none;width:{{ r.srcW }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.src }}</span>
+                  <span style="color:{{ r.ink }};line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.msg }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ v.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">DETAIL</div>
+      <div style="font-size:18px;font-weight:600">A JSON line, expanded — and the line that is not JSON</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:0;overflow:hidden">
+        <div style="padding:6px 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">DOUBLE-CLICKED LINE · FIELDS, NOT TEXT</div>
+        <div style="padding:11px;display:flex;flex-direction:column;gap:4px">
+          <sc-for list="{{ jsonFields }}" as="f" hint-placeholder-count="9">
+            <div style="display:grid;grid-template-columns:120px 1fr 76px;gap:11px;align-items:baseline;font-family:var(--ks-mono);font-size:11.5px;padding:2px 0;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <div style="color:{{ f.keyInk }}">{{ f.k }}</div>
+              <div style="color:{{ f.ink }};overflow-wrap:anywhere">{{ f.v }}</div>
+              <div style="color:var(--ks-info);font-size:10px;text-align:right">{{ f.action }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+          <div style="padding:6px 11px;background:var(--ks-field);border-bottom:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:var(--ks-ink-3)">MIXED STREAM · HALF THE LINES ARE NOT JSON</div>
+          <div style="padding:9px 11px;display:flex;flex-direction:column;gap:3px;font-family:var(--ks-mono);font-size:11px">
+            <sc-for list="{{ mixed }}" as="m" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:70px 44px 1fr;gap:10px;align-items:baseline;background:{{ m.bg }};padding:2px 0">
+                <span style="color:var(--ks-ink-3)">{{ m.t }}</span>
+                <span style="color:{{ m.lvlTone }};font-weight:600">{{ m.lvl }}</span>
+                <span style="color:{{ m.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ m.msg }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <sc-for list="{{ notes }}" as="n" hint-placeholder-count="2">
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ n.tone }};padding:13px 15px;display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.11em;color:{{ n.tone }}">{{ n.k }}</div>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const PURPLE = '#b48cff', LINE = '#242b35';
+const LVL = { ERROR: BAD, WARN: WARN, INFO: INFO, DEBUG: IDLE };
+
+function series(n, seed, lo, hi) {
+  let s = seed;
+  const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  const out = []; let v = (lo + hi) / 2;
+  for (let i = 0; i < n; i++) { v += (rnd() - 0.46) * (hi - lo) * 0.3; v = Math.max(lo, Math.min(hi, v)); out.push(v); }
+  return out;
+}
+const poly = (vals, w, h, max) => vals.map((v, i) => ((i * w) / (vals.length - 1)).toFixed(1) + ',' + (h - 2 - (v / max) * (h - 4)).toFixed(1)).join(' ');
+const area = (vals, w, h, max) => '0,' + h + ' ' + poly(vals, w, h, max) + ' ' + w + ',' + h;
+
+class Component extends DCLogic {
+  renderVals() {
+    const pods = [
+      ['checkout-api-…-x2m4q', INFO, '2026.8.3'],
+      ['checkout-api-…-k8n1p', BAD, '2026.8.2'],
+      ['checkout-api-…-p91md', INFO, '2026.8.3'],
+      ['checkout-api-…-z0mq4', INFO, '2026.8.3']
+    ];
+    const raw = [
+      ['14:22:04.118', 1, 'ERROR', '9f21ab', 'POST /pay', 'context deadline exceeded calling ledger.grpc:8443 after 2.00s'],
+      ['14:22:04.402', 1, 'ERROR', '9f21ab', 'POST /pay', '3 consecutive failures, opening circuit for ledger.grpc'],
+      ['14:22:04.611', 1, 'WARN', '—', '—', 'heap 498Mi of 512Mi limit, GC pause 214ms'],
+      ['14:22:05.118', 1, 'ERROR', '4c02de', 'POST /pay', 'refusing new connections — memory backpressure'],
+      ['14:22:05.331', 0, 'WARN', '—', '—', 'upstream 503 rate 41% over a 30s window'],
+      ['14:22:05.744', 0, 'WARN', '7b3390', 'GET /healthz', 'readiness took 812ms (threshold 500ms)'],
+      ['14:22:06.102', 1, 'ERROR', '—', '—', 'container killed — exit 137 (OOMKilled), restart #47'],
+      ['14:22:06.480', 1, 'INFO', '—', '—', 'kubelet: pulling registry.internal/checkout-api:2026.8.3'],
+      ['14:22:07.001', 2, 'ERROR', '0a91cc', 'POST /pay', 'ledger write aborted, deadlock detected on accounts_eu'],
+      ['14:22:07.220', 1, 'INFO', '—', '—', 'starting, config sha 4bd91c, 8 workers'],
+      ['14:22:07.905', 2, 'WARN', '—', '—', 'feature flag payouts_v2 unknown, defaulting to off'],
+      ['14:22:08.114', 3, 'WARN', '—', '—', 'clock skew 41ms vs ntp peer, tolerated'],
+      ['14:22:08.630', 1, 'ERROR', '—', 'GET /healthz', 'readiness probe failed — 503 (ledger unreachable)'],
+      ['14:22:09.007', 0, 'INFO', '—', '—', 'queue depth 6109, back under the soft limit'],
+      ['14:22:09.412', 2, 'WARN', '2de881', 'POST /pay', 'retry budget 82% consumed for cluster checkout-api'],
+      ['14:22:09.888', 1, 'ERROR', '9f21ab', 'POST /pay', 'heap 511Mi of 512Mi — allocation failed in json.Decode'],
+      ['14:22:10.204', 3, 'WARN', '5510ea', 'GET /orders', 'slow query 1.81s — SELECT balance FROM accounts_eu WHERE id = $1'],
+      ['14:22:10.640', 1, 'ERROR', '—', '—', 'container killed — exit 137 (OOMKilled), restart #48'],
+      ['14:22:11.002', 0, 'INFO', '—', '—', 'back-off 40s restarting failed container api'],
+      ['14:22:11.318', 2, 'INFO', '—', '—', 'checkpoint written, 41MB, 612ms'],
+      ['14:22:11.907', 0, 'WARN', '—', '—', '12 requests queued, oldest 4.2s'],
+      ['14:22:12.114', 3, 'WARN', '—', '—', 'pg pool 29/32, waiters 4, p95 812ms'],
+      ['14:22:12.550', 2, 'INFO', '—', '—', 'hpa: desired 6 → 8 replicas (cpu 91%)'],
+      ['14:22:13.001', 1, 'ERROR', '—', '—', 'pod evicted from ip-10-0-3-19 — node memory pressure'],
+      ['14:22:13.402', 0, 'INFO', '—', '—', '0 errors in the last 30s'],
+      ['14:22:13.910', 3, 'WARN', '—', '—', 'image pull took 6.2s (registry p95 1.1s)'],
+      ['14:22:14.220', 2, 'ERROR', 'ba7712', 'POST /pay', 'upstream ledger returned 503 after 3 retries'],
+      ['14:22:14.688', 0, 'INFO', '—', '—', 'new pod joined the stream: checkout-api-…-x2m4q'],
+      ['14:22:15.011', 3, 'WARN', '—', '—', 'connection pool warm-up 1.4s'],
+      ['14:22:15.402', 2, 'ERROR', '9f21ab', 'POST /pay', 'transaction rolled back, ledger unavailable'],
+      ['14:22:15.900', 0, 'INFO', '—', '—', 'readiness passed, joining the service'],
+      ['14:22:16.118', 1, 'ERROR', '—', '—', 'container killed — exit 137 (OOMKilled), restart #49'],
+      ['14:22:16.502', 3, 'INFO', '—', '—', 'wal segment 000732 rotated'],
+      ['14:22:16.940', 0, 'WARN', '—', '—', 'upstream 503 rate falling: 22% over 30s']
+    ];
+    const pinned = 15;
+    const lines = raw.map((l, i) => {
+      const p = pods[l[1]];
+      const isErr = l[2] === 'ERROR';
+      return {
+        t: l[0], pod: p[0], podTone: p[1], podInk: l[1] === 1 ? '#ffb3b3' : INK2,
+        lvl: l[2], lvlTone: LVL[l[2]], trace: l[3], traceInk: l[3] === '\u2014' ? '#3f4855' : INFO,
+        route: l[4] === '\u2014' ? '' : l[4], msg: l[5],
+        ink: isErr ? '#ffd7d7' : l[2] === 'WARN' ? '#e9dcc0' : INK2,
+        bg: i === pinned ? 'var(--ks-sel)' : isErr ? 'rgba(255,95,95,.09)' : 'transparent',
+        shadow: i === pinned ? 'inset 0 0 0 1px #2f4356' : 'inset 0 -1px 0 var(--ks-line-soft)',
+        h: '22px', wrap: 'nowrap'
+      };
+    });
+
+    const CL = [['prod-eu-west', 'EW', INFO, OK, '\u25cf'], ['prod-us-east', 'UE', PURPLE, OK, '\u25cf'],
+      ['prod-ap-south', 'AS', WARN, WARN, '\u25d0'], ['staging-eu', 'SE', OK, OK, '\u25cf'],
+      ['staging-us', 'SU', '#5ad2c4', OK, '\u25cf'], ['dev-sandbox', 'DS', '#8a94a6', OK, '\u25cf'],
+      ['edge-01', 'E1', BAD, BAD, '\u25b2'], ['edge-02', 'E2', '#ff8a5c', OK, '\u25cf'],
+      ['ci-runners', 'CI', '#9ad04a', OK, '\u25cf'], ['analytics', 'AN', '#c9a227', IDLE, '\u25a0']];
+
+    const sp = (label, seed, lo, hi, value, valueInk, stroke, fill) => {
+      const v = series(26, seed, lo, hi);
+      return { label, points: poly(v, 132, 22, hi * 1.15), area: area(v, 132, 22, hi * 1.15), stroke, fill, value, valueInk };
+    };
+
+    const vrow = (t, tone, src, srcW, srcInk, msg, ink, bg) => ({ t, tone, src, srcW, srcInk, msg, ink, bg: bg || 'transparent' });
+
+    return {
+      facts: [
+        { k: 'LINES AT 1000PX', v: '34', tone: INK },
+        { k: 'CHROME', v: '78px', tone: WARN },
+        { k: 'SOURCES', v: '8 pods', tone: INK },
+        { k: 'PRIMARY ELEMENT', v: 'the error lines', tone: BAD }
+      ],
+      tabs: [
+        { n: '1', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '2', name: 'payments', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' },
+        { n: '3', name: 'incident', bg: '#161a21', shadow: 'inset 0 -2px 0 ' + BAD, ink: INK, numInk: BAD, weight: '500' },
+        { n: '4', name: 'ci', bg: 'transparent', shadow: 'none', ink: INK2, numInk: INK3, weight: '400' }
+      ],
+      rail: CL.map((c, i) => ({
+        name: c[0], code: c[1], ink: i === 0 ? INK : INK3, bg: i === 0 ? '#161a21' : 'transparent',
+        bar: i === 0 ? c[2] : 'transparent', glyph: c[4], tone: c[3]
+      })),
+      sparks: [
+        sp('errors', 5, 0, 40, '41/s ↗', '#ffb3b3', BAD, 'rgba(255,95,95,.16)'),
+        sp('warnings', 9, 10, 80, '73/s', '#f3d08a', WARN, 'rgba(240,180,41,.14)'),
+        sp('all', 13, 120, 260, '214/s', INK2, INK3, 'transparent')
+      ],
+      lines,
+      variants: [
+        {
+          title: 'One container', cap: 'LOG-01', edge: INFO, clTone: INFO, cluster: 'prod-eu-west · …-k8n1p', state: '● live', stateTone: OK, hasBanner: false,
+          rows: [
+            vrow('14:22:04', BAD, 'api', '26px', INK3, 'context deadline exceeded calling ledger', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:04', WARN, 'api', '26px', INK3, 'heap 498Mi of 512Mi limit', '#e9dcc0'),
+            vrow('14:22:05', BAD, 'api', '26px', INK3, 'refusing new connections', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:06', BAD, 'api', '26px', INK3, 'exit 137 (OOMKilled), restart #47', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:06', INFO, 'api', '26px', INK3, 'kubelet: pulling image 2026.8.3', INK2),
+            vrow('14:22:07', INFO, 'api', '26px', INK3, 'starting, config sha 4bd91c', INK2),
+            vrow('14:22:08', BAD, 'api', '26px', INK3, 'readiness failed — 503', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:09', WARN, 'api', '26px', INK3, 'retry budget 82% consumed', '#e9dcc0'),
+            vrow('14:22:10', BAD, 'api', '26px', INK3, 'heap 511Mi — allocation failed', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:11', INFO, 'api', '26px', INK3, 'back-off 40s restarting container', INK2),
+            vrow('14:22:12', WARN, 'api', '26px', INK3, '12 requests queued, oldest 4.2s', '#e9dcc0'),
+            vrow('14:22:13', BAD, 'api', '26px', INK3, 'evicted — node memory pressure', '#ffd7d7', 'rgba(255,95,95,.09)')
+          ],
+          note: 'The narrow case: no pod column, because there is one pod. The container picker moves into the header chip, and the level column shrinks to a coloured bar at the left edge.'
+        },
+        {
+          title: 'A whole workload', cap: 'LOG-09', edge: INFO, clTone: INFO, cluster: 'deploy/checkout-api · 8', state: '● 214/s', stateTone: OK, hasBanner: true,
+          bannerBg: 'rgba(74,168,255,.08)', bannerLine: '#2f4356', banner: 'rolling update · 2 pods joined at 14:21, 1 left — the stream did not break',
+          rows: [
+            vrow('14:22:04', BAD, '…k8n1p', '52px', '#ffb3b3', 'deadline exceeded calling ledger', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:05', INFO, '…x2m4q', '52px', INK2, 'starting, 8 workers', INK2),
+            vrow('14:22:05', WARN, '…p91md', '52px', INK2, 'upstream 503 rate 41%', '#e9dcc0'),
+            vrow('14:22:06', BAD, '…k8n1p', '52px', '#ffb3b3', 'exit 137 (OOMKilled) #47', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:07', INFO, '…z0mq4', '52px', INK2, 'checkpoint written, 41MB', INK2),
+            vrow('14:22:08', WARN, '…x2m4q', '52px', INK2, 'clock skew 41ms, tolerated', '#e9dcc0'),
+            vrow('14:22:09', BAD, '…p91md', '52px', INK2, 'ledger write aborted', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:10', WARN, '…z0mq4', '52px', INK2, 'slow query 1.81s', '#e9dcc0'),
+            vrow('14:22:11', INFO, '…x2m4q', '52px', INK2, 'readiness passed', INK2),
+            vrow('14:22:12', WARN, '…p91md', '52px', INK2, 'pg pool 29/32', '#e9dcc0'),
+            vrow('14:22:13', BAD, '…k8n1p', '52px', '#ffb3b3', 'evicted — memory pressure', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:14', INFO, '…x2m4q', '52px', INK2, 'joined the service', INK2)
+          ],
+          note: 'You picked a Deployment, not a pod. Pods appear and disappear beneath the stream and it says so once, in a line of its own — the reason people run stern today.'
+        },
+        {
+          title: 'Eight clusters, one clock', cap: 'XC-05 · LOG-02', edge: WARN, clTone: WARN, cluster: '8 clusters · api', state: '◐ 6 of 8', stateTone: WARN, hasBanner: true,
+          bannerBg: 'rgba(240,180,41,.09)', bannerLine: '#4a3a12', banner: '6 of 8 streaming · edge-01 unreachable, analytics paused',
+          rows: [
+            vrow('14:22:04', INFO, 'eu-west', '54px', INFO, 'deadline exceeded calling ledger', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:04', PURPLE, 'us-east', '54px', PURPLE, 'queue depth 8412, shedding', '#e9dcc0'),
+            vrow('14:22:05', WARN, 'ap-south', '54px', WARN, 'apiserver slow, watch relag', '#e9dcc0'),
+            vrow('14:22:05', INFO, 'eu-west', '54px', INFO, 'circuit open for ledger.grpc', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:06', OK, 'staging-eu', '54px', OK, 'nightly job finished 41s', INK2),
+            vrow('14:22:06', PURPLE, 'us-east', '54px', PURPLE, 'deadlock on accounts_eu', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:07', INFO, 'eu-west', '54px', INFO, 'starting, sha 4bd91c', INK2),
+            vrow('14:22:08', '#5ad2c4', 'staging-us', '54px', '#5ad2c4', 'no errors in 30s', INK2),
+            vrow('14:22:09', WARN, 'ap-south', '54px', WARN, 'pg pool exhausted', '#e9dcc0'),
+            vrow('14:22:10', PURPLE, 'us-east', '54px', PURPLE, 'slow query 1.81s', '#e9dcc0'),
+            vrow('14:22:11', INFO, 'eu-west', '54px', INFO, 'exit 137 (OOMKilled) #48', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:22:12', '#9ad04a', 'ci-runners', '54px', '#9ad04a', 'build 8812 succeeded', INK2)
+          ],
+          note: 'The source column becomes the cluster in its reserved colour. Two clusters are missing and the banner names them — a merged stream that silently drops a source is worse than no merge.'
+        },
+        {
+          title: 'Previous instance', cap: 'LOG-05', edge: IDLE, clTone: IDLE, cluster: 'prod-eu-west · …-k8n1p', state: '■ ended 14:20', stateTone: IDLE, hasBanner: true,
+          bannerBg: 'rgba(255,95,95,.08)', bannerLine: '#54262b', banner: 'the previous container — it died at 14:20:41 with exit 137',
+          rows: [
+            vrow('14:20:02', IDLE, 'prev', '30px', INK3, 'heap 402Mi of 512Mi', '#e9dcc0'),
+            vrow('14:20:11', IDLE, 'prev', '30px', INK3, 'gc pause 180ms', INK2),
+            vrow('14:20:19', IDLE, 'prev', '30px', INK3, 'heap 448Mi of 512Mi', '#e9dcc0'),
+            vrow('14:20:26', IDLE, 'prev', '30px', INK3, 'request queue growing: 8', '#e9dcc0'),
+            vrow('14:20:33', IDLE, 'prev', '30px', INK3, 'heap 496Mi of 512Mi', '#e9dcc0'),
+            vrow('14:20:38', IDLE, 'prev', '30px', INK3, 'allocation failed in json.Decode', '#ffd7d7', 'rgba(255,95,95,.09)'),
+            vrow('14:20:41', IDLE, 'prev', '30px', INK3, '— stream ended —', INK3),
+            vrow('', IDLE, '', '30px', INK3, '', INK3)
+          ],
+          note: 'Dimmed source column, an end marker instead of a follow state, and the exit reason in the banner. The last twenty lines before a crash are the whole reason this exists.'
+        }
+      ],
+      jsonFields: [
+        { k: 'ts', v: '2026-09-01T14:22:09.888Z', ink: INK2, keyInk: INK3, action: 'jump' },
+        { k: 'level', v: 'error', ink: '#ffb3b3', keyInk: INK3, action: 'filter' },
+        { k: 'msg', v: 'heap 511Mi of 512Mi — allocation failed in json.Decode', ink: INK, keyInk: INK3, action: '' },
+        { k: 'trace_id', v: '9f21ab4c02de7b3390', ink: INFO, keyInk: INK3, action: 'follow' },
+        { k: 'route', v: 'POST /pay', ink: INK2, keyInk: INK3, action: 'column' },
+        { k: 'pod', v: 'checkout-api-7f9c8d4b6-k8n1p', ink: INK2, keyInk: INK3, action: 'pin' },
+        { k: 'heap_bytes', v: '535822336', ink: INK2, keyInk: INK3, action: 'chart' },
+        { k: 'limit_bytes', v: '536870912', ink: '#ffb3b3', keyInk: INK3, action: 'chart' },
+        { k: 'commit', v: '4bd91c8', ink: INK2, keyInk: INK3, action: 'copy' }
+      ],
+      mixed: [
+        { t: '14:22:08', lvl: 'WARN', lvlTone: WARN, msg: '{"level":"warn","msg":"clock skew 41ms","ntp":"tolerated"}', ink: '#e9dcc0', bg: 'transparent' },
+        { t: '14:22:08', lvl: '', lvlTone: INK3, msg: 'Starting worker pool (legacy logger, no JSON)', ink: INK2, bg: 'rgba(255,255,255,.02)' },
+        { t: '14:22:09', lvl: 'ERROR', lvlTone: BAD, msg: '{"level":"error","msg":"allocation failed","heap":535822336}', ink: '#ffd7d7', bg: 'rgba(255,95,95,.09)' },
+        { t: '14:22:09', lvl: '', lvlTone: INK3, msg: '  at json.Decode (decode.go:441)', ink: INK2, bg: 'rgba(255,255,255,.02)' },
+        { t: '14:22:09', lvl: '', lvlTone: INK3, msg: '  at handler.Pay (pay.go:88)', ink: INK2, bg: 'rgba(255,255,255,.02)' },
+        { t: '14:22:10', lvl: 'INFO', lvlTone: INFO, msg: '{"level":"info","msg":"restarting","attempt":48}', ink: INK2, bg: 'transparent' }
+      ],
+      notes: [
+        { tone: INFO, k: 'MIXED STREAMS', t: 'A non-JSON line is not an error and is never dropped — it keeps its timestamp, gets no level, and sits on a faintly different surface. Stack traces stay attached to the line above them.' },
+        { tone: WARN, k: 'WHAT ⌘C GIVES YOU', t: 'A selection copies verbatim with timestamps; ⇧⌘C prefixes cluster and pod, which is what you want when pasting into an incident channel. The expanded JSON copies as pretty-printed JSON.' }
+      ],
+      closing: [
+        { tone: BAD, k: 'THE PRIMARY ELEMENT', t: 'The error lines. They carry a tinted surface, a brighter ink and a red level word — at 214 lines per second the eye needs a target that survives motion, and colour on a full-width band is the only thing that does.' },
+        { tone: INFO, k: 'DENSITY', t: '34 lines at 1000px with the rate strip and the column bar visible, 39 without them; 22px per line, 11.5px monospace, no wrapping by default. Wrapping is a toggle, not a setting — you turn it on for one line and off again.' },
+        { tone: WARN, k: 'WHAT IT GIVES UP', t: 'The rate strip costs 34px and the JSON column bar another 20px: 78px of chrome, the most of any pane in the product. It is worth it only because both are answers you would otherwise open a second pane for — and both can be collapsed to nothing.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
