@@ -17,8 +17,9 @@
 | Keret (Svelte) | `app/src/frame/`, `App.svelte` | **kész** — fa, osztás, húzás, munkaterületek, perzisztencia |
 | Formázás | `app/src/format/` | **kész** — idő, egység, csonkítás, státusz, naplósor, hiba, rendezés |
 | Akciótérkép | `app/src/actions/map.ts` | **kész** — 32 teszt |
-| Tokenek | `app/src/theme.css`, `theme.ts` | **kész** — semmi más nem ír színt |
+| Tokenek | `app/src/theme.css`, `theme.ts` | **kész** — `--ks-*`, a tervvel azonos nevek, semmi más nem ír színt |
 | Panel-testek | — | **egyik sincs meg** |
+| Primitívek | — | **egyik sincs meg** |
 
 ---
 
@@ -304,3 +305,41 @@ Ezek a legértékesebb sorok az egész tervben. Sorrendben, a primitívek szerin
   „írd be a nevét". És **hat jel** mondja meg, hogy a múltban vagy, nem egy banner.
 - A **paletta és a súgó egy registry, két réteg** — a jobbklikk-menü ugyanannak a listának a
   kontextusra szűrt kivágata, nem külön kódút.
+
+---
+
+## 11. Amit kidobtunk, és miért — 2026-09-02
+
+Az egui-korszak maradványai zavartak, nem segítettek. Ami ment:
+
+| mi | méret | miért |
+|---|---|---|
+| `legacy/` | 9,9 MB | a teljes egui-felület. A README kilenc kibányászandó tételéből **nyolc már át van emelve** (`format/`, `frame/tree.ts`, `frame/workspace.ts`, `theme.css`), a kilencedik — a shell nem interaktív `2>/dev/null` mellett — pedig **már a `kubescope-core/src/exec.rs`-ben áll**, doc-kommenttel |
+| `spike/` | 3,7 GB | eldobható mérés volt; a kérdést megválaszolta, az eredménye a `Core::logs_tail` |
+| `kubescope-core/src/pod.rs` | 733 sor | pod-specifikus watch és sor-modell. Az `A1–A6` munka egész lényege, hogy **a pod nem különleges** — a `resource.rs` + `table.rs` bármelyik típust viszi |
+| `kubescope-core/src/node.rs` | 224 sor | ugyanaz node-ra |
+| `kubescope-core/src/watch.rs` | 362 sor | a pod/node-specifikus watcher. A benne lakó **`Stream`** generikus volt — külön modulba került (`stream.rs`), a `connect` pedig a `cluster.rs`-be, ahová tartozik |
+| `pods` · `watch_pods` parancsok | — | a híd pod-specifikus ága. A felület már csak `table`/`watch_tables`-t hívott |
+| `Pod` · `PodList` · `PodSubject` (TS) | — | ugyanaz a másik oldalon. A két `Subject` típus **eggyé olvadt** |
+| `docs/KubeScope Design System v2.html` | 649 KB | az egui-korszak design systemje |
+| `docs/kubescope-handoff-m1.md` | — | az egui M-1 átadó |
+| `docs/*-design.dc.html` | 800 KB | a két régi terv — a design repóban él tovább (`brief/plans/`), ahol a hat megdőlt prózasora is meg van jelölve |
+| `~/.claude/plans/docs-groovy-orbit.md` | 20 KB | **az egui M-1 terv, amit minden munkamenet elején a kontextusomba töltött.** Ez volt a legzavaróbb: egy `egui 0.36.1`-es widget-gallery építését írta le |
+
+**A mag 3733 sorra fogyott**, és nincs benne két út ugyanarra.
+
+### És a tokenek
+
+A `--k-*` prefix a régi design systemből maradt, a terv `--ks-*`-ot használ. Ez fordítási réteg volt
+minden panel átemelésénél — pont az a hely, ahol eddig kétszer elcsúsztam. **Átneveztem az egészet
+`--ks-*`-ra**, hogy a `.dc.html`-ből másolt érték szó szerint működjön.
+
+A paletta egyébként **egyezett** — `#0a0c10`, `#11141a`, `#242b35`, `#e7ecf3`, `#3ecf8e`, `#f0b429`,
+`#4aa8ff`, `#1d2937` mind ugyanaz. Ami hiányzott:
+
+- **`--ks-cy: #3fe0d0`** — az akcentus. Ez a fókusz, a kijelölés, az elsődleges gomb, a paletta
+  színe, és **nem státusz**. Nálam a fókusz `--ks-info` (kék) volt, a terv szerint ciánnak kell
+  lennie — javítva, a döntött szabállyal együtt (fejléc-tint + hajszálvonal, **semmi geometria**).
+- `--ks-line-strong` (az osztásfogó fogója), `--ks-over` + `--ks-over-line` + három árnyék (lebegő
+  felületek), `--ks-ask` (asszisztens), `--ks-past` (időutazás), `--ks-term` (a shell saját talaja),
+  az öt művelet-család színe, és a szintaxis-hármas.
