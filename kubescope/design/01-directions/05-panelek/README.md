@@ -21,33 +21,33 @@ Built on: `02-screens/A-Instrument-base.dc.html` (the visual system),
 | `07-Resource-Monitor.dc.html` | who is eating what, live | `MET-12`, `DIAG-03` |
 | `08-Diagnostics.dc.html` | why Pending, why not ready | `DIAG-01/02/04/06` |
 | `09-RBAC.dc.html` | what can this account do, both directions | `SEC-01/02/07/08/09/10` |
-| `10-Certificates.dc.html` | what expires, fleet-wide | `SEC-03` |
-| `11-Helm.dc.html` | releases, and where they drift | `HELM-01…07` |
-| `12-Metrics-Browser.dc.html` | what metrics exist, and the query builder | `MET-09/10/11` |
-| `13-Waste.dc.html` | requested against used, namespace to fleet | `DIAG-09` |
-| `14-Kubeconfig.dc.html` | contexts, edited safely | `CONN-01/09/10` |
-| `15-Watch-Rules.dc.html` | your own alerts over the live streams | `APP-12/13` |
+| `12-Settings.dc.html` | everything about the app, as a pane | `APP-16…19` |
+| `18-OpenShift.dc.html` | operators, upgrades, builds, routes | `OCP-07…13` |
+| `19-Certificates.dc.html` | what expires, fleet-wide | `SEC-03` |
+| `20-Waste.dc.html` | requested against used, namespace to fleet | `DIAG-09` |
+| `21-Kubeconfig.dc.html` | contexts, edited safely | `CONN-01/09/10` |
+| `22-Watch-Rules.dc.html` | your own alerts over the live streams | `APP-12/13` |
 
 ## Object panes — scope is inherited and fixed
 
 | file | pane | capabilities |
 |---|---|---|
-| `16-Details.dc.html` | one object: status, conditions, owners | `RES-04/05` |
-| `17-Describe.dc.html` | the readable summary | `RES-10` |
-| `18-YAML.dc.html` | the stored object, and editing it | `RES-06`, `ACT-02/03` |
-| `19-Terminal.dc.html` | exec, attach, node debug | `ACT-05/09/11` |
-| `20-Metrics.dc.html` | one object’s curves, events on them | `MET-02/04/05` |
-| `21-Diff.dc.html` | two clusters, two times, two revisions | `XC-03`, `TIME-09`, `HELM-04` |
-| `22-Impact-Preview.dc.html` | what this write would break | `ACT-16` |
-| `23-Drain-Simulation.dc.html` | where the pods would go | `DIAG-08` |
-| `24-Form-Editor.dc.html` | limits, env, probes, ConfigMap, Ingress | `ACT-12/13/14/15` |
+| `10-Details.dc.html` | one object: status, conditions, owners | `RES-04/05` |
+| `11-Assistant.dc.html` | an assistant that cites its evidence | `ASK-01…08` |
+| `13-YAML-and-Editor.dc.html` | the stored object and the form, one pane | `RES-06`, `ACT-02/03/12` |
+| `14-Terminal.dc.html` | exec, attach, node debug | `ACT-05/09/11` |
+| `15-Metrics.dc.html` | one object’s curves, events on them, the builder | `MET-02/04/05/10` |
+| `16-What-Would-Happen.dc.html` | impact, drain simulation, forecast — one idea | `XC-03`, `ACT-16`, `DIAG-08` |
+| `17-Helm.dc.html` | releases, values per cluster, where they drift | `HELM-01…08` |
+| `23-Describe.dc.html` | the readable summary | `RES-10` |
+| `24-Node.dc.html` | one node: promised against used, pod by pod | `RES-05`, `DIAG-04`, `ACT-06/07/11` |
 
 ## Feature screens — the frame, not a pane
 
 | file | screen | capabilities |
 |---|---|---|
 | `25-Layouts.dc.html` | tabs, templates, and what persists | `APP-04` · brief §6.6 |
-| `26-First-Run.dc.html` | no clusters, no layout | `CONN-01/04/05` |
+| `26-First-Run.dc.html` | no clusters, no layout | `CONN-01/04/05/08` |
 | `27-Time-Travel.dc.html` | the whole interface, half an hour ago | `TIME-01…06/09` |
 | `28-Cross-Cluster.dc.html` | “is the same thing running everywhere?” | `XC-03/04/07/08` |
 | `29-Cluster-Rail.dc.html` | three widths, one of them zero | `CONN-02/03` · brief §6.4 |
@@ -58,3 +58,9 @@ All 31 are built. The frame brief’s region map (§7/1) lives in `04-fogantyuk/
 
 Each file ends with a short note: what the pane’s primary element is, how dense it is, and what it
 gives up.
+
+> **Corrected 2026-09-02.** The tables above previously listed a numbering that never reached disk —
+> `10-Certificates` through `24-Form-Editor`, fifteen names for files that do not exist — while
+> omitting Assistant, Settings, OpenShift, What-Would-Happen and Node, which do. Diff, Impact
+> Preview, Drain Simulation, Form Editor and Metrics Browser were folded into other screens during
+> the round rather than dropped: they live in `16`, `13`, `15` and `28`.
