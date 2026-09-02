@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-purple:#c9a9ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:36px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1040px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 08 · THE EMPTY TAB · SPECIFICATION</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">A launcher, not a page</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">V1 rebuilt in the Spotlight shape: one floating 680px bar, a 52px field at 19px, and the results attached directly under it. <span style="color:var(--ks-ink)">The list scrolls</span> — eight rows visible of seventeen — which is the point: typing is the interaction, and the list is there to confirm rather than to be read. The field matches pane names and authored aliases only, never the descriptions.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">THE REFERENCE</div>
+      <div style="font-size:19px;font-weight:600">⌘T · nothing typed · 1600 × 962</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">bar 680 × 458 · centred, 210px from the top of the tab body</div>
+    </div>
+
+    <div data-screen-label="empty tab · resting" style="width:1602px;height:1002px;background:var(--ks-bg);border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden">
+      <div style="height:38px;flex:none;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;font-size:12px;color:var(--ks-ink-3)"><span style="font-family:var(--ks-mono);font-weight:600">1</span>ledger incident</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;font-size:12px;color:var(--ks-ink-3)"><span style="font-family:var(--ks-mono);font-weight:600">2</span>morning check</div>
+        <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:var(--ks-panel);box-shadow:inset 0 -1px 0 var(--ks-panel), inset 0 2px 0 var(--ks-info);font-size:12px;color:var(--ks-ink)"><span style="font-family:var(--ks-mono);font-weight:600;color:var(--ks-info)">3</span><span style="font-weight:600;font-style:italic;color:var(--ks-ink-2)">empty</span></div>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+          <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #54262b;background:rgba(255,95,95,.12);color:#ffb3b3;font-weight:600"><span style="font-size:8px">▲</span>5 clusters need you</span>
+          <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;position:relative;background:var(--ks-bg);display:flex;flex-direction:column">
+        <div style="flex:none;height:210px"></div>
+        <div style="flex:none;display:flex;justify-content:center">
+          <div style="width:680px;background:var(--ks-panel);border:1px solid var(--ks-line-strong);box-shadow:0 40px 100px rgba(0,0,0,.7), 0 0 0 1px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:52px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <span style="font-size:15px;color:var(--ks-ink-3)">⌕</span>
+              <span style="width:1px;height:22px;background:var(--ks-info)"></span>
+              <span style="font-size:19px;color:var(--ks-ink-3);letter-spacing:-.01em">Open a pane…</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">17</span>
+            </div>
+            <div style="height:364px;flex:none;display:flex;flex-direction:column;overflow:hidden;position:relative">
+              <sc-for list="{{ restRows }}" as="r" hint-placeholder-count="10">
+                <sc-if value="{{ r.isHead }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:22px;flex:none;display:flex;align-items:center;padding:0 16px;font-family:var(--ks-mono);font-size:9px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ r.t }}</div>
+                </sc-if>
+                <sc-if value="{{ r.isItem }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:40px;flex:none;display:flex;align-items:center;gap:11px;padding:0 16px;background:{{ r.bg }};position:relative">
+                    <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                    <span style="width:18px;flex:none;text-align:center;font-size:9px;color:{{ r.mark }}">{{ r.glyph }}</span>
+                    <span style="font-size:14px;font-weight:600;color:{{ r.nameInk }};flex:none">{{ r.name }}</span>
+                    <span style="font-size:12px;color:{{ r.descInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.desc }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.scopeInk }};flex:none">{{ r.scope }}</span>
+                  </div>
+                </sc-if>
+              </sc-for>
+              <div style="position:absolute;right:3px;top:26px;width:3px;height:150px;background:var(--ks-line-strong)"></div>
+            </div>
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:16px;padding:0 16px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">
+              <span style="color:var(--ks-ink-2)">Pane</span>
+              <div style="flex:1"></div>
+              <span><span style="color:var(--ks-ink-2)">↵</span> open</span>
+              <span><span style="color:var(--ks-ink-2)">⇧↵</span> open and split</span>
+              <span><span style="color:var(--ks-ink-2)">esc</span> close the tab</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="height:88px;flex:none;display:grid;grid-template-columns:repeat(3,1fr);background:var(--ks-field);border-top:1px solid var(--ks-line)">
+        <sc-for list="{{ lessons }}" as="l" hint-placeholder-count="3">
+          <div style="padding:14px 22px;display:flex;flex-direction:column;gap:6px;border-right:1px solid var(--ks-line-soft);min-width:0">
+            <div style="display:flex;align-items:center;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:11px;padding:2px 7px;border:1px solid {{ l.chipLine }};background:{{ l.chipBg }};color:{{ l.tone }};flex:none">{{ l.chip }}</span>
+              <span style="font-size:12.5px;font-weight:600;color:var(--ks-ink);min-width:0;text-wrap:pretty">{{ l.title }}</span>
+            </div>
+            <div style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ l.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:18px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">THE WHOLE INTERACTION</div>
+      <div style="font-size:19px;font-weight:600">⌘T, three letters, ↵ — drawn at the bar’s real 680px</div>
+    </div>
+
+    <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+      <div style="display:flex;gap:26px;align-items:flex-start;padding-top:18px;border-top:1px solid var(--ks-line-soft)">
+        <div style="width:680px;flex:none;display:flex;flex-direction:column;gap:11px">
+          <div style="display:flex;align-items:baseline;gap:10px">
+            <span style="font-family:var(--ks-mono);font-size:12px;font-weight:600;color:{{ st.tone }}">{{ st.n }}</span>
+            <span style="font-size:16px;font-weight:600">{{ st.title }}</span>
+            <div style="flex:1"></div>
+            <span style="font-family:var(--ks-mono);font-size:11px;padding:2px 8px;border:1px solid {{ st.keyLine }};background:{{ st.keyBg }};color:{{ st.tone }}">{{ st.keyLabel }}</span>
+          </div>
+
+          <sc-if value="{{ st.isPane }}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+              <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:rgba(74,168,255,.06);box-shadow:inset 0 -1px 0 var(--ks-info);font-family:var(--ks-mono);font-size:10.5px">
+                <span style="display:flex;align-items:center;gap:6px;padding:2px 8px;background:rgba(240,180,41,.14);border:1px solid #5a4520;color:var(--ks-warn);font-weight:600">{{ st.paneChip }}<span style="font-size:8px">▾</span></span>
+                <span style="color:var(--ks-line-strong)">│</span>
+                <span style="color:var(--ks-ink)">{{ st.paneKind }}</span>
+                <div style="flex:1"></div>
+                <span style="color:var(--ks-ink-3)">⊞ ⋯ ✕</span>
+              </div>
+              <div style="position:relative;height:250px;flex:none">
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:20px 20px 20px 360px">
+                  <span style="font-size:14px;color:var(--ks-ink-3)">○</span>
+                  <div style="font-size:13px;color:var(--ks-ink);text-align:center">Nothing has been asked of any cluster yet.</div>
+                  <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-align:center;max-width:320px;text-wrap:pretty">Pick one in the header and the node list fills itself. The chip is already focused — type to narrow it.</div>
+                </div>
+                <div style="position:absolute;left:10px;top:0;width:330px;background:var(--ks-panel);border:1px solid var(--ks-warn);box-shadow:0 24px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden">
+                  <div style="height:34px;flex:none;display:flex;align-items:center;gap:9px;padding:0 12px;box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:12px">
+                    <span style="color:var(--ks-warn)">⌕</span>
+                    <span style="width:1px;height:16px;background:var(--ks-warn)"></span>
+                    <span style="color:var(--ks-ink-3)">which cluster?</span>
+                    <div style="flex:1"></div>
+                    <span style="font-size:9.5px;color:var(--ks-ink-3)">17</span>
+                  </div>
+                  <sc-for list="{{ st.chipRows }}" as="r" hint-placeholder-count="3">
+                    <div style="height:32px;flex:none;display:flex;align-items:center;gap:10px;padding:0 12px;background:{{ r.bg }};position:relative">
+                      <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                      <span style="font-family:var(--ks-mono);font-size:10px;font-weight:600;color:{{ r.mark }};width:20px;flex:none">{{ r.name }}</span>
+                      <span style="font-family:var(--ks-mono);font-size:11.5px;color:{{ r.descInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.desc }}</span>
+                      <div style="flex:1"></div>
+                      <span style="font-size:10px;color:{{ r.scopeInk }};flex:none">{{ r.scope }}</span>
+                    </div>
+                  </sc-for>
+                  <div style="height:24px;flex:none;display:flex;align-items:center;padding:0 12px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">14 more · ↵ pick · esc close the pane</div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ st.isBar }}" hint-placeholder-val="{{ true }}">
+          <div style="background:var(--ks-panel);border:1px solid {{ st.boxLine }};box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:52px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <span style="font-size:15px;color:{{ st.iconInk }}">⌕</span>
+              <span style="font-size:19px;color:var(--ks-ink);letter-spacing:-.01em">{{ st.typed }}</span>
+              <span style="width:1px;height:22px;background:{{ st.caret }}"></span>
+              <span style="font-size:19px;color:var(--ks-ink-3);letter-spacing:-.01em">{{ st.ghost }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:{{ st.countInk }}">{{ st.count }}</span>
+            </div>
+
+            <div style="flex:none;display:flex;flex-direction:column">
+              <sc-for list="{{ st.rows }}" as="r" hint-placeholder-count="4">
+                <sc-if value="{{ r.isHead }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:22px;flex:none;display:flex;align-items:center;padding:0 16px;font-family:var(--ks-mono);font-size:9px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ r.t }}</div>
+                </sc-if>
+                <sc-if value="{{ r.isItem }}" hint-placeholder-val="{{ false }}">
+                  <div style="height:40px;flex:none;display:flex;align-items:center;gap:11px;padding:0 16px;background:{{ r.bg }};position:relative">
+                    <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                    <span style="width:18px;flex:none;text-align:center;font-size:9px;color:{{ r.mark }}">{{ r.glyph }}</span>
+                    <span style="font-size:14px;font-weight:600;color:{{ r.nameInk }};flex:none">{{ r.name }}</span>
+                    <span style="font-size:12px;color:{{ r.descInk }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.desc }}</span>
+                    <div style="flex:1"></div>
+                    <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ r.scopeInk }};flex:none">{{ r.scope }}</span>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.isProse }}" hint-placeholder-val="{{ false }}">
+                  <div style="flex:none;padding:16px;background:{{ r.bg }};display:flex;flex-direction:column;gap:7px">
+                    <div style="font-size:13.5px;line-height:1.5;color:{{ r.ink }};text-wrap:pretty">{{ r.t }}</div>
+                    <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ r.sub }}</div>
+                  </div>
+                </sc-if>
+              </sc-for>
+            </div>
+
+            <div style="height:40px;flex:none;display:flex;align-items:center;gap:16px;padding:0 16px;background:{{ st.footBg }};border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:10px;color:{{ st.footInk }}">
+              <span style="color:{{ st.crumbInk }}">{{ st.crumb }}</span>
+              <div style="flex:1"></div>
+              <span>{{ st.hint }}</span>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:13px;padding-left:24px;border-left:1px solid var(--ks-line)">
+          <sc-for list="{{ st.notes }}" as="n" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.11em;color:{{ n.tone }}">{{ n.k }}</div>
+              <div style="font-size:12px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start;padding-top:26px;border-top:1px solid var(--ks-line)">
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">KEYS</div>
+        <div style="font-size:18px;font-weight:600">The whole map</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <sc-for list="{{ keys }}" as="k" hint-placeholder-count="9">
+          <div style="min-height:32px;display:grid;grid-template-columns:82px 1fr;align-items:center;gap:14px;padding:6px 14px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <span style="font-family:var(--ks-mono);font-size:10.5px;padding:2px 7px;border:1px solid var(--ks-line-strong);color:{{ k.ink }};text-align:center">{{ k.k }}</span>
+            <span style="font-size:11.5px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ k.t }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-warn)">THE RULES</div>
+        <div style="font-size:18px;font-weight:600">What it matches, and what it never does</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <sc-for list="{{ rules }}" as="r" hint-placeholder-count="7">
+          <div style="min-height:38px;display:grid;grid-template-columns:150px 1fr;align-items:center;gap:14px;padding:8px 14px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <span style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.09em;color:{{ r.tone }}">{{ r.k }}</span>
+            <span style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', PURPLE = '#c9a9ff', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    const T = [
+      ['Fleet', 'every cluster, one row each', 'nothing', 'running'],
+      ['Resource list', 'any kind, filtered, live', 'a cluster', 'running'],
+      ['Nodes', 'the resource list, kind already set', 'a cluster', 'running'],
+      ['Resource monitor', 'requests against real usage', 'a cluster', 'running'],
+      ['Helm', 'every release, per cluster', 'a cluster', 'running'],
+      ['OpenShift', 'routes, builds, image streams', 'an OCP cluster', 'running'],
+      ['Events', 'what the cluster said, newest first', 'a cluster', 'broken'],
+      ['Change stream', 'every write, who and when', 'a cluster', 'broken'],
+      ['Diagnostics', 'the checks, and what failed', 'a cluster', 'broken'],
+      ['Assistant', 'a grounded answer with sources', 'nothing', 'broken'],
+      ['Kubeconfig', 'which contexts actually work', 'nothing', 'reach'],
+      ['RBAC', 'what you may actually do', 'a cluster', 'reach'],
+      ['Global search', 'one query, every cluster', 'nothing', 'reach'],
+      ['Certificates', 'what needs renewing', 'a cluster', 'cost'],
+      ['Waste', 'what you are paying for twice', 'a cluster', 'cost'],
+      ['Metrics · ad-hoc', 'a PromQL query you type', 'a cluster', 'cost'],
+      ['Watch rules', 'what should page you', 'nothing', 'cost']
+    ];
+    const SECTIONS = [
+      ['running', 'THE ESTATE'], ['broken', 'WHAT WENT WRONG'],
+      ['reach', 'WHAT I CAN REACH'], ['cost', 'COST AND WATCHING']
+    ];
+    const toneOf = g => g === 'running' ? OK : g === 'broken' ? INFO : g === 'reach' ? PURPLE : WARN;
+    const glyphOf = g => g === 'running' ? '●' : g === 'broken' ? '▲' : g === 'reach' ? '◆' : '○';
+    const by = n => T.find(t => t[0] === n);
+
+    const SEL = 'rgba(74,168,255,.14)';
+    const flags = { isHead: false, isItem: false, isProse: false };
+    const head = t => Object.assign({}, flags, { isHead: true, t });
+    const row = (t, sel) => Object.assign({}, flags, {
+      isItem: true, name: t[0], desc: t[1], scope: '', glyph: glyphOf(t[3]), mark: toneOf(t[3]),
+      nameInk: sel ? '#fff' : INK, descInk: sel ? INK2 : INK3,
+      scopeInk: INK3, bg: sel ? SEL : 'transparent'
+    });
+    const crow = (code, name, desc, tone, sel) => Object.assign({}, flags, {
+      isItem: true, name: code, desc: name, scope: desc, glyph: '', mark: tone,
+      nameInk: sel ? '#fff' : INK, descInk: sel ? INK : INK2,
+      scopeInk: tone === BAD ? '#ffb3b3' : tone === WARN ? '#f3d08a' : INK3, bg: sel ? SEL : 'transparent'
+    });
+    const prose = (t, sub, ink, bg) => Object.assign({}, flags, { isProse: true, t, sub, ink, bg });
+
+    const restRows = [];
+    SECTIONS.slice(0, 2).forEach(([g, label], si) => {
+      const items = T.filter(t => t[3] === g);
+      restRows.push(head(label));
+      (si === 0 ? items : items.slice(0, 2)).forEach((t, i) => restRows.push(row(t, si === 0 && i === 0)));
+    });
+
+    const lessons = [
+      { chip: '⊞', tone: INFO, chipBg: 'rgba(74,168,255,.12)', chipLine: '#1f4a72', title: 'Panes live side by side, not in tabs', t: '⊞ on any pane header splits it. Drag a header onto the four edges of another pane, or into its middle to join it as a tab — five targets, and the layout rehearses itself while you hold it.' },
+      { chip: '↳', tone: OK, chipBg: 'rgba(62,207,142,.12)', chipLine: '#22503c', title: 'Right-click gives a menu, everywhere', t: 'A row, a pane header, a tab, a cluster — every one of them has a menu, and the menu is titled with what you clicked. Nothing here is only reachable from a toolbar.' },
+      { chip: '⌘K', tone: PURPLE, chipBg: 'rgba(201,169,255,.12)', chipLine: '#4a3a66', title: 'A tab is a desk you keep', t: 'Panes open next to each other, and the tab writes itself to disk on every change. ⌘K names a saved layout; ⌘1…9 goes straight to a desk you already built.' }
+    ];
+
+    const S = (n, title, keyLabel, tone, o) => Object.assign({
+      n, title, keyLabel, tone,
+      keyBg: tone === BAD ? 'rgba(255,95,95,.12)' : tone === OK ? 'rgba(62,207,142,.12)' : tone === WARN ? 'rgba(240,180,41,.12)' : 'rgba(74,168,255,.12)',
+      keyLine: tone === BAD ? '#54262b' : tone === OK ? '#22503c' : tone === WARN ? '#5a4520' : '#1f4a72',
+      boxLine: LINE_H, iconInk: INK3, caret: INFO, typed: '', ghost: '', count: '', countInk: INK3,
+      rows: [], crumb: 'Pane', crumbInk: INK2, hint: '↵ open   ⇧↵ open and split   esc close the tab',
+      footBg: 'var(--ks-field)', footInk: INK3, notes: [],
+      isPane: false, isBar: true, paneChip: '', paneKind: '', chipRows: []
+    }, o);
+    const note = (k, t, tone) => ({ k, t, tone: tone || INFO });
+
+    const steps = [
+      S('1', 'Nothing typed', '⌘T', INFO, {
+        ghost: 'Open a pane…', count: '17',
+        rows: [head('THE ESTATE'), row(by('Fleet'), true), row(by('Resource list')), row(by('Nodes'))],
+        notes: [
+          note('THE CURSOR IS ALREADY THERE', 'No click, no focus step — ⌘T lands you typing, exactly as ⌘Space does. The field is the top of the bar rather than a control inside a page.', OK),
+          note('EIGHT ROWS OF SEVENTEEN', 'The list scrolls, and that is the shape’s central claim: nobody reads a launcher’s list, they read the top of it and then type. Showing all seventeen would make the bar 860px tall and invite scanning over typing.', INFO),
+          note('FLEET IS FIRST, ALWAYS', 'Not a guess about you — simply first in the authored order, so ⌘T↵ is a reliable two-keystroke Fleet. The list never reorders itself, which is what makes that shortcut learnable.', INK2)
+        ]
+      }),
+
+      S('2', 'One letter', 'e', INFO, {
+        typed: 'e', count: '14', countInk: INFO,
+        rows: [head('THE ESTATE'), row(by('Fleet'), true), row(by('Resource list')), row(by('Nodes')), row(by('Resource monitor'))],
+        notes: [
+          note('FOURTEEN OF SEVENTEEN', 'Only Diagnostics, Assistant and RBAC have no “e” in their name. One letter is not a useful filter and it is not meant to be — this state is drawn because it is the one you pass through, and because it proves the list is filtering rather than searching.', INFO),
+          note('THE SELECTION HOLDS IF IT CAN', 'Fleet still matches, so it stays selected. When the selected row stops matching, selection jumps to the first row of the narrowed list — never to nothing, so ↵ always has a target.', OK),
+          note('NOTHING IS BEING FETCHED', 'Seventeen strings in memory. No spinner, no debounce, no request — the list narrows on the keydown, which is the difference between a launcher and a search box.', INK2)
+        ]
+      }),
+
+      S('3', 'Three letters', 'e · v · e', INFO, {
+        typed: 'eve', count: '1', countInk: OK,
+        rows: [head('WHAT WENT WRONG'), row(by('Events'), true)],
+        notes: [
+          note('NAMES AND ALIASES, NOT DESCRIPTIONS', 'The first draft matched descriptions too, which made “eve” a five-way hit — Fleet, Helm and Global search all say “every” in theirs. Descriptions are prose written to be read, not indexed. Instead each pane carries a short authored alias list: “pods” and “kind” find the resource list, “cpu” and “memory” find the monitor, “perms” finds RBAC.', INFO),
+          note('THREE CHARACTERS REACHES ALL SEVENTEEN', 'Checked one by one against the names: fle, nod, hel, ope, eve, cha, dia, ass, kub, rba, glo, cer, was, met, wat. The only pair needing care is the two Resource panes — “lis” and “mon” separate them, so it is three characters but not always the first three.', OK),
+          note('NO RELEVANCE RANKING', 'Matches keep their authored order under their own heading. Sorting by match quality makes rows move under the cursor as you type, which is what makes a filter feel untrustworthy.', INK2)
+        ]
+      }),
+
+      S('4', 'Enter', '↵', OK, {
+        typed: 'eve', count: 'opening', countInk: OK, boxLine: OK, caret: OK,
+        rows: [prose('Events · prod-eu-west', 'The bar vanishes and the pane fills the tab, its header naming the cluster, the control bar focused. The bar was the tab’s content — not a layer over it — so nothing slides and nothing fades.', '#a8e6c8', 'rgba(62,207,142,.06)')],
+        crumb: 'opened', crumbInk: OK, hint: 'the tab is written to disk',
+        notes: [
+          note('THE BAR WAS THE CONTENT', 'It is not an overlay that closes. The empty tab’s content is the launcher; opening a pane replaces it, and there is no state where both exist.', OK),
+          note('THE TAB RENAMES ITSELF', 'The italic “empty” in the tab bar becomes the pane’s title, autosaved as always. Double-click to rename, exactly as before — nothing new is introduced.', INFO),
+          note('⇧↵ IS THE OTHER HALF', 'In an empty tab it does what ↵ does; there is nothing to split. It earns its place in the empty pane after ⊞, where it splits again straight away and lets you build a three-pane desk without the mouse.', INK2)
+        ]
+      }),
+
+      S('5', 'A pane that needs a cluster — it opens anyway', '↵ on Nodes', WARN, {
+        typed: '', ghost: '', count: '', countInk: WARN, boxLine: WARN, caret: 'transparent',
+        isPane: true, isBar: false,
+        paneChip: 'pick a cluster', paneKind: 'Nodes',
+        chipRows: [
+          crow('EW', 'prod-eu-west', '18 nodes · 1 pressure', BAD, true),
+          crow('UE', 'prod-us-east', '12 nodes', OK),
+          crow('AS', 'prod-ap-south', '9 nodes · read-only', WARN)
+        ],
+        rows: [],
+        crumb: '', crumbInk: WARN, hint: '',
+        notes: [
+          note('NO SECOND BAR STEP', 'The bar is gone the moment you press ↵ — the pane is open, its columns drawn, its control bar in place. The cluster question moved into the pane’s own header chip, which is the control you will use for the rest of the product’s life anyway.', OK),
+          note('THE CHIP OPENS FOCUSED, AND FILTERS', 'Same five keystrokes as a second bar pass — ⌘T, nod, ↵, eu, ↵ — because the chip’s dropdown takes typing exactly as the bar does. One fewer concept, and the gesture is learned where it lives.', WARN),
+          note('AN UNSCOPED PANE IS A PANE STATE, NOT AN ERROR', 'The panes already have empty states — “No Prometheus here”, “nothing to read”. A pane with no cluster yet is another one of those: the body says what it is waiting for, and nothing has been requested from any cluster.', INFO),
+          note('“NOD” IS SPENT', 'It did its job and is not kept. Esc from here closes the pane and returns to an empty bar, not to “nod” — the cost of dropping the breadcrumb, and the reason the crumb existed at all.', INK2)
+        ]
+      }),
+
+      S('6', 'Searching for a pane that cannot open here', 'shell', BAD, {
+        typed: 'shell', count: '0', countInk: BAD, boxLine: BAD, caret: BAD,
+        rows: [
+          prose('A shell opens from a pod, not from an empty tab.', 'Find the pod first, then right-click its row. The same goes for a log, a manifest, describe and “what would happen” — they all take an object, and an empty tab has none yet.', '#ffc4c4', 'rgba(255,95,95,.05)'),
+          row(by('Resource list'), true)
+        ],
+        crumb: 'no pane matches “shell”', crumbInk: '#ffb3b3', hint: '↵ open the resource list',
+        notes: [
+          note('IT NAMES THE ROUTE, NOT THE ABSENCE', '“No results” would teach that the product has no shell. This says where a shell comes from and offers the pane that gets you there as the selected row, so ↵ still does the right thing.', BAD),
+          note('EIGHT WORDS TRIGGER IT', 'shell, exec, log, logs, yaml, manifest, describe, diff — each mapped to its object pane and to the same sentence with the right nouns. Anything else unrecognised gets a plain no-match with the same offered row.', WARN),
+          note('THIS IS WHY THE FIELD IS PANE-SCOPED', 'You chose a pane filter over the full ⌘K, and this state has to earn it. A ⌘K-scoped field would answer “shell” with fourteen pods and skip the lesson entirely.', INFO)
+        ]
+      })
+    ];
+
+    const keys = [
+      { k: '⌘T', t: 'a new empty tab, cursor in the field', ink: INK },
+      { k: 'type', t: 'narrows on the keydown — nothing fetched, nothing debounced', ink: INK },
+      { k: '↑ ↓', t: 'move the selection; it skips headings and scrolls the list', ink: INK },
+      { k: '↵', t: 'open the selected pane — always immediately, even if it has no cluster yet', ink: INK },
+      { k: '⇧↵', t: 'open and split; in an empty tab the same as ↵', ink: INK2 },
+      { k: '⌫', t: 'on an empty field, closes the tab — the same as esc', ink: INK2 },
+      { k: 'esc', t: 'closes the tab from the bar; closes the pane from an unscoped one', ink: INK },
+      { k: '⌘K', t: 'the full palette: objects, verbs, saved layouts', ink: PURPLE },
+      { k: 'click', t: 'a row opens it — the bar is not keyboard-only', ink: INK2 }
+    ];
+
+    const rules = [
+      { k: 'MATCHES', t: 'The pane name and a short authored alias list, case-insensitive substring — not fuzzy, and never the description. “eve” finds Events alone; “pods” finds the resource list; “evt” finds nothing, deliberately.', tone: OK, bg: 'transparent' },
+      { k: 'NEVER MATCHES', t: 'Descriptions — they are prose, and “every” appears in three of them. Nor clusters, namespaces, objects, saved layouts or verbs: all of those are ⌘K. A field that sometimes returns pods and sometimes panes cannot be trusted.', tone: BAD, bg: 'rgba(255,95,95,.04)' },
+      { k: 'ORDER', t: 'Authored order, always, under authored headings. No relevance, no recency, no frequency — the list never moves under the cursor.', tone: OK, bg: 'transparent' },
+      { k: 'VISIBLE ROWS', t: 'Eight, then it scrolls. A 3px rail on the right, no arrows, no track — the same scrollbar the panes use.', tone: INFO, bg: 'transparent' },
+      { k: 'SELECTION', t: 'Held if it still matches, otherwise the first row of the narrowed list. Never nothing, so ↵ always has a target.', tone: INFO, bg: 'transparent' },
+      { k: 'ZERO MATCHES', t: 'Never a bare “no results”. Either the object-pane sentence, or a plain line plus the resource list offered as the selected row.', tone: WARN, bg: 'rgba(240,180,41,.05)' },
+      { k: 'PERSISTENCE', t: 'None. The typed text and the selection die with the bar; the tab starts existing on disk once a pane is in it.', tone: INK2, bg: 'transparent' }
+    ];
+
+    return {
+      facts: [
+        { k: 'BAR', v: '680 × 458', tone: INFO },
+        { k: 'FIELD', v: '52px · 19px', tone: INK },
+        { k: 'ROWS SHOWN', v: '8 of 17', tone: INK2 },
+        { k: 'TO OPEN', v: '3–4 keys', tone: OK }
+      ],
+      restRows, lessons, steps, keys, rules,
+      closing: [
+        { tone: OK, k: 'THE LAUNCHER SHAPE CHANGES ONE THING SUBSTANTIVELY', t: 'Not the field size or the shadow — the fact that the list scrolls. V1 as a page showed all seventeen and invited reading; a 680 × 456 bar shows eight and invites typing, which is what every one of ⌘T’s users will actually do by the second day. It also stops the empty tab looking like a settings dialog, which was the third of candidate A’s named weaknesses and the one no earlier variant fixed.' },
+        { tone: WARN, k: 'THERE IS NO SECOND BAR STEP — AND THAT IS A CORRECTION', t: 'Twelve of the seventeen need a cluster, and the launcher grammar offers an argument step for exactly that: field clears, breadcrumb appears, second pass identical to the first. It was drawn that way and then dropped, because every pane header already carries a cluster chip — the control you will use for the rest of the product’s life. A bar step duplicates it and, worse, hides it. So ↵ opens the pane immediately with the chip focused and filtering, and the body shows the pane’s own “nothing asked yet” state. Same five keystrokes, one fewer concept, and the gesture is learned where it lives. The price: “nod” is spent rather than remembered, so Esc returns to an empty bar instead of a breadcrumb.' },
+        { tone: BAD, k: 'THE ONE PLACE IT MUST NOT BEHAVE LIKE A LAUNCHER', t: 'Spotlight answers an unknown query with nothing, or with a web search. Here “shell” has to teach: a shell comes from a pod, and here is the pane that finds pods. Eight words are mapped to that sentence, the resource list is offered as the selected row, and ↵ still works. This is the only state on the page where the product explains itself, and it exists because the field is pane-scoped rather than being ⌘K.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
