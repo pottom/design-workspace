@@ -124,46 +124,54 @@ A `design/05-frame/04-Decisions.dc.html`-ből. **Ezeket nem szabad újratárgyal
 
 ---
 
-## 5. A nyitott hiány: a keskeny állapotok
+## 5. A keskeny állapotok — megvan
 
-**Ez a legnagyobb megmaradt kockázat.** A króm degradációja általános szabállyal meg van oldva; a
-**testeké nincs**, és testenként más.
+`design/07-narrow/`, öt lap. **A 638 az alapállapot, nem az 1600** — minden specimen 638-on készült
+és onnan szélesedett, mert 1600-ról levágni olyan keskeny testet ad, ami hiányok listája.
 
-Mérés a 31 fájlon (`degrad` / `narrow` / `collapse` jelek):
+**Három sáv, két küszöb:** tight = 382 · mid = 480–803 (ide esik a 638 és az 572) · wide = 804-től.
+A 804 már eldöntött szám: ott áll meg az osztás.
 
-```
-kidolgozva (≥6)   01 04 05 06 28 29                            ██████ 6
-érintve   (1–5)   02 03 07 08 10 13 15 16 17 18 22 25          ████████████ 12
-semmi     (0)     09 11 12 14 19 20 21 23 24 26 27 30 31       █████████████ 13
-```
+### A hét törvény
 
-**A 09–24 blokk — a legutóbb érkezett tizenöt panel — gyakorlatilag nincs keskenyen kidolgozva.**
+| # | törvény |
+|---|---|
+| 1 | **A szerver dönti el, mi esik ki** — ahol van véleménye. A `priority`-szabály, amit a lista már használ |
+| 2 | **Egy társ kiesik; egy szerkezet másik szerkezetté válik.** Ezért kellett négy panelt megrajzolni és nyolc táblát nem |
+| 3 | **Minden testnek van egy teherhordó párja** — mi ez, és mi róla az ítélet. Olyan fix, mint a `⊞ ✕` |
+| 4 | **A társak egymásra pakolódnak, a sorozatok összenyomódnak.** Próbáld átrendezni: ha változik a jelentés, sorozat |
+| 5 | **A szám túléli a sávot.** Abszolút érték nélküli sáv = százalék abszolút nélkül |
+| 6 | **Semmi nem görget oldalra.** Minden széles szerkezetnek van megnevezett átalakulása, kivétel nincs |
+| 7 | **Ha a test elhagyott valamit, egyszer kimondja** — a vezérlősávban, egyetlen megfogalmazásban |
 
-### És a valódi szélességek nem 320 px
+### A konkrét válaszok
 
-A 804 px-es osztásküszöbből következik, hogy `⊞`-vel 1600 px-ből ezek a szélességek érhetők el:
+- **Verdikt-oszlop** (tanúsítványok, pazarlás, kubeconfig): sem a név, sem a verdikt nem esik ki —
+  **a sor kétsorossá válik, és a köztük lévő bizonyíték megy**. A **számított** verdikt megelőzi a
+  szerver prioritását: az API-nak nincs mezője arra, hogy „most újítsd meg" vagy „árva".
+- **RBAC**: a mátrix 8 glifes csíkká transzponálódik erőforrásonként; 382-n a nyolc verb **két
+  verdikt**, `R` és `W`, `◐`-val a részlegesre. A verb-sorrend minden szélességen fix, **ezért a
+  panel nem kínál oszlop-rendezést**.
+- **Helm**: 638-on három oszlop — a referencia-cluster **plusz a két legjobban eltérő**, nem az első
+  három ábécésorrendben. 382-n egy cluster lapozva `‹ ›`-vel, egy 62 px-es referenciaoszlop mellett.
+- **Assistant**: a csipeszek 638-on kilépnek a mondatból, 382-n számozott forrásokká válnak.
+  **Állítás hivatkozás nélkül nincs, semmilyen szélességen.** A próza 64 karakteren felül még
+  1600-on is megáll.
+- **Terminal**: 100 oszlop 958-on, **65 a 638-on**, 40 a 382-n. Nyolcvan oszlophoz 782 px kell,
+  tehát az öt elérhető szélességből **csak a 958 és az 1600 fér bele** — a mindennapi shell ebben a
+  termékben 65 oszlopos, és a legtöbb `kubectl` tábla tördelni fog. Mindkét csalást elutasítjuk
+  (11 px alatti betű, saját újratördelés), és **kiírjuk a számot** helyette.
 
-```
-1600 · 958 · 638 · 572 · 382
-```
+### A `31-Incident` felülírva
 
-A 320 px tehát **ritka** (csak kézi fogóhúzással), a **638 viszont a mindennapi** — és azt sem
-rajzolta meg senki. A brief maga mondja ki, hogy ez a tét:
+A `05-Incident-Real-Widths` a referencia: az eredeti `31` négy panelt 798 × 481-en rajzolt, **amit a
+`⊞` sosem állít elő**. A `31` marad forgatókönyvnek — hogyan jutott oda az ember.
 
-> „Négy panel 1280 pixelen ~300 pixeles paneleket jelent. **Ez nem szélsőséges eset, hanem a
-> mindennapi**, és a mostani felület pont ezen bukik el."
+### Ami még nincs
 
-### Három kategória, kockázat szerint
-
-| kategória | panelek | mi történik keskenyen |
-|---|---|---|
-| **Magától szűkül** | Resource list, Events, Log, Certificates, Kubeconfig, Waste | oszlop esik ki `priority` szerint — a szabály megvan |
-| **Át kell alakuljon** | Details (3 oszlop → ?), What-would-happen, Node, Metrics | az elrendezési premisszájuk hal meg, nem egy oszlop |
-| **Nem tudjuk** | RBAC mátrix, Helm érték-rács, Assistant, Terminal | N oszlop N clusterre / N verbre — nincs rá szabály |
-
-A második és harmadik kategória **tizenegy panel**, és mindegyikhez döntés kell, nem CSS.
-
----
+`26-First-Run` és `30-Bulk-Action` továbbra is csak 1600-on. Egyiknek sincs meghaló szerkezete —
+mindkettő lista lábléccel —, tehát a grammatikát rajz nélkül követik, de **382-n senki nem
+ellenőrizte**.
 
 ## 6. Az építés sorrendje
 
@@ -293,15 +301,15 @@ Ezek a legértékesebb sorok az egész tervben. Sorrendben, a primitívek szerin
 | `04-controls/` | `01-Controls` `02-Dropdowns` `03-Parts` **`04-Primitives`** | a widgetek — a 9. szakasz ebből van |
 | `05-frame/` | fogantyúk · húzás · kijelölés · **döntések** · **komponensfa** · régiótérkép | a keret; a 4. szakasz ebből van |
 | `06-panes/` | 31 képernyő | a 3. szakasz |
-| `08-overlays/` | paletta+súgó, megerősítés+idő | a négy réteg |
-| `09-icon/` | app- és tálcaikonok, öt méret | a Tauri bundle-höz |
+| `07-overlays/` | paletta+súgó, megerősítés+idő | a négy réteg |
+| `08-icon/` | app- és tálcaikonok, öt méret | a Tauri bundle-höz |
 
 **Amit ezen felül tudni kell:**
 
 - Az **overlay-grammatika** (`03-action-map/04-Overlay-Grammar`) nyolc réteg-fajtát nevez meg: menü,
-  hover-kártya, toast, popover, megerősítés, paletta, sheet, teljes ablak. A `08-overlays/` ebből
+  hover-kártya, toast, popover, megerősítés, paletta, sheet, teljes ablak. A `07-overlays/` ebből
   **kettőt** rajzol meg részletesen — a maradék hat a grammatikából épül.
-- A **megerősítésnek három foka van** (`08-overlays/02`): „csak csináld" · „mutasd a hatását" ·
+- A **megerősítésnek három foka van** (`07-overlays/02`): „csak csináld" · „mutasd a hatását" ·
   „írd be a nevét". És **hat jel** mondja meg, hogy a múltban vagy, nem egy banner.
 - A **paletta és a súgó egy registry, két réteg** — a jobbklikk-menü ugyanannak a listának a
   kontextusra szűrt kivágata, nem külön kódút.
