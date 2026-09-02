@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1020px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 07 · 4 / 5 · THE VERDICT COLUMN · BRIEF §5.2</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">When the name and the verdict no longer fit together</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Certificates, waste and kubeconfig exist for a <span style="color:var(--ks-ink)">computed verdict</span> — “renew”, “five buckets”, “the pair”. Law 3 says the name and the verdict both stay, and at 382 they cannot share a line. The brief asked what gives; the answer is neither, and the shape of the row changes instead.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid var(--ks-ok);padding:20px 24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px">
+    <sc-for list="{{ rule }}" as="r" hint-placeholder-count="3">
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:baseline;gap:10px">
+          <span style="font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ r.tone }}">{{ r.n }}</span>
+          <span style="font-size:15px;font-weight:600;letter-spacing:-.01em;text-wrap:pretty">{{ r.title }}</span>
+        </div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ r.t }}</div>
+        <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:{{ r.tone }};text-wrap:pretty">{{ r.spec }}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{ panes }}" as="p" hint-placeholder-count="3">
+    <div style="display:flex;flex-direction:column;gap:14px;padding-top:24px;border-top:1px solid var(--ks-line)">
+      <div style="display:flex;align-items:flex-end;gap:26px">
+        <div style="display:flex;flex-direction:column;gap:6px;max-width:840px">
+          <div style="display:flex;align-items:baseline;gap:11px">
+            <span style="font-family:var(--ks-mono);font-size:12px;font-weight:600;color:var(--ks-info)">{{ p.n }}</span>
+            <span style="font-size:21px;font-weight:600;letter-spacing:-.015em">{{ p.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3)">{{ p.tag }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ok);width:70px;flex:none">VERDICT</span>
+            <span style="font-size:12.5px;line-height:1.55;color:var(--ks-ink);min-width:0;text-wrap:pretty">{{ p.verdict }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-bad);width:70px;flex:none">DROPS</span>
+            <span style="font-size:12.5px;line-height:1.55;color:#ffc4c4;min-width:0;text-wrap:pretty">{{ p.drops }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;align-items:flex-start">
+        <sc-for list="{{ p.specimens }}" as="s" hint-placeholder-count="2">
+          <div style="width:{{ s.w }};flex:none;display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:13px;font-weight:600;color:{{ s.wInk }}">{{ s.px }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:{{ s.bandInk }}">{{ s.band }}</span>
+            </div>
+            <div style="background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+              <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:rgba(74,168,255,.06);box-shadow:inset 0 -1px 0 var(--ks-info);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+                <span style="color:var(--ks-info);font-weight:600;flex:none">{{ s.cl }}</span>
+                <span style="color:var(--ks-line-strong);flex:none">│</span>
+                <span style="color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis">{{ s.kind }}</span>
+                <div style="flex:1"></div>
+                <span style="color:var(--ks-ink-3);flex:none">⊞ ⋯ ✕</span>
+              </div>
+              <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+                <span style="color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis">{{ s.ctrl }}</span>
+                <div style="flex:1"></div>
+                <span style="color:var(--ks-info);flex:none">{{ s.chip }}</span>
+              </div>
+              <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="7">
+                <div style="min-height:{{ r.h }};display:flex;flex-direction:column;gap:2px;padding:{{ r.pad }};position:relative;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                  <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                  <div style="display:grid;grid-template-columns:{{ r.cols }};align-items:center;gap:8px">
+                    <sc-for list="{{ r.top }}" as="c" hint-placeholder-count="2">
+                      <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;min-width:0">
+                        <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>
+                        <span style="font-family:{{ c.font }};font-size:{{ c.size }};font-weight:{{ c.weight }};color:{{ c.ink }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ c.t }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <sc-if value="{{ r.hasSecond }}" hint-placeholder-val="{{ false }}">
+                    <div style="display:flex;align-items:center;gap:6px;min-width:0">
+                      <span style="font-size:7px;color:{{ r.vTone }};flex:none">{{ r.vGlyph }}</span>
+                      <span style="font-size:10.5px;line-height:1.4;color:{{ r.vInk }};min-width:0;text-wrap:pretty">{{ r.verdict }}</span>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+              <sc-if value="{{ s.hasFoot }}" hint-placeholder-val="{{ false }}">
+                <div style="min-height:26px;display:flex;align-items:center;gap:7px;padding:6px 9px;background:var(--ks-field);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3);text-wrap:pretty">{{ s.foot }}</div>
+              </sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.body }}</div>
+              <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:{{ s.specInk }};text-wrap:pretty">{{ s.spec }}</div>
+            </div>
+          </div>
+        </sc-for>
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:11px;padding-left:20px;border-left:1px solid var(--ks-line)">
+          <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">HOW THE RULE LANDS HERE</div>
+          <sc-for list="{{ p.notes }}" as="n" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.1em;color:{{ n.tone }}">{{ n.k }}</div>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-top:24px;border-top:1px solid var(--ks-line)">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="3">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const MONO = "'IBM Plex Mono',monospace";
+const SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const c = (t, o) => Object.assign({
+      t, ink: INK2, font: SANS, size: '11px', weight: '400', justify: 'flex-start', glyph: '', gtone: INK3
+    }, o || {});
+
+    const R = (cols, top, o) => Object.assign({
+      cols, top, h: '24px', pad: '4px 9px', bg: 'transparent', mark: 'transparent',
+      hasSecond: false, verdict: '', vInk: INK3, vGlyph: '', vTone: INK3
+    }, o || {});
+
+    const two = (name, verdict, tone, glyph, o) => R('1fr', [
+      c(name, { font: MONO, size: '10.5px', ink: tone === BAD ? '#ffb3b3' : tone === WARN ? '#f3d08a' : INK })
+    ], Object.assign({
+      h: '38px', pad: '5px 9px', mark: tone,
+      bg: tone === BAD ? 'rgba(255,95,95,.05)' : tone === WARN ? 'rgba(240,180,41,.05)' : 'transparent',
+      hasSecond: true, verdict, vGlyph: glyph, vTone: tone,
+      vInk: tone === BAD ? '#ffc4c4' : tone === WARN ? '#f3d08a' : INK2
+    }, o || {}));
+
+    const S = (px, w, band, o) => Object.assign({
+      px, w: w + 'px', band,
+      wInk: px === '638' ? INFO : WARN, bandInk: px === '638' ? INFO : WARN,
+      cl: 'EW', kind: '', ctrl: '', chip: '', rows: [], hasFoot: false, foot: '',
+      body: '', spec: '', specInk: px === '638' ? INFO : WARN
+    }, o);
+
+    const rule = [
+      { n: '1', tone: OK, title: 'The verdict never leaves, and it never truncates', t: 'These three panes compute something the API does not return — whether a certificate needs renewing, which of five waste buckets a workload is in, whether a kubeconfig entry is a working pair. That computation is the only reason the pane exists, so it outranks every column the server ranked, including the name.', spec: 'verdict outranks priority · wraps, never ellipses' },
+      { n: '2', tone: INFO, title: 'Below 480 the row becomes two lines, not two columns', t: 'The name on the first line, the verdict as a sentence on the second, with the status mark spanning both. This is the same shape the resource list already uses for its reason sentence — so nothing new is invented, and a row that has no verdict stays 22px tall.', spec: 'name 10.5px mono · verdict 10.5px sans · 38px row' },
+      { n: '3', tone: WARN, title: 'What gives is the evidence, not the judgement', t: 'Everything between the name and the verdict — expiry dates, request figures, file paths, byte counts — is the evidence for a conclusion the pane has already drawn. At 382 the conclusion survives in words and the numbers behind it move into the verdict sentence or into ⌘⏎.', spec: 'evidence columns out by priority · one number may join the sentence' }
+    ];
+
+    const panes = [
+      {
+        n: '19', title: 'Certificates', tag: 'VERDICT PANE',
+        verdict: 'Renew now · renew this month · fine — computed from expiry, issuer and whether anything still uses it.',
+        drops: 'The expiry date, the issuer, the SAN count and the “used by” column. Two of them come back inside the sentence.',
+        specimens: [
+          S('638', 638, 'MID · THE BASE STATE', {
+            kind: 'Certificates · prod-eu-west', ctrl: '14 secrets · by urgency', chip: '▸ 2 hidden',
+            rows: [
+              R('1fr 74px 90px', [c('ledger-tls', { font: MONO, size: '10.5px', ink: '#ffb3b3' }), c('4 days', { font: MONO, size: '10px', ink: BAD, weight: '600', justify: 'flex-end' }), c('renew now', { size: '10.5px', ink: '#ffc4c4', weight: '600', glyph: '▲', gtone: BAD, justify: 'flex-end' })], { bg: 'rgba(255,95,95,.05)', mark: BAD }),
+              R('1fr 74px 90px', [c('checkout-api-tls', { font: MONO, size: '10.5px', ink: '#f3d08a' }), c('19 days', { font: MONO, size: '10px', ink: WARN, weight: '600', justify: 'flex-end' }), c('this month', { size: '10.5px', ink: '#f3d08a', glyph: '◆', gtone: WARN, justify: 'flex-end' })], { bg: 'rgba(240,180,41,.05)', mark: WARN }),
+              R('1fr 74px 90px', [c('envoy-mesh-ca', { font: MONO, size: '10.5px', ink: INK }), c('87 days', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('fine', { size: '10.5px', ink: INK2, glyph: '●', gtone: OK, justify: 'flex-end' })], { mark: OK }),
+              R('1fr 74px 90px', [c('grafana-tls', { font: MONO, size: '10.5px', ink: INK3 }), c('204 days', { font: MONO, size: '10px', ink: INK3, justify: 'flex-end' }), c('unused', { size: '10.5px', ink: INK3, glyph: '○', gtone: IDLE, justify: 'flex-end' })], { mark: IDLE }),
+              R('1fr 74px 90px', [c('legacy-payments-tls', { font: MONO, size: '10.5px', ink: INK3 }), c('expired 41d', { font: MONO, size: '10px', ink: INK3, justify: 'flex-end' }), c('unused', { size: '10.5px', ink: INK3, glyph: '○', gtone: IDLE, justify: 'flex-end' })], { mark: IDLE })
+            ],
+            body: 'Three columns: name, the one number that matters, the verdict. Issuer and SAN count have already gone — they are evidence, and the pane reached its conclusion without asking you to read them.',
+            spec: 'name 1fr · days 74px · verdict 90px'
+          }),
+          S('382', 382, 'TIGHT', {
+            kind: 'Certificates', ctrl: '14 secrets · by urgency', chip: '▸ 3 hidden',
+            rows: [
+              two('ledger-tls', 'renew now — 4 days, and ingress still serves it', BAD, '▲'),
+              two('checkout-api-tls', 'this month — 19 days', WARN, '◆'),
+              two('envoy-mesh-ca', 'fine — 87 days', OK, '●', { h: '22px', pad: '4px 9px', bg: 'transparent' }),
+              two('grafana-tls', 'unused — nothing mounts it', IDLE, '○', { h: '22px', pad: '4px 9px', bg: 'transparent' }),
+              two('legacy-payments-tls', 'unused — expired 41 days ago', IDLE, '○', { h: '22px', pad: '4px 9px', bg: 'transparent' })
+            ],
+            hasFoot: true, foot: '9 more · all over 90 days',
+            body: 'The verdict becomes the sentence and swallows the number. “renew now — 4 days, and ingress still serves it” is the whole finding, including the used-by column that had dropped out at 638.',
+            spec: 'two lines when there is a verdict · 22px when it is fine'
+          })
+        ],
+        notes: [
+          { k: 'WHY THE DAY COUNT JOINS THE SENTENCE', tone: OK, t: 'Rule 3 lets exactly one number into the verdict, and here it is obvious which: the day count is why the verdict says renew. Once it is in the sentence the numeric column is redundant, so the row loses a column and gains a line rather than trading one fact for another.' },
+          { k: 'THE QUIET ROWS STAY 22PX', tone: INFO, t: '“fine — 87 days” fits on one line, so those rows never grow. The pane is 38px tall only where something is wrong, which means height itself becomes a scanning signal at the width where colour has least room to work.' },
+          { k: 'THE FOOTER IS THE FOLD’S VERDICT', tone: WARN, t: '“9 more · all over 90 days” rather than “9 more”. Same rule as the Helm fold: a count tells you there is more, a verdict tells you whether to care, and this pane is checked once a month by someone who wants to stop reading.' }
+        ]
+      },
+      {
+        n: '20', title: 'Waste', tag: 'VERDICT PANE',
+        verdict: 'One of five buckets — overprovisioned, idle, orphaned, oversized limit, never scheduled — plus what it would save.',
+        drops: 'Request, actual, the ratio, the sparkline and the age. The saving stays, because the bucket without it is an accusation with no size.',
+        specimens: [
+          S('638', 638, 'MID · THE BASE STATE', {
+            kind: 'Waste · prod-eu-west', ctrl: '61 workloads · 38% of spend', chip: '▸ 2 hidden',
+            rows: [
+              R('1fr 84px 96px', [c('deploy/report-builder', { font: MONO, size: '10.5px', ink: INK }), c('72Gi idle', { font: MONO, size: '10px', ink: WARN, weight: '600', justify: 'flex-end' }), c('overprovisioned', { size: '10px', ink: '#f3d08a', glyph: '◆', gtone: WARN, justify: 'flex-end' })], { bg: 'rgba(240,180,41,.05)', mark: WARN }),
+              R('1fr 84px 96px', [c('sts/clickhouse-cold', { font: MONO, size: '10.5px', ink: INK }), c('$1,840/mo', { font: MONO, size: '10px', ink: WARN, weight: '600', justify: 'flex-end' }), c('idle 19 days', { size: '10px', ink: '#f3d08a', glyph: '◆', gtone: WARN, justify: 'flex-end' })], { bg: 'rgba(240,180,41,.05)', mark: WARN }),
+              R('1fr 84px 96px', [c('pvc/exports-2024', { font: MONO, size: '10.5px', ink: '#ffb3b3' }), c('420Gi', { font: MONO, size: '10px', ink: BAD, weight: '600', justify: 'flex-end' }), c('orphaned', { size: '10px', ink: '#ffc4c4', weight: '600', glyph: '▲', gtone: BAD, justify: 'flex-end' })], { bg: 'rgba(255,95,95,.05)', mark: BAD }),
+              R('1fr 84px 96px', [c('deploy/fraud-scorer', { font: MONO, size: '10.5px', ink: INK }), c('4× limit', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('oversized limit', { size: '10px', ink: INK2, glyph: '◆', gtone: WARN, justify: 'flex-end' })], { mark: WARN }),
+              R('1fr 84px 96px', [c('job/nightly-export', { font: MONO, size: '10.5px', ink: INK3 }), c('—', { font: MONO, size: '10px', ink: INK3, justify: 'flex-end' }), c('never scheduled', { size: '10px', ink: INK3, glyph: '○', gtone: IDLE, justify: 'flex-end' })], { mark: IDLE })
+            ],
+            body: 'Name, the size of the finding, the bucket. The request-versus-actual pair and the sparkline are gone: they are how the bucket was computed, not what it concluded.',
+            spec: 'name 1fr · size 84px · bucket 96px · no sparkline'
+          }),
+          S('382', 382, 'TIGHT', {
+            kind: 'Waste', ctrl: '61 workloads · 38%', chip: '▸ 4 hidden',
+            rows: [
+              two('pvc/exports-2024', 'orphaned — 420Gi, no pod has mounted it in 8 months', BAD, '▲'),
+              two('deploy/report-builder', 'overprovisioned — 72Gi idle, $2,110/mo', WARN, '◆'),
+              two('sts/clickhouse-cold', 'idle 19 days — $1,840/mo', WARN, '◆'),
+              two('deploy/fraud-scorer', 'oversized limit — 4× the observed peak', WARN, '◆'),
+              two('job/nightly-export', 'never scheduled — 41 days since creation', IDLE, '○', { h: '22px', pad: '4px 9px', bg: 'transparent' })
+            ],
+            hasFoot: true, foot: '56 more · $340/mo between them',
+            body: 'The bucket keeps its name and takes the saving with it. Two facts in the sentence where the bucket needs two — 420Gi and how long — because rule 3 caps the sentence at what fits on two lines, not at one number.',
+            spec: 'bucket first in the sentence · saving always present'
+          })
+        ],
+        notes: [
+          { k: 'THE BUCKET NAME IS THE VERDICT', tone: OK, t: 'Five buckets, five fixed words. They lead the sentence so the pane can be read as a list of judgements down the left of the second line, which is the closest thing to a column this shape allows.' },
+          { k: 'THE SAVING IS NOT OPTIONAL', tone: INFO, t: '“Overprovisioned” with no figure is an accusation without a size, and this pane exists to be taken to a budget conversation. Wherever a bucket has a monetary or capacity figure it is in the sentence at every width — the pane’s own version of “no percentage without an absolute”.' },
+          { k: 'THE FOOTER PRICES THE FOLD', tone: WARN, t: '“56 more · $340/mo between them” closes the question the count would have opened. It is also the honest answer to why they are hidden: together they are worth less than the fourth row.' }
+        ]
+      },
+      {
+        n: '21', title: 'Kubeconfig', tag: 'VERDICT PANE',
+        verdict: 'Whether cluster, user and namespace form a pair that actually works — reachable, credential valid, context not shadowed.',
+        drops: 'The server URL, the auth method, the file path and the namespace column. The path returns on ⌘⏎, because it is what you edit.',
+        specimens: [
+          S('638', 638, 'MID · THE BASE STATE', {
+            kind: 'Kubeconfig', ctrl: '17 contexts · 3 files · by state', chip: '▸ 2 hidden',
+            rows: [
+              R('1fr 92px 88px', [c('prod-eu-west', { font: MONO, size: '10.5px', ink: INK }), c('oidc · 6h left', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('works', { size: '10.5px', ink: INK2, glyph: '●', gtone: OK, justify: 'flex-end' })], { mark: OK }),
+              R('1fr 92px 88px', [c('edge-01', { font: MONO, size: '10.5px', ink: '#ffb3b3' }), c('cert · valid', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('unreachable', { size: '10.5px', ink: '#ffc4c4', weight: '600', glyph: '▲', gtone: BAD, justify: 'flex-end' })], { bg: 'rgba(255,95,95,.05)', mark: BAD }),
+              R('1fr 92px 88px', [c('ocp-dr', { font: MONO, size: '10.5px', ink: '#ffb3b3' }), c('token · expired', { font: MONO, size: '10px', ink: BAD, justify: 'flex-end' }), c('credential', { size: '10.5px', ink: '#ffc4c4', weight: '600', glyph: '▲', gtone: BAD, justify: 'flex-end' })], { bg: 'rgba(255,95,95,.05)', mark: BAD }),
+              R('1fr 92px 88px', [c('analytics', { font: MONO, size: '10.5px', ink: '#f3d08a' }), c('cert · valid', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('shadowed', { size: '10.5px', ink: '#f3d08a', glyph: '◆', gtone: WARN, justify: 'flex-end' })], { bg: 'rgba(240,180,41,.05)', mark: WARN }),
+              R('1fr 92px 88px', [c('staging-eu', { font: MONO, size: '10.5px', ink: INK }), c('oidc · 6h left', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' }), c('works', { size: '10.5px', ink: INK2, glyph: '●', gtone: OK, justify: 'flex-end' })], { mark: OK })
+            ],
+            body: 'The auth method survives at 638 because it is the first thing you change when a context stops working — the one piece of evidence that is also an instruction.',
+            spec: 'name 1fr · auth 92px · verdict 88px · no path, no URL'
+          }),
+          S('382', 382, 'TIGHT', {
+            kind: 'Kubeconfig', ctrl: '17 contexts · 3 files', chip: '▸ 3 hidden',
+            rows: [
+              two('edge-01', 'unreachable — dials 10.4.0.1, no route from here', BAD, '▲'),
+              two('ocp-dr', 'credential — the token expired 12 days ago', BAD, '▲'),
+              two('analytics', 'shadowed — a second file defines it after this one', WARN, '◆'),
+              two('prod-eu-west', 'works — oidc, 6h left', OK, '●', { h: '22px', pad: '4px 9px', bg: 'transparent' }),
+              two('staging-eu', 'works — oidc, 6h left', OK, '●', { h: '22px', pad: '4px 9px', bg: 'transparent' })
+            ],
+            hasFoot: true, foot: '12 more · all working',
+            body: 'Broken contexts first, working ones as one-liners underneath. “Shadowed” is the verdict this pane was built for, and it is the one no column could ever have shown — it is a fact about two files, not about this row.',
+            spec: 'failures first · verdict names the cause · path on ⌘⏎'
+          })
+        ],
+        notes: [
+          { k: 'THE ORDER IS THE VERDICT TOO', tone: OK, t: 'Sorted by state at every width, never alphabetically. At 382 that is what makes three broken contexts out of seventeen findable without scrolling, and it costs nothing because nobody knows their contexts by position.' },
+          { k: 'WHY THE PATH IS THE ONE THING THAT COMES BACK', tone: INFO, t: 'Every other dropped column is evidence. The file path is the thing you have to act on — so it is not in the sentence, it is on ⌘⏎ and in the row’s menu, which is where an action belongs rather than a finding.' },
+          { k: 'SHADOWED IS WHY THIS PANE EXISTS', tone: WARN, t: 'A context defined twice across three files, where the later file silently wins. No server field says so; the pane computes it by reading the merge order. It is the clearest case on the page for rule 1 — a computed verdict outranking every column the API ranked.' }
+        ]
+      }
+    ];
+
+    return {
+      facts: [
+        { k: 'PANES', v: '3', tone: INK },
+        { k: 'VERDICT DROPS', v: 'never', tone: OK },
+        { k: 'ROW AT 382', v: '2 lines', tone: INFO },
+        { k: 'NEW SHAPES', v: '0', tone: OK }
+      ],
+      rule, panes,
+      closing: [
+        { tone: OK, k: 'THE ANSWER TO THE BRIEF’S QUESTION: NEITHER', t: 'The brief asked what falls out when the name and the verdict no longer fit on one line. Neither does — the row becomes two lines and the evidence between them goes instead. That is available because the resource list already does it for its reason sentence, so these three panes inherit a shape rather than inventing one, and the round adds no new row geometry at all.' },
+        { tone: INFO, k: 'A COMPUTED VERDICT OUTRANKS THE SERVER’S PRIORITY', t: 'Law 1 defers to the server because the server knows what matters per kind. These three panes are the stated exception: the API has no field for “renew now”, “orphaned” or “shadowed”, so its ranking cannot express the only thing the pane is for. Where we compute a conclusion, that conclusion is priority zero and everything the server ranked is evidence beneath it.' },
+        { tone: WARN, k: 'THE SENTENCE IS A BUDGET, NOT A DUMP', t: 'Two lines at 382 is roughly ninety characters, and the temptation is to spend it re-stating the columns that dropped. The rule is one clause of judgement plus the evidence that makes it actionable — “renew now — 4 days, and ingress still serves it” — and the test is whether a reader could act without opening the pane. Anything past that goes to ⌘⏎.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

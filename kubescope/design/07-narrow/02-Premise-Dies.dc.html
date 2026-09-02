@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:38px;width:2140px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1060px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 07 · 2 / 5 · THE PREMISE DIES · BRIEF §5.2</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Four bodies whose layout was the argument</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">Each of these panes was justified by its shape — three columns rather than a scroll, three hasáb side by side, two bar systems, curves with markers. At 638 the shape is gone, so <span style="color:var(--ks-ink)">the argument has to be re-won, not the pixels re-fitted</span>. Every specimen is drawn at the widths ⊞ actually produces.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-for list="{{ panes }}" as="p" hint-placeholder-count="4">
+    <div style="display:flex;flex-direction:column;gap:16px;padding-top:26px;border-top:1px solid var(--ks-line)">
+
+      <div style="display:flex;align-items:flex-end;gap:28px">
+        <div style="display:flex;flex-direction:column;gap:7px;max-width:900px">
+          <div style="display:flex;align-items:baseline;gap:11px">
+            <span style="font-family:var(--ks-mono);font-size:12px;font-weight:600;color:var(--ks-info)">{{ p.n }}</span>
+            <span style="font-size:22px;font-weight:600;letter-spacing:-.015em">{{ p.title }}</span>
+            <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3)">{{ p.tag }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-bad);width:76px;flex:none">DIES</span>
+            <span style="font-size:12.5px;line-height:1.55;color:#ffc4c4;min-width:0;text-wrap:pretty">{{ p.dies }}</span>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:9px">
+            <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ok);width:76px;flex:none">REPLACED BY</span>
+            <span style="font-size:12.5px;line-height:1.55;color:var(--ks-ink);min-width:0;text-wrap:pretty">{{ p.replaced }}</span>
+          </div>
+        </div>
+        <div style="flex:1"></div>
+        <div style="display:flex;flex-direction:column;gap:5px;max-width:420px">
+          <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">THE PAIR THAT NEVER LEAVES · LAW 3</div>
+          <div style="font-family:var(--ks-mono);font-size:11.5px;line-height:1.5;color:var(--ks-ok);text-wrap:pretty">{{ p.pair }}</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:18px;align-items:flex-start">
+        <sc-for list="{{ p.specimens }}" as="s" hint-placeholder-count="3">
+          <div style="width:{{ s.w }};flex:none;display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:13px;font-weight:600;color:{{ s.wInk }}">{{ s.px }}</span>
+              <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:{{ s.bandInk }}">{{ s.band }}</span>
+              <div style="flex:1"></div>
+              <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-3)">{{ s.reach }}</span>
+            </div>
+
+            <div style="min-height:{{ s.h }};background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+              <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:rgba(74,168,255,.06);box-shadow:inset 0 -1px 0 var(--ks-info);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+                <span style="color:var(--ks-info);font-weight:600;flex:none">{{ s.cl }}</span>
+                <span style="color:var(--ks-line-strong);flex:none">│</span>
+                <span style="color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis">{{ s.kind }}</span>
+                <div style="flex:1"></div>
+                <span style="color:var(--ks-ink-3);flex:none">⊞ ⋯ ✕</span>
+              </div>
+              <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+                <span style="color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis">{{ s.ctrl }}</span>
+                <div style="flex:1"></div>
+                <span style="color:{{ s.chipInk }};flex:none">{{ s.chip }}</span>
+              </div>
+
+              <div style="flex:1;min-height:0;display:flex;flex-direction:column">
+                <sc-for list="{{ s.blocks }}" as="b" hint-placeholder-count="8">
+
+                  <sc-if value="{{ b.isHead }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:20px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;white-space:nowrap;overflow:hidden">
+                      <span style="color:{{ b.tone }};font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis">{{ b.t }}</span>
+                      <div style="flex:1"></div>
+                      <span style="color:var(--ks-ink-3);flex:none">{{ b.right }}</span>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isStrip }}" hint-placeholder-val="{{ false }}">
+                    <div style="height:22px;flex:none;display:flex;align-items:stretch;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);overflow:hidden">
+                      <sc-for list="{{ b.chips }}" as="c" hint-placeholder-count="3">
+                        <div style="display:flex;align-items:center;gap:5px;padding:0 {{ c.pad }};background:{{ c.bg }};box-shadow:{{ c.shadow }};font-family:var(--ks-mono);font-size:9.5px;color:{{ c.ink }};white-space:nowrap">
+                          <span style="font-size:7px;color:{{ c.gtone }}">{{ c.glyph }}</span>{{ c.t }}<span style="color:{{ c.cInk }}">{{ c.count }}</span>
+                        </div>
+                      </sc-for>
+                      <div style="flex:1;background:var(--ks-field)"></div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isRow }}" hint-placeholder-val="{{ false }}">
+                    <div style="min-height:{{ b.h }};flex:none;display:grid;grid-template-columns:{{ b.cols }};align-items:center;gap:{{ b.gap }};padding:{{ b.pad }};position:relative;background:{{ b.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                      <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ b.mark }}"></span>
+                      <sc-for list="{{ b.cells }}" as="c" hint-placeholder-count="2">
+                        <div style="display:flex;align-items:center;justify-content:{{ c.justify }};gap:5px;min-width:0">
+                          <span style="font-size:7px;color:{{ c.gtone }};flex:none">{{ c.glyph }}</span>
+                          <span style="font-family:{{ c.font }};font-size:{{ c.size }};font-weight:{{ c.weight }};color:{{ c.ink }};line-height:1.4;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:{{ c.wrap }}">{{ c.t }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isBar }}" hint-placeholder-val="{{ false }}">
+                    <div style="flex:none;padding:{{ b.pad }};display:flex;flex-direction:column;gap:4px;background:{{ b.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                      <div style="display:flex;align-items:baseline;gap:8px;white-space:nowrap">
+                        <span style="font-family:var(--ks-mono);font-size:{{ b.labelSize }};color:{{ b.labelInk }};min-width:0;overflow:hidden;text-overflow:ellipsis">{{ b.label }}</span>
+                        <div style="flex:1"></div>
+                        <span style="font-family:var(--ks-mono);font-size:{{ b.valueSize }};font-weight:600;color:{{ b.tone }};flex:none">{{ b.value }}</span>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3);flex:none">{{ b.limit }}</span>
+                      </div>
+                      <sc-if value="{{ b.showTrack }}" hint-placeholder-val="{{ false }}">
+                        <div style="height:{{ b.trackH }};background:var(--ks-bg);position:relative;overflow:hidden">
+                          <div style="position:absolute;left:0;top:0;bottom:0;width:{{ b.pct }};background:{{ b.tone }};opacity:.75"></div>
+                          <div style="position:absolute;left:{{ b.markPct }};top:0;bottom:0;width:1px;background:var(--ks-ink-2)"></div>
+                        </div>
+                      </sc-if>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isChart }}" hint-placeholder-val="{{ false }}">
+                    <div style="flex:none;padding:{{ b.pad }};display:flex;flex-direction:column;gap:6px;box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                      <div style="display:flex;align-items:baseline;gap:8px;white-space:nowrap">
+                        <span style="font-family:var(--ks-mono);font-size:9.5px;color:var(--ks-ink-2)">{{ b.label }}</span>
+                        <div style="flex:1"></div>
+                        <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">{{ b.right }}</span>
+                      </div>
+                      <div style="height:{{ b.chartH }};position:relative;display:flex;align-items:flex-end;gap:1px;background:var(--ks-bg);padding:0 1px">
+                        <sc-for list="{{ b.bars }}" as="v" hint-placeholder-count="24">
+                          <div style="flex:1;height:{{ v.h }};background:{{ v.tone }};opacity:{{ v.op }};min-width:0"></div>
+                        </sc-for>
+                        <sc-for list="{{ b.overlays }}" as="o" hint-placeholder-count="2">
+                          <div style="position:absolute;left:{{ o.l }};top:0;bottom:0;width:1px;background:{{ o.tone }};opacity:.7"></div>
+                        </sc-for>
+                      </div>
+                      <sc-for list="{{ b.lanes }}" as="l" hint-placeholder-count="2">
+                        <div style="display:flex;align-items:center;gap:7px;white-space:nowrap">
+                          <span style="font-family:var(--ks-mono);font-size:8.5px;color:var(--ks-ink-3);width:{{ l.labelW }};flex:none;overflow:hidden;text-overflow:ellipsis">{{ l.label }}</span>
+                          <div style="flex:1;height:11px;position:relative;background:var(--ks-bg);min-width:0">
+                            <sc-for list="{{ l.marks }}" as="m" hint-placeholder-count="3">
+                              <div style="position:absolute;left:{{ m.l }};top:0;bottom:0;width:{{ m.w }};background:{{ m.tone }};opacity:.85"></div>
+                            </sc-for>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isNote }}" hint-placeholder-val="{{ false }}">
+                    <div style="flex:none;padding:{{ b.pad }};background:{{ b.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                      <div style="font-size:{{ b.size }};line-height:1.5;color:{{ b.ink }};text-wrap:pretty">{{ b.t }}</div>
+                    </div>
+                  </sc-if>
+
+                  <sc-if value="{{ b.isFill }}" hint-placeholder-val="{{ false }}">
+                    <div style="flex:1;min-height:0;background:{{ b.bg }}"></div>
+                  </sc-if>
+
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);text-wrap:pretty">{{ s.body }}</div>
+              <div style="font-family:var(--ks-mono);font-size:9.5px;line-height:1.5;color:{{ s.specInk }};text-wrap:pretty">{{ s.spec }}</div>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:11px;padding-left:20px;border-left:1px solid var(--ks-line)">
+          <div style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">WHY THIS, AND WHAT IT COSTS</div>
+          <sc-for list="{{ p.notes }}" as="n" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.1em;color:{{ n.tone }}">{{ n.k }}</div>
+              <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-top:26px;border-top:1px solid var(--ks-line)">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:2140,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace";
+const SANS = "'IBM Plex Sans',sans-serif";
+
+class Component extends DCLogic {
+  renderVals() {
+    const flags = { isHead: false, isStrip: false, isRow: false, isBar: false, isChart: false, isNote: false, isFill: false };
+    const B = (kind, o) => Object.assign({}, flags, { [kind]: true }, o);
+
+    const head = (t, right, tone) => B('isHead', { t, right: right || '', tone: tone || INK2 });
+
+    const chip = (t, count, o) => Object.assign({
+      t, count: count ? ' ' + count : '', pad: '9px', glyph: '', gtone: INK3,
+      bg: 'transparent', shadow: 'none', ink: INK3, cInk: INK3
+    }, o || {});
+    const activeChip = (t, count, o) => chip(t, count, Object.assign({
+      bg: 'var(--ks-panel)', shadow: 'inset 0 -1px 0 var(--ks-panel), inset 1px 0 0 ' + LINE + ', inset -1px 0 0 ' + LINE, ink: INK
+    }, o || {}));
+    const strip = chips => B('isStrip', { chips });
+
+    const c = (t, o) => Object.assign({
+      t, ink: INK2, font: SANS, size: '11px', weight: '400', justify: 'flex-start',
+      glyph: '', gtone: INK3, wrap: 'nowrap'
+    }, o || {});
+    const row = (cols, cells, o) => B('isRow', Object.assign({
+      cols, cells, h: '24px', gap: '8px', pad: '4px 9px', bg: 'transparent', mark: 'transparent'
+    }, o || {}));
+
+    const bar = (label, value, limit, pct, tone, o) => B('isBar', Object.assign({
+      label, value, limit: limit || '', pct, tone, markPct: '0%',
+      pad: '7px 9px', bg: 'transparent', showTrack: true, trackH: '6px',
+      labelSize: '9.5px', labelInk: INK2, valueSize: '11px'
+    }, o || {}));
+
+    const curve = (seed, n, tone, peak) => {
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        const x = i / (n - 1);
+        let v = 0.32 + 0.13 * Math.sin(i * 1.7 + seed) + 0.10 * Math.sin(i * 0.61 + seed * 2);
+        if (peak) v += 0.52 * Math.pow(Math.max(0, x - 0.55) / 0.45, 1.6);
+        v = Math.max(0.06, Math.min(1, v));
+        out.push({ h: (v * 100).toFixed(1) + '%', tone: peak && x > 0.78 ? BAD : tone, op: peak && x > 0.78 ? '.9' : '.62' });
+      }
+      return out;
+    };
+    const chart = (label, right, bars, lanes, o) => B('isChart', Object.assign({
+      label, right, bars, lanes: lanes || [], overlays: [], chartH: '54px', pad: '9px'
+    }, o || {}));
+
+    const note = (t, o) => B('isNote', Object.assign({
+      t, pad: '8px 9px', bg: 'transparent', ink: INK3, size: '10.5px'
+    }, o || {}));
+    const fill = (bg) => B('isFill', { bg: bg || 'transparent' });
+
+    const S = (px, w, band, o) => Object.assign({
+      px, w: w + 'px', band,
+      wInk: px === '638' ? INFO : px === '382' ? WARN : INK2,
+      bandInk: px === '638' ? INFO : px === '382' ? WARN : INK3,
+      reach: px === '958' ? 'one split' : px === '638' ? 'two splits' : 'four panes',
+      h: '446px', cl: 'EW', kind: 'Details', ctrl: '', chip: '', chipInk: INFO,
+      blocks: [], body: '', spec: '', specInk: INK3
+    }, o);
+
+    // ── 10 · Details ────────────────────────────────────────────────────────
+    const cont = (name, state, tone, glyph, rows958) => ([
+      row('1fr 60px', [
+        c(name, { ink: INK, weight: '600', font: MONO, size: '10.5px' }),
+        c(state, { ink: tone, glyph, gtone: tone, font: MONO, size: '9.5px', justify: 'flex-end', weight: '600' })
+      ], { h: '22px', bg: tone === BAD ? 'rgba(255,95,95,.05)' : 'transparent', mark: tone })
+    ].concat(rows958));
+
+    const kv = (k, v, o) => row('68px 1fr', [
+      c(k, { font: MONO, size: '9.5px', ink: INK3 }),
+      c(v, Object.assign({ font: MONO, size: '10px', ink: INK2 }, o || {}))
+    ], { h: '20px', pad: '2px 9px' });
+
+    const details958 = [
+      row('1fr', [c('ledger-worker-6d8f9c7b4-2wq7t', { ink: '#fff', weight: '600', size: '14px' })], { h: '26px', pad: '9px 9px 2px' }),
+      row('1fr', [c('CrashLoopBackOff — OOMKilled five times in nine minutes; the heap reaches 502Mi against a 512Mi limit each time.', { ink: '#ffc4c4', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px', bg: 'transparent' }),
+      head('CONTAINERS', '2 · 1 ready', INK),
+      row('1fr 62px', [c('worker', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('OOMKilled', { ink: BAD, glyph: '▲', gtone: BAD, font: MONO, size: '9.5px', justify: 'flex-end', weight: '600' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      kv('image', 'ledger/worker:2026.8.3'),
+      kv('memory', '502Mi / 512Mi', { ink: '#ffc4c4' }),
+      kv('restarts', '5 · last 14:16:47'),
+      row('1fr 62px', [c('envoy', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('Running', { ink: OK, glyph: '●', gtone: OK, font: MONO, size: '9.5px', justify: 'flex-end', weight: '600' })], { h: '22px', mark: OK }),
+      kv('image', 'envoyproxy/envoy:v1.29'),
+      head('CONDITIONS', '4', INK),
+      row('96px 46px 1fr', [c('Ready', { font: MONO, size: '10px' }), c('False', { ink: BAD, glyph: '▲', gtone: BAD, font: MONO, size: '9.5px', weight: '600' }), c('containers not ready', { size: '10px', ink: INK3 })], { h: '22px', bg: 'rgba(255,95,95,.05)' }),
+      row('96px 46px 1fr', [c('Initialized', { font: MONO, size: '10px' }), c('True', { ink: OK, glyph: '●', gtone: OK, font: MONO, size: '9.5px', weight: '600' }), c('', {})], { h: '22px' }),
+      row('96px 46px 1fr', [c('PodScheduled', { font: MONO, size: '10px' }), c('True', { ink: OK, glyph: '●', gtone: OK, font: MONO, size: '9.5px', weight: '600' }), c('ip-10-0-4-8', { size: '10px', ink: INK3 })], { h: '22px' }),
+      head('ATTACHED TO', '⏎ to open', INK),
+      kv('owner', 'rs/ledger-worker-6d8f9c7b4', { ink: '#8ac6ff' }),
+      kv('', 'deploy/ledger-worker', { ink: '#8ac6ff' }),
+      kv('service', 'svc/ledger · 2 more', { ink: '#8ac6ff' }),
+      fill()
+    ];
+
+    const detailsGroups = (active, tight) => strip([
+      active === 0 ? activeChip('Containers', tight ? '2' : '2 · 1 ready', { glyph: '▲', gtone: BAD, pad: tight ? '7px' : '9px' }) : chip(tight ? 'Cont.' : 'Containers', tight ? '2' : '2 · 1 ready', { glyph: '▲', gtone: BAD, pad: tight ? '7px' : '9px' }),
+      active === 1 ? activeChip(tight ? 'Cond.' : 'Conditions', tight ? '1▲' : '4 · 1 false', { glyph: '▲', gtone: BAD, pad: tight ? '7px' : '9px' }) : chip(tight ? 'Cond.' : 'Conditions', tight ? '1▲' : '4 · 1 false', { glyph: '▲', gtone: BAD, pad: tight ? '7px' : '9px' }),
+      active === 2 ? activeChip(tight ? 'Att.' : 'Attached', '5', { pad: tight ? '7px' : '9px' }) : chip(tight ? 'Att.' : 'Attached', '5', { pad: tight ? '7px' : '9px' })
+    ]);
+
+    const details638 = [
+      row('1fr', [c('ledger-worker-6d8f9c7b4-2wq7t', { ink: '#fff', weight: '600', size: '13px', font: MONO })], { h: '24px', pad: '9px 9px 2px' }),
+      row('1fr', [c('CrashLoopBackOff — OOMKilled five times in nine minutes; the heap reaches 502Mi against a 512Mi limit each time.', { ink: '#ffc4c4', size: '11px', wrap: 'normal' })], { h: '32px', pad: '0 9px 9px' }),
+      detailsGroups(0, false),
+      row('1fr 62px', [c('worker', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('OOMKilled', { ink: BAD, glyph: '▲', gtone: BAD, font: MONO, size: '9.5px', justify: 'flex-end', weight: '600' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      kv('image', 'ledger/worker:2026.8.3'),
+      kv('memory', '502Mi / 512Mi', { ink: '#ffc4c4' }),
+      kv('restarts', '5 · last 14:16:47'),
+      kv('exit', '137 · SIGKILL'),
+      row('1fr 62px', [c('envoy', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('Running', { ink: OK, glyph: '●', gtone: OK, font: MONO, size: '9.5px', justify: 'flex-end', weight: '600' })], { h: '22px', mark: OK }),
+      kv('image', 'envoyproxy/envoy:v1.29'),
+      kv('memory', '38Mi / 128Mi'),
+      kv('restarts', '0'),
+      fill()
+    ];
+
+    const details382 = [
+      row('1fr', [c('ledger-worker-…-2wq7t', { ink: '#fff', weight: '600', size: '12.5px', font: MONO })], { h: '22px', pad: '8px 9px 2px' }),
+      row('1fr', [c('CrashLoopBackOff — OOMKilled 5× in 9 minutes; heap 502Mi against a 512Mi limit.', { ink: '#ffc4c4', size: '11px', wrap: 'normal' })], { h: '32px', pad: '0 9px 8px' }),
+      detailsGroups(0, true),
+      row('1fr 58px', [c('worker', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('OOMKilled', { ink: BAD, glyph: '▲', gtone: BAD, font: MONO, size: '9px', justify: 'flex-end', weight: '600' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr', [c('image', { font: MONO, size: '9px', ink: INK3 })], { h: '14px', pad: '3px 9px 0' }),
+      row('1fr', [c('ledger/worker:2026.8.3', { font: MONO, size: '10px', ink: INK2 })], { h: '15px', pad: '0 9px 3px' }),
+      row('1fr', [c('memory', { font: MONO, size: '9px', ink: INK3 })], { h: '14px', pad: '3px 9px 0' }),
+      row('1fr', [c('502Mi / 512Mi', { font: MONO, size: '10px', ink: '#ffc4c4' })], { h: '15px', pad: '0 9px 3px' }),
+      row('1fr', [c('restarts', { font: MONO, size: '9px', ink: INK3 })], { h: '14px', pad: '3px 9px 0' }),
+      row('1fr', [c('5 · last 14:16:47', { font: MONO, size: '10px', ink: INK2 })], { h: '15px', pad: '0 9px 3px' }),
+      row('1fr 58px', [c('envoy', { ink: INK, weight: '600', font: MONO, size: '10.5px' }), c('Running', { ink: OK, glyph: '●', gtone: OK, font: MONO, size: '9px', justify: 'flex-end', weight: '600' })], { h: '22px', mark: OK }),
+      fill()
+    ];
+
+    // ── 16 · What would happen ──────────────────────────────────────────────
+    const cmp = (field, is, would, diff, tone) => [
+      row('1fr', [c(field, { font: MONO, size: '9.5px', ink: INK3 })], { h: '15px', pad: '5px 9px 0' }),
+      row('1fr 14px 1fr', [
+        c(is, { font: MONO, size: '10.5px', ink: INK2 }),
+        c('→', { font: MONO, size: '9px', ink: INK3, justify: 'center' }),
+        c(would, { font: MONO, size: '10.5px', ink: tone === BAD ? '#ffc4c4' : tone === WARN ? '#f3d08a' : INK, weight: '600' })
+      ], { h: '18px', pad: '0 9px', gap: '6px' }),
+      row('1fr', [c(diff, { size: '10px', ink: tone === BAD ? '#c98b8b' : INK3, wrap: 'normal' })], { h: '17px', pad: '0 9px 5px', mark: tone })
+    ];
+
+    const wwh958 = [
+      row('1fr', [c('deploy/ledger-worker · 2026.8.3 → 2026.9.1', { ink: '#fff', weight: '600', size: '13.5px', font: MONO })], { h: '24px', pad: '9px 9px 2px' }),
+      row('1fr', [c('14 of 61 fields change. Two of them restart every pod, and one takes the memory limit below the current heap.', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' }),
+      row('1fr 1fr 1fr', [
+        c('IS', { font: MONO, size: '9px', ink: INK3 }),
+        c('WOULD BE', { font: MONO, size: '9px', ink: INFO }),
+        c('DIFFERENCE', { font: MONO, size: '9px', ink: INK3 })
+      ], { h: '20px', pad: '0 9px', bg: 'var(--ks-field)' }),
+      row('1fr 1fr 1fr', [c('512Mi', { font: MONO, size: '10.5px' }), c('384Mi', { font: MONO, size: '10.5px', ink: '#ffc4c4', weight: '600' }), c('below the 502Mi heap', { size: '10px', ink: '#c98b8b', wrap: 'normal' })], { h: '30px', pad: '5px 9px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 1fr 1fr', [c('8', { font: MONO, size: '10.5px' }), c('12', { font: MONO, size: '10.5px', ink: INK, weight: '600' }), c('4 new pods, 2 nodes short', { size: '10px', ink: '#b09a6a', wrap: 'normal' })], { h: '30px', pad: '5px 9px', bg: 'rgba(240,180,41,.05)', mark: WARN }),
+      row('1fr 1fr 1fr', [c('RollingUpdate 25%', { font: MONO, size: '10.5px' }), c('Recreate', { font: MONO, size: '10.5px', ink: '#ffc4c4', weight: '600' }), c('all 8 pods stop first', { size: '10px', ink: '#c98b8b', wrap: 'normal' })], { h: '30px', pad: '5px 9px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 1fr 1fr', [c('2026.8.3', { font: MONO, size: '10.5px' }), c('2026.9.1', { font: MONO, size: '10.5px', ink: INK, weight: '600' }), c('restarts every pod', { size: '10px', ink: INK3, wrap: 'normal' })], { h: '26px', pad: '5px 9px' }),
+      row('1fr 1fr 1fr', [c('30s', { font: MONO, size: '10.5px' }), c('10s', { font: MONO, size: '10.5px', ink: INK, weight: '600' }), c('probe grace shortened', { size: '10px', ink: INK3, wrap: 'normal' })], { h: '26px', pad: '5px 9px' }),
+      row('1fr 1fr 1fr', [c('—', { font: MONO, size: '10.5px', ink: INK3 }), c('topologySpread', { font: MONO, size: '10.5px', ink: INK, weight: '600' }), c('added · 1 zone unschedulable', { size: '10px', ink: '#b09a6a', wrap: 'normal' })], { h: '26px', pad: '5px 9px', mark: WARN }),
+      note('8 more changed fields · 47 identical, hidden by “only what changes”', { pad: '7px 9px' }),
+      fill()
+    ];
+
+    const wwh638 = [
+      row('1fr', [c('deploy/ledger-worker · 2026.8.3 → 2026.9.1', { ink: '#fff', weight: '600', size: '12.5px', font: MONO })], { h: '22px', pad: '9px 9px 2px' }),
+      row('1fr', [c('14 of 61 fields change. Two restart every pod, one takes the memory limit below the current heap.', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' })
+    ].concat(
+      cmp('resources.limits.memory', '512Mi', '384Mi', 'below the 502Mi heap — this is the OOM', BAD),
+      cmp('replicas', '8', '12', '4 new pods · 2 nodes short of the request', WARN),
+      cmp('strategy', 'RollingUpdate 25%', 'Recreate', 'all 8 pods stop before any starts', BAD),
+      cmp('image.tag', '2026.8.3', '2026.9.1', 'restarts every pod', null),
+      [note('10 more changed · 47 identical, hidden', { pad: '7px 9px' }), fill()]
+    );
+
+    const wwh382 = [
+      row('1fr', [c('ledger-worker · 8.3 → 9.1', { ink: '#fff', weight: '600', size: '12px', font: MONO })], { h: '22px', pad: '8px 9px 2px' }),
+      row('1fr', [c('14 of 61 change · 2 restart every pod', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '18px', pad: '0 9px 8px' }),
+      strip([activeChip('changed', '14', { pad: '8px' }), chip('identical', '47', { pad: '8px' })])
+    ].concat(
+      cmp('limits.memory', '512Mi', '384Mi', 'below the 502Mi heap', BAD),
+      cmp('replicas', '8', '12', '2 nodes short', WARN),
+      cmp('strategy', 'Rolling 25%', 'Recreate', 'all 8 stop first', BAD),
+      [note('11 more changed fields', { pad: '7px 9px' }), fill()]
+    );
+
+    // ── 24 · Node ───────────────────────────────────────────────────────────
+    const podBar = (name, val, pct, tone, o) => bar(name, val, '', pct, tone, Object.assign({ pad: '5px 9px', trackH: '4px', labelSize: '10px', labelInk: INK2, valueSize: '10px' }, o || {}));
+
+    const node958 = [
+      row('1fr', [c('ip-10-0-4-8 · m6i.2xlarge · eu-west-1b', { ink: '#fff', weight: '600', size: '13.5px', font: MONO })], { h: '24px', pad: '9px 9px 2px' }),
+      row('1fr', [c('MemoryPressure since 14:11 — the kubelet has started evicting, and three of the nineteen pods are over their request.', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' }),
+      head('THE NODE', 'request │ actual', INK),
+      bar('memory', '29.4Gi', '/ 31Gi', '95%', BAD, { markPct: '74%' }),
+      bar('cpu', '5.1', '/ 8 cores', '64%', OK, { markPct: '81%' }),
+      bar('pods', '19', '/ 29', '66%', OK, { markPct: '66%' }),
+      bar('ephemeral', '41Gi', '/ 100Gi', '41%', OK, { markPct: '38%' }),
+      head('THE PODS', '19 · by memory', INK),
+      podBar('ledger-worker-…-2wq7t', '502Mi / 512Mi', '98%', BAD),
+      podBar('loki-ingester-0', '3.1Gi / 3Gi', '103%', BAD),
+      podBar('otel-collector-1', '1.8Gi / 2Gi', '90%', WARN),
+      podBar('checkout-api-…-k8n1p', '412Mi / 1Gi', '40%', OK),
+      podBar('envoy-gateway-…-9dd21', '96Mi / 256Mi', '37%', OK),
+      podBar('fraud-scorer-…-2wq7t', '780Mi / 2Gi', '38%', OK),
+      fill()
+    ];
+
+    const node638 = [
+      row('1fr', [c('ip-10-0-4-8 · m6i.2xlarge', { ink: '#fff', weight: '600', size: '12.5px', font: MONO })], { h: '22px', pad: '9px 9px 2px' }),
+      row('1fr', [c('MemoryPressure since 14:11 — the kubelet is evicting, and three of nineteen pods are over their request.', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' }),
+      head('THE NODE', 'request │ actual', INK),
+      bar('memory', '29.4Gi', '/ 31Gi', '95%', BAD, { markPct: '74%' }),
+      bar('cpu', '5.1', '/ 8', '64%', OK, { markPct: '81%' }),
+      bar('pods', '19', '/ 29', '66%', OK, { markPct: '66%' }),
+      head('THE PODS', '19 · by memory · ▸ bars off', INK),
+      row('1fr 96px', [c('ledger-worker-…-2wq7t', { font: MONO, size: '10.5px', ink: INK }), c('502Mi / 512Mi', { font: MONO, size: '10px', ink: BAD, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 96px', [c('loki-ingester-0', { font: MONO, size: '10.5px', ink: INK }), c('3.1Gi / 3Gi', { font: MONO, size: '10px', ink: BAD, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 96px', [c('otel-collector-1', { font: MONO, size: '10.5px', ink: INK }), c('1.8Gi / 2Gi', { font: MONO, size: '10px', ink: WARN, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(240,180,41,.05)', mark: WARN }),
+      row('1fr 96px', [c('checkout-api-…-k8n1p', { font: MONO, size: '10.5px', ink: INK2 }), c('412Mi / 1Gi', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' })], { h: '22px' }),
+      row('1fr 96px', [c('envoy-gateway-…-9dd21', { font: MONO, size: '10.5px', ink: INK2 }), c('96Mi / 256Mi', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' })], { h: '22px' }),
+      row('1fr 96px', [c('fraud-scorer-…-2wq7t', { font: MONO, size: '10.5px', ink: INK2 }), c('780Mi / 2Gi', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' })], { h: '22px' }),
+      fill()
+    ];
+
+    const node382 = [
+      row('1fr', [c('ip-10-0-4-8', { ink: '#fff', weight: '600', size: '12.5px', font: MONO })], { h: '20px', pad: '8px 9px 2px' }),
+      row('1fr', [c('MemoryPressure since 14:11 — evicting. 3 of 19 pods over request.', { ink: '#f3d08a', size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 8px' }),
+      bar('memory · the pressure', '29.4Gi', '/ 31Gi', '95%', BAD, { markPct: '74%', trackH: '5px' }),
+      row('1fr 1fr 1fr', [
+        c('cpu 5.1/8', { font: MONO, size: '10px', ink: INK2 }),
+        c('pods 19/29', { font: MONO, size: '10px', ink: INK2, justify: 'center' }),
+        c('disk 41%', { font: MONO, size: '10px', ink: INK2, justify: 'flex-end' })
+      ], { h: '22px', bg: 'var(--ks-field)' }),
+      head('WHAT IS CAUSING IT', 'by memory', INK),
+      row('1fr 78px', [c('ledger-worker-…-2wq7t', { font: MONO, size: '10px', ink: INK }), c('502/512Mi', { font: MONO, size: '9.5px', ink: BAD, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 78px', [c('loki-ingester-0', { font: MONO, size: '10px', ink: INK }), c('3.1/3Gi', { font: MONO, size: '9.5px', ink: BAD, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('1fr 78px', [c('otel-collector-1', { font: MONO, size: '10px', ink: INK }), c('1.8/2Gi', { font: MONO, size: '9.5px', ink: WARN, weight: '600', justify: 'flex-end' })], { h: '22px', bg: 'rgba(240,180,41,.05)', mark: WARN }),
+      row('1fr 78px', [c('checkout-api-…-k8n1p', { font: MONO, size: '10px', ink: INK2 }), c('412Mi/1Gi', { font: MONO, size: '9.5px', ink: INK2, justify: 'flex-end' })], { h: '22px' }),
+      row('1fr 78px', [c('fraud-scorer-…-2wq7t', { font: MONO, size: '10px', ink: INK2 }), c('780Mi/2Gi', { font: MONO, size: '9.5px', ink: INK2, justify: 'flex-end' })], { h: '22px' }),
+      note('14 more, all under half their request', { pad: '7px 9px' }),
+      fill()
+    ];
+
+    // ── 15 · Metrics ────────────────────────────────────────────────────────
+    const mk = (l, tone, w) => ({ l, tone, w: w || '2px' });
+    const lanes958 = [
+      { label: 'restarts', labelW: '56px', marks: [mk('62%', BAD), mk('68%', BAD), mk('74%', BAD), mk('81%', BAD), mk('88%', BAD)] },
+      { label: 'deploys', labelW: '56px', marks: [mk('58%', INFO, '3px')] },
+      { label: 'scaling', labelW: '56px', marks: [mk('44%', WARN), mk('79%', WARN)] }
+    ];
+    const metrics958 = [
+      row('1fr', [c('ledger-worker · 8 pods · last 60 minutes', { ink: '#fff', weight: '600', size: '13.5px', font: MONO })], { h: '24px', pad: '9px 9px 2px' }),
+      row('1fr', [c('The memory curve crosses the limit at 14:07, nine minutes after the 2026.8.3 deploy — every restart marker sits after that crossing.', { ink: INK2, size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' }),
+      chart('memory · Mi', '0 — 512', curve(1, 40, INFO, true), lanes958, { chartH: '76px' }),
+      chart('cpu · cores', '0 — 2', curve(4, 40, OK, false), [], { chartH: '52px' }),
+      fill()
+    ];
+    const metrics638 = [
+      row('1fr', [c('ledger-worker · 8 pods · 60 min', { ink: '#fff', weight: '600', size: '12.5px', font: MONO })], { h: '22px', pad: '9px 9px 2px' }),
+      row('1fr', [c('Memory crosses the limit at 14:07, nine minutes after the deploy — every restart marker is after that crossing.', { ink: INK2, size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 9px' }),
+      chart('memory · Mi', '0 — 512', curve(1, 26, INFO, true), [
+        { label: 'restarts', labelW: '48px', marks: [mk('62%', BAD), mk('68%', BAD), mk('74%', BAD), mk('81%', BAD), mk('88%', BAD)] },
+        { label: 'deploys', labelW: '48px', marks: [mk('58%', INFO, '3px')] },
+        { label: 'scaling', labelW: '48px', marks: [mk('44%', WARN), mk('79%', WARN)] }
+      ], { chartH: '68px' }),
+      chart('cpu · cores', '0 — 2', curve(4, 26, OK, false), [], { chartH: '44px' }),
+      fill()
+    ];
+    const metrics382 = [
+      row('1fr', [c('ledger-worker · 60 min', { ink: '#fff', weight: '600', size: '12px', font: MONO })], { h: '20px', pad: '8px 9px 2px' }),
+      row('1fr', [c('Memory crosses the limit at 14:07 — nine minutes after the deploy.', { ink: INK2, size: '11px', wrap: 'normal' })], { h: '30px', pad: '0 9px 8px' }),
+      chart('memory · Mi · 0—512', '', curve(1, 18, INFO, true), [], { chartH: '40px', pad: '8px 9px 6px' }),
+      head('WHAT HAPPENED, IN ORDER', '8 marks', INK),
+      row('44px 14px 1fr', [c('14:16', { font: MONO, size: '9.5px', ink: INK3 }), c('▲', { font: MONO, size: '8px', ink: BAD, justify: 'center' }), c('restart #5 · OOMKilled', { size: '10.5px', ink: '#ffc4c4' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('44px 14px 1fr', [c('14:14', { font: MONO, size: '9.5px', ink: INK3 }), c('▲', { font: MONO, size: '8px', ink: BAD, justify: 'center' }), c('restart #4 · OOMKilled', { size: '10.5px', ink: '#ffc4c4' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('44px 14px 1fr', [c('14:11', { font: MONO, size: '9.5px', ink: INK3 }), c('◆', { font: MONO, size: '8px', ink: WARN, justify: 'center' }), c('scaled 6 → 8', { size: '10.5px', ink: '#f3d08a' })], { h: '22px', mark: WARN }),
+      row('44px 14px 1fr', [c('14:07', { font: MONO, size: '9.5px', ink: INK3 }), c('▬', { font: MONO, size: '8px', ink: BAD, justify: 'center' }), c('crossed 512Mi', { size: '10.5px', ink: '#ffc4c4', weight: '600' })], { h: '22px', bg: 'rgba(255,95,95,.05)', mark: BAD }),
+      row('44px 14px 1fr', [c('13:58', { font: MONO, size: '9.5px', ink: INK3 }), c('●', { font: MONO, size: '8px', ink: INFO, justify: 'center' }), c('deploy 2026.8.3', { size: '10.5px', ink: '#8ac6ff' })], { h: '22px', mark: INFO }),
+      note('3 earlier marks · ⌘⏎ for the curves', { pad: '7px 9px' }),
+      fill()
+    ];
+
+    const panes = [
+      {
+        n: '10', title: 'Details', tag: 'OBJECT PANE',
+        dies: '“Three columns, not a long scroll.” That sentence is the pane’s whole argument, and at 638 there are no three columns.',
+        replaced: 'Three groups, one open — and the group strip carries each group’s verdict, so you never open a group to find out whether it matters.',
+        pair: 'the name + the phase sentence',
+        specimens: [
+          S('958', 958, 'WIDE', { kind: 'Details · pod', ctrl: 'ledger-worker-…-2wq7t · full object watched', chip: '', blocks: details958, body: 'Three columns survive, but the relations column gives up its fixed 400px for 300 and the key–value pairs go one per line. Twenty-four facts, no scrolling.', spec: 'cols 1fr 1fr 300px · keys 68px · kv 1-up' }),
+          S('638', 638, 'MID · THE BASE STATE', { kind: 'Details · pod', ctrl: 'ledger-worker-…-2wq7t', chip: '▸ 2 groups', blocks: details638, body: 'Below 804 the columns become a 22px group strip. Containers is open; the other two chips carry ▲ and a count, so the strip is a verdict row rather than navigation. The identity and the phase sentence are untouched.', spec: 'strip 22px · one group open · ▲ on the closed ones', specInk: INFO }),
+          S('382', 382, 'TIGHT', { kind: 'Details', ctrl: 'ledger-worker-…', chip: '▸ 2 groups', blocks: details382, body: 'Same structure, shorter chips, and the key–value pairs put the key above the value at 9px. Six facts about the failing container instead of ten — chosen by the same priority the list uses.', spec: 'chips abbreviate · key above value · 6 facts', specInk: WARN })
+        ],
+        notes: [
+          { k: 'WHY NOT SCROLL', tone: OK, t: 'A long scroll was the thing this pane was built to avoid, and narrowing is no reason to concede it. The strip keeps the promise that you can see whether a group matters without going into it — which is the part of “three columns” that was actually load-bearing.' },
+          { k: 'WHY NOT TWO COLUMNS AT 638', tone: WARN, t: 'Two 315px columns would fit arithmetically, and both would be below the 240px at which a container block stops being readable. It would also make the third group vanish with nothing said, which law 2 forbids.' },
+          { k: 'WHAT IT COSTS', tone: BAD, t: 'Simultaneity. At 958 you compare a container’s memory against a condition’s message with your eyes; at 638 that is one click apart. The strip’s counts are the compensation, and they are not a full one.' },
+          { k: 'STATE', tone: INK2, t: 'Which group is open is per pane, session-level — the same rule as selection. It does not persist to disk, and reopening a details pane always starts on the group carrying the worst glyph.' }
+        ]
+      },
+      {
+        n: '16', title: 'What would happen', tag: 'SIMULATION PANE',
+        dies: 'Three hasáb side by side — is · would be · difference. Three columns of mono values need 190px each and there are 638.',
+        replaced: 'One field per block: is → would be on one line, the difference underneath. The comparison becomes vertical and the diff becomes prose.',
+        pair: 'the changed field + why the change matters',
+        specimens: [
+          S('958', 958, 'WIDE', { kind: 'What would happen', ctrl: 'deploy/ledger-worker · only what changes', chip: '', blocks: wwh958, body: 'The three hasáb hold at 958 with the difference column carrying prose rather than a value. Seven of the fourteen changed fields are visible at once.', spec: '3 × 1fr · difference wraps · 47 identical hidden' }),
+          S('638', 638, 'MID · THE BASE STATE', { kind: 'What would happen', ctrl: 'deploy/ledger-worker · changes', chip: '▸ 10 more', blocks: wwh638, body: 'Per field: the name at 9px, the arrow line, then the difference sentence. Four fields per screen instead of seven — but each one now reads as a sentence, which is closer to how the pane is used.', spec: 'field · is → would be · difference · 3 lines, 50px', specInk: INFO }),
+          S('382', 382, 'TIGHT', { kind: 'What would happen', ctrl: 'ledger-worker', chip: '▸ 11 more', blocks: wwh382, body: 'A two-chip strip replaces the “only what changes” filter, because at this width the filter’s state has to be visible without opening the control bar. Three fields, and the count of what matched.', spec: 'changed 14 / identical 47 as chips · 3 fields', specInk: WARN })
+        ],
+        notes: [
+          { k: 'WHY VERTICAL, NOT SCROLL', tone: OK, t: 'The three hasáb are peers of each other — is, would be, difference — so law 4 stacks them. Nothing about the comparison depends on their left-to-right order, which is exactly the test for a peer.' },
+          { k: 'THE ARROW EARNS ITS KEEP', tone: INFO, t: 'A 14px → column between the two values is what keeps “512Mi 384Mi” from reading as two facts. It is the cheapest possible carrier of the pane’s meaning, and it is why the two values can share one line at 382.' },
+          { k: 'THE FILTER BECOMES A CHIP', tone: WARN, t: 'At 958 “only what changes” is a control-bar filter. At 382 it becomes the changed / identical chip pair in the body, because a filter that silently hides 47 fields is exactly the hidden state law 7 exists to prevent.' },
+          { k: 'WHAT IT COSTS', tone: BAD, t: 'You can no longer scan one column of would-be values down the pane, which is how people check a mass edit. The mitigation is ordering by blast radius rather than by field name, so the two fields that restart every pod are always first.' }
+        ]
+      },
+      {
+        n: '24', title: 'Node', tag: 'OBJECT PANE',
+        dies: 'Two bar systems stacked — the node’s own four resources, and a bar per pod. At 638 there is room for one bar system, not two.',
+        replaced: 'The node keeps its bars, because pressure is the verdict. The pods lose theirs and keep the number, sorted by the resource under pressure.',
+        pair: 'which pressure + which pods are causing it',
+        specimens: [
+          S('958', 958, 'WIDE', { kind: 'Node', ctrl: 'ip-10-0-4-8 · 19 pods · by memory', chip: '', blocks: node958, body: 'Both bar systems, with the request marker as a 1px tick inside each track — the node’s four resources above, six of nineteen pods below.', spec: 'node track 6px · pod track 4px · request tick 1px' }),
+          S('638', 638, 'MID · THE BASE STATE', { kind: 'Node', ctrl: 'ip-10-0-4-8 · 19 pods', chip: '▸ bars off', blocks: node638, body: 'The pod bars go and the numbers stay — law 5. Ephemeral storage drops from the node system because it is the one resource with no pressure and no limit worth watching here.', spec: 'pods: name + used / request · node keeps 3 bars', specInk: INFO }),
+          S('382', 382, 'TIGHT', { kind: 'Node', ctrl: 'ip-10-0-4-8', chip: '▸ 14 more', blocks: node382, body: 'One bar left in the pane: the resource under pressure. The other three become a single mono line of numbers, and the pod list is retitled to what it is actually for — what is causing it.', spec: '1 bar · 3 numbers in one row · pods by memory', specInk: WARN })
+        ],
+        notes: [
+          { k: 'WHICH SYSTEM SURVIVES', tone: OK, t: 'The node’s, because the pane exists to answer “is this node in trouble and who is doing it”. A pod’s memory against its own request is a fact about the pod; the node’s memory against its capacity is the verdict, and law 3 keeps the verdict.' },
+          { k: 'THE BAR THAT IS LEFT IS CHOSEN, NOT FIXED', tone: INFO, t: 'At 382 the surviving bar is whichever resource has a condition on it — memory here, disk on a node with DiskPressure. On a healthy node no bar survives and the four resources are one line of numbers, which is the honest amount of ink for “nothing is wrong”.' },
+          { k: 'THE REQUEST TICK STAYS', tone: WARN, t: 'The 1px marker inside the track is the difference between 95% of capacity and 95% of what was asked for. It costs one pixel and it is the only reason the bar is more than decoration, so it survives wherever a track does.' },
+          { k: 'WHAT IT COSTS', tone: BAD, t: 'At 638 you can no longer see at a glance that two pods are over their request — you read two numbers instead of seeing two full bars. The row tint and the 2px mark carry it, which is weaker for scanning and identical for correctness.' }
+        ]
+      },
+      {
+        n: '15', title: 'Metrics', tag: 'TIME PANE',
+        dies: 'Curves with event markers under them. A 60-minute curve in 382px is 6px per minute — the shape is still there, but no crossing can be read off it.',
+        replaced: 'The curve becomes a 40px context strip and the markers become a list in time order. The markers were always the product; now they are the pane.',
+        pair: 'the marks, in order, with what they were',
+        specimens: [
+          S('958', 958, 'WIDE', { kind: 'Metrics', ctrl: 'ledger-worker · 60 min · 8 pods', chip: '', blocks: metrics958, body: 'Two curves and three marker lanes. The restart cluster after the 512Mi crossing is the finding, and at this width it is visible without reading anything.', spec: 'curve 76px · lanes 11px · marker 2px' }),
+          S('638', 638, 'MID · THE BASE STATE', { kind: 'Metrics', ctrl: 'ledger-worker · 60 min', chip: '', blocks: metrics638, body: 'The x axis compresses — 26 buckets instead of 40 — and the lanes keep their rows and their label column at 48px. Nothing is dropped; the sequence is simply coarser.', spec: 'x compresses, never scrolls · lanes intact', specInk: INFO }),
+          S('382', 382, 'TIGHT', { kind: 'Metrics', ctrl: 'ledger-worker', chip: '▸ 3 more', blocks: metrics382, body: 'The curve keeps 40px as context and the marks become rows: time, glyph, what happened. The crossing is a mark in the same list, which is the one thing the curve was there to show.', spec: 'strip 40px · marks as rows · newest first', specInk: WARN })
+        ],
+        notes: [
+          { k: 'WHY THE CURVE DOES NOT STACK', tone: OK, t: 'Time is a sequence, not a set of peers — reorder the buckets and the chart is a lie. So law 4 compresses it rather than stacking or scrolling it, all the way down to a 40px strip that says “it climbed and then it broke” without claiming any readable value.' },
+          { k: 'THE CROSSING BECOMES A MARK', tone: INFO, t: 'The limit crossing at 14:07 is the one thing you had to read off the curve. Making it a marker in its own right is what lets the curve shrink to context — and it is a better representation anyway, because it carries a timestamp instead of a pixel column.' },
+          { k: 'ORDER', tone: WARN, t: 'Newest first, matching the log and the event panes. The list is a sequence too, so it scrolls and never groups — grouping by kind would separate the restart from the crossing that caused it.' },
+          { k: 'WHAT IT COSTS', tone: BAD, t: 'Shape. At 382 you cannot see that memory climbed steadily rather than jumping, and no list will tell you that. This is the one pane in the round where ⌘⏎ is genuinely part of the answer, so the chip says so.' }
+        ]
+      }
+    ];
+
+    return {
+      facts: [
+        { k: 'PANES', v: '4', tone: INK },
+        { k: 'SPECIMENS', v: '12', tone: INK },
+        { k: 'WIDTHS', v: '958 · 638 · 382', tone: INFO },
+        { k: 'ROUND NUMBERS', v: 'none', tone: OK }
+      ],
+      panes,
+      closing: [
+        { tone: INFO, k: 'THE ARGUMENT SURVIVES, THE SHAPE DOES NOT', t: 'Each of these four was justified by a shape, and in each case the shape turned out to be the carrier rather than the point. Details wanted “you can see whether a group matters without hunting” — that is the strip, not the columns. Metrics wanted “events against values” — that is the marker list, not the curve. Finding the sentence under the shape is the whole method, and it is why these bodies are not the wide ones with holes in them.' },
+        { tone: OK, k: 'DRAWN AT 638 FIRST', t: 'Every one of these twelve specimens started at 638 and was widened, not the reverse. It shows: the 958 column is mostly the 638 column with more of the same material, rather than a design whose narrow state is a list of absences. It also caught two things a cutting pass would have missed — the details group strip needed verdict glyphs, and the node’s surviving bar had to be chosen by condition rather than fixed to memory.' },
+        { tone: WARN, k: 'FOUR TRANSFORMS TO BUILD, NOT FOUR SETS OF HIDING RULES', t: 'Law 2 has a price and this page is where it is paid: three columns → strip plus group, three hasáb → per-field blocks, two bar systems → one, curve plus lanes → strip plus list. Each is a second layout for the same data, chosen at 804 or 480. In Svelte terms that is four components with two body modes each, not four lists of media queries — and it is why the round has a grammar page rather than a spreadsheet.' },
+        { tone: BAD, k: 'WHAT NONE OF THEM RECOVER', t: 'Simultaneity in Details, column-scanning in What would happen, at-a-glance overrun in Node, and curve shape in Metrics. All four are real, all four are named on the pane, and all four are what ⌘⏎ is for — which is why law 7’s chip is a maximise button rather than a tooltip.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

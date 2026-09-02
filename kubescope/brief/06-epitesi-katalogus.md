@@ -293,15 +293,15 @@ Ezek a legértékesebb sorok az egész tervben. Sorrendben, a primitívek szerin
 | `04-controls/` | `01-Controls` `02-Dropdowns` `03-Parts` **`04-Primitives`** | a widgetek — a 9. szakasz ebből van |
 | `05-frame/` | fogantyúk · húzás · kijelölés · **döntések** · **komponensfa** · régiótérkép | a keret; a 4. szakasz ebből van |
 | `06-panes/` | 31 képernyő | a 3. szakasz |
-| `07-overlays/` | paletta+súgó, megerősítés+idő | a négy réteg |
-| `08-icon/` | app- és tálcaikonok, öt méret | a Tauri bundle-höz |
+| `08-overlays/` | paletta+súgó, megerősítés+idő | a négy réteg |
+| `09-icon/` | app- és tálcaikonok, öt méret | a Tauri bundle-höz |
 
 **Amit ezen felül tudni kell:**
 
 - Az **overlay-grammatika** (`03-action-map/04-Overlay-Grammar`) nyolc réteg-fajtát nevez meg: menü,
-  hover-kártya, toast, popover, megerősítés, paletta, sheet, teljes ablak. A `07-overlays/` ebből
+  hover-kártya, toast, popover, megerősítés, paletta, sheet, teljes ablak. A `08-overlays/` ebből
   **kettőt** rajzol meg részletesen — a maradék hat a grammatikából épül.
-- A **megerősítésnek három foka van** (`07-overlays/02`): „csak csináld" · „mutasd a hatását" ·
+- A **megerősítésnek három foka van** (`08-overlays/02`): „csak csináld" · „mutasd a hatását" ·
   „írd be a nevét". És **hat jel** mondja meg, hogy a múltban vagy, nem egy banner.
 - A **paletta és a súgó egy registry, két réteg** — a jobbklikk-menü ugyanannak a listának a
   kontextusra szűrt kivágata, nem külön kódút.

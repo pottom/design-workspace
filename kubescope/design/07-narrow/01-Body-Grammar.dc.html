@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1000px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 07 · 1 / 5 · BODY GRAMMAR · BRIEF §5.1</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">What happens to a body when it gets narrow</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The chrome has a grammar — three losses in the header, four in the control bar, and two things that never go. This is its pair for the part below. Seven laws, two thresholds, one table; <span style="color:var(--ks-ink)">the twenty-four bodies are derived from it</span>, not decided one at a time.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">§3</div>
+      <div style="font-size:19px;font-weight:600">Two thresholds, because only five widths actually occur</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">from a 1600px field, by ⊞ · new pane 40% · split refused under 804</div>
+    </div>
+
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);padding:22px 26px 18px;display:flex;flex-direction:column;gap:0">
+      <div style="position:relative;height:96px">
+        <div style="position:absolute;left:0;right:0;top:52px;height:1px;background:var(--ks-line-strong)"></div>
+        <sc-for list="{{ bands }}" as="b" hint-placeholder-count="3">
+          <div style="position:absolute;left:{{ b.l }};width:{{ b.w }};top:26px;height:26px;background:{{ b.bg }};border:1px solid {{ b.line }};display:flex;align-items:center;justify-content:center;font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:{{ b.ink }}">{{ b.name }}</div>
+        </sc-for>
+        <sc-for list="{{ ticks }}" as="t" hint-placeholder-count="5">
+          <div style="position:absolute;left:{{ t.l }};top:44px;width:1px;height:{{ t.h }};background:{{ t.line }}"></div>
+          <div style="position:absolute;left:{{ t.l }};top:{{ t.labelT }};transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;white-space:nowrap">
+            <span style="font-family:var(--ks-mono);font-size:{{ t.size }};font-weight:600;color:{{ t.ink }}">{{ t.px }}</span>
+            <span style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.09em;color:{{ t.subInk }}">{{ t.sub }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding-top:16px;border-top:1px solid var(--ks-line)">
+        <sc-for list="{{ bandNotes }}" as="n" hint-placeholder-count="3">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ n.tone }};font-weight:600">{{ n.k }}</span>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ n.range }}</span>
+            </div>
+            <div style="font-size:12px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ n.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">§5.1</div>
+      <div style="font-size:19px;font-weight:600">The seven laws</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+      <sc-for list="{{ laws }}" as="l" hint-placeholder-count="7">
+        <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-left:2px solid {{ l.tone }};padding:15px 17px;display:grid;grid-template-columns:1fr 168px;gap:16px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:11px;font-weight:600;color:{{ l.tone }}">{{ l.n }}</span>
+              <span style="font-size:14.5px;font-weight:600;letter-spacing:-.01em;text-wrap:pretty">{{ l.title }}</span>
+            </div>
+            <div style="font-size:12px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ l.t }}</div>
+            <div style="font-size:11.5px;line-height:1.55;color:var(--ks-ink-3);text-wrap:pretty">{{ l.why }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;padding-left:16px;border-left:1px solid var(--ks-line)">
+            <div style="font-family:var(--ks-mono);font-size:8.5px;letter-spacing:.11em;color:var(--ks-ink-3)">{{ l.specK }}</div>
+            <sc-for list="{{ l.spec }}" as="s" hint-placeholder-count="3">
+              <div style="font-family:var(--ks-mono);font-size:10px;line-height:1.5;color:{{ s.ink }};text-wrap:pretty">{{ s.t }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">§6/1</div>
+      <div style="font-size:19px;font-weight:600">The table — every element class a body can contain</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">read it as the chrome table's pair · ⊘ = never</div>
+    </div>
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+      <div style="height:26px;display:grid;grid-template-columns:214px 1fr 1fr 1fr 96px;align-items:center;gap:16px;padding:0 16px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">
+        <div>ELEMENT CLASS</div>
+        <div style="color:var(--ks-ink-2)">WIDE · ≥804</div>
+        <div style="color:var(--ks-info)">MID · 480–803</div>
+        <div style="color:var(--ks-warn)">TIGHT · &lt;480</div>
+        <div style="text-align:right">TRIPS AT</div>
+      </div>
+      <sc-for list="{{ rows }}" as="r" hint-placeholder-count="16">
+        <div style="min-height:34px;display:grid;grid-template-columns:214px 1fr 1fr 1fr 96px;align-items:center;gap:16px;padding:7px 16px;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+          <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+            <span style="font-size:11.5px;font-weight:600;color:{{ r.nameInk }};text-wrap:pretty">{{ r.name }}</span>
+            <span style="font-family:var(--ks-mono);font-size:9px;color:var(--ks-ink-3)">{{ r.where }}</span>
+          </div>
+          <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ r.wide }}</div>
+          <div style="font-size:11px;line-height:1.45;color:{{ r.midInk }};text-wrap:pretty">{{ r.mid }}</div>
+          <div style="font-size:11px;line-height:1.45;color:{{ r.tightInk }};text-wrap:pretty">{{ r.tight }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10px;text-align:right;color:{{ r.pxInk }}">{{ r.px }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-ok)">LAW 3, DRAWN</div>
+        <div style="font-size:19px;font-weight:600">A body at 382, and what is left in it</div>
+      </div>
+      <div style="display:flex;gap:18px;align-items:flex-start">
+        <div style="width:382px;flex:none;background:var(--ks-panel);border:1px solid var(--ks-line);display:flex;flex-direction:column;overflow:hidden">
+          <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:rgba(74,168,255,.06);box-shadow:inset 0 -1px 0 var(--ks-info);font-family:var(--ks-mono);font-size:10px">
+            <span style="color:var(--ks-info);font-weight:600">EW</span>
+            <span style="color:var(--ks-line-strong)">│</span>
+            <span style="color:var(--ks-ink)">Pods</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-ink-3)">⊞ ⋯ ✕</span>
+          </div>
+          <div style="height:26px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+            <span style="width:20px;height:16px;border:1px solid var(--ks-line);display:flex;align-items:center;justify-content:center;color:var(--ks-ink-3);flex:none">⌕</span>
+            <span style="color:var(--ks-ink-3)">6/41</span>
+            <div style="flex:1"></div>
+            <span style="color:var(--ks-info)">▸ 3 hidden</span>
+          </div>
+          <sc-for list="{{ tightRows }}" as="r" hint-placeholder-count="9">
+            <div style="min-height:{{ r.h }};display:grid;grid-template-columns:1fr 78px;align-items:center;gap:8px;padding:4px 9px;position:relative;background:{{ r.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+              <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+              <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="font-size:11px;color:{{ r.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                <span style="font-size:10px;line-height:1.35;color:{{ r.whyInk }};text-wrap:pretty">{{ r.why }}</span>
+              </div>
+              <span style="font-family:var(--ks-mono);font-size:10px;color:{{ r.stInk }};text-align:right;display:flex;align-items:center;justify-content:flex-end;gap:4px"><span style="font-size:7px">{{ r.glyph }}</span>{{ r.st }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:11px;min-width:0">
+          <sc-for list="{{ tightNotes }}" as="n" hint-placeholder-count="5">
+            <div style="display:flex;align-items:baseline;gap:9px">
+              <span style="font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:{{ n.tone }};width:52px;flex:none">{{ n.k }}</span>
+              <span style="font-size:11.5px;line-height:1.5;color:var(--ks-ink-2);min-width:0;text-wrap:pretty">{{ n.t }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-bad)">MUST NOT</div>
+        <div style="font-size:19px;font-weight:600">Six things a narrow body never does</div>
+      </div>
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+        <sc-for list="{{ nevers }}" as="n" hint-placeholder-count="6">
+          <div style="min-height:44px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:16px;padding:10px 16px;background:rgba(255,95,95,.03);box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+            <div style="display:flex;align-items:baseline;gap:9px;min-width:0">
+              <span style="color:var(--ks-bad);font-size:9px;flex:none">✕</span>
+              <span style="font-size:12px;line-height:1.5;color:#ffc4c4;min-width:0;text-wrap:pretty">{{ n.k }}</span>
+            </div>
+            <div style="font-size:11px;line-height:1.5;color:var(--ks-ink-3);text-wrap:pretty">{{ n.t }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+
+class Component extends DCLogic {
+  renderVals() {
+    // the ruler is linear in px over 0..1600, inset so the 382 label has room
+    const pos = px => (px / 1600 * 100).toFixed(2) + '%';
+
+    const ticks = [
+      { px: '382', sub: 'THE FLOOR', l: pos(382), h: '10px', line: WARN, ink: WARN, subInk: INK3, size: '12px', labelT: '58px' },
+      { px: '480', sub: 'THRESHOLD', l: pos(480), h: '30px', line: LINE_H, ink: INK3, subInk: INK3, size: '10px', labelT: '2px' },
+      { px: '572', sub: '', l: pos(572), h: '8px', line: LINE_H, ink: INK3, subInk: INK3, size: '10.5px', labelT: '58px' },
+      { px: '638', sub: 'THE EVERYDAY', l: pos(638), h: '10px', line: INFO, ink: INFO, subInk: INFO, size: '13px', labelT: '58px' },
+      { px: '804', sub: 'THRESHOLD · ⊞ STOPS SPLITTING', l: pos(804), h: '30px', line: INK3, ink: INK2, subInk: INK3, size: '10px', labelT: '2px' },
+      { px: '958', sub: 'TWO PANES', l: pos(958), h: '10px', line: INK2, ink: INK2, subInk: INK3, size: '11px', labelT: '58px' },
+      { px: '1600', sub: 'ONE PANE', l: pos(1600), h: '10px', line: INK3, ink: INK3, subInk: INK3, size: '10.5px', labelT: '58px' }
+    ];
+
+    const bands = [
+      { name: 'TIGHT', l: '0%', w: pos(480), bg: 'rgba(240,180,41,.07)', line: '#5a4520', ink: WARN },
+      { name: 'MID — THE BASE STATE', l: pos(480), w: pos(324), bg: 'rgba(74,168,255,.08)', line: '#1f4a72', ink: INFO },
+      { name: 'WIDE — THE EXCEPTION', l: pos(804), w: pos(796), bg: 'rgba(255,255,255,.03)', line: LINE_H, ink: INK2 }
+    ];
+
+    const bandNotes = [
+      { k: 'TIGHT', range: '382 · the only width in it', tone: WARN, t: '382 is the real floor, not 320: 320 needs a hand-dragged grip, because ⊞ opens a tab instead of splitting below 804. One pane of four in a 1600 window, or one of two in a 958 column. Everything here is a judgement about what the pane exists to answer.' },
+      { k: 'MID', range: '480–803 · 638 and 572 live here', tone: INFO, t: 'Two splits in a 1600 window gives 638, and that is the commonest layout in the product — so this band is the base state and the wide one is the exception. Every specimen in this round is drawn at 638 first and widened afterwards, which is the reverse of how the thirty-one screens were made.' },
+      { k: 'WIDE', range: '≥804 · 958 and 1600', tone: INK2, t: 'The body as the thirty-one screens draw it. 804 is not a new number — it is the width at which ⊞ stops splitting, so a pane below it is already a leaf. Reusing it means a person learns one threshold for both the frame and the bodies.' }
+    ];
+
+    const law = (n, title, tone, t, why, specK, spec) => ({
+      n, title, tone, t, why, specK,
+      spec: spec.map(s => ({ t: s[0], ink: s[1] === 'hi' ? INK2 : s[1] === 'bad' ? '#ffc4c4' : INK3 }))
+    });
+
+    const laws = [
+      law('1', 'The server decides what falls out, wherever it has an opinion', INFO,
+        'Where the API gives a priority — every table column does — degradation follows it, lowest first, one column at a time. This is the 01-Resource-List rule, and it is not a table rule: any body carrying server-ranked material inherits it.',
+        'It is the server’s judgement about what matters on this kind of object, and it is better than ours because it is per-kind. We would have written one order and applied it to forty kinds.',
+        'INHERITS', [['DataTable · all 8 lists', 'hi'], ['describe · 23'], ['conditions · 10, 24'], ['events · 03, 10']]),
+
+      law('2', 'A peer falls out. A structure has to become another structure', OK,
+        'One of many like things — a column, a chip, a series, a cluster — can leave, and what remains still reads true. Three fact groups side by side cannot: drop one and the body claims there are two kinds of fact about this object. Structures transform; they never lose a limb.',
+        'This is the whole reason 10, 16 and 24 needed drawing while the eight tables did not. A missing peer is invisible; a missing third of a structure is a lie you cannot see.',
+        'TRANSFORMS', [['3 groups → accordion', 'hi'], ['n-column compare → per-field'], ['matrix → transposed list'], ['two bar systems → one']]),
+
+      law('3', 'Every body has one load-bearing pair, and it is as fixed as ⊞ ✕', BAD,
+        'Two things never leave a body: what the row or object is, and the verdict on it — the phase, the reason, the sentence that says why you are looking. At 382 a table is exactly those two columns and nothing else. Name the pair per pane before deciding anything else.',
+        'The chrome keeps the type glyph and ⊞ ⋯ ✕ for the same reason: the pane must stay identifiable and closable. A body must stay answerable — otherwise it is decoration with a scrollbar.',
+        'THE PAIR', [['list: name + phase/why', 'hi'], ['verdict panes: name + verdict'], ['node: pressure + which pods'], ['metrics: markers, not curves']]),
+
+      law('4', 'Peers stack. Sequences scroll', INFO,
+        'When side-by-side elements are peers of each other, horizontal becomes vertical — they stack, and the reader loses only simultaneity. When they are positions in a sequence — a time axis, terminal columns, a log line — stacking would scramble the order, so the sequence compresses or scrolls instead.',
+        'This is what stops the metrics pane becoming an accordion of three charts and the terminal becoming a list of columns. Ask whether reordering the elements changes their meaning; if yes, it is a sequence.',
+        'PEERS / SEQUENCE', [['peers: fact groups, compare hasábok, clusters'], ['sequence: time, PTY columns, log body'], ['peers → stack at 804 or 480', 'hi'], ['sequence → compress, then scroll']]),
+
+      law('5', 'The number outlives the bar', WARN,
+        'Where a value is drawn twice — as a bar and as an absolute — the bar goes first and the number stays. A bar without its number is a percentage without an absolute, which the MUST NOT already forbids; a number without its bar is merely less scannable.',
+        'It also answers the brief’s question directly. Below 480 the only surviving graphic form is a 3px-tall track under the number, and only where two values must be compared against a limit — node pressure, quota.',
+        'ORDER OUT', [['bar label → 638'], ['bar track → 480', 'hi'], ['the absolute → ⊘ never', 'bad'], ['unit word → 638']]),
+
+      law('6', 'Nothing scrolls sideways, and nothing reflows a sequence into a lie', BAD,
+        'A body never grows a horizontal scrollbar. Every wide structure has a transform in the table above precisely so that it does not need one — a matrix transposes, per-cluster columns fold, a comparison interleaves. The one content that genuinely has an x-axis, the terminal, is reflowed by the PTY itself and says its column count out loud.',
+        'A horizontal scrollbar hides material behind a gesture nobody performs, in a pane that is already the narrow one. The person would not know there was a fourth verb column, and the frame would look complete while lying.',
+        'ENFORCED', [['overflow-x: hidden on every body', 'hi'], ['exception: none', 'bad'], ['terminal: PTY reflow + cols chip'], ['metrics: x compresses, never scrolls']]),
+
+      law('7', 'A body that has dropped something says so, once, in the control bar', OK,
+        'The right end of the control bar carries a single mono chip — ▸ 3 hidden, ▸ 7 clusters folded, ▸ 40 cols — and clicking it is ⌘⏎, maximise. One place, one wording, never a tooltip on an element that is not there and never an ellipsis standing in for a whole column.',
+        'This is the honest-shrink rule from the selection page applied to layout: the frame may hide things, but never quietly. It is also the only affordance that teaches ⌘⏎ at the moment it is wanted.',
+        'THE CHIP', [['control bar, right, ink-3'], ['info blue while hovered'], ['click = ⌘⏎ maximise', 'hi'], ['absent when nothing dropped']])
+    ];
+
+    const R = (name, where, wide, mid, tight, px, o) => Object.assign({
+      name, where, wide, mid, tight, px,
+      nameInk: INK, midInk: INK2, tightInk: INK2, pxInk: INK3, bg: 'transparent'
+    }, o || {});
+    const never = { tight: '⊘ never leaves', tightInk: '#9ee8c4', bg: 'rgba(62,207,142,.04)', pxInk: OK, px: '⊘' };
+
+    const rows = [
+      R('Priority columns', 'every DataTable', 'all columns the kind declares', 'lowest priority out, one per ~98px of deficit', 'the load-bearing pair only', '804 · 638 · 480'),
+      R('Identity + verdict', 'every body', 'own columns, name at 11px', 'verdict wraps under the name, 10px', 'both, and nothing else', '⊘', never),
+      R('Row secondary sentence', '01 · 03 · 19–21 · 24', 'right of the status column', 'wraps to a second line under the name', 'stays — it is the verdict', '638', { tightInk: '#9ee8c4' }),
+      R('Inline sparkline', '01 · 07 · 20 · 24', 'a 64 × 14 strip per row', 'out — the number carries it', 'out', '804', { midInk: '#f3d08a' }),
+      R('Bar + absolute', '07 · 20 · 24 quota', 'bar, absolute and limit', 'bar keeps the track, loses its label', 'number only, 3px track where a limit matters', '638 · 480'),
+      R('Three fact groups', '10 Details', 'three columns, 1fr 1fr 400px', 'a 22px group strip + one group', 'same, and the group strip becomes glyphs', '804 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('n-hasáb comparison', '16 What would happen', 'is · would be · difference, side by side', 'per field: is → would be on one line, difference under it', 'differences only, with a count of what matched', '804 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('Matrix m × n', '09 RBAC', 'resources down, verbs across', 'transposed: one row per resource, verbs as an 8-glyph strip', 'one resource per row, glyph strip only, verb legend in the menu', '804 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('Per-cluster columns', '17 Helm · 28 cross-cluster', 'one column per cluster, up to ten', 'three columns + a folded rest chip', 'the focused cluster, with ‹ › between them', '804 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('Time axis with markers', '15 Metrics · 27', 'curves with marker lanes', 'x compresses, marker lanes keep their rows', 'curve becomes a 40px strip, markers become a list', '638 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('Prose with citations', '11 Assistant', 'chips inline in the sentence', 'chips move to their own line under the paragraph', 'chips numbered ¹ ² ³, listed at the end of the answer', '638 · 480', { midInk: '#8ac6ff', tightInk: '#8ac6ff', bg: 'rgba(74,168,255,.04)' }),
+      R('PTY grid', '14 Terminal', '100 columns at 958 · 158 at 1600', '65 columns, and the chip says so', '40 columns, a chip, and a named consequence', 'continuous', { midInk: '#8ac6ff', tightInk: '#f3d08a', bg: 'rgba(74,168,255,.04)' }),
+      R('Key–value pairs', '10 · 13 · 21 · 23', 'two pairs per line, 92px keys', 'one pair per line', 'key above value, key at 9px', '638 · 480'),
+      R('Timestamps', '02 · 03 · 06 · 15', 'absolute and relative', 'relative only, absolute on hover', 'relative only', '638'),
+      R('Action verbs', '30 bulk · every menu', 'labelled buttons in a row', 'primary labelled, rest under ⋯', 'primary as a glyph, rest under ⋯', '638 · 480'),
+      R('Selection count', '30 · every list', '“8 selected · 3 gone”', 'same wording — it governs a write', 'same wording', '⊘', never),
+      R('Confirmation target count', 'every destructive action', 'names both numbers', 'names both numbers', 'names both numbers', '⊘', never)
+    ];
+
+    const tr = (name, why, st, glyph, kind) => ({
+      name, why, st, glyph,
+      h: '34px',
+      ink: kind === 'bad' ? '#ffb3b3' : kind === 'warn' ? '#f3d08a' : INK,
+      whyInk: kind === 'bad' ? '#c98b8b' : kind === 'warn' ? '#b09a6a' : INK3,
+      stInk: kind === 'bad' ? BAD : kind === 'warn' ? WARN : OK,
+      mark: kind === 'bad' ? BAD : kind === 'warn' ? WARN : OK,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.05)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent'
+    });
+
+    const tightRows = [
+      tr('ledger-worker-…-2wq7t', 'OOMKilled 5× · heap 502Mi of 512Mi', 'CrashLoop', '▲', 'bad'),
+      tr('ledger-worker-…-h4k9x', 'OOMKilled 4× · same limit', 'CrashLoop', '▲', 'bad'),
+      tr('ledger-worker-…-p1r7m', 'insufficient memory on 3 of 6 nodes', 'Pending', '◆', 'warn'),
+      tr('fraud-scorer-…-2wq7t', 'sidecar envoy not ready 2m', 'Degraded', '▲', 'warn'),
+      tr('checkout-api-…-k8n1p', '', 'Running', '●'),
+      tr('checkout-api-…-x2m4q', '', 'Running', '●'),
+      tr('payout-batcher-…-f5flv', '', 'Running', '●')
+    ];
+
+    const tightNotes = [
+      { k: 'KEPT', tone: OK, t: 'The name and the phase — law 3’s pair for a list. The reason sentence is part of the verdict, so it wraps under the name rather than leaving; on the four rows that have nothing wrong it simply is not there, and the row is 22px again.' },
+      { k: 'GONE', tone: WARN, t: 'Ready, restarts, node, age, image and the sparkline — six columns, in the server’s priority order, not ours. On a CronJob the same rule drops a different six.' },
+      { k: 'SAID', tone: INFO, t: '▸ 3 hidden at the right of the control bar. Three, not six: restarts and node folded into the reason sentence, and age is in the detail pane.' },
+      { k: 'NOT DONE', tone: BAD, t: 'No horizontal scrollbar, no truncated verdict, no 9px body text, and the search field became the ⌕ glyph by the chrome rule at 380 — not by anything decided here.' },
+      { k: 'MEASURE', tone: INK2, t: 'Nine rows of the forty-one, six of them problems, in 382 × 340. The same pane at 1600 shows eleven columns and the same nine rows.' }
+    ];
+
+    const nevers = [
+      { k: 'Grow a horizontal scrollbar', t: 'Every wide structure has a named transform instead. A sideways scrollbar in the narrowest pane hides material behind a gesture nobody makes.' },
+      { k: 'Show a percentage with no absolute', t: 'Already in the MUST NOT. Narrow, that means the bar leaves and the number stays — never the reverse, however much better the bar scans.' },
+      { k: 'Truncate the verdict', t: 'The phase, the reason, the “why you are looking” sentence. It wraps to as many lines as it needs; the name truncates first.' },
+      { k: 'Drop below 11px body text', t: 'Keys and chips may reach 9px, values and prose may not. Below that the pane is smaller but not more useful, which is the failure this round exists to prevent.' },
+      { k: 'Hide a drop silently', t: 'One chip in the control bar, always, in the same place and wording. Law 7 — the layout may hide, never quietly.' },
+      { k: 'Reflow a sequence into a stack', t: 'A time axis, a terminal line and a log line have an order that carries meaning. They compress or they scroll vertically; they never become an accordion.' }
+    ];
+
+    return {
+      facts: [
+        { k: 'BANDS', v: '3', tone: INK },
+        { k: 'THRESHOLDS', v: '804 · 480', tone: INFO },
+        { k: 'LAWS', v: '7', tone: INK },
+        { k: 'BASE STATE', v: '638', tone: INFO }
+      ],
+      bands, ticks, bandNotes, laws, rows, tightRows, tightNotes, nevers,
+      closing: [
+        { tone: INFO, k: '638 IS THE BASE STATE, NOT A DEGRADED ONE', t: 'Two splits in a 1600 window is the commonest layout in the product, so the mid band is where the bodies are designed and the wide one is where they are allowed to spread out. Every specimen in this round was drawn at 638 first and widened afterwards. That order matters: designing at 1600 and cutting produces a body whose narrow state is a list of absences, while designing at 638 and widening produces one whose wide state is a list of gains.' },
+        { tone: OK, k: 'TWO THRESHOLDS, AND ONE OF THEM WAS ALREADY DECIDED', t: '804 is the width at which ⊞ stops splitting and opens a tab instead — a pane below it is already a leaf, so it is the natural place for its body to change shape too, and a person learns one number for the frame and the bodies. 480 is the second: it is where two 220px fact columns plus a gap stop coexisting, which is the narrowest structure the table has. Two thresholds and three bands is the whole vocabulary.' },
+        { tone: BAD, k: 'THE ONE QUESTION TO ASK PER BODY', t: 'What is this pane’s load-bearing pair — the thing it is and the verdict on it? Law 3 makes that the first decision for each of the twenty-four, and once it is named the rest of the page is mechanical: peers stack, sequences compress, bars lose their tracks, and the server’s priority order does the choosing. Eleven bodies needed drawing because their pair was not obvious, not because the grammar failed.' },
+        { tone: WARN, k: 'WHAT THIS COSTS', t: 'Two of the seven laws are expensive to build. Law 2’s transforms mean four panes carry two layouts rather than one set of hiding rules, and law 4 needs a peer-or-sequence judgement encoded per element instead of a width query. The alternative — one global “hide under N px” list — is cheaper and produces a 638px pane that is a 1600px pane with holes in it, which is what the thirty-one screens would have shipped.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

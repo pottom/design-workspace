@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #06070a; }
+  a { color: #4aa8ff; text-decoration: none; }
+  a:hover { color: #8ac6ff; }
+  * { box-sizing: border-box; }
+</style>
+</helmet>
+<div style="--ks-bg:#0a0c10;--ks-field:#07090c;--ks-panel:#11141a;--ks-panel-hi:#161a21;--ks-line:#242b35;--ks-line-soft:#1a2028;--ks-line-strong:#2c3542;--ks-ink:#e7ecf3;--ks-ink-2:#98a4b4;--ks-ink-3:#5e6a79;--ks-ok:#3ecf8e;--ks-warn:#f0b429;--ks-bad:#ff5f5f;--ks-info:#4aa8ff;--ks-idle:#6b7684;--ks-mono:'IBM Plex Mono',ui-monospace,monospace;background:#06070a;color:#e7ecf3;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:44px;display:flex;flex-direction:column;gap:34px;width:1700px">
+
+  <div style="display:flex;align-items:flex-end;gap:34px">
+    <div style="display:flex;flex-direction:column;gap:8px;max-width:1010px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.16em;color:var(--ks-ink-3)">KUBESCOPE · ROUND 07 · 5 / 5 · THE INCIDENT, MEASURED · BRIEF §5.3</div>
+      <div style="font-size:30px;font-weight:600;letter-spacing:-.02em">Four panes at the widths ⊞ actually gives you</div>
+      <div style="font-size:14px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">The same incident as screen 31, drawn at <span style="color:var(--ks-ink)">958 + 638, each column split below</span> — not two half-screens. Three of the four bodies are in their mid-band form, and the fourth is the only one this layout can afford to keep wide.</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="display:flex;gap:22px">
+      <sc-for list="{{ facts }}" as="f" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="font-family:var(--ks-mono);font-size:9.5px;letter-spacing:.12em;color:var(--ks-ink-3)">{{ f.k }}</div>
+          <div style="font-family:var(--ks-mono);font-size:15px;font-weight:600;color:{{ f.tone }}">{{ f.v }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:11px">
+    <div style="display:flex;align-items:baseline;gap:12px;width:1600px">
+      <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.1em;color:var(--ks-ink-3)">THE FIELD · 1600 × 962 · CLUSTER RAIL HIDDEN</div>
+      <div style="flex:1"></div>
+      <div style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">⊞ twice on the left, once on the right · handles 4px</div>
+    </div>
+
+    <div style="width:1600px;display:flex;gap:0">
+      <div style="width:958px;display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-family:var(--ks-mono);font-size:10px">
+          <span style="color:var(--ks-ink-2);font-weight:600">958</span><span style="color:var(--ks-ink-3)">WIDE</span>
+          <div style="flex:1;height:1px;background:var(--ks-line)"></div>
+        </div>
+      </div>
+      <div style="width:4px"></div>
+      <div style="width:638px;display:flex;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:baseline;gap:8px;font-family:var(--ks-mono);font-size:10px">
+          <span style="color:var(--ks-info);font-weight:600">638</span><span style="color:var(--ks-info)">MID · THE BASE STATE</span>
+          <div style="flex:1;height:1px;background:var(--ks-line)"></div>
+        </div>
+      </div>
+    </div>
+
+    <div data-screen-label="incident · 958 + 638" style="width:1602px;height:1002px;background:var(--ks-bg);border:1px solid var(--ks-line);box-shadow:0 30px 80px rgba(0,0,0,.6);display:flex;flex-direction:column;overflow:hidden">
+
+      <div style="height:38px;flex:none;display:flex;align-items:stretch;background:var(--ks-field);border-bottom:1px solid var(--ks-line)">
+        <div style="display:flex;align-items:center;padding:0 14px;font-family:var(--ks-mono);font-size:11px;font-weight:600;letter-spacing:.18em;color:var(--ks-ink-2);border-right:1px solid var(--ks-line-soft)">KUBESCOPE</div>
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:8px;padding:0 14px;background:{{ t.bg }};box-shadow:{{ t.shadow }};font-size:12px;color:{{ t.ink }}">
+            <span style="font-family:var(--ks-mono);color:{{ t.numInk }};font-weight:600">{{ t.n }}</span><span style="font-weight:{{ t.weight }}">{{ t.name }}</span>
+          </div>
+        </sc-for>
+        <div style="flex:1"></div>
+        <div style="display:flex;align-items:center;gap:12px;padding:0 14px;font-family:var(--ks-mono);font-size:11px;color:var(--ks-ink-3)">
+          <span style="display:flex;align-items:center;gap:7px;padding:3px 9px;border:1px solid #54262b;background:rgba(255,95,95,.12);color:#ffb3b3;font-weight:600"><span style="font-size:8px">▲</span>{{ troubleChip }}</span>
+          <span style="padding:3px 7px;border:1px solid var(--ks-line);color:var(--ks-ink-2)">⌘K</span>
+        </div>
+      </div>
+
+      <div style="flex:1;min-height:0;display:flex;position:relative">
+        <div style="position:absolute;left:958px;top:0;bottom:0;width:4px;background:var(--ks-line);z-index:3"></div>
+        <div style="position:absolute;left:960px;top:50%;width:3px;height:20px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4"></div>
+
+        <div style="width:958px;flex:none;display:flex;flex-direction:column;position:relative">
+          <div style="position:absolute;left:0;right:0;top:479px;height:4px;background:var(--ks-line);z-index:3"></div>
+          <div style="position:absolute;left:50%;top:481px;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4"></div>
+
+          <div style="height:479px;flex:none;background:var(--ks-panel);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:rgba(74,168,255,.06);box-shadow:inset 0 -1px 0 var(--ks-info);font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:var(--ks-info);font-weight:600">EW</span>
+              <span style="color:var(--ks-line-strong)">│</span>
+              <span style="color:var(--ks-ink)">Pods</span>
+              <span style="color:var(--ks-ink-3)">· payments · prod-eu-west</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3)">⊞ ⋯ ✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:9px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="width:210px;padding:3px 7px;border:1px solid var(--ks-line);background:var(--ks-bg);color:var(--ks-ink-2);flex:none">status!=Running</span>
+              <span style="color:var(--ks-info)">16 of 41 pods</span>
+              <span style="color:var(--ks-ink-3)">· streaming</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-2)">4 selected</span>
+            </div>
+            <div style="height:20px;flex:none;display:grid;grid-template-columns:1fr 54px 96px 46px 52px 118px 62px 74px;align-items:center;gap:10px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.09em;color:var(--ks-ink-3)">
+              <div>NAME</div><div>READY</div><div>STATUS</div><div style="text-align:right">RST</div><div style="text-align:right">AGE</div><div>NODE</div><div style="text-align:right">CPU</div><div style="text-align:right">MEMORY</div>
+            </div>
+            <sc-for list="{{ pods }}" as="r" hint-placeholder-count="18">
+              <div style="height:22px;flex:none;display:grid;grid-template-columns:1fr 54px 96px 46px 52px 118px 62px 74px;align-items:center;gap:10px;padding:0 10px;position:relative;background:{{ r.bg }};box-shadow:{{ r.shadow }}">
+                <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ r.mark }}"></span>
+                <span style="font-size:11px;color:{{ r.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ r.readyInk }}">{{ r.ready }}</span>
+                <span style="display:flex;align-items:center;gap:5px;font-family:var(--ks-mono);font-size:10px;color:{{ r.stInk }};font-weight:600"><span style="font-size:7px">{{ r.glyph }}</span>{{ r.st }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ r.rstInk }};text-align:right">{{ r.rst }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);text-align:right">{{ r.age }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.node }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-2);text-align:right">{{ r.cpu }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ r.memInk }};text-align:right">{{ r.mem }}</span>
+              </div>
+            </sc-for>
+            <div style="flex:1;min-height:0"></div>
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:rgba(74,168,255,.06);border-top:1px solid var(--ks-line);font-family:var(--ks-mono);font-size:9.5px">
+              <span style="color:var(--ks-ink);font-weight:600">4 selected</span>
+              <div style="flex:1"></div>
+              <sc-for list="{{ verbs }}" as="v" hint-placeholder-count="4">
+                <span style="padding:3px 8px;border:1px solid {{ v.line }};background:{{ v.bg }};color:{{ v.ink }}">{{ v.t }}</span>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="height:4px;flex:none"></div>
+
+          <div style="flex:1;min-height:0;background:var(--ks-panel);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10.5px">
+              <span style="color:var(--ks-info);font-weight:600">EW</span>
+              <span style="color:var(--ks-line-strong)">│</span>
+              <span style="color:var(--ks-ink)">Log</span>
+              <span style="color:var(--ks-ink-3)">· ledger-worker · 4 pods, merged</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3)">⊞ ⋯ ✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:9px;padding:0 10px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px">
+              <span style="width:190px;padding:3px 7px;border:1px solid var(--ks-line);background:var(--ks-bg);color:var(--ks-ink-2);flex:none">oom|heap</span>
+              <span style="color:var(--ks-warn)">24 of 4,102</span>
+              <span style="color:var(--ks-ink-3)">· following</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3)">wrap off</span>
+            </div>
+            <sc-for list="{{ logs }}" as="l" hint-placeholder-count="16">
+              <div style="height:18px;flex:none;display:grid;grid-template-columns:62px 78px 46px 1fr;align-items:center;gap:9px;padding:0 10px;background:{{ l.bg }}">
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3)">{{ l.t }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:var(--ks-ink-3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.pod }}</span>
+                <span style="font-family:var(--ks-mono);font-size:9.5px;color:{{ l.lvlInk }};font-weight:600">{{ l.lvl }}</span>
+                <span style="font-family:var(--ks-mono);font-size:10px;color:{{ l.ink }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.msg }}</span>
+              </div>
+            </sc-for>
+            <div style="flex:1;min-height:0"></div>
+          </div>
+        </div>
+
+        <div style="width:4px;flex:none"></div>
+
+        <div style="flex:1;min-width:0;display:flex;flex-direction:column;position:relative">
+          <div style="position:absolute;left:0;right:0;top:479px;height:4px;background:var(--ks-line);z-index:3"></div>
+          <div style="position:absolute;left:50%;top:481px;width:20px;height:3px;transform:translate(-50%,-50%);background:var(--ks-line-strong);z-index:4"></div>
+
+          <div style="height:479px;flex:none;background:var(--ks-panel);display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+              <span style="color:var(--ks-info);font-weight:600;flex:none">EW</span>
+              <span style="color:var(--ks-line-strong);flex:none">│</span>
+              <span style="color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis">Details · pod</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3);flex:none">⊞ ⋯ ✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+              <span style="color:var(--ks-ink-2);min-width:0;overflow:hidden;text-overflow:ellipsis">ledger-worker-…-2wq7t</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-info);flex:none">▸ 2 groups</span>
+            </div>
+            <div style="padding:9px 9px 2px;flex:none"><span style="font-family:var(--ks-mono);font-size:13px;font-weight:600;color:#fff">ledger-worker-…-2wq7t</span></div>
+            <div style="padding:0 9px 9px;flex:none;font-size:11px;line-height:1.5;color:#ffc4c4;text-wrap:pretty">CrashLoopBackOff — OOMKilled five times in nine minutes; the heap reaches 502Mi against a 512Mi limit each time.</div>
+            <div style="height:22px;flex:none;display:flex;align-items:stretch;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line)">
+              <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:5px;padding:0 9px;background:{{ g.bg }};box-shadow:{{ g.shadow }};font-family:var(--ks-mono);font-size:9.5px;color:{{ g.ink }};white-space:nowrap">
+                  <span style="font-size:7px;color:{{ g.gtone }}">{{ g.glyph }}</span>{{ g.t }}<span style="color:var(--ks-ink-3)">{{ g.count }}</span>
+                </div>
+              </sc-for>
+              <div style="flex:1"></div>
+            </div>
+            <sc-for list="{{ detail }}" as="d" hint-placeholder-count="10">
+              <div style="min-height:{{ d.h }};flex:none;display:grid;grid-template-columns:{{ d.cols }};align-items:center;gap:9px;padding:{{ d.pad }};position:relative;background:{{ d.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+                <span style="position:absolute;left:0;top:0;bottom:0;width:2px;background:{{ d.mark }}"></span>
+                <span style="font-family:{{ d.kFont }};font-size:{{ d.kSize }};color:{{ d.kInk }};font-weight:{{ d.kWeight }};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ d.k }}</span>
+                <span style="display:flex;align-items:center;justify-content:{{ d.justify }};gap:5px;font-family:var(--ks-mono);font-size:{{ d.vSize }};color:{{ d.vInk }};font-weight:{{ d.vWeight }};min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="font-size:7px">{{ d.glyph }}</span>{{ d.v }}</span>
+              </div>
+            </sc-for>
+            <div style="flex:1;min-height:0"></div>
+          </div>
+
+          <div style="height:4px;flex:none"></div>
+
+          <div style="flex:1;min-height:0;background:#080a0d;display:flex;flex-direction:column;overflow:hidden">
+            <div style="height:28px;flex:none;display:flex;align-items:center;gap:7px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+              <span style="color:var(--ks-info);font-weight:600;flex:none">EW</span>
+              <span style="color:var(--ks-line-strong);flex:none">│</span>
+              <span style="color:var(--ks-ink);min-width:0;overflow:hidden;text-overflow:ellipsis">Shell · ledger-worker</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-ink-3);flex:none">⊞ ⋯ ✕</span>
+            </div>
+            <div style="height:26px;flex:none;display:flex;align-items:center;gap:8px;padding:0 9px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:10px;white-space:nowrap;overflow:hidden">
+              <span style="color:var(--ks-ink-2)">sh · 65 × 24</span>
+              <div style="flex:1"></div>
+              <span style="color:var(--ks-warn);flex:none">▸ 65 cols</span>
+            </div>
+            <sc-for list="{{ shell }}" as="s" hint-placeholder-count="18">
+              <div style="height:17px;flex:none;padding:0 9px"><span style="font-family:var(--ks-mono);font-size:10px;color:{{ s.ink }};white-space:pre">{{ s.t }}</span></div>
+            </sc-for>
+            <div style="flex:1;min-height:0"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="font-family:var(--ks-mono);font-size:11px;letter-spacing:.14em;color:var(--ks-info)">MEASURED</div>
+      <div style="font-size:19px;font-weight:600">What each of the four panes is doing, and which band it is in</div>
+    </div>
+    <div style="background:var(--ks-panel);border:1px solid var(--ks-line);overflow:hidden">
+      <div style="height:24px;display:grid;grid-template-columns:150px 96px 120px 1fr 1fr;align-items:center;gap:16px;padding:0 16px;background:var(--ks-field);box-shadow:inset 0 -1px 0 var(--ks-line);font-family:var(--ks-mono);font-size:9px;letter-spacing:.1em;color:var(--ks-ink-3)">
+        <div>PANE</div><div>SIZE</div><div>BAND</div><div>BODY MODE</div><div>WHAT IT GAVE UP HERE</div>
+      </div>
+      <sc-for list="{{ measured }}" as="m" hint-placeholder-count="4">
+        <div style="min-height:38px;display:grid;grid-template-columns:150px 96px 120px 1fr 1fr;align-items:center;gap:16px;padding:8px 16px;background:{{ m.bg }};box-shadow:inset 0 -1px 0 var(--ks-line-soft)">
+          <div style="font-size:12px;font-weight:600;color:var(--ks-ink)">{{ m.pane }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10.5px;color:var(--ks-ink-2)">{{ m.size }}</div>
+          <div style="font-family:var(--ks-mono);font-size:10px;color:{{ m.bandInk }};font-weight:600">{{ m.band }}</div>
+          <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-2);text-wrap:pretty">{{ m.mode }}</div>
+          <div style="font-size:11px;line-height:1.45;color:var(--ks-ink-3);text-wrap:pretty">{{ m.gave }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px">
+    <sc-for list="{{ closing }}" as="c" hint-placeholder-count="4">
+      <div style="background:var(--ks-panel);border:1px solid var(--ks-line);border-top:2px solid {{ c.tone }};padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-family:var(--ks-mono);font-size:10px;letter-spacing:.12em;color:{{ c.tone }}">{{ c.k }}</div>
+        <div style="font-size:12.5px;line-height:1.6;color:var(--ks-ink-2);text-wrap:pretty">{{ c.t }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1700,&quot;height&quot;:1200}}">
+const INK = '#e7ecf3', INK2 = '#98a4b4', INK3 = '#5e6a79';
+const OK = '#3ecf8e', WARN = '#f0b429', BAD = '#ff5f5f', INFO = '#4aa8ff', IDLE = '#6b7684';
+const LINE = '#242b35', LINE_S = '#1a2028', LINE_H = '#2c3542';
+const MONO = "'IBM Plex Mono',monospace";
+
+class Component extends DCLogic {
+  renderVals() {
+    const SEL = 'rgba(74,168,255,.08)';
+    const runShadow = edge => {
+      const side = 'inset 1px 0 0 ' + INFO + ', inset -1px 0 0 ' + INFO;
+      if (edge === 'top') return side + ', inset 0 1px 0 ' + INFO;
+      if (edge === 'bottom') return side + ', inset 0 -1px 0 ' + INFO;
+      return side;
+    };
+    const HAIR = 'inset 0 -1px 0 ' + LINE_S;
+
+    const pod = (name, ready, st, rst, age, node, cpu, mem, kind, o) => Object.assign({
+      name, ready, st, rst, age, node, cpu, mem,
+      glyph: kind === 'bad' ? '▲' : kind === 'warn' ? '◆' : kind === 'idle' ? '■' : '●',
+      ink: kind === 'bad' ? '#ffb3b3' : kind === 'warn' ? '#f3d08a' : kind === 'idle' ? INK3 : INK,
+      readyInk: kind === 'bad' ? BAD : INK2,
+      stInk: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'idle' ? IDLE : OK,
+      rstInk: rst === '—' ? INK3 : kind === 'bad' ? WARN : INK2,
+      memInk: kind === 'bad' ? BAD : INK2,
+      mark: kind === 'bad' ? BAD : kind === 'warn' ? WARN : kind === 'idle' ? IDLE : OK,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.05)' : kind === 'warn' ? 'rgba(240,180,41,.05)' : 'transparent',
+      shadow: HAIR
+    }, o || {});
+
+    let pods = [
+      pod('ledger-worker-6d8f9c7b4-2wq7t', '0/1', 'CrashLoop', '5×', '9m', 'ip-10-0-4-8', '412m', '502Mi', 'bad'),
+      pod('ledger-worker-6d8f9c7b4-h4k9x', '0/1', 'CrashLoop', '4×', '9m', 'ip-10-0-4-8', '388m', '498Mi', 'bad'),
+      pod('ledger-worker-6d8f9c7b4-p1r7m', '0/1', 'Pending', '—', '7m', '—', '—', '—', 'warn'),
+      pod('ledger-worker-6d8f9c7b4-w8xk2', '0/1', 'CrashLoop', '3×', '9m', 'ip-10-0-2-1', '401m', '501Mi', 'bad'),
+      pod('fraud-scorer-58c7d9f-2wq7t', '1/2', 'Degraded', '3×', '2h', 'ip-10-0-4-8', '92m', '780Mi', 'warn'),
+      pod('loki-ingester-0', '1/2', 'Degraded', '8×', '14d', 'ip-10-0-4-8', '1.2', '3.1Gi', 'warn'),
+      pod('nightly-export-28471-9dd21', '0/1', 'Terminating', '—', '41m', 'ip-10-0-2-1', '—', '—', 'idle'),
+      pod('otel-collector-1', '2/2', 'Unknown', '—', '21d', 'ip-10-0-4-8', '—', '1.8Gi', 'idle'),
+      pod('payout-batcher-7f9c8d-f5flv', '0/1', 'Failed', '5×', '18m', 'ip-10-0-2-1', '—', '—', 'bad'),
+      pod('payout-batcher-7f9c8d-q2nn8', '0/1', 'Pending', '—', '6m', '—', '—', '—', 'warn'),
+      pod('reconciler-5d9f7c8b-mm41k', '1/2', 'Degraded', '2×', '3h', 'ip-10-0-2-1', '140m', '412Mi', 'warn'),
+      pod('reconciler-5d9f7c8b-x7t2v', '0/2', 'CrashLoop', '6×', '3h', 'ip-10-0-4-8', '88m', '498Mi', 'bad'),
+      pod('ledger-migrate-28470-2kk91', '0/1', 'Failed', '3×', '1h', 'ip-10-0-2-1', '—', '—', 'bad'),
+      pod('envoy-gateway-6b8d9f-9dd21', '1/2', 'Degraded', '1×', '9d', 'ip-10-0-2-1', '64m', '96Mi', 'warn'),
+      pod('fraud-scorer-58c7d9f-p91md', '0/2', 'Pending', '—', '4m', '—', '—', '—', 'warn'),
+      pod('grafana-agent-4kk2p', '1/1', 'Terminating', '—', '2m', 'ip-10-0-4-8', '12m', '48Mi', 'idle')
+    ];
+    [0, 1, 3].forEach((i, k) => {
+      pods[i] = Object.assign({}, pods[i], { ink: '#fff', bg: 'rgba(74,168,255,.10)' });
+    });
+    pods[0].shadow = runShadow('top');
+    pods[1].shadow = runShadow('mid');
+    pods[2] = Object.assign({}, pods[2], { bg: 'rgba(74,168,255,.10)', ink: '#fff', shadow: runShadow('mid') });
+    pods[3].shadow = runShadow('bottom');
+
+    const verb = (t, tone) => ({
+      t,
+      ink: tone === 'bad' ? '#ffb3b3' : tone === 'warn' ? '#f3d08a' : INK2,
+      bg: tone === 'bad' ? 'rgba(255,95,95,.12)' : tone === 'warn' ? 'rgba(240,180,41,.14)' : 'rgba(255,255,255,.04)',
+      line: tone === 'bad' ? '#54262b' : tone === 'warn' ? '#5a4520' : LINE_H
+    });
+
+    const log = (t, podName, lvl, msg, kind) => ({
+      t, pod: podName, lvl, msg,
+      lvlInk: kind === 'bad' ? BAD : kind === 'warn' ? WARN : INK3,
+      ink: kind === 'bad' ? '#ffc4c4' : kind === 'warn' ? '#f3d08a' : INK2,
+      bg: kind === 'bad' ? 'rgba(255,95,95,.05)' : kind === 'warn' ? 'rgba(240,180,41,.04)' : 'transparent'
+    });
+
+    const logs = [
+      log('14:16:48', '…-h4k9x', 'INFO', 'starting, 8 workers, listen :8080'),
+      log('14:16:47', '…-2wq7t', 'ERROR', 'back-off 20s restarting failed container worker', 'bad'),
+      log('14:16:46', '…-2wq7t', 'ERROR', 'OOMKilled — container worker, restart #5, exit 137', 'bad'),
+      log('14:16:31', '…-2wq7t', 'WARN', 'heap 502Mi of 512Mi — gc pause 1.2s', 'warn'),
+      log('14:16:12', '…-w8xk2', 'INFO', 'queue depth 5411, oldest message 41s'),
+      log('14:15:58', '…-h4k9x', 'ERROR', 'OOMKilled — container worker, restart #4, exit 137', 'bad'),
+      log('14:15:44', '…-h4k9x', 'WARN', 'heap 498Mi of 512Mi', 'warn'),
+      log('14:15:20', '…-w8xk2', 'ERROR', 'OOMKilled — container worker, restart #3, exit 137', 'bad'),
+      log('14:14:52', '…-2wq7t', 'INFO', 'flushed 2048 records in 402ms'),
+      log('14:14:33', '…-w8xk2', 'WARN', 'heap 501Mi of 512Mi', 'warn'),
+      log('14:14:02', '…-2wq7t', 'ERROR', 'OOMKilled — container worker, restart #4, exit 137', 'bad'),
+      log('14:13:41', '…-h4k9x', 'INFO', 'connected to ledger.payments.svc:5432'),
+      log('14:12:58', '…-2wq7t', 'WARN', 'heap 496Mi of 512Mi', 'warn'),
+      log('14:11:04', '…-w8xk2', 'INFO', 'scaled in: 6 → 8 replicas'),
+      log('14:07:19', '…-2wq7t', 'WARN', 'heap 512Mi of 512Mi — crossing the limit', 'warn'),
+      log('13:58:02', '…-2wq7t', 'INFO', 'image ledger/worker:2026.8.3 · limits.memory 512Mi'),
+      log('13:57:44', '…-h4k9x', 'INFO', 'shutting down, draining 41 in-flight messages'),
+      log('13:57:12', '…-h4k9x', 'WARN', 'heap 468Mi of 768Mi', 'warn'),
+      log('13:56:03', '…-w8xk2', 'INFO', 'flushed 1984 records in 388ms'),
+      log('13:54:31', '…-2wq7t', 'INFO', 'queue depth 3120, oldest message 12s'),
+      log('13:52:18', '…-h4k9x', 'WARN', 'gc pause 840ms, heap after 442Mi', 'warn'),
+      log('13:50:02', '…-2wq7t', 'INFO', 'connected to ledger.payments.svc:5432'),
+      log('13:48:37', '…-w8xk2', 'INFO', 'starting, 8 workers, listen :8080')
+    ];
+
+    const groups = [
+      { t: 'Containers', count: ' 2 · 1 ready', glyph: '▲', gtone: BAD, bg: 'var(--ks-panel)', shadow: 'inset 1px 0 0 ' + LINE + ', inset -1px 0 0 ' + LINE, ink: INK },
+      { t: 'Conditions', count: ' 4 · 1 false', glyph: '▲', gtone: BAD, bg: 'transparent', shadow: 'none', ink: INK3 },
+      { t: 'Attached', count: ' 5', glyph: '', gtone: INK3, bg: 'transparent', shadow: 'none', ink: INK3 }
+    ];
+
+    const D = (k, v, o) => Object.assign({
+      k, v, cols: '1fr 62px', h: '22px', pad: '3px 9px', bg: 'transparent', mark: 'transparent',
+      kFont: MONO, kSize: '10.5px', kInk: INK, kWeight: '600',
+      vSize: '9.5px', vInk: INK2, vWeight: '600', justify: 'flex-end', glyph: ''
+    }, o || {});
+    const kvRow = (k, v, o) => D(k, v, Object.assign({
+      cols: '78px 1fr', h: '20px', pad: '2px 9px',
+      kSize: '9.5px', kInk: INK3, kWeight: '400', vSize: '10px', vInk: INK2, vWeight: '400', justify: 'flex-start'
+    }, o || {}));
+
+    const detail = [
+      D('worker', 'OOMKilled', { bg: 'rgba(255,95,95,.05)', mark: BAD, vInk: BAD, glyph: '▲' }),
+      kvRow('image', 'ledger/worker:2026.8.3'),
+      kvRow('memory', '502Mi / 512Mi', { vInk: '#ffc4c4' }),
+      kvRow('restarts', '5 · last 14:16:47'),
+      kvRow('exit', '137 · SIGKILL'),
+      kvRow('started', '14:16:27 · 21s ago'),
+      kvRow('probe', 'readiness failed 3× in 90s', { vInk: '#f3d08a' }),
+      D('envoy', 'Running', { mark: OK, vInk: OK, glyph: '●' }),
+      kvRow('image', 'envoyproxy/envoy:v1.29'),
+      kvRow('memory', '38Mi / 128Mi'),
+      kvRow('restarts', '0'),
+      kvRow('started', '4d ago · 13:02 on the 29th'),
+      D('the pod', '', { mark: 'transparent', vInk: INK3, kInk: INK2 }),
+      kvRow('node', 'ip-10-0-4-8 · MemoryPressure', { vInk: '#f3d08a' }),
+      kvRow('qos', 'Burstable'),
+      kvRow('owner', 'rs/ledger-worker-6d8f9c7b4', { vInk: '#8ac6ff' }),
+      kvRow('last state', 'Terminated · exit 137 · 14:16:47', { vInk: '#ffc4c4' })
+    ];
+
+    const sh = (t, ink) => ({ t, ink: ink || INK2 });
+    const shell = [
+      sh('$ kubectl get pods -n payments', INK),
+      sh('NAME                   READY  STATUS      RESTARTS  AGE'),
+      sh('ledger-worker-…-2wq7t  0/1    CrashLoop   5         9m', '#ffb3b3'),
+      sh('ledger-worker-…-h4k9x  0/1    CrashLoop   4         9m', '#ffb3b3'),
+      sh('ledger-worker-…-w8xk2  0/1    CrashLoop   3         9m', '#ffb3b3'),
+      sh('checkout-api-…-k8n1p   1/1    Running     0         4d'),
+      sh('$ kubectl top pod ledger-worker-…-2wq7t', INK),
+      sh('NAME                   CPU(cores)  MEMORY(bytes)'),
+      sh('ledger-worker-…-2wq7t  412m        502Mi'),
+      sh('$ kubectl get deploy ledger-worker \\\\', INK),
+      sh('>   -o jsonpath=\'{..resources.limits.memory}\'', INK),
+      sh('512Mi'),
+      sh('$ # the chart lowered it from 768Mi at 13:58'),
+      sh('$ kubectl get events --field-selector \\', INK),
+      sh('>   involvedObject.name=ledger-worker-…-2wq7t', INK),
+      sh('LAST SEEN  TYPE     REASON     MESSAGE'),
+      sh('21s        Warning  BackOff    restarting failed', '#f3d08a'),
+      sh('81s        Warning  OOMKilling container worker', '#f3d08a'),
+      sh('$ kubectl get hpa ledger-worker', INK),
+      sh('NAME           TARGETS       MINPODS  MAXPODS  REPLICAS'),
+      sh('ledger-worker  412m/300m     4        12       8'),
+      sh('$ # the hpa is scaling on cpu, not on the queue'),
+      sh('$ ▊', INK)
+    ];
+
+    const measured = [
+      { pane: 'Pods', size: '958 × 479', band: 'WIDE', bandInk: INK2, mode: 'Eight columns of the eleven the kind declares, plus the selection bar. The band the thirty-one screens were drawn in.', gave: 'Image, owner and the sparkline — the three lowest priorities the server gives for pods.', bg: 'transparent' },
+      { pane: 'Log', size: '958 × 479', band: 'WIDE', bandInk: INK2, mode: 'Timestamp, pod, level, message — the four-column form, with wrap off so a long line truncates rather than reflowing.', gave: 'Nothing. A log line is a sequence, and at 958 it does not need to become one.', bg: 'transparent' },
+      { pane: 'Details', size: '638 × 479', band: 'MID', bandInk: INFO, mode: 'The group strip: Containers open, Conditions and Attached carrying their glyphs and counts.', gave: 'Simultaneity — two of the three fact groups are one click away.', bg: 'rgba(74,168,255,.04)' },
+      { pane: 'Shell', size: '638 × 479', band: 'MID', bandInk: INFO, mode: '65 columns × 24 rows, the PTY resized and the process told. The chip stays because 65 is under 80.', gave: 'Eighty columns — so kubectl’s -o wide is not usable in this pane at this width.', bg: 'rgba(74,168,255,.04)' }
+    ];
+
+    return {
+      facts: [
+        { k: 'FIELD', v: '1600 × 962', tone: INK },
+        { k: 'PANES', v: '4', tone: INK },
+        { k: 'IN THE MID BAND', v: '2 of 4', tone: INFO },
+        { k: 'HALF-SCREENS', v: 'none', tone: OK }
+      ],
+      troubleChip: '5 clusters need you',
+      tabs: [
+        { n: '1', name: 'ledger incident', bg: 'var(--ks-panel)', shadow: 'inset 0 -1px 0 var(--ks-panel), inset 0 2px 0 ' + INFO, ink: INK, numInk: INFO, weight: '600' },
+        { n: '2', name: 'fleet', bg: 'transparent', shadow: 'none', ink: INK3, numInk: INK3, weight: '400' },
+        { n: '3', name: 'edge-01', bg: 'transparent', shadow: 'none', ink: INK3, numInk: INK3, weight: '400' }
+      ],
+      pods, logs, groups, detail, shell, measured,
+      verbs: [verb('restart 4', 'warn'), verb('raise limit', 'warn'), verb('logs'), verb('⋯')],
+      closing: [
+        { tone: INFO, k: 'THE ASYMMETRY IS THE DESIGN, NOT A COMPROMISE', t: '958 + 638 is what two ⊞ presses give you, and it turns out to be the right split rather than a leftover: the two panes that need width — a table with eight columns and a log with untruncated messages — get it, and the two that work in the mid band take the narrow column. A 50/50 field would have put the log at 798 and the details pane at 798, which spends 160px on a body that caps its prose at 64 characters anyway.' },
+        { tone: OK, k: 'EVERY BODY HERE IS A BODY FROM AN EARLIER PAGE', t: 'The details pane is the 638 specimen from page 2, unchanged. The shell is the 638 specimen from page 3, chip and all. The pods list is the priority rule from 01-Resource-List at a width where it drops three columns. Nothing on this screen was designed for this screen, which is the test the grammar had to pass: derive the twenty-four bodies, do not decide them one at a time.' },
+        { tone: WARN, k: 'THE FOURTH PANE COSTS THE SHELL ITS EIGHTY COLUMNS', t: 'This is the trade the layout makes, stated plainly. Three panes would have left the right column at 638 and the shell at 479 tall with the same 65 columns; four panes in a 1600 field cannot produce 782px anywhere except the left column. If the shell matters more than the details pane in a given incident, ⊞ on the left column is the answer — and that is a layout decision, which is exactly where it belongs.' },
+        { tone: BAD, k: 'WHAT THIS SCREEN REPLACES', t: 'Screen 31 drew the same four panes at 798 × 481 each — a field nothing in the product produces, because ⊞ never yields 798. That is the whole reason for this round: the thirty-one screens are correct about what the panes contain and wrong about the widths they contain it at. This one is the reference for the incident tab, and 31 stays as the storyboard of how the person got here.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
